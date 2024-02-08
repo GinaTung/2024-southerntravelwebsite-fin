@@ -40,7 +40,9 @@
   </template>
 
 <script>
-export default {
+const api_url = import.meta.env.VITE_USER_API_URL;
+// console.log(api_url);
+export default{
   data() {
     return {
       user: {
@@ -48,9 +50,23 @@ export default {
         password: "",
       },
     };
+  },
+  methods: {
+    login() {
+      this.axios.post(`${api_url}/login`,this.user).then((res) => {
+          // console.log(res);
+          alert(`${res.data}`);
+          this.$router.push('/');
+      })
+        .catch(() => {
+          // console.log(err);
+          //   console.dir(err);
+          alert(`維護中`);
+          this.$router.push('/');
+        });
+    }
   }
 }
-
 </script>
 
 <style lang="scss">
