@@ -23,6 +23,11 @@ const router = createRouter({
           component: () => import('../views/front/TouristPackageView.vue'),
         },
         {
+          path: 'TouristBudget',
+          name: 'TouristBudget',
+          component: () => import('../views/front/TouristBudgetView.vue'),
+        },
+        {
           path: 'login',
           component: () => import('../views/front/LoginView.vue'),
         },
