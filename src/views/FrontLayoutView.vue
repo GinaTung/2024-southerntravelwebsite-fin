@@ -21,7 +21,7 @@
             <router-link to="/TouristAttractions" class="nav-link px-3">南部旅遊景點</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/" class="nav-link px-3">南部旅遊方案</router-link>
+            <router-link to="/TouristPackage" class="nav-link px-3">南部旅遊方案</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/" class="nav-link px-3">南部旅遊預算</router-link>

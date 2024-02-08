@@ -18,6 +18,11 @@ const router = createRouter({
           component: () => import('../views/front/TouristAttractionsView.vue'),
         },
         {
+          path: 'TouristPackage',
+          name: 'TouristPackage',
+          component: () => import('../views/front/TouristPackageView.vue'),
+        },
+        {
           path: 'login',
           component: () => import('../views/front/LoginView.vue'),
         },
