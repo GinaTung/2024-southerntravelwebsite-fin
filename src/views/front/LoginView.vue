@@ -1,5 +1,5 @@
 <template>
-  <div class="container d-flex justify-content-center flex-column vh-100">
+  <div class="container d-flex justify-content-center flex-column vh-85">
     <div class="row justify-content-center align-items-cneter">
       <div class="col-6">
         <h1 class="h3 mb-3">會員登入</h1>
@@ -11,7 +11,7 @@
               v-model="user.username"
               id="username"
               placeholder="name@example.com"
-              required autofocus autocomplete="username"
+              required autofocus autocomplete="username" disabled
             />
             <label for="username">Email address</label>
           </div>
@@ -22,7 +22,7 @@
               v-model="user.password"
               id="password"
               placeholder="Password"
-              required autocomplete="current-password"
+              required autocomplete="current-password" disabled
             />
             <label for="password">Password</label>
           </div>
@@ -40,7 +40,9 @@
   </template>
 
 <script>
-export default {
+const api_url = import.meta.env.VITE_USER_API_URL;
+// console.log(api_url);
+export default{
   data() {
     return {
       user: {
@@ -48,9 +50,23 @@ export default {
         password: "",
       },
     };
+  },
+  methods: {
+    login() {
+      this.axios.post(`${api_url}/login`,this.user).then((res) => {
+          // console.log(res);
+          alert(`${res.data}`);
+          this.$router.push('/');
+      })
+        .catch(() => {
+          // console.log(err);
+          //   console.dir(err);
+          alert(`維護中`);
+          this.$router.push('/');
+        });
+    }
   }
 }
-
 </script>
 
 <style lang="scss">
