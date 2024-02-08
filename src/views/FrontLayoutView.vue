@@ -18,7 +18,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav m-auto mb-lg-0 align-items-center">
           <li class="nav-item">
-            <router-link to="/about" class="nav-link px-3">南部旅遊景點</router-link>
+            <router-link to="/TouristAttractions" class="nav-link px-3">南部旅遊景點</router-link>
           </li>
           <li class="nav-item">
             <router-link to="/" class="nav-link px-3">南部旅遊方案</router-link>
