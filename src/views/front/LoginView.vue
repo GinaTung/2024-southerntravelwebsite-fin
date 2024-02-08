@@ -48,29 +48,11 @@ export default {
         password: "",
       },
     };
-  },
-  mounted() {
-    this.setBodyHeight();
-    window.addEventListener("resize", this.setBodyHeight);
-  },
-  methods: {
-    setBodyHeight() {
-      var windowHeight = window.innerHeight;
-      document.body.style.height = windowHeight + 'px';
-    },
-  },
-  beforeUnmount() {
-    window.removeEventListener("resize", this.setBodyHeight);
   }
 }
 
 </script>
 
 <style lang="scss">
-html, body {
-    height: 100vh !important;
-    margin: 0;
-    padding: 0;
-}
 
 </style>
