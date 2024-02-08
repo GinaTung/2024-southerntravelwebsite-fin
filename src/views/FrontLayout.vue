@@ -46,7 +46,7 @@
       <div class="container">
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
-              <router-link to="/admin" class="nav-link">後台管理</router-link>
+              <router-link to="/admin/adminlogin" class="nav-link">後台管理</router-link>
             </li>
           </ul>
         </div>
