@@ -56,7 +56,7 @@ export default{
           // console.log(res);
           alert(`${res.data.message}`);
           // 使用 window.location 導向不同的頁面
-          window.location.href = 'admin.html';
+          window.location.href = 'AdminHome.html';
           // unix.timestamp
           //取得token
           const { expired, token } = res.data;
