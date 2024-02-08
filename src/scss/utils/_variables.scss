@@ -372,13 +372,30 @@ $gradient: linear-gradient(180deg, rgba($white, .15), rgba($white, 0)) !default;
 
 // scss-docs-start spacer-variables-maps
 $spacer: 1rem !default;
-$spacers: (
+$spacers: (//*custom
   0: 0,
   1: $spacer * .25,
   2: $spacer * .5,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
+  3: $spacer *0.75,//12
+  4: $spacer * 1,
+  5: $spacer * 1.25,//20
+  6: $spacer * 1.5,
+  7: $spacer *1.75,
+  8: $spacer * 2,
+  9: $spacer * 2.25,
+  10: $spacer * 2.5,
+  11: $spacer *2.75,
+  12: $spacer * 3,
+  13: $spacer * 3.25,
+  14: $spacer *3.5,
+  15: $spacer * 3.75,
+  16: $spacer * 4,
+  17: $spacer * 4.25,
+  18: $spacer *4.5,//72
+  19: $spacer * 4.75,
+  20: $spacer * 5,//80
+  25: $spacer *6.25,//100
+  30: $spacer * 7.5
 ) !default;
 // scss-docs-end spacer-variables-maps
 
@@ -566,11 +583,12 @@ $line-height-base:            1.5 !default;
 $line-height-sm:              1.25 !default;
 $line-height-lg:              2 !default;
 
-$h1-font-size:                $font-size-base * 2.5 !default;
-$h2-font-size:                $font-size-base * 2 !default;
-$h3-font-size:                $font-size-base * 1.75 !default;
-$h4-font-size:                $font-size-base * 1.5 !default;
-$h5-font-size:                $font-size-base * 1.25 !default;
+//*custom
+$h1-font-size:                $font-size-base * 2.5 !default;//40
+$h2-font-size:                $font-size-base * 2.25 !default;//36
+$h3-font-size:                $font-size-base * 1.75 !default;//28
+$h4-font-size:                $font-size-base * 1.5 !default;//24
+$h5-font-size:                $font-size-base * 1.25 !default;//20
 $h6-font-size:                $font-size-base !default;
 // scss-docs-end font-variables
 
@@ -581,7 +599,8 @@ $font-sizes: (
   3: $h3-font-size,
   4: $h4-font-size,
   5: $h5-font-size,
-  6: $h6-font-size
+  6: $h6-font-size,
+  7: 14px
 ) !default;
 // scss-docs-end font-sizes
 
