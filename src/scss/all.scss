@@ -1,0 +1,10 @@
+// src/scss/styles.scss
+@import 'bootstrap/scss/functions';
+@import './utils/variables';        // 自定義放中間
+@import 'bootstrap/scss/bootstrap';
+
+// Your custom styles here
+
+body {
+    background-color: #f0f0f0;
+  }
