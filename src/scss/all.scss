@@ -1,6 +1,7 @@
 // src/scss/styles.scss
 @import "../../node_modules/bootstrap/scss/functions";
 @import "./utils/variables";
+@import "./utils/mixins";
 @import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/variables-dark";
 @import "../../node_modules/bootstrap/scss/maps";
@@ -13,6 +14,7 @@
 // @import "./utils/mixins";
 
 @import "./components/buttons";
+@import "./components/banner-swiper";
 @import "../../node_modules/bootstrap";
 
 // Your custom styles here
