@@ -1,0 +1,1 @@
+import{_ as e,c as o,o as c,a as s}from"./index-7VN-Iuxy.js";const t={},n={class:"container"},_=s("h1",null,"後台首頁",-1),a=[_];function r(d,i){return c(),o("div",n,a)}const f=e(t,[["render",r]]);export{f as default};

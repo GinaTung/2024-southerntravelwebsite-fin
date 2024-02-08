@@ -1,0 +1,1 @@
+import{_ as c,c as o,o as n,a as e}from"./index-7VN-Iuxy.js";const s={},t=e("div",{class:"container"},[e("h2",null,"登入")],-1),a=[t];function r(_,i){return n(),o("div",null,a)}const d=c(s,[["render",r]]);export{d as default};
