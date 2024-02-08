@@ -1,7 +1,7 @@
 <template>
-  <div class="about">
+  <div class="about container">
     <h1 class="mb-30">This is an about page</h1>
-    <!-- {{ this.data }} -->
+    {{ this.data }}
     <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
   </div>
   <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
@@ -48,11 +48,4 @@ export default{
 </script>
 
 <style>
-@media (min-width: 1024px) {
-  .about {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-  }
-}
 </style>
