@@ -1,13 +1,13 @@
 // src/scss/styles.scss
 @import "../../node_modules/bootstrap/scss/functions";
-@import "../../node_modules/bootstrap/scss/variables";
 @import "./utils/variables";
+@import "../../node_modules/bootstrap/scss/variables";
 @import "../../node_modules/bootstrap/scss/variables-dark";
 @import "../../node_modules/bootstrap/scss/maps";
 @import "../../node_modules/bootstrap/scss/mixins";
 @import "./utils/custom-color";
-@import "../../node_modules/bootstrap/scss/utilities";
 @import "./utils/utilities";
+@import "../../node_modules/bootstrap/scss/utilities";
 @import "../../node_modules/bootstrap/scss/helpers";
 @import "../../node_modules/bootstrap/scss/utilities/api";
 // @import "./utils/mixins";

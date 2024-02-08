@@ -1,16 +1,76 @@
 <template>
-    <div class="container">
-      <h1>管理者登入</h1>
-      <button type="button" class="btn btn-primary-600">Primary</button>
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-8">
+        <h1 class="h3 mb-3">管理者登入</h1>
+        <form id="form" class="form-signin" @submit.prevent="login">
+          <div class="form-floating mb-3">
+            <input
+              type="email"
+              class="form-control"
+              v-model="user.username"
+              id="username"
+              placeholder="name@example.com"
+              required autofocus autocomplete="username"
+            />
+            <label for="username">Email address</label>
+          </div>
+          <div class="form-floating">
+            <input
+              type="password"
+              class="form-control"
+              v-model="user.password"
+              id="password"
+              placeholder="Password"
+              required autocomplete="current-password"
+            />
+            <label for="password">Password</label>
+          </div>
+          <button
+            class="btn btn-lg btn-primary w-100 mt-3"
+            type="submit"
+            id="login"
+          >
+            登入
+          </button>
+        </form>
+      </div>
     </div>
-  </template>
+  </div>
+</template>
 
-  <style>
-  @media (min-width: 1024px) {
-    .about {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
+<script>
+const api_url = import.meta.env.VITE_API_URL;
+export default{
+  data() {
+    return {
+      user: {
+        username: "",
+        password: "",
+      },
+    };
+  },
+  methods: {
+    login() {
+      this.axios.post(`${api_url}/admin/signin`, this.user).then((res) => {
+          // console.log(res);
+          alert(`${res.data.message}`);
+          // 使用 window.location 導向不同的頁面
+          window.location.href = 'admin.html';
+          // unix.timestamp
+          //取得token
+          const { expired, token } = res.data;
+        //   console.log(expired, token);
+          //儲存cookeie
+          document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
+      })
+        .catch((err) => {
+          // console.log(err);
+          //   console.dir(err);
+          alert(`${err.data.message}`);
+        });
     }
   }
-  </style>
+}
+</script>
+
