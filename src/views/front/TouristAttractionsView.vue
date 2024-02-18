@@ -1,14 +1,14 @@
 <template>
   <div class="about container">
-    <h1 class="mb-30">This is an about page</h1>
+    <h1 class="mb-30">This is an 南部旅遊景點 page</h1>
     {{ this.data }}
     <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
+    <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
+    <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal
+  </button>
   </div>
-  <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
-  <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal
-</button>
 
 <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
