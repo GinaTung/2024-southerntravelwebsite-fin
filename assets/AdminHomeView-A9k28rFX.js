@@ -1,0 +1,1 @@
+import{_ as s,c as t,o,a as e}from"./index-11IEHAQT.js";const c={},n={class:"container"},_=e("h1",null,"後台首頁",-1),a=e("div",{class:"text-primary-500"},"5153",-1),r=[_,a];function i(d,l){return o(),t("div",n,r)}const f=s(c,[["render",i]]);export{f as default};
