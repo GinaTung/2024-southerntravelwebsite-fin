@@ -27,7 +27,7 @@
             <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-5 text-dark">南部旅遊預算</router-link>
           </li>
         </ul>
-        <ul class="navbar-nav pt-5 pt-lg-0">
+        <ul class="navbar-nav d-flex  pt-5 pt-lg-0 flex-row justify-content-center ">
           <li class="nav-item">
             <router-link to="/login" class="btn-outline-turquoise">登入</router-link>
           </li>
