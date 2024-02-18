@@ -27,5 +27,5 @@
       </div>
     </div>
   </nav>
-    <RouterView></RouterView>
+  <RouterView></RouterView>
 </template>
