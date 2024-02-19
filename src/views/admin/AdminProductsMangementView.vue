@@ -230,7 +230,7 @@ export default {
     // console.log(token)
     this.checkAdmin()
     console.log(this.$refs);
-    this.myModal=new bootstrap.Modal( document.querySelector('#productModal'));
+    this.myModal=new bootstrap.Modal(this.$refs.productModal);
     
   }
 }
