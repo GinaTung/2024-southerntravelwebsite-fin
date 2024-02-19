@@ -26,13 +26,20 @@
             />
             <label for="password">Password</label>
           </div>
-          <button
+          <a
             class="btn btn-lg btn-primary w-100 mt-3"
-            type="submit"
-            id="login"
+            type="button"
+            @click="login"
           >
             登入
-          </button>
+        </a>
+          <!-- <a
+            class="btn btn-lg btn-primary w-100 mt-3"
+            type="button"
+            href="index.html"
+          >
+            回前台
+        </a> -->
         </form>
       </div>
     </div>
@@ -48,6 +55,7 @@ export default{
         username: "",
         password: "",
       },
+      userIsLoggedIn: false // 添加用户登录状态变量
     };
   },
   methods: {
@@ -55,8 +63,9 @@ export default{
       this.axios.post(`${api_url}/admin/signin`, this.user).then((res) => {
           // console.log(res);
           alert(`${res.data.message}`);
+          
           this.$router.push({ name: 'AdminHome' });
-          // unix.timestamp
+          this.userIsLoggedIn = true;          // unix.timestamp
           //取得token
           const { expired, token } = res.data;
         //   console.log(expired, token);

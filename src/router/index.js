@@ -50,6 +50,14 @@ const router = createRouter({
           path: 'adminlogin',
           component: () => import('../views/admin/AdminLoginView.vue'),
         },
+        {
+          path: 'touristManagement',
+          component: () => import('../views/admin/AdminTouristManagementView.vue'),
+        },
+        {
+          path: 'productsManagement',
+          component: () => import('../views/admin/AdminProductsMangementView.vue'),
+        },
       ],
     },
   ]
