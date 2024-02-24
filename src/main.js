@@ -1,4 +1,4 @@
-// import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './scss/all.scss';
 import { createApp } from 'vue'
