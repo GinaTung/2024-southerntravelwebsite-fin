@@ -29,3 +29,42 @@
 // body {
 //     background-color: #f0f0f0;
 //   }
+
+upload() {
+  // 上傳檔案
+  const fileInput = this.$refs.fileInput
+  const file = fileInput.files[0]
+  const formData = new FormData()
+  formData.append('file-to-upload', file)
+
+  this.axios
+    .post(`${api_url2}/products`, formData)
+    .then((res) => {
+      console.log(res.data)
+      const confirmationMessage = `
+        網址產生中，請稍後...
+        關閉提示視窗後，等待顯示圖片網址，再點確認按鈕
+      `
+      alert(`${confirmationMessage}`)
+
+      // 使用 setTimeout 等待一段時間（這裡是3秒，根據需求調整）
+
+      // 執行後續的代碼
+      const blobUrl = URL.createObjectURL(fileInput.files[0])
+
+      // 移除blob:前缀
+      const cleanBlobUrl = blobUrl.replace(/^blob:/, '');
+
+      this.tempProduct.imagesUrl.push(cleanBlobUrl)
+      
+      // 清除檔案欄位的值
+      fileInput.value = null
+      // 彈出警告
+      // 其他後續操作
+    })
+    .catch((err) => {
+      // console.log(err)
+      // console.dir(err);
+      alert(`${err.data.message}`)
+    })
+}

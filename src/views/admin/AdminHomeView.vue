@@ -92,7 +92,7 @@ export default {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
     this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
-    this.checkAdmin()
+    // this.checkAdmin()
   }
 }
 </script>

@@ -47,7 +47,10 @@ export default {
         this.axios
           .post(`${api_url}/api/user/check`)
           .then((res) => {
-            this.userIsLoggedIn = true;
+            // this.userIsLoggedIn = true;
+            this.$emitter.on('loginCheck', (msg) => {
+                this.userIsLoggedIn = msg
+            });
           })
           .catch((err) => {
             this.userIsLoggedIn = false;

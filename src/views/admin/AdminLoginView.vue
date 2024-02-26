@@ -63,13 +63,10 @@ export default{
       this.axios.post(`${api_url}/admin/signin`, this.user).then((res) => {
           // console.log(res);
           alert(`${res.data.message}`);
-          
           this.$router.push({ name: 'AdminHome' });
-          this.userIsLoggedIn = true;          // unix.timestamp
-          //取得token
+          // this.userIsLoggedIn = true;     
+          this.$emitter.emit('loginCheck', true)     
           const { expired, token } = res.data;
-        //   console.log(expired, token);
-          //儲存cookeie
           document.cookie = `hexToken=${token}; expires=${new Date(expired)}`;
       })
         .catch((err) => {
