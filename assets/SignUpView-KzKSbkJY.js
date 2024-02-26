@@ -1,1 +1,0 @@
-import{_ as e,c,o,a as s}from"./index-DZqPIO08.js";const t={},n={class:"container"},_=s("h1",null,"註冊",-1),a=[_];function r(i,d){return o(),c("div",n,a)}const f=e(t,[["render",r]]);export{f as default};
