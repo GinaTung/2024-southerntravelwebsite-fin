@@ -178,66 +178,56 @@
                           >
                             <div class="accordion-body">
                               <div class="row">
-                                <div class="mb-3 col-md-6">
-                                  <label for="itinerary_first_day_am_title" class="form-label"
-                                    >景點名稱-早上</label
-                                  >
-                                  <input
-                                    id="itinerary_first_day_am_title"
-                                    type="text"
-                                    v-model="itineraryDataDays(tempProduct).itinerary_first_day_am_title"
-                                    class="form-control"
-                                    placeholder="請輸入景點名稱"
-                                  />
-                                </div>
-                                <div class="mb-3">
-                                  <label for="itinerary_first_day_am_content" class="form-label"
-                                    >景點介紹-早上</label
-                                  >
-                                  <textarea
-                                    id="itinerary_first_day_am_content"
-                                    v-model="
-                                      itineraryDataDays(tempProduct).itinerary_first_day_am_content
-                                    "
-                                    class="form-control"
-                                    placeholder="請輸入景點內容"
-                                  ></textarea>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                  <label for="itinerary_first_day_pm_title" class="form-label"
-                                    >景點名稱-下午</label
-                                  >
-                                  <input
-                                    id="itinerary_first_day_pm_title"
-                                    :value="
-                                      itineraryDataDays(tempProduct).itinerary_first_day_pm_title
-                                    "
-                                    @input="
-                                      updateItineraryDataDays(
-                                        tempProduct,
-                                        'itinerary_first_day_pm_title',
-                                        $event
-                                      )
-                                    "
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="請輸入景點名稱"
-                                  />
-                                </div>
-                                <div class="mb-3">
-                                  <label for="itinerary_first_day_pm_content" class="form-label"
-                                    >景點介紹-下午</label
-                                  >
-                                  <textarea
-                                    v-model="
-                                      itineraryDataDays(tempProduct).itinerary_first_day_pm_content
-                                    "
-                                    id="itinerary_first_day_pm_content"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="請輸入景點介紹"
-                                  >
-                                  </textarea>
+                                
+                                <div v-for="(item, index) in tempProduct.itinerary_data" :key="index+1213">
+                                  <div class="mb-3 col-md-6" v-if="index === 0">
+                                    <label for="itinerary_first_day_am_title" class="form-label">景點名稱-早上</label>
+                                    <input
+                                      id="itinerary_first_day_am_title"
+                                      type="text"
+                                      v-model="item.itinerary_first_day_am_title"
+                                      class="form-control"
+                                      placeholder="請輸入景點名稱"
+                                    />
+                                  </div>
+                                  <div class="mb-3" v-if="index === 0">
+                                    <label for="itinerary_first_day_am_content" class="form-label"
+                                      >景點介紹-早上</label
+                                    >
+                                    <textarea
+                                      id="itinerary_first_day_am_content"
+                                      type="text"
+                                      v-model="item.itinerary_first_day_am_content"
+                                      class="form-control"
+                                      placeholder="請輸入景點內容"
+                                    ></textarea>
+                                  </div>
+                                  <div class="col-md-6 mb-3" v-if="index === 0">
+                                    <label for="itinerary_first_day_pm_title" class="form-label"
+                                      >景點名稱-下午</label
+                                    >
+                                    <input
+                                      id="itinerary_first_day_pm_title"
+                                      type="text"
+                                      v-model="item.itinerary_first_day_pm_title"
+                                      
+                                      class="form-control"
+                                      placeholder="請輸入景點名稱"
+                                    />
+                                  </div>
+                                  <div class="mb-3" v-if="index === 0">
+                                    <label for="itinerary_first_day_pm_content" class="form-label"
+                                      >景點介紹-下午</label
+                                    >
+                                    <textarea
+                                    v-model="item.itinerary_first_day_pm_content"
+                                      id="itinerary_first_day_pm_content"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="請輸入景點介紹"
+                                    >
+                                    </textarea>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -270,77 +260,56 @@
                           >
                             <div class="accordion-body">
                               <div class="row">
-                                <div class="mb-3 col-md-6">
-                                  <label for="itinerary_second_day_am_title" class="form-label"
-                                    >景點名稱-早上</label
-                                  >
-                                  <input
-                                    id="itinerary_second_day_am_title"
-                                    type="text"
-                                    :value="
-                                      itineraryDataDays(tempProduct).itinerary_second_day_am_title
-                                    "
-                                    @input="
-                                      updateItineraryDataDays(
-                                        tempProduct,
-                                        'itinerary_second_day_am_title',
-                                        $event
-                                      )
-                                    "
-                                    class="form-control"
-                                    placeholder="請輸入景點名稱"
-                                  />
-                                </div>
-                                <div class="mb-3">
-                                  <label for="itinerary_second_day_am_content" class="form-label"
-                                    >景點介紹-早上</label
-                                  >
-                                  <textarea
-                                    id="itinerary_second_day_am_content"
-                                    v-model="
-                                      itineraryDataDays(tempProduct)
-                                        .itinerary_second_day_am_content
-                                    "
-                                    class="form-control"
-                                    placeholder="請輸入景點內容"
-                                  ></textarea>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                  <label for="itinerary_second_day_pm_title" class="form-label"
-                                    >景點名稱-下午</label
-                                  >
-                                  <input
-                                    id="itinerary_second_day_pm_title"
-                                    :value="
-                                      itineraryDataDays(tempProduct).itinerary_second_day_pm_title
-                                    "
-                                    @input="
-                                      updateItineraryDataDays(
-                                        tempProduct,
-                                        'itinerary_second_day_pm_title',
-                                        $event
-                                      )
-                                    "
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="請輸入景點名稱"
-                                  />
-                                </div>
-                                <div class="mb-3">
-                                  <label for="itinerary_second_day_pm_content" class="form-label"
-                                    >景點介紹-下午</label
-                                  >
-                                  <textarea
-                                    v-model="
-                                      itineraryDataDays(tempProduct)
-                                        .itinerary_second_day_pm_content
-                                    "
-                                    id="itinerary_second_day_pm_content"
-                                    type="text"
-                                    class="form-control"
-                                    placeholder="請輸入景點介紹"
-                                  >
-                                  </textarea>
+                                <div v-for="(item, index) in tempProduct.itinerary_data" :key="index+1213">
+                                  <div class="mb-3 col-md-6" v-if="index === 1">
+                                    <label for="itinerary_second_day_am_title" class="form-label"
+                                      >景點名稱-早上</label
+                                    >
+                                    <input
+                                      id="itinerary_second_day_am_title"
+                                      type="text"
+                                      v-model="item.itinerary_second_day_am_title"
+                                      class="form-control"
+                                      placeholder="請輸入景點名稱"
+                                    />
+                                  </div>
+                                  <div class="mb-3" v-if="index === 1">
+                                    <label for="itinerary_second_day_am_content" class="form-label"
+                                      >景點介紹-早上</label
+                                    >
+                                    <textarea
+                                      id="itinerary_second_day_am_content"
+                                      v-model="item.itinerary_second_day_am_content"
+                                      class="form-control"
+                                      placeholder="請輸入景點內容"
+                                    ></textarea>
+                                  </div>
+                                  <div class="col-md-6 mb-3" v-if="index === 1">
+                                    <label for="itinerary_second_day_pm_title" class="form-label"
+                                      >景點名稱-下午</label
+                                    >
+                                    <input
+                                      id="itinerary_second_day_pm_title"
+                                      v-model="item.itinerary_second_day_pm_title"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="請輸入景點名稱"
+                                    />
+                                  </div>
+                                  <div class="mb-3" v-if="index === 1">
+                                    <label for="itinerary_second_day_pm_content" class="form-label"
+                                      >景點介紹-下午</label
+                                    >
+                                    <textarea
+                                    v-model="item.itinerary_second_day_pm_content"
+                                      id="itinerary_second_day_pm_content"
+                                      type="text"
+                                      class="form-control"
+                                      placeholder="請輸入景點介紹"
+                                    >
+                                    </textarea>
+                                  </div>
+                                
                                 </div>
                               </div>
                             </div>
@@ -371,77 +340,60 @@
                             data-bs-parent="#accordionThirdDay"
                           >
                             <div class="accordion-body">
-                              <div class="mb-3 col-md-6">
-                                <label for="itinerary_third_day_am_title" class="form-label"
-                                  >景點名稱-早上</label
-                                >
-                                <input
-                                  id="itinerary_third_day_am_title"
-                                  type="text"
-                                  :value="
-                                    itineraryDataDays(tempProduct).itinerary_third_day_am_title
-                                  "
-                                  @input="
-                                    updateItineraryDataDays(
-                                      tempProduct,
-                                      'itinerary_third_day_am_title',
-                                      $event
-                                    )
-                                  "
-                                  class="form-control"
-                                  placeholder="請輸入景點名稱"
-                                />
-                              </div>
-                              <div class="mb-3">
-                                <label for="itinerary_third_day_am_content" class="form-label"
-                                  >景點介紹-早上</label
-                                >
-                                <textarea
-                                  id="itinerary_third_day_am_content"
-                                  type="text"
-                                  v-model="
-                                    itineraryDataDays(tempProduct).itinerary_third_day_am_content
-                                  "
-                                  class="form-control"
-                                  placeholder="請輸入景點介紹"
-                                >
-                                </textarea>
-                              </div>
-                              <div class="col-md-6 mb-3">
-                                <label for="itinerary_third_day_pm_title" class="form-label"
-                                  >景點名稱-下午</label
-                                >
-                                <input
-                                  id="itinerary_third_day_pm_title"
-                                  type="text"
-                                  :value="
-                                    itineraryDataDays(tempProduct).itinerary_third_day_pm_title
-                                  "
-                                  @input="
-                                    updateItineraryDataDays(
-                                      tempProduct,
-                                      'itinerary_third_day_pm_title',
-                                      $event
-                                    )
-                                  "
-                                  class="form-control"
-                                  placeholder="請輸入景點名稱"
-                                />
-                              </div>
-                              <div class="mb-3">
-                                <label for="itinerary_third_day_pm_content" class="form-label"
-                                  >景點介紹-下午</label
-                                >
-                                <textarea
-                                  id="itinerary_third_day_pm_content"
-                                  type="text"
-                                  v-model="
-                                    itineraryDataDays(tempProduct).itinerary_third_day_pm_content
-                                  "
-                                  class="form-control"
-                                  placeholder="請輸入景點介紹"
-                                >
-                                </textarea>
+                              <div class="row">
+                                <div v-for="(item, index) in tempProduct.itinerary_data" :key="index+1213">
+                                  <div class="mb-3 col-md-6" v-if="index === 2">
+                                    <label for="itinerary_third_day_am_title" class="form-label"
+                                      >景點名稱-早上</label
+                                    >
+                                    <input
+                                      id="itinerary_third_day_am_title"
+                                      type="text"
+                                      v-model="item.itinerary_third_day_am_title"
+                                      class="form-control"
+                                      placeholder="請輸入景點名稱"
+                                    />
+                                  </div>
+                                  <div class="mb-3" v-if="index === 2">
+                                    <label for="itinerary_third_day_am_content" class="form-label"
+                                      >景點介紹-早上</label
+                                    >
+                                    <textarea
+                                      id="itinerary_third_day_am_content"
+                                      type="text"
+                                      v-model="item.itinerary_third_day_am_content"
+                                      class="form-control"
+                                      placeholder="請輸入景點介紹"
+                                    >
+                                    </textarea>
+                                  </div>
+                                  <div class="col-md-6 mb-3" v-if="index === 2">
+                                    <label for="itinerary_third_day_pm_title" class="form-label"
+                                      >景點名稱-下午</label
+                                    >
+                                    <input
+                                      id="itinerary_third_day_pm_title"
+                                      type="text"
+                                      v-model="item.itinerary_third_day_pm_title"
+                                      class="form-control"
+                                      placeholder="請輸入景點名稱"
+                                    />
+                                  </div>
+                                  <div class="mb-3" v-if="index === 2">
+                                    <label for="itinerary_third_day_pm_content" class="form-label"
+                                      >景點介紹-下午</label
+                                    >
+                                    <textarea
+                                      id="itinerary_third_day_pm_content"
+                                      type="text"
+                                      v-model="item.itinerary_third_day_pm_content"
+                                      class="form-control"
+                                      placeholder="請輸入景點介紹"
+                                    >
+                                    </textarea>
+                                  </div>
+                                
+                                </div>
                               </div>
                             </div>
                           </div>
@@ -524,32 +476,7 @@ export default {
   data() {
     return {
       products: [],
-      tempProduct: {
-        itinerary_data: [
-          {
-            first_day_title: '',
-            itinerary_first_day_am_title: '',
-            itinerary_first_day_am_content: '',
-            itinerary_first_day_pm_title: '',
-            itinerary_first_day_pm_content: ''
-          },
-          {
-            second_day_title: '',
-            itinerary_second_day_am_title: '-',
-            itinerary_second_day_am_content: '',
-            itinerary_second_day_pm_title: '',
-            itinerary_second_day_pm_content: ','
-          },
-          {
-            third_day_title: '',
-            itinerary_third_day_am_title: '',
-            itinerary_third_day_am_content: '',
-            itinerary_third_day_pm_title: '',
-            itinerary_third_day_pm_content: ''
-          }
-        ],
-        imagesUrl: []
-      },
+      tempProduct: {},
       pages: {},
       modalProduct: null, //productModal
       modelDel: null, //delProductModal
@@ -690,10 +617,10 @@ export default {
           },
           {
             second_day_title: '',
-            itinerary_second_day_am_title: '-',
+            itinerary_second_day_am_title: '',
             itinerary_second_day_am_content: '',
             itinerary_second_day_pm_title: '',
-            itinerary_second_day_pm_content: ','
+            itinerary_second_day_pm_content: ''
           },
           {
             third_day_title: '',
@@ -710,6 +637,7 @@ export default {
         
       }else if(status === 'edit'){
         this.tempProduct = { ...product };
+
         if (!Array.isArray(this.tempProduct.imagesUrl)) {
           this.tempProduct.imagesUrl = [];
         }
