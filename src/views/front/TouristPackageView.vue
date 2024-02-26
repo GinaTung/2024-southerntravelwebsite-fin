@@ -123,6 +123,7 @@
 <script>
 const api_url = import.meta.env.VITE_API_URL
 const api_path = import.meta.env.VITE_API_PATH
+const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   data() {
     return {
@@ -146,10 +147,10 @@ export default {
     },
     getProducts() {
       this.axios
-        .get(`${api_url}/api/${api_path}/admin/products/all`)
+        .get(`${api_url2}/products`)
         .then((res) => {
           console.log(res)
-          this.products = res.data.products
+          this.products = res.data
         })
         .catch((err) => {
           console.log(err)
