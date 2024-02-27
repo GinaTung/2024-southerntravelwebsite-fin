@@ -622,53 +622,6 @@ export default {
       }
     }
   },
-  computed: {
-    // itinerary_second_day_pm_title,itinerary_first_day_pm_content
-    itineraryDataDays() {
-      return (product) =>
-        product && product.itinerary_data && product.itinerary_data.length > 1
-          ? {
-              itinerary_second_day_am_title:
-                product.itinerary_data[1].itinerary_second_day_am_title || '',
-              itinerary_second_day_am_content:
-                product.itinerary_data[1].itinerary_second_day_am_content || '',
-              itinerary_second_day_pm_title:
-                product.itinerary_data[1].itinerary_second_day_pm_title || '',
-              itinerary_second_day_pm_content:
-                product.itinerary_data[1].itinerary_second_day_pm_content || '',
-              itinerary_third_day_am_title:
-                product.itinerary_data[2].itinerary_third_day_am_title || '',
-              itinerary_third_day_am_content:
-                product.itinerary_data[2].itinerary_third_day_am_content || '',
-              itinerary_third_day_pm_title:
-                product.itinerary_data[2].itinerary_third_day_pm_title || '',
-              itinerary_third_day_pm_content:
-                product.itinerary_data[2].itinerary_third_day_pm_content || '',
-              itinerary_first_day_am_title:
-                product.itinerary_data[0].itinerary_first_day_am_title || '',
-              itinerary_first_day_am_content:
-                product.itinerary_data[0].itinerary_first_day_am_content || '',
-              itinerary_first_day_pm_title:
-                product.itinerary_data[0].itinerary_first_day_pm_title || '',
-              itinerary_first_day_pm_content:
-                product.itinerary_data[0].itinerary_first_day_pm_content || ''
-            }
-          : {
-              itinerary_second_day_am_title: '',
-              itinerary_second_day_am_content: '',
-              itinerary_second_day_pm_title: '',
-              itinerary_second_day_pm_content: '',
-              itinerary_third_day_am_title: '',
-              itinerary_third_day_am_content: '',
-              itinerary_third_day_pm_title: '',
-              itinerary_third_day_pm_content: '',
-              itinerary_first_day_am_title: '',
-              itinerary_first_day_am_content: '',
-              itinerary_first_day_pm_title: '',
-              itinerary_first_day_pm_content: ''
-            }
-    }
-  },
   methods: {
     checkAdmin() {
       this.axios
@@ -682,12 +635,6 @@ export default {
           alert(`目前未登入狀態，請重新登入`)
           this.$router.push({ path: '/admin/adminlogin' })
         })
-    },
-    updateItineraryDataDays(product, field, event) {
-      // 在 input 或 textarea 事件中更新資料
-      if (product && product.itinerary_data && product.itinerary_data.length > 1) {
-        product.itinerary_data[1][field] = event.target.value
-      }
     },
     getProducts() {
       //參數預設值
@@ -747,8 +694,8 @@ export default {
     },
     updateProduct() {
       //新增
-      const newProduct = this.tempProduct
-      this.$data.products.push(newProduct)
+      // const newProduct = this.tempProduct
+      // this.$data.products.push(newProduct)
       if (this.isNew) {
         this.axios
           .post(`${api_url2}/products`, this.tempProduct)
