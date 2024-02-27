@@ -87,16 +87,6 @@
         </div>
       </div>
     </div>
-
-
-    <!-- <h1 class="mb-30">This is an 南部旅遊景點 page</h1>
-    {{ this.data }}
-    <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i>
-    <i class="bi-alarm" style="font-size: 2rem; color: cornflowerblue;"></i> -->
-    <!-- Button trigger modal -->
-  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal
-  </button> -->
   </div>
 
 <!-- Modal -->
@@ -120,8 +110,7 @@
 </template>
 
 <script>
-const api_url = import.meta.env.VITE_API_URL
-const api_path = import.meta.env.VITE_API_PATH
+const api_url2 = import.meta.env.VITE_API_URL2
 export default{
   data(){
     return {
@@ -132,7 +121,7 @@ export default{
   methods:{
     checkAdmin() {
       this.axios
-        .post(`${api_url}/api/user/check`)
+        .post(`${api_url2}/users`)
         .then((res) => {
           // console.log(res)
           // alert(`驗證成功`);
@@ -145,28 +134,24 @@ export default{
     },
     getArticles() {
       this.axios
-        .get(`${api_url}/api/${api_path}/admin/articles`)
+        .get(`${api_url2}/articles`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.articles = res.data.articles
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
           alert(`${err.data.message}`)
         })
     },
   },
   mounted(){
-    // console.log(import.meta.env.VITE_PATH);
-    // this.$http.get('https://randomuser.me/api/').then((response) => {
-    //     console.log(response.data)
-    //     this.data = response.data;
-    //   })
     //取得cookie資料
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    this.axios.defaults.headers.common['Authorization'] = token
+    // const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+    // this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
-    this.checkAdmin()
+    // this.checkAdmin()
+    this.getArticles()
   }
 }
 </script>
