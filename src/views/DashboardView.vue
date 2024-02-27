@@ -60,6 +60,8 @@ export default {
         .catch((err) => {
           // 登入失敗或驗證失敗
           this.userIsLoggedIn = false;
+          alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+          this.$router.push({ path: '/admin/adminlogin' })
         });
     }
   },
@@ -73,7 +75,7 @@ export default {
           this.userIsLoggedIn = false // 用户登出
         })
         .catch((err) => {
-          alert(`管理者登出失敗，請稍後再點選登出按鈕`)
+          alert(`管理者身分登出失敗，請稍後再點選登出按鈕`)
         })
     }
   },

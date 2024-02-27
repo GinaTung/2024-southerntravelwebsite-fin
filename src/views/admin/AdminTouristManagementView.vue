@@ -62,11 +62,33 @@
   <script>
   import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
   import AdminSidebar from '../../components/AdminSidebar.vue'
+  const api_url = import.meta.env.VITE_API_URL
+const api_url2 = import.meta.env.VITE_API_URL2
   export default {
   components: {
     AdminSidebar
   },
   methods:{
+    checkAdmin() {
+      this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+      this.axios.defaults.headers.common['Authorization'] = this.token
+      if (!this.token) {
+        alert(`目前未登入管理者身分，請重新登入`)
+        this.$router.push({ path: '/admin/adminlogin' })
+      }else{
+        this.axios
+        .post(`${api_url}/api/user/check`)
+        .then((res) => {
+          // 登入成功
+          this.userIsLoggedIn = true;
+        })
+        .catch((err) => {
+          // 登入失敗或驗證失敗
+          this.userIsLoggedIn = false;
+          this.$router.push({ path: '/admin/adminlogin' })
+        });
+      }
+    },
     openModal(status, product) {
       if (status === 'new') {
         this.tempProduct = {
@@ -89,6 +111,7 @@
     },
   },
   mounted() {
+    this.checkAdmin();
     // this.getProducts()
     // this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     // this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)

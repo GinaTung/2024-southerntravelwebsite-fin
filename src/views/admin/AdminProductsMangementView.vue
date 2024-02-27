@@ -632,6 +632,27 @@ export default {
     }
   },
   methods: {
+    checkAdmin() {
+      this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+      this.axios.defaults.headers.common['Authorization'] = this.token
+      if (!this.token) {
+        alert(`目前未登入管理者身分，請重新登入`)
+        this.$router.push({ path: '/admin/adminlogin' })
+      }else{
+        this.axios
+        .post(`${api_url}/api/user/check`)
+        .then((res) => {
+          // 登入成功
+          this.userIsLoggedIn = true;
+        })
+        .catch((err) => {
+          // 登入失敗或驗證失敗
+          this.userIsLoggedIn = false;
+          alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+          this.$router.push({ path: '/admin/adminlogin' })
+        });
+      }
+    },
     getProducts() {
       //參數預設值
       //有分頁
@@ -772,6 +793,7 @@ export default {
     }
   },
   mounted() {
+      this.checkAdmin();
     this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
