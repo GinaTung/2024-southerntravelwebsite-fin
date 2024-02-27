@@ -142,18 +142,18 @@ export default {
         })
         .catch((err) => {
           // console.log(err)
-          alert(`${err.data.message}`)
+          alert(`${err.message}`)
         })
     },
     getProducts() {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.products = res.data
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
           alert(`${err.data.message}`)
         })
     },
@@ -166,10 +166,11 @@ export default {
   },
   mounted() {
     //取得cookie資料
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    this.axios.defaults.headers.common['Authorization'] = token
+    // const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+    // this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
-    this.checkAdmin()
+    // this.checkAdmin()
+    this.getProducts()
   }
 }
 </script>
