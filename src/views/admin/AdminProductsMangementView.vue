@@ -782,8 +782,6 @@ export default {
           this.tempProduct.imagesUrl.push(blobUrl)
           // 清除檔案欄位的值
           fileInput.value = null
-          // 彈出警告
-          // 其他後續操作
         })
         .catch((err) => {
           // console.log(err)
