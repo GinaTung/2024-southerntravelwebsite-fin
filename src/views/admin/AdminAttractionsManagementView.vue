@@ -24,31 +24,31 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="touristItem in tourist" :key="touristItem.id">
+            <tr v-for="attractionItem in attractions" :key="attractionItem.id">
               <td>
-                <span class="text-success" v-if="touristItem.is_enabled">啟用</span>
+                <span class="text-success" v-if="attractionItem.is_enabled">啟用</span>
                 <span v-else>未啟用</span>
                 <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
               </td>
-              <td>{{ touristItem.category }}</td>
-              <td>{{ touristItem.title }}</td>
-              <td>{{ touristItem.tag_1 }}</td>
-              <td class="text-end">{{ touristItem.origin_price }}</td>
-              <td class="text-end">{{ touristItem.price }}</td>
+              <td>{{ attractionItem.category }}</td>
+              <td>{{ attractionItem.title }}</td>
+              <td>{{ attractionItem.tag_1 }}</td>
+              <td class="text-end">{{ attractionItem.origin_price }}</td>
+              <td class="text-end">{{ attractionItem.price }}</td>
 
               <td>
                 <div class="btn-group">
                   <button
                     type="button"
                     class="btn btn-outline-primary btn-sm"
-                    @click="openModal('edit', productItem)"
+                    @click="openModal('edit', attractionItem)"
                   >
                     編輯
                   </button>
                   <button
                     type="button"
                     class="btn btn-outline-danger btn-sm"
-                    @click="openModal('delete', productItem)"
+                    @click="openModal('delete', attractionItem)"
                   >
                     刪除
                   </button>
@@ -294,7 +294,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-danger" @click="deleteProduct">確認刪除</button>
+          <button type="button" class="btn btn-danger" @click="deleteAttraction">確認刪除</button>
         </div>
       </div>
     </div>
@@ -312,7 +312,7 @@ const api_url2 = import.meta.env.VITE_API_URL2
   },
   data() {
     return {
-      tourist: [],
+      attractions: [],
       tempProduct: {},
       pages: {},
       modalProduct: null, //productModal
@@ -341,20 +341,20 @@ const api_url2 = import.meta.env.VITE_API_URL2
         });
       }
     },
-    getTourist() {
+    getAttractions() {
       //參數預設值
       //有分頁
       this.axios
-        .get(`${api_url2}/tourist`)
+        .get(`${api_url2}/attractions`)
         .then((res) => {
           // console.log(res.data)
-          this.tourist = res.data;
+          this.attractions = res.data;
         })
         .catch((arr) => {
           alert(`${err.data.message}`)
         })
     },
-    openModal(status, product) {
+    openModal(status, attractionItem) {
       if (status === 'new') {
         this.tempProduct = {
           imagesUrl: []
@@ -362,7 +362,7 @@ const api_url2 = import.meta.env.VITE_API_URL2
         this.isNew = true
         this.modalProduct.show()
       } else if (status === 'edit') {
-        this.tempProduct = { ...product }
+        this.tempProduct = { ...attractionItem }
 
         if (!Array.isArray(this.tempProduct.imagesUrl)) {
           this.tempProduct.imagesUrl = []
@@ -370,14 +370,61 @@ const api_url2 = import.meta.env.VITE_API_URL2
         this.isNew = false
         this.modalProduct.show()
       } else if (status === 'delete') {
-        this.tempProduct = { ...product }
+        this.tempProduct = { ...attractionItem }
         this.modalDel.show()
       }
     },
+    deleteAttraction() {
+      this.axios
+        .delete(`${api_url2}/attractions/${this.tempProduct.id}`, this.tempProduct)
+        .then((res) => {
+          console.log(res)
+          this.getAttractions()
+          this.tempProduct = {}
+          this.modalDel.hide()
+        })
+        .catch((err) => {
+          // console.log(err);
+          alert(`${err.data.message}`)
+        })
+    },
+    upload() {
+      // 上傳檔案
+      const fileInput = this.$refs.fileInput
+      const file = fileInput.files[0]
+      const formData = new FormData()
+      formData.append('file-to-upload', file)
+
+      this.axios
+        .post(`${api_url2}/products`, formData)
+        .then((res) => {
+          console.log(res.data)
+          const confirmationMessage = `
+        網址產生中，請稍後...
+        關閉提示視窗後，等待顯示圖片網址，再點確認按鈕
+      `
+          alert(`${confirmationMessage}`)
+
+          // 使用 setTimeout 等待一段時間（這裡是3秒，根據需求調整）
+
+          // 執行後續的代碼
+          const blobUrl = URL.createObjectURL(fileInput.files[0])
+          this.tempProduct.imagesUrl.push(blobUrl)
+          // 清除檔案欄位的值
+          fileInput.value = null
+          // 彈出警告
+          // 其他後續操作
+        })
+        .catch((err) => {
+          // console.log(err)
+          // console.dir(err);
+          alert(`${err.data.message}`)
+        })
+    }
   },
   mounted() {
     this.checkAdmin();
-    this.getTourist()
+    this.getAttractions()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
   }
