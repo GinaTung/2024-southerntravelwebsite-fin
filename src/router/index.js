@@ -51,8 +51,8 @@ const router = createRouter({
           component: () => import('../views/admin/AdminLoginView.vue'),
         },
         {
-          path: 'touristManagement',
-          component: () => import('../views/admin/AdminTouristManagementView.vue'),
+          path: 'attractionsManagement',
+          component: () => import('../views/admin/AdminAttractionsManagementView.vue'),
         },
         {
           path: 'productsManagement',

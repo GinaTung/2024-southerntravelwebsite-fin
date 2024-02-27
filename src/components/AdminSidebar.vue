@@ -1,7 +1,7 @@
 <template>
   <ul class="list-group rounded-1">
     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"  aria-current="true">
-      <router-link to="/admin/touristManagement">景點管理</router-link>
+      <router-link to="/admin/attractionsManagement">景點管理</router-link>
       <span class="badge text-bg-primary rounded-pill">0</span>
     </li>
     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"> 
