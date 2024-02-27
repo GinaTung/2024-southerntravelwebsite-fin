@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <router-link to="/admin" class="navbar-brand">後台管理</router-link>
+      <router-link to="/admin/adminHome" class="navbar-brand">後台管理</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -39,23 +39,30 @@ export default {
         username: '',
         password: ''
       },
-      userIsLoggedIn: false // 添加用户登录状态变量
+      userIsLoggedIn: false,// 添加用户登录状态变量
+      token:'' 
     }
   },
   methods: {
     checkAdmin() {
-        this.axios
-          .post(`${api_url}/api/user/check`)
-          .then((res) => {
-            // this.userIsLoggedIn = true;
-            this.$emitter.on('loginCheck', (msg) => {
-                this.userIsLoggedIn = msg
-            });
-          })
-          .catch((err) => {
-            this.userIsLoggedIn = false;
-          });
-    },
+    // 訂閱登入事件
+    this.$emitter.on('loginCheck', (msg) => {
+      this.userIsLoggedIn = msg;
+    });
+    if(this.token){
+      // 檢查登入狀態
+      this.axios
+        .post(`${api_url}/api/user/check`)
+        .then((res) => {
+          // 登入成功
+          this.userIsLoggedIn = true;
+        })
+        .catch((err) => {
+          // 登入失敗或驗證失敗
+          this.userIsLoggedIn = false;
+        });
+    }
+  },
     logout() {
       this.axios
         .post(`${api_url}/logout`)
@@ -66,13 +73,13 @@ export default {
           this.userIsLoggedIn = false // 用户登出
         })
         .catch((err) => {
-          alert(`${err.message}`)
+          alert(`管理者登出失敗，請稍後再點選登出按鈕`)
         })
     }
   },
   mounted() {
-      const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      this.axios.defaults.headers.common['Authorization'] = token
+       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+      this.axios.defaults.headers.common['Authorization'] = this.token
       this.checkAdmin();
   }
 }

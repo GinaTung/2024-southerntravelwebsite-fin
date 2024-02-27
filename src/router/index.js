@@ -42,7 +42,7 @@ const router = createRouter({
       component: () => import('../views/DashboardView.vue'),
       children: [
         {
-          path: '',
+          path: 'AdminHome',
           name: 'AdminHome',
           component: () => import('../views/admin/AdminHomeView.vue'),
         },
@@ -60,7 +60,9 @@ const router = createRouter({
         },
       ],
     },
-  ]
+  ],
+    // 點選某頁連結時，按鈕會顯示顏色
+    linkActiveClass:'active',
 })
 
 export default router

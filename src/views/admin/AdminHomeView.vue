@@ -1,98 +1,111 @@
 <template>
   <div class="container">
-    <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom border-3 mb-8">
-      <div class="container px-0">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <router-link to="/admin/touristManagement" class="nav-link">景點管理</router-link>
-            </li>
-            <li class="nav-item">
-              <router-link to="/admin/productsManagement" class="nav-link">產品管理</router-link>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
     <h2 class="mb-5">後台首頁</h2>
-    <div class="row flex-column">
-      <div class="col-6">
-        <div class="list-group" id="list-tab" role="tablist">
-          <a
-            class="list-group-item list-group-item-action list-group-item-success rounded-0"
-            id="list-home-list"
-            data-bs-toggle="list"
-            href="#list-home"
-            role="tab"
-            aria-controls="list-home"
-            >網站情況</a
-          >
-        </div>
+    <div class="row">
+      <div class="col-3">
+        <AdminSidebar></AdminSidebar>
       </div>
-      <div class="col-6">
-        <div class="tab-content" id="nav-tabContent">
-          <div
-            class="tab-pane fade show active"
-            id="list-home"
-            role="tabpanel"
-            aria-labelledby="list-home-list"
-          >
-            <nav class="nav flex-column">
-              <!-- <a class="nav-link active" aria-current="page" href="#">產品 1 個</a> -->
-              <router-link to="/admin/productsManagement" class="nav-link">產品 1 個</router-link>
-              <a class="nav-link" href="#">文章 1 篇</a>
-              <a class="nav-link" href="#">留言 1 條</a>
-              <a class="nav-link disabled" aria-disabled="true">優惠券</a>
-            </nav>
+      <div class="col-9">
+        <div class="accordion" id="accordionExample">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseOne"
+                aria-expanded="true"
+                aria-controls="collapseOne"
+              >
+                Accordion Item #1
+              </button>
+            </h2>
+            <div
+              id="collapseOne"
+              class="accordion-collapse collapse show"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <strong>This is the first item's accordion body.</strong> It is shown by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or
+                overriding our default variables. It's also worth noting that just about any HTML
+                can go within the <code>.accordion-body</code>, though the transition does limit
+                overflow.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo"
+                aria-expanded="false"
+                aria-controls="collapseTwo"
+              >
+                Accordion Item #2
+              </button>
+            </h2>
+            <div
+              id="collapseTwo"
+              class="accordion-collapse collapse show"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <strong>This is the second item's accordion body.</strong> It is hidden by
+                default, until the collapse plugin adds the appropriate classes that we use to
+                style each element. These classes control the overall appearance, as well as the
+                showing and hiding via CSS transitions. You can modify any of this with custom CSS
+                or overriding our default variables. It's also worth noting that just about any
+                HTML can go within the <code>.accordion-body</code>, though the transition does
+                limit overflow.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button
+                class="accordion-button collapsed"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#collapseThree"
+                aria-expanded="false"
+                aria-controls="collapseThree"
+              >
+                Accordion Item #3
+              </button>
+            </h2>
+            <div
+              id="collapseThree"
+              class="accordion-collapse collapse"
+              data-bs-parent="#accordionExample"
+            >
+              <div class="accordion-body">
+                <strong>This is the third item's accordion body.</strong> It is hidden by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or
+                overriding our default variables. It's also worth noting that just about any HTML
+                can go within the <code>.accordion-body</code>, though the transition does limit
+                overflow.
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-const api_url = import.meta.env.VITE_API_URL
+import AdminSidebar from '../../components/AdminSidebar.vue';
+
 export default {
-  data() {
-    return {
-      user: {
-        username: '',
-        password: ''
-      }
-    }
+  components: {
+    AdminSidebar,
   },
-  methods: {
-    checkAdmin() {
-      this.axios
-        .post(`${api_url}/api/user/check`)
-        .then((res) => {
-          // console.log(res)
-          // this.getProducts();
-        })
-        .catch((err) => {
-          // console.log(err);
-          alert(`目前未登入狀態，請重新登入`)
-          this.$router.push({ path: '/admin/adminlogin' })
-        })
-    }
-  },
-  mounted() {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    this.axios.defaults.headers.common['Authorization'] = token
-    // console.log(token)
-    // this.checkAdmin()
-  }
-}
+  // 其他相關設定...
+};
 </script>

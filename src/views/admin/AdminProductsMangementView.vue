@@ -1,58 +1,64 @@
 <template>
   <div class="container">
-    <h1>產品管理</h1>
+    <div class="row">
+      <div class="col-3">
+        <h1 class="my-4">產品管理</h1>
+        <AdminSidebar></AdminSidebar>
+      </div>
+      <div class="col-9">
+        <div class="text-end mt-4">
+          <button class="btn btn-primary" id="addModalBtn" @click="openModal('new', product)">
+            建立新的產品
+          </button>
+        </div>
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th width="100">上架</th>
+              <th width="120">分類</th>
+              <th>產品名稱</th>
+              <th>標籤</th>
+              <th width="120" class="text-end">原價</th>
+              <th width="120" class="text-end">售價</th>
+              <th width="120"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="productItem in products" :key="productItem.id">
+              <td>
+                <span class="text-success" v-if="productItem.is_enabled">啟用</span>
+                <span v-else>未啟用</span>
+                <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
+              </td>
+              <td>{{ productItem.category }}</td>
+              <td>{{ productItem.title }}</td>
+              <td>{{ productItem.tag_1 }}</td>
+              <td class="text-end">{{ productItem.origin_price }}</td>
+              <td class="text-end">{{ productItem.price }}</td>
 
-    <div class="text-end mt-4">
-      <button class="btn btn-primary" id="addModalBtn" @click="openModal('new', product)">
-        建立新的產品
-      </button>
+              <td>
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    @click="openModal('edit', productItem)"
+                  >
+                    編輯
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    @click="openModal('delete', productItem)"
+                  >
+                    刪除
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <table class="table mt-4">
-      <thead>
-        <tr>
-          <th width="100">上架</th>
-          <th width="120">分類</th>
-          <th>產品名稱</th>
-          <th>標籤</th>
-          <th width="120" class="text-end">原價</th>
-          <th width="120" class="text-end">售價</th>
-          <th width="120"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="productItem in products" :key="productItem.id">
-          <td>
-            <span class="text-success" v-if="productItem.is_enabled">啟用</span>
-            <span v-else>未啟用</span>
-            <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
-          </td>
-          <td>{{ productItem.category }}</td>
-          <td>{{ productItem.title }}</td>
-          <td>{{ productItem.tag_1 }}</td>
-          <td class="text-end">{{ productItem.origin_price }}</td>
-          <td class="text-end">{{ productItem.price }}</td>
-
-          <td>
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-outline-primary btn-sm"
-                @click="openModal('edit', productItem)"
-              >
-                編輯
-              </button>
-              <button
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                @click="openModal('delete', productItem)"
-              >
-                刪除
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
   <!-- Modal -->
   <div
@@ -563,13 +569,16 @@
 </template>
 
 <script>
-let myModal = '' //實體化
-// import ProductModal from "../../js/ProductModal.js";
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
+import AdminSidebar from '../../components/AdminSidebar.vue'
+
 const api_url = import.meta.env.VITE_API_URL
 const api_path = import.meta.env.VITE_API_PATH
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
+  components: {
+    AdminSidebar
+  },
   data() {
     return {
       products: [],
@@ -628,7 +637,7 @@ export default {
         .post(`${api_url}/api/user/check`)
         .then((res) => {
           // console.log(res)
-          this.getProducts()
+          // this.getProducts()
         })
         .catch((err) => {
           // console.log(err);
@@ -779,7 +788,8 @@ export default {
     const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
     this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
-    this.checkAdmin()
+    // this.checkAdmin()
+    this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
     // const fileInput = this.$refs.fileInput;
