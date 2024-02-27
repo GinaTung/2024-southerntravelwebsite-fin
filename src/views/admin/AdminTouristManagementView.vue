@@ -1,6 +1,11 @@
 <template>
     <div class="container">
-      <h1>景點管理</h1>
+      <div class="row">
+      <div class="col-3">
+        <h1 class="my-4">景點管理</h1>
+        <AdminSidebar></AdminSidebar>
+      </div>
+      <div class="col-9">
       <div class="text-end mt-4">
           <button class="btn btn-primary">
             建立新的景點
@@ -50,5 +55,43 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
     </div>
   </template>
+  <script>
+  import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
+  import AdminSidebar from '../../components/AdminSidebar.vue'
+  export default {
+  components: {
+    AdminSidebar
+  },
+  methods:{
+    openModal(status, product) {
+      if (status === 'new') {
+        this.tempProduct = {
+          imagesUrl: []
+        }
+        this.isNew = true
+        this.modalProduct.show()
+      } else if (status === 'edit') {
+        this.tempProduct = { ...product }
+
+        if (!Array.isArray(this.tempProduct.imagesUrl)) {
+          this.tempProduct.imagesUrl = []
+        }
+        this.isNew = false
+        this.modalProduct.show()
+      } else if (status === 'delete') {
+        this.tempProduct = { ...product }
+        this.modalDel.show()
+      }
+    },
+  },
+  mounted() {
+    // this.getProducts()
+    // this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
+    // this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
+  }
+}
+</script>  

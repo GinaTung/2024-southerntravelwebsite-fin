@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h2 class="mb-5">後台首頁</h2>
+    <h1 class="my-4">後台首頁</h1>
     <div class="row">
       <div class="col-3">
         <AdminSidebar></AdminSidebar>
@@ -29,10 +29,9 @@
                 <strong>This is the first item's accordion body.</strong> It is shown by default,
                 until the collapse plugin adds the appropriate classes that we use to style each
                 element. These classes control the overall appearance, as well as the showing and
-                hiding via CSS transitions. You can modify any of this with custom CSS or
-                overriding our default variables. It's also worth noting that just about any HTML
-                can go within the <code>.accordion-body</code>, though the transition does limit
-                overflow.
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
               </div>
             </div>
           </div>
@@ -55,13 +54,12 @@
               data-bs-parent="#accordionExample"
             >
               <div class="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is hidden by
-                default, until the collapse plugin adds the appropriate classes that we use to
-                style each element. These classes control the overall appearance, as well as the
-                showing and hiding via CSS transitions. You can modify any of this with custom CSS
-                or overriding our default variables. It's also worth noting that just about any
-                HTML can go within the <code>.accordion-body</code>, though the transition does
-                limit overflow.
+                <strong>This is the second item's accordion body.</strong> It is hidden by default,
+                until the collapse plugin adds the appropriate classes that we use to style each
+                element. These classes control the overall appearance, as well as the showing and
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
               </div>
             </div>
           </div>
@@ -87,10 +85,9 @@
                 <strong>This is the third item's accordion body.</strong> It is hidden by default,
                 until the collapse plugin adds the appropriate classes that we use to style each
                 element. These classes control the overall appearance, as well as the showing and
-                hiding via CSS transitions. You can modify any of this with custom CSS or
-                overriding our default variables. It's also worth noting that just about any HTML
-                can go within the <code>.accordion-body</code>, though the transition does limit
-                overflow.
+                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
+                our default variables. It's also worth noting that just about any HTML can go within
+                the <code>.accordion-body</code>, though the transition does limit overflow.
               </div>
             </div>
           </div>
@@ -100,12 +97,30 @@
   </div>
 </template>
 <script>
-import AdminSidebar from '../../components/AdminSidebar.vue';
-
+import AdminSidebar from '../../components/AdminSidebar.vue'
+const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   components: {
-    AdminSidebar,
+    AdminSidebar
   },
-  // 其他相關設定...
-};
+  data() {
+    return {
+      token: ''
+    }
+  },
+  methods: {
+    checkAdmin() {
+      this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+      this.axios.defaults.headers.common['Authorization'] = this.token
+      if (!this.token) {
+        alert(`目前未登入狀態，請重新登入`)
+        this.$router.push({ path: '/admin/adminlogin' })
+      }
+    }
+  },
+  mounted() {
+    // console.log(token)
+    this.checkAdmin()
+  }
+}
 </script>

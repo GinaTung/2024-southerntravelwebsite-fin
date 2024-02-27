@@ -632,19 +632,6 @@ export default {
     }
   },
   methods: {
-    checkAdmin() {
-      this.axios
-        .post(`${api_url}/api/user/check`)
-        .then((res) => {
-          // console.log(res)
-          // this.getProducts()
-        })
-        .catch((err) => {
-          // console.log(err);
-          alert(`目前未登入狀態，請重新登入`)
-          this.$router.push({ path: '/admin/adminlogin' })
-        })
-    },
     getProducts() {
       //參數預設值
       //有分頁
@@ -785,15 +772,9 @@ export default {
     }
   },
   mounted() {
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    this.axios.defaults.headers.common['Authorization'] = token
-    // console.log(token)
-    // this.checkAdmin()
     this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
-    // const fileInput = this.$refs.fileInput;
-    //     console.dir(fileInput)
   }
 }
 </script>
