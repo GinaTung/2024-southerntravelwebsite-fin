@@ -1,6 +1,6 @@
 <template>
   <div class="container py-10 py-lg-30">
-    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-20">
+    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
           <router-link to="/" class="navbar-brand py-6"> 首頁 </router-link>
@@ -10,16 +10,16 @@
     </nav>
     <div class="tourist-list">
       <div class="row">
-        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-md-flex">
-          <div class="border-info2 border-1 border">
+        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
+          <div class="border-info2 border-1 border w-100">
             <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
             <ul class="nav flex-column">
               <li class="nav-item">
-                <router-link class="nav-link p-5 fs-5 link-color active d-flex justify-content-between"
+                <router-link class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   data-name="全部"
                   aria-current="page"
                   to="/TouristPackage/all"
-                  >全部區域<span class="">{{ products.length }}</span
+                  >全部區域<span class="">{{ enabledProducts.length }}</span
                 ></router-link>
               </li>
               <li class="nav-item">
@@ -27,27 +27,27 @@
                 <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   to="/TouristPackage/searchChiayi"
                   data-name="嘉義"
-                  >嘉義</router-link>
+                  >嘉義<span class="">{{ searchChiayi.length }}</span
+                ></router-link>
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  href="#"
+                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  to="/TouristPackage/searchTainan"
                   data-name="台南"
-                  >台南<span class="">0</span></a
-                >
+                  >台南<span class="">{{ serchTainan.length }}</span
+                ></router-link>
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  to="/TouristPackage/searchKaohsiung"
                   data-name="高雄"
-                  >高雄<span class="">0</span></a
-                >
+                  >高雄<span class="">{{ searchKaohsiung.length }}</span
+                ></router-link>
               </li>
             </ul>
           </div>
         </div>
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-lg-9">
           <router-view></router-view>
         </div>
       </div>
@@ -96,7 +96,7 @@ export default {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.products = res.data
 
           this.products.forEach((item) => {
@@ -159,12 +159,48 @@ export default {
               this.searchChiayi.push(item)
             }
           })
-          console.log(this.searchChiayi);
+          // console.log(this.searchChiayi);
         })
         .catch((err) => {
           // console.log(err)
           alert(`${err.message}`)
         })
+        this.axios
+          .get(`${api_url2}/products?category=台南`)
+          .then((res) => {
+            // console.log(res)
+            this.products = res.data
+  
+            this.products.forEach((item) => {
+              if (item.is_enabled === 1) {
+                // console.log(item)
+                this.serchTainan.push(item)
+              }
+            })
+            console.log(this.serchTainan)
+          })
+          .catch((err) => {
+            // console.log(err)
+            alert(`${err.message}`)
+          })
+          this.axios
+          .get(`${api_url2}/products?category=高雄`)
+          .then((res) => {
+            // console.log(res)
+            this.products = res.data
+  
+            this.products.forEach((item) => {
+              if (item.is_enabled === 1) {
+                // console.log(item)
+                this.searchKaohsiung.push(item)
+              }
+            })
+            // console.log(this.searchKaohsiung)
+          })
+          .catch((err) => {
+            // console.log(err)
+            alert(`${err.message}`)
+          })
     }
   },
   mounted() {
@@ -173,7 +209,7 @@ export default {
     // this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
     // this.checkAdmin()
-    // this.searchProducts()
+    this.searchProducts()
     this.getProducts()
   }
 }

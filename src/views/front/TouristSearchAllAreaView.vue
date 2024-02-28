@@ -78,7 +78,7 @@ export default {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          console.log(res)
+        //   console.log(res)
           this.products = res.data
 
           this.products.forEach((item) => {
@@ -88,13 +88,13 @@ export default {
             }
           })
           // 現在 enabledProducts 將包含所有 is_enabled 為 1 的項目
-          console.log(this.enabledProducts)
+        //   console.log(this.enabledProducts)
 
           this.getNewText()
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err.message}`)
+        //   console.log(err)
+          alert(`${err.message}`)
         })
     },
     truncateContent(content, maxLength) {
@@ -126,7 +126,7 @@ export default {
         id,
         descriptions
       }))
-      console.log(this.newProductsDes)
+    //   console.log(this.newProductsDes)
     }
   },
   mounted() {
