@@ -27,6 +27,10 @@ const router = createRouter({
               component: () => import('../views/front/TouristSearchAllAreaView.vue'),
             },
             {
+              path: ':id',
+              component: () => import('../views/front/TouristSinglePackageView.vue'),
+            },
+            {
               path: 'searchChiayi',
               component: () => import('../views/front/TouristSearchChiayiView.vue'),
             },

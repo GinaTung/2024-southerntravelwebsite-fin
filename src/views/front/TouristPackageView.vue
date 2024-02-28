@@ -177,7 +177,7 @@ export default {
                 this.serchTainan.push(item)
               }
             })
-            console.log(this.serchTainan)
+            // console.log(this.serchTainan)
           })
           .catch((err) => {
             // console.log(err)
