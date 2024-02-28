@@ -21,6 +21,16 @@ const router = createRouter({
           path: 'TouristPackage',
           name: 'TouristPackage',
           component: () => import('../views/front/TouristPackageView.vue'),
+          children: [
+            {
+              path: 'search_all_area',
+              component: () => import('../views/front/TouristAreaAllView.vue'),
+            },
+            {
+              path: 'searchChiayi',
+              component: () => import('../views/front/TouristSearchChiayiView.vue'),
+            },
+          ]
         },
         {
           path: 'TouristBudget',
