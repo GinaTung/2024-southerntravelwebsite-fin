@@ -5,7 +5,7 @@
         <li class="breadcrumb-item">
           <router-link to="/" class="navbar-brand py-6"> 首頁 </router-link>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">南部旅遊方案</li>
+        <li class="breadcrumb-item" aria-current="page">南部旅遊方案</li>
       </ol>
     </nav>
     <div class="tourist-list">
@@ -13,41 +13,35 @@
         <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-md-flex">
           <div class="border-info2 border-1 border">
             <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
-            <ul class="nav flex-column attractions-select">
+            <ul class="nav flex-column">
               <li class="nav-item">
                 <router-link class="nav-link p-5 fs-5 link-color active d-flex justify-content-between"
                   data-name="全部"
                   aria-current="page"
                   to="/TouristPackage/all"
-                  >全部區域<span class="attractionsNum2"></span
+                  >全部區域<span class="">{{ products.length }}</span
                 ></router-link>
               </li>
               <li class="nav-item">
-                <!-- <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  href="#"
-                  data-name="嘉義" @click="searchProducts"
-                  >嘉義<span class="attractionsNum2"></span
-                ></a> -->
+
                 <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   to="/TouristPackage/searchChiayi"
                   data-name="嘉義"
                   >嘉義</router-link>
-                <!-- /TouristPackage -->
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   href="#"
                   data-name="台南"
-                  >台南<span class="attractionsNum2">0</span></a
+                  >台南<span class="">0</span></a
                 >
               </li>
               <li class="nav-item">
                 <a
                   class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   data-name="高雄"
-                  >高雄<span class="attractionsNum2">0</span></a
+                  >高雄<span class="">0</span></a
                 >
               </li>
             </ul>
