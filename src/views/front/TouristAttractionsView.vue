@@ -5,7 +5,7 @@
         <li class="breadcrumb-item">
           <router-link to="/" class="navbar-brand py-6"> 首頁 </router-link>
         </li>
-        <li class="breadcrumb-item active" aria-current="page">南部旅遊方案</li>
+        <li class="breadcrumb-item active" aria-current="page">南部旅遊景點</li>
       </ol>
     </nav>
     <div class="tourist-list">
