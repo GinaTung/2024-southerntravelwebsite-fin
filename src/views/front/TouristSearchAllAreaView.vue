@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-3 card-att" v-for="productsItem in enabledProducts" :key="productsItem.id">
+    <div class="card mb-3 card-att" v-for="productsItem in enabledProducts" :key="productsItem.id">
     <div class="row g-0">
       <div class="col-md-4">
         <span class="tag text-white">{{ productsItem.category }}</span>
@@ -35,26 +35,50 @@
     </div>
   </div>
 </template>
+
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   data() {
     return {
+      text: '南部旅遊方案',
       products: [],
       user: '',
       newProductsDes: '',
       enabledProducts: [],
-      searchChiayi: [],
-      serchTainan: [],
-      searchKaohsiung: []
+      searchChiayi:[],
+      serchTainan:[],
+      searchKaohsiung:[]
     }
   },
   methods: {
+    checkAdmin() {
+      this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+      this.axios.defaults.headers.common['Authorization'] = this.token
+      if (!this.token) {
+        alert(`目前未登入管理者身分，請重新登入`)
+        this.$router.push({ path: '/admin/adminlogin' })
+      } else {
+        console.log(token, user)
+        this.axios
+          .post(`${api_url2}/api/users/${user}`)
+          .then((res) => {
+            // 登入成功
+            this.userIsLoggedIn = true
+          })
+          .catch((err) => {
+            // 登入失敗或驗證失敗
+            this.userIsLoggedIn = false
+            alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+            this.$router.push({ path: '/admin/adminlogin' })
+          })
+      }
+    },
     getProducts() {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           this.products = res.data
 
           this.products.forEach((item) => {
@@ -64,7 +88,7 @@ export default {
             }
           })
           // 現在 enabledProducts 將包含所有 is_enabled 為 1 的項目
-          // console.log(this.enabledProducts)
+          console.log(this.enabledProducts)
 
           this.getNewText()
         })
@@ -72,6 +96,12 @@ export default {
           console.log(err)
           // alert(`${err.message}`)
         })
+    },
+    truncateContent(content, maxLength) {
+      if (content && content.length > maxLength) {
+        return content.substring(0, maxLength) + '...'
+      }
+      return content
     },
     getNewText() {
       const idDescriptionsMap = {}
@@ -96,11 +126,11 @@ export default {
         id,
         descriptions
       }))
-      // console.log(this.newProductsDes)
-    },
-    mounted() {
-      this.getProducts()
+      console.log(this.newProductsDes)
     }
+  },
+  mounted() {
+    this.getProducts()
   }
 }
 </script>

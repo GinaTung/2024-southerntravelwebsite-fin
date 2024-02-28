@@ -23,12 +23,12 @@ const router = createRouter({
           component: () => import('../views/front/TouristPackageView.vue'),
           children: [
             {
-              path: 'search_all_area',
-              component: () => import('../views/front/TouristAreaAllView.vue'),
-            },
-            {
               path: 'searchChiayi',
               component: () => import('../views/front/TouristSearchChiayiView.vue'),
+            },
+                        {
+              path: 'all',
+              component: () => import('../views/front/TouristSearchAllAreaView.vue'),
             },
           ]
         },

@@ -10,22 +10,15 @@
     </nav>
     <div class="tourist-list">
       <div class="row">
-        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0">
+        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-md-flex">
           <div class="border-info2 border-1 border">
             <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
             <ul class="nav flex-column attractions-select">
               <li class="nav-item">
-                <!-- <a
-                  class="nav-link p-5 fs-5 link-color active d-flex justify-content-between"
-                  data-name="全部"
-                  aria-current="page"
-                  href="#"
-                  >全部區域<span class="attractionsNum"></span>
-                </a> -->
                 <router-link class="nav-link p-5 fs-5 link-color active d-flex justify-content-between"
                   data-name="全部"
                   aria-current="page"
-                  to="/TouristPackage/search_all_area"
+                  to="/TouristPackage/all"
                   >全部區域<span class="attractionsNum2"></span
                 ></router-link>
               </li>
@@ -109,7 +102,7 @@ export default {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           this.products = res.data
 
           this.products.forEach((item) => {
@@ -186,7 +179,7 @@ export default {
     // this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
     // this.checkAdmin()
-    this.searchProducts()
+    // this.searchProducts()
     this.getProducts()
   }
 }

@@ -1,43 +1,39 @@
 <template>
-              <div
-            class="card mb-3 card-att"
-            v-for="productsItem in searchChiayi"
-            :key="productsItem.id"
-          >
-            <div class="row g-0">
-              <div class="col-md-4">
-                <span class="tag text-white">{{ productsItem.category }}</span>
-                <div class="card-att-img card-att-img-2 h-100">
-                  <img
-                    :src="productsItem.imageUrl"
-                    class="card-img-top img-fluid"
-                    :alt="productsItem.title"
-                  />
-                </div>
-                <div class="heart3">
-                  <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
-                </div>
-              </div>
-              <div class="col-md-8">
-                <div class="card-body px-5">
-                  <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                    {{ productsItem.title }}
-                  </h4>
+  <div class="card mb-3 card-att" v-for="productsItem in searchChiayi" :key="productsItem.id">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <span class="tag text-white">{{ productsItem.category }}</span>
+        <div class="card-att-img card-att-img-2 h-100">
+          <img
+            :src="productsItem.imageUrl"
+            class="card-img-top img-fluid"
+            :alt="productsItem.title"
+          />
+        </div>
+        <div class="heart3">
+          <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body px-5">
+          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+            {{ productsItem.title }}
+          </h4>
 
-                  <div v-for="item in newProductsDes" :key="item.id">
-                    <div v-if="item.id === productsItem.id">
-                      <p v-for="description in item.descriptions" :key="description">
-                        {{ description }}
-                      </p>
-                    </div>
-                  </div>
-                  <p class="card-text card-text-position">
-                    <a href="#" class="fs-5">more</a>
-                  </p>
-                </div>
-              </div>
+          <div v-for="item in newProductsDes" :key="item.id">
+            <div v-if="item.id === productsItem.id">
+              <p v-for="description in item.descriptions" :key="description">
+                {{ description }}
+              </p>
             </div>
           </div>
+          <p class="card-text card-text-position">
+            <a href="#" class="fs-5">more</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
@@ -49,9 +45,9 @@ export default {
       user: '',
       newProductsDes: '',
       enabledProducts: [],
-      searchChiayi:[],
-      serchTainan:[],
-      searchKaohsiung:[]
+      searchChiayi: [],
+      serchTainan: [],
+      searchKaohsiung: []
     }
   },
   methods: {
@@ -131,7 +127,7 @@ export default {
       }))
       // console.log(this.newProductsDes)
     },
-    searchProducts(){
+    searchProducts() {
       this.axios
         .get(`${api_url2}/products?category=嘉義`)
         .then((res) => {
@@ -144,7 +140,7 @@ export default {
               this.searchChiayi.push(item)
             }
           })
-          console.log(this.searchChiayi);
+          console.log(this.searchChiayi)
         })
         .catch((err) => {
           // console.log(err)
