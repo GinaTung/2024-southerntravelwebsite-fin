@@ -92,8 +92,8 @@ export default {
           this.getNewText()
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err.message}`)
+          // console.log(err)
+          alert(`${err.message}`)
         })
     },
     truncateContent(content, maxLength) {
@@ -140,7 +140,7 @@ export default {
               this.searchChiayi.push(item)
             }
           })
-          console.log(this.searchChiayi)
+          // console.log(this.searchChiayi)
         })
         .catch((err) => {
           // console.log(err)

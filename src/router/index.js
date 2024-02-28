@@ -23,12 +23,21 @@ const router = createRouter({
           component: () => import('../views/front/TouristPackageView.vue'),
           children: [
             {
+              path: 'all',
+              component: () => import('../views/front/TouristSearchAllAreaView.vue'),
+            },
+            {
               path: 'searchChiayi',
               component: () => import('../views/front/TouristSearchChiayiView.vue'),
             },
-                        {
-              path: 'all',
-              component: () => import('../views/front/TouristSearchAllAreaView.vue'),
+            // Tainan, Kaohsiung
+            {
+              path: 'searchTainan',
+              component: () => import('../views/front/TouristSearchTainanView.vue'),
+            },
+            {
+              path: 'searchKaohsiung',
+              component: () => import('../views/front/TouristSearchKaohsiungView.vue'),
             },
           ]
         },

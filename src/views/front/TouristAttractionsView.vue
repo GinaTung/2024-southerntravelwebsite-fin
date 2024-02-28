@@ -114,8 +114,7 @@ const api_url2 = import.meta.env.VITE_API_URL2
 export default{
   data(){
     return {
-      data:"",
-      articles:[]
+      data:""
     }
   },
   methods:{
