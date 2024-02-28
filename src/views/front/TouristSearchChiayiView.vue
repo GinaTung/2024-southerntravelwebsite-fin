@@ -1,54 +1,35 @@
 <template>
-  <div class="container py-10 py-lg-30">
-    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-20">
-      <ol class="breadcrumb mb-0 fs-5">
-        <li class="breadcrumb-item">
-          <router-link to="/" class="navbar-brand py-6"> 首頁 </router-link>
-        </li>
-        <li class="breadcrumb-item" aria-current="page">南部旅遊方案</li>
-      </ol>
-    </nav>
-    <div class="tourist-list">
-      <div class="row">
-        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-md-flex">
-          <div class="border-info2 border-1 border">
-            <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
-            <ul class="nav flex-column">
-              <li class="nav-item">
-                <router-link class="nav-link p-5 fs-5 link-color active d-flex justify-content-between"
-                  data-name="全部"
-                  aria-current="page"
-                  to="/TouristPackage/all"
-                  >全部區域<span class="">{{ products.length }}</span
-                ></router-link>
-              </li>
-              <li class="nav-item">
-
-                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  to="/TouristPackage/searchChiayi"
-                  data-name="嘉義"
-                  >嘉義</router-link>
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  href="#"
-                  data-name="台南"
-                  >台南<span class="">0</span></a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  data-name="高雄"
-                  >高雄<span class="">0</span></a
-                >
-              </li>
-            </ul>
-          </div>
+  <div class="card mb-3 card-att" v-for="productsItem in searchChiayi" :key="productsItem.id">
+    <div class="row g-0">
+      <div class="col-md-4">
+        <span class="tag text-white">{{ productsItem.category }}</span>
+        <div class="card-att-img card-att-img-2 h-100">
+          <img
+            :src="productsItem.imageUrl"
+            class="card-img-top img-fluid"
+            :alt="productsItem.title"
+          />
         </div>
-        <div class="col-12 col-md-9">
-          <router-view></router-view>
+        <div class="heart3">
+          <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+        </div>
+      </div>
+      <div class="col-md-8">
+        <div class="card-body px-5">
+          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+            {{ productsItem.title }}
+          </h4>
+
+          <div v-for="item in newProductsDes" :key="item.id">
+            <div v-if="item.id === productsItem.id">
+              <p v-for="description in item.descriptions" :key="description">
+                {{ description }}
+              </p>
+            </div>
+          </div>
+          <p class="card-text card-text-position">
+            <a href="#" class="fs-5">more</a>
+          </p>
         </div>
       </div>
     </div>
@@ -64,9 +45,9 @@ export default {
       user: '',
       newProductsDes: '',
       enabledProducts: [],
-      searchChiayi:[],
-      serchTainan:[],
-      searchKaohsiung:[]
+      searchChiayi: [],
+      serchTainan: [],
+      searchKaohsiung: []
     }
   },
   methods: {
@@ -96,7 +77,7 @@ export default {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.products = res.data
 
           this.products.forEach((item) => {
@@ -146,7 +127,7 @@ export default {
       }))
       // console.log(this.newProductsDes)
     },
-    searchProducts(){
+    searchProducts() {
       this.axios
         .get(`${api_url2}/products?category=嘉義`)
         .then((res) => {
@@ -159,7 +140,7 @@ export default {
               this.searchChiayi.push(item)
             }
           })
-          console.log(this.searchChiayi);
+          console.log(this.searchChiayi)
         })
         .catch((err) => {
           // console.log(err)
@@ -173,7 +154,7 @@ export default {
     // this.axios.defaults.headers.common['Authorization'] = token
     // console.log(token)
     // this.checkAdmin()
-    // this.searchProducts()
+    this.searchProducts()
     this.getProducts()
   }
 }

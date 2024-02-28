@@ -21,6 +21,16 @@ const router = createRouter({
           path: 'TouristPackage',
           name: 'TouristPackage',
           component: () => import('../views/front/TouristPackageView.vue'),
+          children: [
+            {
+              path: 'searchChiayi',
+              component: () => import('../views/front/TouristSearchChiayiView.vue'),
+            },
+                        {
+              path: 'all',
+              component: () => import('../views/front/TouristSearchAllAreaView.vue'),
+            },
+          ]
         },
         {
           path: 'TouristBudget',
@@ -42,7 +52,7 @@ const router = createRouter({
       component: () => import('../views/DashboardView.vue'),
       children: [
         {
-          path: '',
+          path: 'AdminHome',
           name: 'AdminHome',
           component: () => import('../views/admin/AdminHomeView.vue'),
         },
@@ -51,8 +61,8 @@ const router = createRouter({
           component: () => import('../views/admin/AdminLoginView.vue'),
         },
         {
-          path: 'touristManagement',
-          component: () => import('../views/admin/AdminTouristManagementView.vue'),
+          path: 'attractionsManagement',
+          component: () => import('../views/admin/AdminAttractionsManagementView.vue'),
         },
         {
           path: 'productsManagement',
@@ -60,7 +70,9 @@ const router = createRouter({
         },
       ],
     },
-  ]
+  ],
+    // 點選某頁連結時，按鈕會顯示顏色
+    linkActiveClass:'active',
 })
 
 export default router
