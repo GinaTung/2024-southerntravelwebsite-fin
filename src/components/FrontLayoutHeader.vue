@@ -15,7 +15,7 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse py-10 py-lg-0" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse py-10 py-lg-0" id="navbarSupportedContent" ref="headerCollapse">
         <ul class="navbar-nav m-auto mb-lg-0 align-items-center">
           <li class="nav-item mb-10 mb-lg-0">
             <router-link to="/TouristAttractions" class="nav-link px-5 px-xl-10 fs-5 text-dark">南部旅遊景點</router-link>
@@ -39,3 +39,26 @@
     </div>
   </nav>
 </template>
+<script>
+// 引入 Bootstrap 的 Collapse 檔案
+import Collapse from 'bootstrap/js/dist/collapse'
+
+export default {
+  data() {
+    return {
+      headerCollapse: {}
+    }
+  },
+	// 路由改變時隱藏選單
+  watch: {
+    $route() {
+      this.headerCollapse.hide()
+    }
+  },
+  mounted() {
+		// 將 Booststrap 的 Collapse 實體化
+		// 並且設定一開始的 toggle 為 false，選單才能在一開始維持折疊狀態
+    this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
+  }
+}
+</script>
