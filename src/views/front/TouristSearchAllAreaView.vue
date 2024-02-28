@@ -28,12 +28,26 @@
             </div>
           </div>
           <p class="card-text card-text-position">
-            <a href="#" class="fs-5">more</a>
+            <!-- <a href="#" class="fs-5">more</a> -->
+            <router-link :to="`/TouristPackage?category=${productsItem.category}&${productsItem.title}`" class="fs-5">more</router-link>
           </p>
         </div>
       </div>
     </div>
   </div>
+  <nav aria-label="Page navigation example " class="my-10">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled rounded-0">
+      <a class="page-link rounded-0">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link rounded-0" href="#">1</a></li>
+    <li class="page-item"><a class="page-link rounded-0" href="#">2</a></li>
+    <li class="page-item"><a class="page-link rounded-0" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link rounded-0" href="#">Next</a>
+    </li>
+  </ul>
+</nav>
 </template>
 
 <script>

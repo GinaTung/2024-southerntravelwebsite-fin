@@ -28,7 +28,7 @@
               </div>
             </div>
             <p class="card-text card-text-position">
-              <a href="#" class="fs-5">more</a>
+                <router-link :to="`/TouristPackage?category=${productsItem.category}&${productsItem.title}`" class="fs-5">more</router-link>
             </p>
           </div>
         </div>
