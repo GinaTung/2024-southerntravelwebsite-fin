@@ -1,0 +1,1 @@
+import{_ as e,v as r}from"./index-r8Wn3As2.js";const s={data(){return{id:"",products:[],newProductsDes:"",enabledProducts:[]}},created(){console.log(this.$route),this.id=this.$route.params.title}};function o(i,a,c,n,t,d){return r(t.id)}const p=e(s,[["render",o]]);export{p as default};
