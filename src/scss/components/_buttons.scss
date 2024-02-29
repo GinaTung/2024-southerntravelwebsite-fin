@@ -20,3 +20,28 @@
       color: $white !important;
     }
   }
+
+  .btn-square{
+    padding: 8px 12px;
+    background: $primary-400;
+    border-radius: 8px;
+    color: $white !important;
+    text-align: center;
+    &:hover {
+      background: $white !important;
+      color: $primary-400 !important;
+      outline: 1px solid $primary-400 !important;
+    }
+  }
+  .btn-outline-square{
+    padding: 8px 12px;
+    background: $white;
+    border-radius: 8px;
+    color: $primary-400;
+    border: 1px solid $primary-400;
+    text-align: center;
+    &:hover {
+      background: $primary-400 !important;
+      color: $white !important;
+    }
+  }
