@@ -23,7 +23,6 @@
                 ></router-link>
               </li>
               <li class="nav-item">
-
                 <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   to="/TouristPackage/searchChiayi"
                   data-name="嘉義"
