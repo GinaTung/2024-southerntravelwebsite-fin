@@ -11,7 +11,7 @@
     <div class="tourist-list">
       <div class="row">
         <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
-          <div class="border-info2 border-1 border w-100 rounded-1">
+          <div class="border-info2 border-1 border w-100 rounded-1 h-90">
             <p class="fs-4 p-5 bg-primary-500 text-white rounded-top">地區篩選</p>
             <ul class="nav flex-column">
               <li class="nav-item">
