@@ -4,37 +4,85 @@
       <div class="col-md-4">
         <span class="tag text-white">{{ productsItem.category }}</span>
         <div class="card-att-img card-att-img-2 h-100">
-          <img
-            :src="productsItem.imageUrl"
-            class="card-img-top img-fluid"
-            :alt="productsItem.title"
-          />
-        </div>
-        <div class="heart3">
-          <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+          <img :src="productsItem.imageUrl" class="card-img-top img-fluid" :alt="productsItem.title" />
         </div>
       </div>
       <div class="col-md-8">
-        <div class="card-body px-5">
-          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-            {{ productsItem.title }}
-          </h4>
-
-          <div v-for="item in newProductsDes" :key="item.id">
-            <div v-if="item.id === productsItem.id">
-              <p v-for="description in item.descriptions" :key="description">
-                {{ description }}
-              </p>
+        <div class="card h-100 border-0 bg-transparent">
+          <div class="card-body px-5">
+            <div class="heart3">
+              <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+            </div>
+            <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+              {{ productsItem.title }}
+            </h4>
+            <div class="d-flex mb-3">
+              <span class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6">{{
+                productsItem.tag_2 }}</span>
+            </div>
+  
+            <div class="row">
+              <div class="col-8 col-xl-9 my-2">
+                <div v-for="item in newProductsDes" :key="item.id">
+                  <div v-if="item.id === productsItem.id">
+                    <p v-for="description in item.descriptions" :key="description">
+                      {{ description }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-4 col-xl-3 text-end">
+                <p class="fs-2 fs-lg-3 fs-xl-2">{{ thousand(productsItem.price) }}</p>
+              </div>
+            </div>
+            <div class="col-12">
+  
             </div>
           </div>
-          <p class="card-text card-text-position">
-            <router-link :to="{ name: 'TouristSinglePackage', params: { category: productsItem.category, title: productsItem.title }}" class="fs-5">more</router-link>
-          </p>
+          <div class="card-footer bg-transparent border-0 pt-0 pb-4">
+            <div class="d-flex align-items-end">
+                <router-link :to="{
+                  name: 'TouristSinglePackage',
+                  params: { category: productsItem.category, title: productsItem.title }
+                }" class="btn-outline-square w-100 me-2" type="button">方案介紹</router-link>
+                <a class="btn-square w-100 ms-2" href="#" type="button"> 加入購物車 </a>
+              </div>
+          </div>
+
         </div>
       </div>
     </div>
   </div>
+  <nav aria-label="Page navigation example " class="my-10">
+    <ul class="pagination justify-content-center">
+      <li class="page-item disabled">
+        <a class="page-link page-link-radius-2">Previous</a>
+      </li>
+      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">1</a></li>
+      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">2</a></li>
+      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">3</a></li>
+      <li class="page-item">
+        <a class="page-link page-link-radius" href="#">Next</a>
+      </li>
+    </ul>
+  </nav>
 </template>
+<style lang="scss">
+.page-item {
+  .page-link-0 {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+}
+
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+</style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
@@ -95,6 +143,12 @@ export default {
           // console.log(err)
           alert(`${err.message}`)
         })
+    },
+    thousand (data) {
+      if (data !== undefined) {
+        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+      }
+      return `$ ${data}`;
     },
     truncateContent(content, maxLength) {
       if (content && content.length > maxLength) {
