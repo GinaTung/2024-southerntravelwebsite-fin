@@ -28,8 +28,8 @@
               </div>
             </div>
             <p class="card-text card-text-position">
-                <router-link :to="`/TouristPackage?category=${productsItem.category}&${productsItem.title}`" class="fs-5">more</router-link>
-            </p>
+            <router-link :to="{ name: 'TouristSinglePackage', params: { category: productsItem.category, title: productsItem.title }}" class="fs-5">more</router-link>
+          </p>
           </div>
         </div>
       </div>
