@@ -11,8 +11,8 @@
     <div class="tourist-list">
       <div class="row">
         <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
-          <div class="border-info2 border-1 border w-100">
-            <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
+          <div class="border-info2 border-1 border w-100 rounded-1">
+            <p class="fs-4 p-5 bg-primary-500 text-white rounded-top">地區篩選</p>
             <ul class="nav flex-column">
               <li class="nav-item">
                 <router-link class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
@@ -54,6 +54,11 @@
     </div>
   </div>
 </template>
+<style lang="scss">
+.rounded-top{
+  border-radius: 4px 0 !important;
+}
+</style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
