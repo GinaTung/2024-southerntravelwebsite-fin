@@ -10,8 +10,9 @@
         <li class="breadcrumb-item" aria-current="page">{{ packageTitle }}</li>
       </ol>
     </nav>
+    <!-- {{ enabledProducts }} -->
     <div class="row h-100" v-for="productsItem in enabledProducts" :key="productsItem.id">
-      <div class="col-9">
+      <div class="col-9 pe-5">
         <div class="d-flex">
           <div class="w-5 d-flex">
             <i class="bi bi-geo-alt-fill position-relative fs-5">
@@ -51,7 +52,7 @@
                 </button>
               </li>
             </ul>
-            <div class="tab-content" id="pills-tabContent">
+            <div class="tab-content card-att" id="pills-tabContent">
               <div
                 class="tab-pane fade show active"
                 id="pills-home"
@@ -59,27 +60,25 @@
                 aria-labelledby="pills-home-tab"
                 tabindex="0"
               >
+
                 <div class="row">
                   <div class="w-60">
-                    <div class="card-att-img card-att-img-2 h-100">
+                    <div class="card-att-img card-att-img-2">
                       <img
-                        :src="productsItem.imageUrl"
-                        class="card-img-top img-fluid"
+                        :src="productsItem.imagesUrl[0]"
+                        class="img-fluid"
                         :alt="productsItem.title"
                       />
                     </div>
                   </div>
-                  <div class="w-40">
+                  <div class="w-40" v-for="(obj, innerIndex) in productsItem.itinerary_data" :key="innerIndex+1">
                     <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                      {{ productsItem.title }}
+                      {{ obj.itinerary_first_day_am_title }}
                     </h4>
-                    <div v-for="item in newProductsDes" :key="item.id" class="mb-6">
-                      <div v-if="item.id === productsItem.id">
-                        <p v-for="description in item.descriptions" :key="description">
-                          {{ description }}
-                        </p>
-                      </div>
-                    </div>
+
+                    <p class="text-dark">
+                      {{ obj.itinerary_first_day_am_content }} 
+                    </p>
                   </div>
                 </div>
               </div>
@@ -90,7 +89,26 @@
                 aria-labelledby="pills-profile-tab"
                 tabindex="0"
               >
-                text2
+              <div class="row">
+                  <div class="w-60">
+                    <div class="card-att-img card-att-img-2">
+                      <img
+                        :src="productsItem.imagesUrl[1]"
+                        class="img-fluid"
+                        :alt="productsItem.title"
+                      />
+                    </div>
+                  </div>
+                  <div class="w-40" v-for="(obj, innerIndex) in productsItem.itinerary_data" :key="innerIndex+1">
+                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                      {{ obj.itinerary_first_day_pm_title }}
+                    </h4>
+
+                    <p class="text-dark">
+                      {{ obj.itinerary_first_day_pm_content }} 
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -104,12 +122,14 @@
             >{{ category }}</span
           >
         </div>
-        <h2 class="fs-2 mb-4">{{ packageTitle }}</h2>
-        <div>
-          <p class="fs-2 fs-lg-3 mb-2">景點行程</p>
-          <div v-for="item in newProductsDes" :key="item.id" class="mb-6">
+        <h2 class="fs-3 mb-6 text-primary-700 fw-bold">{{ packageTitle }}</h2>
+        <span class="fs-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600">
+          <i class="bi bi-person-walking"></i>景點行程
+        </span>
+        <div class="mt-4 mb-6">
+          <div v-for="item in newProductsContent" :key="item.id">
             <div v-if="item.id === productsItem.id">
-              <p v-for="description in item.descriptions" :key="description">
+              <p v-for="description in item.content" :key="description">
                 {{ description }}
               </p>
             </div>
@@ -137,7 +157,7 @@
             <i class="bi bi-heart"></i>
           </button>
         </div>
-        <a class="btn-square w-100" href="#" type="button"> 加入購物車 </a>
+        <a class="btn-square w-100 fs-5" href="#" type="button">預約套裝行程</a>
       </div>
     </div>
   </div>
@@ -166,6 +186,9 @@
   position: absolute;
   left: 0px;
   bottom: -40px;
+}
+p {
+  text-align: justify; /* 將文字左右對齊 */
 }
 // .line {
 //   //  width: 1px;
@@ -202,7 +225,7 @@ export default {
       category: '',
       packageTitle: '',
       products: [],
-      newProductsDes: '',
+      newProductsContent: '',
       enabledProducts: []
     }
   },
@@ -252,11 +275,13 @@ export default {
       return `$ ${data}`
     },
     getNewText() {
+      console.log(this.products);
       const idDescriptionsMap = {}
       this.products.forEach((item) => {
         // 檢查 item.description 是否存在
-        if (item.description) {
-          const splitText = item.description.split(';')
+        console.log(item.content);
+        if (item.content) {
+          const splitText = item.content.split(';')
 
           splitText.forEach((text) => {
             const trimmedText = text.trim()
@@ -270,11 +295,11 @@ export default {
       })
 
       // 將 id 與描述合併成物件
-      this.newProductsDes = Object.entries(idDescriptionsMap).map(([id, descriptions]) => ({
+      this.newProductsContent = Object.entries(idDescriptionsMap).map(([id, content]) => ({
         id,
-        descriptions
+        content
       }))
-      // console.log(this.newProductsDes)
+      console.log(this.newProductsContent)
     }
   },
   mounted() {

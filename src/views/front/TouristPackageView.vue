@@ -57,6 +57,9 @@
 .rounded-top{
   border-radius: 4px 0 !important;
 }
+p {
+  text-align: justify; /* 將文字左右對齊 */
+}
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2

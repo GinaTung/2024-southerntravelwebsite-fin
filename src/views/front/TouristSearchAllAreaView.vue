@@ -46,8 +46,8 @@
                 <router-link :to="{
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
-                }" class="btn-outline-square w-100 me-2" type="button">方案介紹</router-link>
-                <a class="btn-square w-100 ms-2" href="#" type="button"> 加入購物車 </a>
+                }" class="btn-outline-square w-100 me-2" type="button">行程介紹</router-link>
+                <a class="btn-square w-100 ms-2" href="#" type="button">預約套裝行程</a>
               </div>
           </div>
 

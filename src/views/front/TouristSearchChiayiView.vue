@@ -26,13 +26,15 @@
                 <div v-for="item in newProductsDes" :key="item.id">
                   <div v-if="item.id === productsItem.id">
                     <p v-for="description in item.descriptions" :key="description">
-                      {{ description }}
+                      {{ truncateContent(description,85) }}
                     </p>
                   </div>
                 </div>
               </div>
-              <div class="col-4 col-xl-3 text-end">
-                <p class="fs-2 fs-lg-3 fs-xl-2">{{ thousand(productsItem.price) }}</p>
+              <div class="col-4 col-xl-3">
+                <p class="fs-4 text-end text-decoration-line-through">{{ thousand(productsItem.origin_price) }}</p>
+                <p class="text-end text-danger fw-bold">促銷價</p>
+                <p class="fs-2 fs-lg-3 fs-xl-2 text-end">{{ thousand(productsItem.price) }}</p>
               </div>
             </div>
             <div class="col-12">
@@ -44,8 +46,8 @@
                 <router-link :to="{
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
-                }" class="btn-outline-square w-100 me-2" type="button">方案介紹</router-link>
-                <a class="btn-square w-100 ms-2" href="#" type="button"> 加入購物車 </a>
+                }" class="btn-outline-square w-100 me-2" type="button">行程介紹</router-link>
+                <a class="btn-square w-100 ms-2" href="#" type="button">預約套裝行程</a>
               </div>
           </div>
 
