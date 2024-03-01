@@ -18,6 +18,11 @@ const router = createRouter({
           component: () => import('../views/front/TouristAttractionsView.vue')
         },
         {
+          path: 'TouristPackage/:category/:title',
+          name:'TouristSinglePackage',
+          component: () => import('../views/front/TouristSinglePackageView.vue')
+        },
+        {
           path: 'TouristPackage',
           redirect: '/TouristPackage/all', // Redirect to '/newpage/a' by default
           name: 'TouristPackage',
@@ -26,11 +31,6 @@ const router = createRouter({
             {
               path: 'all',
               component: () => import('../views/front/TouristSearchAllAreaView.vue')
-            },
-            {
-              path: ':category/:title',
-              name:'TouristSinglePackage',
-              component: () => import('../views/front/TouristSinglePackageView.vue')
             },
             {
               path: 'searchChiayi',
