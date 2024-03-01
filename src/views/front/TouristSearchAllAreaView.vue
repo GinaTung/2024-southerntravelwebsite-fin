@@ -1,5 +1,5 @@
 <template>
-  <div class="card mb-3 card-att" v-for="productsItem in enabledProducts" :key="productsItem.id">
+  <div class="card mb-4 card-att" v-for="productsItem in enabledProducts" :key="productsItem.id">
     <div class="row g-0">
       <div class="col-md-4">
         <span class="tag text-white">{{ productsItem.category }}</span>
@@ -16,7 +16,7 @@
             <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
               {{ productsItem.title }}
             </h4>
-            <div class="d-flex mb-3">
+            <div class="d-flex mb-4">
               <span class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6">{{
                 productsItem.tag_2 }}</span>
             </div>
