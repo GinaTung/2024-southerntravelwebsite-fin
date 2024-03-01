@@ -146,7 +146,27 @@
                   placeholder="請輸入標題"
                 />
               </div>
-
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="day_num" class="form-label">旅遊天數</label>
+                  <input
+                    id="day_num"
+                    type="number"
+                    v-model="tempProduct.day_num"
+                    class="form-control"
+                    placeholder="請輸入旅遊天數"
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="creation_date" class="form-label">建立日期</label>
+                  <input
+                    id="creation_date"
+                    type="date"
+                    v-model="tempProduct.creationDate"
+                    class="form-control"
+                  />
+                </div>
+              </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
                   <label for="category" class="form-label">分類</label>
@@ -191,6 +211,7 @@
                   />
                 </div>
               </div>
+
               <div class="row">
                 <div class="mb-3 col-md-6">
                   <label for="origin_price" class="form-label">原價</label>
@@ -215,22 +236,95 @@
                   />
                 </div>
               </div>
-              <div class="row">
-                <div class="mb-3 col-md-6">
-                  <label for="day_num" class="form-label">旅遊天數</label>
-                  <input
-                    id="day_num"
-                    type="number"
-                    v-model="tempProduct.day_num"
-                    class="form-control"
-                    placeholder="請輸入旅遊天數"
-                  />
-                </div>
-              </div>
 
-              <div class="row mt-3">
-                <div class="col">
+              <!-- <div class="row mt-3">
+                <div class="col-12">
                   <div class="accordion mb-3" id="accordionFirstDay">
+                    <div class="accordion-item">
+                      <h2 class="accordion-header">
+                        <button
+                          class="accordion-button bg-light"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseFirstDay"
+                          aria-expanded="true"
+                          aria-controls="collapseFirstDay"
+                        >
+                          行程資料-第一天
+                        </button>
+                      </h2>
+  
+                      <div
+                        id="collapseFirstDay"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionFirstDay"
+                      >
+                        <div class="accordion-body">
+                          <div class="row">
+                            <div
+                              v-for="(item, index) in tempProduct.itinerary_data"
+                              :key="index + 1213"
+                            >
+                              <div class="mb-3 col-md-6">
+                                <label for="itinerary_first_day_am_title" class="form-label"
+                                  >景點名稱-早上</label
+                                >
+                                <input
+                                  id="itinerary_first_day_am_title"
+                                  type="text"
+                                  v-model="item.itinerary_first_day_am_title"
+                                  class="form-control"
+                                  placeholder="請輸入景點名稱"
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label for="itinerary_first_day_am_content" class="form-label"
+                                  >景點介紹-早上</label
+                                >
+                                <textarea
+                                  id="itinerary_first_day_am_content"
+                                  type="text"
+                                  v-model="item.itinerary_first_day_am_content"
+                                  class="form-control"
+                                  placeholder="請輸入景點內容"
+                                ></textarea>
+                              </div>
+                              <div class="col-md-6 mb-3">
+                                <label for="itinerary_first_day_pm_title" class="form-label"
+                                  >景點名稱-下午</label
+                                >
+                                <input
+                                  id="itinerary_first_day_pm_title"
+                                  type="text"
+                                  v-model="item.itinerary_first_day_pm_title"
+                                  class="form-control"
+                                  placeholder="請輸入景點名稱"
+                                />
+                              </div>
+                              <div class="mb-3">
+                                <label for="itinerary_first_day_pm_content" class="form-label"
+                                  >景點介紹-下午</label
+                                >
+                                <textarea
+                                  v-model="item.itinerary_first_day_pm_content"
+                                  id="itinerary_first_day_pm_content"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="請輸入景點介紹"
+                                >
+                                </textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div> -->
+              <div class="row">
+                <div class="col">
+                  <div class="accordion mb-3" id="accordionFirstdDay">
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
@@ -247,7 +341,7 @@
                       <div
                         id="collapseFirstDay"
                         class="accordion-collapse collapse"
-                        data-bs-parent="#accordionFirstDay"
+                        data-bs-parent="#accordionFirstdDay"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -276,8 +370,9 @@
                                   type="text"
                                   v-model="item.itinerary_first_day_am_content"
                                   class="form-control"
-                                  placeholder="請輸入景點內容"
-                                ></textarea>
+                                  placeholder="請輸入景點介紹"
+                                >
+                                </textarea>
                               </div>
                               <div class="col-md-6 mb-3" v-if="index === 0">
                                 <label for="itinerary_first_day_pm_title" class="form-label"
@@ -296,9 +391,9 @@
                                   >景點介紹-下午</label
                                 >
                                 <textarea
-                                  v-model="item.itinerary_first_day_pm_content"
                                   id="itinerary_first_day_pm_content"
                                   type="text"
+                                  v-model="item.itinerary_first_day_pm_content"
                                   class="form-control"
                                   placeholder="請輸入景點介紹"
                                 >
@@ -312,7 +407,6 @@
                   </div>
                 </div>
               </div>
-
               <div class="row">
                 <div class="col">
                   <div class="accordion mb-3" id="accordionSecondDay">
@@ -506,6 +600,76 @@
                 >
                 </textarea>
               </div>
+
+              <!-- Provide services、Experience description、Other information、common problem -->
+              <div class="mb-3">
+                <label for="content" class="form-label">服務內容</label>
+                <textarea
+                  id="description"
+                  type="text"
+                  v-model="tempProduct.provideServices"
+                  class="form-control"
+                  placeholder="請輸入服務內容"
+                >
+                </textarea>
+              </div>
+              <div class="mb-3">
+                <label for="content" class="form-label">體驗說明</label>
+                <textarea
+                  id="description"
+                  type="text"
+                  v-model="tempProduct.experienceDescription"
+                  class="form-control"
+                  placeholder="請輸入體驗說明"
+                >
+                </textarea>
+              </div>
+              <div class="mb-3">
+                <label for="content" class="form-label">其他資訊</label>
+                <textarea
+                  id="description"
+                  type="text"
+                  v-model="tempProduct.otherInformation"
+                  class="form-control"
+                  placeholder="請輸入其他資訊"
+                >
+                </textarea>
+              </div>
+              <div class="mb-3">
+                <label for="content" class="form-label">常見問題</label>
+                <textarea
+                  id="description"
+                  type="text"
+                  v-model="tempProduct.commonProblem"
+                  class="form-control"
+                  placeholder="請輸入常見問題"
+                >
+                </textarea>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="start_date" class="form-label">預訂起始日</label>
+                  <input
+                    id="start_date"
+                    type="date"
+                    v-model="tempProduct.startDate"
+                    class="form-control"
+                    :min="minDate"
+                    :max="maxDate"
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="end_date" class="form-label">預訂結束日</label>
+                  <input
+                    id="start_date"
+                    type="date"
+                    v-model="tempProduct.endDate"
+                    class="form-control"
+                    :min="minDate"
+                    :max="maxDate"
+                  />
+                </div>
+              </div>
               <div class="mb-3">
                 <div class="form-check">
                   <input
@@ -626,9 +790,14 @@ export default {
         num: 0,
         imageUrl: '',
         imagesUrl: [],
-        images: null,
-        result2: null
-      }
+        provideServices: '',
+        experienceDescription: '',
+        otherInformation: '',
+        commonProblem: ''
+      },
+      newAllItineraryData: [],
+      minDate: '2024-01-01', // 最小日期
+      maxDate: '2024-12-31', // 最大日期
     }
   },
   methods: {
@@ -638,19 +807,19 @@ export default {
       if (!this.token) {
         alert(`目前未登入管理者身分，請重新登入`)
         this.$router.push({ path: '/admin/adminlogin' })
-      }else{
+      } else {
         this.axios
-        .post(`${api_url}/api/user/check`)
-        .then((res) => {
-          // 登入成功
-          this.userIsLoggedIn = true;
-        })
-        .catch((err) => {
-          // 登入失敗或驗證失敗
-          this.userIsLoggedIn = false;
-          alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
-          this.$router.push({ path: '/admin/adminlogin' })
-        });
+          .post(`${api_url}/api/user/check`)
+          .then((res) => {
+            // 登入成功
+            this.userIsLoggedIn = true
+          })
+          .catch((err) => {
+            // 登入失敗或驗證失敗
+            this.userIsLoggedIn = false
+            alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+            this.$router.push({ path: '/admin/adminlogin' })
+          })
       }
     },
     getProducts() {
@@ -659,7 +828,7 @@ export default {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.products = res.data
         })
         .catch((arr) => {
@@ -669,23 +838,25 @@ export default {
     openModal(status, product) {
       if (status === 'new') {
         this.tempProduct = {
+         startDate: '',
+         endDate:'',
           itinerary_data: [
             {
-              first_day_title: '',
+              first_day_title: '第一天',
               itinerary_first_day_am_title: '',
               itinerary_first_day_am_content: '',
               itinerary_first_day_pm_title: '',
               itinerary_first_day_pm_content: ''
             },
             {
-              second_day_title: '',
+              second_day_title: '第二天',
               itinerary_second_day_am_title: '',
               itinerary_second_day_am_content: '',
               itinerary_second_day_pm_title: '',
               itinerary_second_day_pm_content: ''
             },
             {
-              third_day_title: '',
+              third_day_title: '第三天',
               itinerary_third_day_am_title: '',
               itinerary_third_day_am_content: '',
               itinerary_third_day_pm_title: '',
@@ -698,7 +869,7 @@ export default {
         this.modalProduct.show()
       } else if (status === 'edit') {
         this.tempProduct = { ...product }
-
+        // this.getNewItineraryData();
         if (!Array.isArray(this.tempProduct.imagesUrl)) {
           this.tempProduct.imagesUrl = []
         }
@@ -717,7 +888,7 @@ export default {
         this.axios
           .post(`${api_url2}/products`, this.tempProduct)
           .then((res) => {
-            console.log(res)
+            // console.log(res)
             alert(`已建立產品`)
             this.getProducts()
             this.tempProduct = {}
@@ -735,6 +906,7 @@ export default {
             // console.log(res);
             alert(`已更新產品`)
             this.getProducts()
+
             this.tempProduct = {}
             this.modalProduct.hide()
           })
@@ -788,10 +960,17 @@ export default {
           // console.dir(err);
           alert(`${err.data.message}`)
         })
+    },
+    getNewItineraryData() {
+      // console.log(this.products);
+      this.tempProduct.forEach((item, i) => {
+        console.log(item.itinerary_data)
+      })
+      console.log(this.newAllItineraryData)
     }
   },
   mounted() {
-      this.checkAdmin();
+    this.checkAdmin()
     this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)

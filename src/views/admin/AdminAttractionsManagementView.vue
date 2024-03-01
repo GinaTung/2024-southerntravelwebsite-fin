@@ -16,7 +16,7 @@
             <tr>
               <th width="100">上架</th>
               <th width="120">分類</th>
-              <th>產品名稱</th>
+              <th>景點名稱</th>
               <th>標籤</th>
               <th width="120" class="text-end">原價</th>
               <th width="120" class="text-end">售價</th>
