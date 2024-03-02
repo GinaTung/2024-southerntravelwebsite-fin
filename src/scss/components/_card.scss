@@ -9,7 +9,7 @@
       z-index: 1;
       overflow: hidden;
       @include pad-md{
-        // padding-top: 85%;
+        padding-top: 85%;
       }
       img {
         position: absolute;
@@ -54,14 +54,14 @@
     white-space: wrap;
   }
   
-  // .card-att {
-  //   .card-att-img-2 {
-  //     padding-top: 80%;
-  //     @include pad-md{
-  //       padding-top: 70%;
-  //     }
-  //   }
-  // }
+  .card-att {
+    .card-att-img-2 {
+      padding-top: 80%;
+      @include pad-md{
+        padding-top: 70%;
+      }
+    }
+  }
   // .card-text-position{
   //   position: absolute;
   //   right: 0;
