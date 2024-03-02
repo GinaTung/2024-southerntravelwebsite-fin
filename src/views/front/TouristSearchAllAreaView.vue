@@ -3,17 +3,17 @@
     <div class="row g-0">
       <div class="col-md-4">
         <span class="tag text-white">{{ productsItem.category }}</span>
-        <div class="card-att-img card-att-img-2 h-100">
+        <div class="card-att-img h-100">
           <img :src="productsItem.imageUrl" class="card-img-top img-fluid" :alt="productsItem.title" />
         </div>
       </div>
       <div class="col-md-8">
         <div class="card h-100 border-0 bg-transparent">
-          <div class="card-body px-5">
+          <div class="card-body px-3 px-md-4">
             <div class="heart3">
               <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
             </div>
-            <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+            <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-8">
               {{ productsItem.title }}
             </h4>
             <div class="d-flex mb-4">
@@ -22,7 +22,7 @@
             </div>
   
             <div class="row">
-              <div class="col-8 col-xl-9 my-2">
+              <div class="col-12 col-sm-8 my-2">
                 <div v-for="item in newProductsDes" :key="item.id">
                   <div v-if="item.id === productsItem.id">
                     <p v-for="description in item.descriptions" :key="description">
@@ -31,23 +31,27 @@
                   </div>
                 </div>
               </div>
-              <div class="col-4 col-xl-3">
-                <p class="fs-4 text-end text-decoration-line-through">{{ thousand(productsItem.origin_price) }}</p>
-                <p class="text-end text-danger fw-bold">促銷價</p>
-                <p class="fs-2 fs-lg-3 fs-xl-2 text-end">{{ thousand(productsItem.price) }}</p>
+              <div class="col-12 col-sm-4">
+                <div class="d-flex flex-column">
+                  <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">NT{{ thousand(productsItem.origin_price) }}</p>
+                  <div class="d-flex flex-sm-column align-items-end justify-content-end">
+                    <p class="text-danger fw-bold d-none d-sm-block">促銷價</p>
+                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">NT{{ thousand(productsItem.price) }}</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div class="col-12">
   
             </div>
           </div>
-          <div class="card-footer bg-transparent border-0 pt-0 pb-4">
+          <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
             <div class="d-flex align-items-end">
                 <router-link :to="{
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
-                }" class="btn-outline-square w-100 me-2" type="button">行程介紹</router-link>
-                <a class="btn-square w-100 ms-2" href="#" type="button">預約套裝行程</a>
+                }" class="btn-outline-square w-100 me-2 px-2 px-md-3" type="button">行程介紹</router-link>
+                <a class="btn-square w-100 ms-2 px-2 px-md-3" href="#" type="button">預約套裝行程</a>
               </div>
           </div>
 

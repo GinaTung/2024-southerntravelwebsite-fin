@@ -11,18 +11,18 @@
       </ol>
     </nav>
     <!-- {{ enabledProducts }} -->
-    <div class="row h-100" v-for="productsItem in enabledProducts" :key="productsItem.id">
-      <div class="col-9 pe-5">
+    <div class="row h-100 flex-wrap-reverse flex-md-nowrap" v-for="productsItem in enabledProducts" :key="productsItem.id">
+      <div class="col-12 col-md-7 col-lg-9 my-8 my-md-0">
         <div class="d-flex">
-          <div class="w-5 d-flex">
+          <div class="w-5 d-none d-xl-flex">
             <i class="bi bi-geo-alt-fill position-relative fs-5">
               <div class="line"></div>
               <i class="bi bi-arrow-down-circle-fill arrow"></i>
             </i>
           </div>
-          <div class="w-95 position-relative">
+          <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
             <h4>第一天</h4>
-            <ul class="nav nav-underline nav-fill mb-4 w-60" id="pills-tab" role="tablist">
+            <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button
                   class="nav-link"
@@ -60,24 +60,27 @@
                 aria-labelledby="pills-home-tab"
                 tabindex="0"
               >
-
                 <div class="row">
-                  <div class="w-60">
+                  <div class="w-100 w-lg-60">
                     <div class="card-att-img card-att-img-2">
                       <img
                         :src="productsItem.imagesUrl[0]"
-                        class="img-fluid"
+                        class="img-fluid pb-4 pb-lg-0"
                         :alt="productsItem.title"
                       />
                     </div>
                   </div>
-                  <div class="w-40" v-for="(obj, innerIndex) in productsItem.itinerary_data" :key="innerIndex+1">
+                  <div
+                    class="w-100 w-lg-40"
+                    v-for="(obj, innerIndex) in productsItem.itinerary_data"
+                    :key="innerIndex + 1"
+                  >
                     <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
                       {{ obj.itinerary_first_day_am_title }}
                     </h4>
 
                     <p class="text-dark">
-                      {{ obj.itinerary_first_day_am_content }} 
+                      {{ obj.itinerary_first_day_am_content }}
                     </p>
                   </div>
                 </div>
@@ -89,23 +92,124 @@
                 aria-labelledby="pills-profile-tab"
                 tabindex="0"
               >
-              <div class="row">
-                  <div class="w-60">
+                <div class="row">
+                  <div class="w-100 w-lg-60">
                     <div class="card-att-img card-att-img-2">
                       <img
                         :src="productsItem.imagesUrl[1]"
-                        class="img-fluid"
+                        class="img-fluid  pb-4 pb-lg-0"
                         :alt="productsItem.title"
                       />
                     </div>
                   </div>
-                  <div class="w-40" v-for="(obj, innerIndex) in productsItem.itinerary_data" :key="innerIndex+1">
+                  <div
+                    class="w-100 w-lg-40"
+                    v-for="(obj, innerIndex) in productsItem.itinerary_data"
+                    :key="innerIndex + 1"
+                  >
                     <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
                       {{ obj.itinerary_first_day_pm_title }}
                     </h4>
 
                     <p class="text-dark">
-                      {{ obj.itinerary_first_day_pm_content }} 
+                      {{ obj.itinerary_first_day_pm_content }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h4>第二天</h4>
+            <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60" id="pills-tab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="pills-home-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-home"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-home"
+                  aria-selected="true"
+                >
+                  早上
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="pills-profile-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-profile"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-profile"
+                  aria-selected="false"
+                >
+                  下午
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content card-att" id="pills-tabContent">
+              <div
+                class="tab-pane fade show active"
+                id="pills-home"
+                role="tabpanel"
+                aria-labelledby="pills-home-tab"
+                tabindex="0"
+              >
+                <div class="row">
+                  <div class="w-100 w-lg-60">
+                    <div class="card-att-img card-att-img-2">
+                      <img
+                        :src="productsItem.imagesUrl[2]"
+                        class="img-fluid pb-4 pb-lg-0"
+                        :alt="productsItem.title"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="w-100 w-lg-40"
+                    v-for="(obj, innerIndex) in productsItem.itinerary_data"
+                    :key="innerIndex + 1"
+                  >
+                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                      {{ obj.itinerary_second_day_am_title }}
+                    </h4>
+
+                    <p class="text-dark">
+                      {{ obj.itinerary_second_day_am_content }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                class="tab-pane fade"
+                id="pills-profile"
+                role="tabpanel"
+                aria-labelledby="pills-profile-tab"
+                tabindex="0"
+              >
+                <div class="row">
+                  <div class="w-100 w-lg-60">
+                    <div class="card-att-img card-att-img-2">
+                      <img
+                        :src="productsItem.imagesUrl[3]"
+                        class="img-fluid  pb-4 pb-lg-0"
+                        :alt="productsItem.title"
+                      />
+                    </div>
+                  </div>
+                  <div
+                    class="w-100 w-lg-40"
+                    v-for="(obj, innerIndex) in productsItem.itinerary_data"
+                    :key="innerIndex + 1"
+                  >
+                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                      {{ obj.itinerary_second_day_pm_title }}
+                    </h4>
+
+                    <p class="text-dark">
+                      {{ obj.itinerary_second_day_pm_content }}
                     </p>
                   </div>
                 </div>
@@ -114,16 +218,17 @@
           </div>
         </div>
       </div>
-
-      <div class="col-3">
+      <div class="col-12 col-md-5 col-lg-3">
         <div class="d-flex mb-4">
           <span
             class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
             >{{ category }}</span
           >
         </div>
-        <h2 class="fs-3 mb-6 text-primary-700 fw-bold">{{ packageTitle }}</h2>
-        <span class="fs-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600">
+        <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6 text-primary-700 fw-bold">{{ packageTitle }}</h2>
+        <span
+          class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+        >
           <i class="bi bi-person-walking"></i>景點行程
         </span>
         <div class="mt-4 mb-6">
@@ -135,9 +240,14 @@
             </div>
           </div>
         </div>
-        <div class="d-flex justify-content-between mb-4">
-          <p class="fs-2 fs-lg-3 fs-xl-2">{{ thousand(productsItem.origin_price) }}</p>
-          <p class="fs-2 fs-lg-3 fs-xl-2">{{ thousand(productsItem.price) }}</p>
+        <div class="d-flex justify-content-between mb-4 align-items-end">
+            <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">NT{{ thousand(productsItem.origin_price) }}</p>
+            <div class="d-flex flex-sm-column align-items-end justify-content-end">
+              <p class="fs-6 text-danger fw-bold d-none d-sm-block">促銷價</p>
+              <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                NT{{ thousand(productsItem.price) }}
+              </p>
+            </div>
         </div>
         <div class="d-flex mb-4">
           <button type="button" class="btn btn-outline-dark rounded-0">
@@ -160,6 +270,7 @@
         <a class="btn-square w-100 fs-5" href="#" type="button">預約套裝行程</a>
       </div>
     </div>
+
   </div>
 </template>
 <style lang="scss">
@@ -275,11 +386,11 @@ export default {
       return `$ ${data}`
     },
     getNewText() {
-      console.log(this.products);
+      console.log(this.products)
       const idDescriptionsMap = {}
       this.products.forEach((item) => {
         // 檢查 item.description 是否存在
-        console.log(item.content);
+        console.log(item.content)
         if (item.content) {
           const splitText = item.content.split(';')
 
