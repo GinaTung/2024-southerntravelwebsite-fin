@@ -3,11 +3,18 @@
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
-          <router-link to="/" class="navbar-brand py-6"> 首頁 </router-link>
+          <router-link to="/" class="navbar-brand py-6">首頁</router-link>
         </li>
-        <li class="breadcrumb-item" aria-current="page">南部旅遊方案</li>
-        <li class="breadcrumb-item" aria-current="page">{{ category }}</li>
-        <li class="breadcrumb-item" aria-current="page">{{ packageTitle }}</li>
+        <li class="breadcrumb-item">
+          <router-link to="/TouristPackage" class="navbar-brand py-6"> 南部旅遊方案 </router-link>
+        </li>
+        <li class="breadcrumb-item">
+          <router-link to="/TouristPackage/searchChiayi" class="navbar-brand py-6"> {{ category }} </router-link>
+          
+        </li>
+        <li class="breadcrumb-item">
+          {{ packageTitle }}
+        </li>
       </ol>
     </nav>
     <!-- {{ enabledProducts }} -->
@@ -118,106 +125,120 @@
                 </div>
               </div>
             </div>
-            <h4>第二天</h4>
-            <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-home-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-home"
-                  aria-selected="true"
-                >
-                  早上
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-profile"
-                  aria-selected="false"
-                >
-                  下午
-                </button>
-              </li>
-            </ul>
-            <div class="tab-content card-att" id="pills-tabContent">
-              <div
-                class="tab-pane fade show active"
-                id="pills-home"
-                role="tabpanel"
-                aria-labelledby="pills-home-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div class="w-100 w-lg-60">
-                    <div class="card-att-img card-att-img-2">
-                      <img
-                        :src="productsItem.imagesUrl[2]"
-                        class="img-fluid pb-4 pb-lg-0"
-                        :alt="productsItem.title"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="w-100 w-lg-40"
-                    v-for="(obj, innerIndex) in productsItem.itinerary_data"
-                    :key="innerIndex + 1"
-                  >
-                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                      {{ obj.itinerary_second_day_am_title }}
-                    </h4>
 
-                    <p class="text-dark">
-                      {{ obj.itinerary_second_day_am_content }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="pills-profile"
-                role="tabpanel"
-                aria-labelledby="pills-profile-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div class="w-100 w-lg-60">
-                    <div class="card-att-img card-att-img-2">
-                      <img
-                        :src="productsItem.imagesUrl[3]"
-                        class="img-fluid  pb-4 pb-lg-0"
-                        :alt="productsItem.title"
-                      />
-                    </div>
-                  </div>
-                  <div
-                    class="w-100 w-lg-40"
-                    v-for="(obj, innerIndex) in productsItem.itinerary_data"
-                    :key="innerIndex + 1"
-                  >
-                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                      {{ obj.itinerary_second_day_pm_title }}
-                    </h4>
-
-                    <p class="text-dark">
-                      {{ obj.itinerary_second_day_pm_content }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
+      <div class="col-12 col-md-7 col-lg-9 my-8 my-md-0">
+        <div class="d-flex my-12">
+          <div class="w-5 d-none d-xl-flex">
+            <i class="bi bi-geo-alt-fill position-relative fs-5">
+              <div class="line"></div>
+              <i class="bi bi-arrow-down-circle-fill arrow"></i>
+            </i>
+          </div>
+          <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
+            <h4>第二天</h4>
+              <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="pills-home-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-home2"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-home"
+                    aria-selected="true"
+                  >
+                    早上
+                  </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button
+                    class="nav-link"
+                    id="pills-profile-tab"
+                    data-bs-toggle="pill"
+                    data-bs-target="#pills-profile2"
+                    type="button"
+                    role="tab"
+                    aria-controls="pills-profile"
+                    aria-selected="false"
+                  >
+                    下午
+                  </button>
+                </li>
+              </ul>
+              <div class="tab-content card-att" id="pills-tabContent">
+                <div
+                  class="tab-pane fade show active"
+                  id="pills-home2"
+                  role="tabpanel"
+                  aria-labelledby="pills-home-tab"
+                  tabindex="0"
+                >
+                  <div class="row">
+                    <div class="w-100 w-lg-60">
+                      <div class="card-att-img card-att-img-2">
+                        <img
+                          :src="productsItem.imagesUrl[2]"
+                          class="img-fluid pb-4 pb-lg-0"
+                          :alt="productsItem.title"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="w-100 w-lg-40"
+                      v-for="(obj, innerIndex) in productsItem.itinerary_data"
+                      :key="innerIndex + 1"
+                    >
+                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                        {{ obj.itinerary_second_day_am_title }}
+                      </h4>
+  
+                      <p class="text-dark">
+                        {{ obj.itinerary_second_day_am_content }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="tab-pane fade"
+                  id="pills-profile2"
+                  role="tabpanel"
+                  aria-labelledby="pills-profile-tab"
+                  tabindex="0"
+                >
+                  <div class="row">
+                    <div class="w-100 w-lg-60">
+                      <div class="card-att-img card-att-img-2">
+                        <img
+                          :src="productsItem.imagesUrl[3]"
+                          class="img-fluid  pb-4 pb-lg-0"
+                          :alt="productsItem.title"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="w-100 w-lg-40"
+                      v-for="(obj, innerIndex) in productsItem.itinerary_data"
+                      :key="innerIndex + 1"
+                    >
+                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                        {{ obj.itinerary_second_day_pm_title }}
+                      </h4>
+  
+                      <p class="text-dark">
+                        {{ obj.itinerary_second_day_pm_content }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+
       <div class="col-12 col-md-5 col-lg-3">
         <div class="d-flex mb-4">
           <span
