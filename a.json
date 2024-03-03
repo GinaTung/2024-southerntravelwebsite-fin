@@ -1,0 +1,50 @@
+
+{
+    "products": [
+        {
+          "category": "嘉義",
+          "tag_1": "雙日遊",
+          "tag_2": "鐵道之旅",
+          "day_num": 2,
+          "itinerary_data": [
+            {
+              "first_day_title": "第一天",
+              "itinerary_first_day_am_title": "阿里山森林鐵路",
+              "itinerary_first_day_am_content": "全線自海拔30公尺的。",
+              "itinerary_first_day_pm_title": "阿里山森林遊樂園",
+              "itinerary_first_day_pm_content": "阿里山共由十八座高山組成，屬於玉山山脈的支脈，隔同富溪與。"
+            },
+            {
+              "second_day_title": "第二天",
+              "itinerary_second_day_am_title": "阿里山國家風景區-觸口遊客中心",
+              "itinerary_second_day_am_content": "因應日漸成熟之旅遊風潮與國內旅遊市場的廣大需求",
+              "itinerary_second_day_pm_title": "奮起湖風景區",
+              "itinerary_second_day_pm_content": "奮起湖位於。"
+            },
+            {
+              "third_day_title": "第三天",
+              "itinerary_third_day_am_title": "",
+              "itinerary_third_day_am_content": "",
+              "itinerary_third_day_pm_title": "",
+              "itinerary_third_day_pm_content": ""
+            }
+          ]
+        },
+        {
+            "category": "嘉義",
+            "tag_1": "雙日遊",
+            "tag_2": "鐵道之旅",
+            "day_num": 2,
+            "itinerary_data": [
+              {
+                "first_day_title": "第一天",
+                "itinerary_first_day_am_title": "阿里山森林鐵路",
+                "itinerary_first_day_am_content": "全線自海拔30公尺的。",
+                "itinerary_first_day_pm_title": "阿里山森林遊樂園",
+                "itinerary_first_day_pm_content": "阿里山共由十八座高山組成，屬於"
+              }
+            ]
+        }
+      ]
+
+}
