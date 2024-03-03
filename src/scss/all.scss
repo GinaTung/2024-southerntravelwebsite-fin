@@ -19,10 +19,13 @@
 @import "./utils/mixins";
 
 @import "./base/base";
+@import "./base/border";
 @import "./components/buttons";
 @import "./components/banner-swiper";
 @import "./components/heart";
 @import "./components/tag";
 @import "./components//card";
+@import "./components//tab";
+@import "./components/mask";
 @import "bootstrap/scss/bootstrap.scss";
 
