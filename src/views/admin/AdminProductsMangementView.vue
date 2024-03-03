@@ -211,7 +211,6 @@
                   />
                 </div>
               </div>
-
               <div class="row">
                 <div class="mb-3 col-md-6">
                   <label for="origin_price" class="form-label">原價</label>
@@ -237,91 +236,6 @@
                 </div>
               </div>
 
-              <!-- <div class="row mt-3">
-                <div class="col-12">
-                  <div class="accordion mb-3" id="accordionFirstDay">
-                    <div class="accordion-item">
-                      <h2 class="accordion-header">
-                        <button
-                          class="accordion-button bg-light"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseFirstDay"
-                          aria-expanded="true"
-                          aria-controls="collapseFirstDay"
-                        >
-                          行程資料-第一天
-                        </button>
-                      </h2>
-  
-                      <div
-                        id="collapseFirstDay"
-                        class="accordion-collapse collapse"
-                        data-bs-parent="#accordionFirstDay"
-                      >
-                        <div class="accordion-body">
-                          <div class="row">
-                            <div
-                              v-for="(item, index) in tempProduct.itinerary_data"
-                              :key="index + 1213"
-                            >
-                              <div class="mb-3 col-md-6">
-                                <label for="itinerary_first_day_am_title" class="form-label"
-                                  >景點名稱-早上</label
-                                >
-                                <input
-                                  id="itinerary_first_day_am_title"
-                                  type="text"
-                                  v-model="item.itinerary_first_day_am_title"
-                                  class="form-control"
-                                  placeholder="請輸入景點名稱"
-                                />
-                              </div>
-                              <div class="mb-3">
-                                <label for="itinerary_first_day_am_content" class="form-label"
-                                  >景點介紹-早上</label
-                                >
-                                <textarea
-                                  id="itinerary_first_day_am_content"
-                                  type="text"
-                                  v-model="item.itinerary_first_day_am_content"
-                                  class="form-control"
-                                  placeholder="請輸入景點內容"
-                                ></textarea>
-                              </div>
-                              <div class="col-md-6 mb-3">
-                                <label for="itinerary_first_day_pm_title" class="form-label"
-                                  >景點名稱-下午</label
-                                >
-                                <input
-                                  id="itinerary_first_day_pm_title"
-                                  type="text"
-                                  v-model="item.itinerary_first_day_pm_title"
-                                  class="form-control"
-                                  placeholder="請輸入景點名稱"
-                                />
-                              </div>
-                              <div class="mb-3">
-                                <label for="itinerary_first_day_pm_content" class="form-label"
-                                  >景點介紹-下午</label
-                                >
-                                <textarea
-                                  v-model="item.itinerary_first_day_pm_content"
-                                  id="itinerary_first_day_pm_content"
-                                  type="text"
-                                  class="form-control"
-                                  placeholder="請輸入景點介紹"
-                                >
-                                </textarea>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div> -->
               <div class="row">
                 <div class="col">
                   <div class="accordion mb-3" id="accordionFirstdDay">
@@ -349,6 +263,16 @@
                               v-for="(item, index) in tempProduct.itinerary_data"
                               :key="index + 1213"
                             >
+                              <div class="mb-3 col-md-6" v-if="index === 0">
+                                <label for="first_day_title" class="form-label">行程天數</label>
+                                <input
+                                  id="first_day_title"
+                                  type="text"
+                                  v-model="item.first_day_title"
+                                  class="form-control"
+                                  placeholder="請輸入行程天數為第一天"
+                                />
+                              </div>
                               <div class="mb-3 col-md-6" v-if="index === 0">
                                 <label for="itinerary_first_day_am_title" class="form-label"
                                   >景點名稱-早上</label
@@ -435,6 +359,16 @@
                               :key="index + 1213"
                             >
                               <div class="mb-3 col-md-6" v-if="index === 1">
+                                <label for="second_day_title" class="form-label">行程天數</label>
+                                <input
+                                  id="second_day_title"
+                                  type="text"
+                                  v-model="item.second_day_title"
+                                  class="form-control"
+                                  placeholder="請輸入行程天數為第二天"
+                                />
+                              </div>
+                              <div class="mb-3 col-md-6" v-if="index === 1">
                                 <label for="itinerary_second_day_am_title" class="form-label"
                                   >景點名稱-早上</label
                                 >
@@ -518,6 +452,17 @@
                               :key="index + 1213"
                             >
                               <div class="mb-3 col-md-6" v-if="index === 2">
+                                <label for="third_day_title" class="form-label">行程天數</label>
+                                <input
+                                  id="third_day_title"
+                                  type="text"
+                                  v-model="item.third_day_title"
+                                  class="form-control"
+                                  placeholder="請輸入行程天數為第三天"
+                                />
+                              </div>
+                              <div class="mb-3 col-md-6" v-if="index === 2">
+                                
                                 <label for="itinerary_third_day_am_title" class="form-label"
                                   >景點名稱-早上</label
                                 >
@@ -577,7 +522,6 @@
               </div>
 
               <hr />
-
               <div class="mb-3">
                 <label for="description" class="form-label">產品描述</label>
                 <textarea
@@ -695,6 +639,7 @@
       </div>
     </div>
   </div>
+  <!-- DelModal -->
   <div
     id="delProductModal"
     ref="delProductModal"
@@ -752,10 +697,6 @@ export default {
       modelDel: null, //delProductModal
       isNew: false,
       newProduct: {
-        category: '',
-        tag_1: '',
-        tag_2: '',
-        day_num: 0,
         itinerary_data: [
           {
             first_day_title: '',
@@ -766,10 +707,10 @@ export default {
           },
           {
             second_day_title: '',
-            itinerary_second_day_am_title: '-',
+            itinerary_second_day_am_title: '',
             itinerary_second_day_am_content: '',
             itinerary_second_day_pm_title: '',
-            itinerary_second_day_pm_content: ','
+            itinerary_second_day_pm_content: ''
           },
           {
             third_day_title: '',
@@ -778,26 +719,16 @@ export default {
             itinerary_third_day_pm_title: '',
             itinerary_third_day_pm_content: ''
           }
-        ],
-        itinerary_content: '',
-        itinerary_description: '',
-        id: '',
-        is_enabled: 0,
-        origin_price: 0,
-        price: 0,
-        title: '',
-        unit: '',
-        num: 0,
-        imageUrl: '',
-        imagesUrl: [],
-        provideServices: '',
-        experienceDescription: '',
-        otherInformation: '',
-        commonProblem: ''
+        ]
       },
       newAllItineraryData: [],
       minDate: '2024-01-01', // 最小日期
       maxDate: '2024-12-31', // 最大日期
+      formData: {
+        productName: '',
+        productDescription: ''
+        // 其他表單欄位的初始化
+      }
     }
   },
   methods: {
@@ -838,25 +769,23 @@ export default {
     openModal(status, product) {
       if (status === 'new') {
         this.tempProduct = {
-         startDate: '',
-         endDate:'',
           itinerary_data: [
             {
-              first_day_title: '第一天',
+              first_day_title: '',
               itinerary_first_day_am_title: '',
               itinerary_first_day_am_content: '',
               itinerary_first_day_pm_title: '',
               itinerary_first_day_pm_content: ''
             },
             {
-              second_day_title: '第二天',
+              second_day_title: '',
               itinerary_second_day_am_title: '',
               itinerary_second_day_am_content: '',
               itinerary_second_day_pm_title: '',
               itinerary_second_day_pm_content: ''
             },
             {
-              third_day_title: '第三天',
+              third_day_title: '',
               itinerary_third_day_am_title: '',
               itinerary_third_day_am_content: '',
               itinerary_third_day_pm_title: '',
@@ -880,10 +809,12 @@ export default {
         this.modalDel.show()
       }
     },
+    //新增
+    // const newProduct = this.tempProduct
+    // this.$data.products.push(newProduct)
     updateProduct() {
-      //新增
-      // const newProduct = this.tempProduct
-      // this.$data.products.push(newProduct)
+      const filteredProducts = this.products.map((product) => this.filterProduct(product))
+      console.log(filteredProducts)
       if (this.isNew) {
         this.axios
           .post(`${api_url2}/products`, this.tempProduct)
@@ -915,6 +846,40 @@ export default {
             alert(`${err.data.message}`)
           })
       }
+    },
+    filterProduct(product) {
+      const filteredProduct = {}
+
+      for (const key in product) {
+        if (key === 'itinerary_data') {
+          // 如果是 itinerary_data 這個特定的陣列，進行過濾
+          filteredProduct[key] = this.filterItineraryData(product[key])
+          // 移除完全為空的物件
+          filteredProduct[key] = filteredProduct[key].filter((itinerary) =>
+            Object.values(itinerary).some((value) => value !== '')
+          )
+        } else if (product[key] !== '') {
+          // 如果不是 itinerary_data 且值不是空字串，直接加入到過濾後的資料
+          filteredProduct[key] = product[key]
+        }
+      }
+
+      return filteredProduct
+    },
+    filterItineraryData(itineraryData) {
+      // 過濾 itinerary_data 陣列中的物件
+      return itineraryData.map((itinerary) => {
+        const filteredItinerary = {}
+
+        for (const key in itinerary) {
+          if (itinerary[key] !== '') {
+            // 如果值不是空字串，加入到過濾後的資料
+            filteredItinerary[key] = itinerary[key]
+          }
+        }
+
+        return filteredItinerary
+      })
     },
     deleteProduct() {
       this.axios
