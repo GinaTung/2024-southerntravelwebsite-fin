@@ -118,7 +118,7 @@ export default {
         })
     },
     getNewsProductsData() {
-      console.log(this.enabledProducts)
+      // console.log(this.enabledProducts)
       this.enabledProducts.forEach((item) => {
         this.newsLatestProductData.push({
           type: '旅遊方案',
@@ -130,7 +130,7 @@ export default {
           imageUrl: item.imageUrl
         })
       })
-      console.log(this.newsLatestProductData)
+      // console.log(this.newsLatestProductData)
     }
   },
   mounted() {

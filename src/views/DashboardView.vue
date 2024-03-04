@@ -61,7 +61,7 @@ export default {
           // 登入失敗或驗證失敗
           this.userIsLoggedIn = false;
           alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
-          this.$router.push({ path: '/admin/adminlogin' })
+          this.$router.push({ path: '/admin/AdminHome' })
         });
     }
   },

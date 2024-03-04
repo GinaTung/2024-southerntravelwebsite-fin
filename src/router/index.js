@@ -59,7 +59,18 @@ const router = createRouter({
         {
           path: 'signup',
           component: () => import('../views/front/SignUpView.vue')
-        }
+        },
+        {
+          path: 'cart',
+          redirect: '/cart/checkProduct',
+          children: [
+            {
+              path: 'checkProduct',
+              name: 'checkProduct',
+              component: () => import('../views/front/CartListView.vue')
+            }
+          ]
+        },
       ]
     },
     {
