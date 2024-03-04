@@ -1,0 +1,38 @@
+.nav-link:hover{
+    color: $primary-400 !important;
+  }
+  .link-color:active{
+      background-color: $primary-200;
+      color: $primary-500;
+    }
+  
+  .link-color:hover{
+      background-color: $primary-200;
+      color: $primary-500 !important;
+    }
+  
+    
+  .nav-link.active {
+    color: $blue-600 !important;
+  }
+
+  .link-color2:active{
+    background-color: $secondary-200;
+    color: $primary-700;
+  }
+
+.link-color2:hover{
+    background-color: $secondary-200;
+    color: $secondary-600 !important;
+  }
+
+  .nav-link2.active {
+    background-color: $secondary-200;
+    color: $secondary-600;
+  }
+  .nav-link:focus{
+    color: $primary-500 !important;
+  }
+  .nav-link2:focus{
+    color: $secondary-600 !important;
+  }

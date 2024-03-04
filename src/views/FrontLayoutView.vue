@@ -12,7 +12,7 @@
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
-        ref="headerCollapse"
+        @click="toggleNavbar"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -20,6 +20,7 @@
         class="collapse navbar-collapse py-10 py-lg-0"
         id="navbarSupportedContent"
         ref="headerCollapse"
+        v-show="isNavbarOpen"
       >
         <ul class="navbar-nav m-auto mb-lg-0 align-items-center">
           <li class="nav-item mb-10 mb-lg-0">
@@ -39,6 +40,7 @@
           </li>
         </ul>
         <ul
+          v-if="userIsLoggedIn2 === false"
           class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center"
         >
           <li class="nav-item">
@@ -48,30 +50,11 @@
             <router-link to="/signup" class="btn-turquoise ms-3">註冊</router-link>
           </li>
         </ul>
-
-        <!-- <div
-          class="dropdown ms-3 d-flex justify-content-center justify-content-lg-start align-items-center"
-        >
-          <a
-            class="btn btn-outline-turquoise dropdown-toggle px-2"
-            href="#"
-            role="button"
-            id="dropdownMenuLink"
-            data-bs-toggle="dropdown"
-            aria-expanded="false"
-            data-bs-display="static"
-          >
-            <i class="bi bi-person-circle fs-5 px-2" style="color: #43b8bd"></i>
-          </a>
-          <a href="#" class="btn-turquoise ms-3" type="button" @click="logout()">登出</a>
-          <ul
-            class="dropdown-menu rounded-1 py-1"
-            aria-labelledby="dropdownMenuLink"
-            style="border: 1px solid #43b8bd"
-          >
-            <li><a class="dropdown-item" href="#">收藏列表</a></li>
-          </ul>
-        </div> -->
+        <ul v-else class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center">
+          <li class="nav-item">
+            <a href="#" @click="logout()" class="btn-outline-turquoise">登出</a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
@@ -89,14 +72,10 @@ export default {
   },
   data() {
     return {
-      userId: '',
       headerCollapse: {},
-      token: '',
-      memberIsLoggedIn: 'false',
-      user: {
-        email: '',
-        password: ''
-      }
+      isNavbarOpen: false,
+      userIsLoggedIn2: false,
+      token: ''
     }
   }, // 路由改變時隱藏選單
   watch: {
@@ -104,32 +83,48 @@ export default {
       this.headerCollapse.hide()
     }
   },
-  // methods: {
-  //   checkAdmin() {
-  //     this.$emitter.on('loginCheck2', (msg) => {
-  //       this.memberIsLoggedIn = msg
-  //     })
-  //   },
-  //   logout() {
-      
-  //     // 將過期日期設為過去的時間 (1秒前)
-  //     const pastDate = new Date(Date.now() - 1000)
-      
-  //     // 將cookie過期
-  //     document.cookie = `hexToken=; expires=${pastDate.toUTCString()}; user=; path=/`
-  //     this.memberIsLoggedIn = false // 用户登出
-  //         alert(`登出成功`)
-  //         this.$router.push({ path: '/' })
-  //   }
-  // },
+  methods: {
+    checkLoggedInUser() {
+      this.$emitter.on('loginCheck2', (msg) => {
+        this.userIsLoggedIn2 = msg
+      })
+      if (this.token) {
+        // 已登入
+        this.userIsLoggedIn2 = true
+      } else {
+        // 未登入
+        this.userIsLoggedIn2 = false
+      }
+    },
+    toggleNavbar() {
+      this.isNavbarOpen = !this.isNavbarOpen
+    },
+    logout() {
+      // 获取当前时间
+      const now = new Date()
+
+      // 设置过去的日期，以确保浏览器删除 cookie
+      now.setFullYear(now.getFullYear() - 1)
+
+      // 构建过期时间的字符串
+      const expires = now.toUTCString()
+
+      // 移除存储在 cookie 中的 hexToken
+      document.cookie = `hexToken=; expires=`
+
+      // 重置用户状态
+      this.userIsLoggedIn2 = false
+      this.userId = null
+
+      // 导向至登录页面或首页
+      this.$router.push('/login') // 或者你想导向的其他路径
+    }
+  },
   mounted() {
-    //取得cookie資料
-    const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    this.axios.defaults.headers.common['Authorization'] = token
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
-    // console.log(token)
-    // console.log(this.memberIsLoggedIn);
-    // this.checkAdmin()
+    this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+    this.axios.defaults.headers.common['Authorization'] = this.token
+    this.checkLoggedInUser()
   }
 }
 </script>
