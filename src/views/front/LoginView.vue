@@ -53,15 +53,13 @@ export default {
         .post(`${api_url2}/login`, this.user)
         .then((res) => {
           // console.log(res)
-          this.userId = res.data.user.id
-          this.token = res.data.accessToken
-          const { accessToken, expired } = res.data
-          document.cookie = `hexToken=${accessToken}; expires=${new Date(
-            expired
-          )}; user=${this.userId}`
-          // console.log(document.cookie)
           alert(`會員登入成功`)
           this.$router.push('/')
+          // this.$emitter.emit('loginCheck2', true)
+
+          const { accessToken, expired } = res.data
+          document.cookie = `hexToken=${accessToken}; expires=${new Date(expired).toUTCString()}; user=${this.userId}`;
+
         })
         .catch((err) => {
           // console.log(err)
