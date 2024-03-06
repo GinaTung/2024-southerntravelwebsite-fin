@@ -33,3 +33,6 @@ coverage
 .env
 # .env.development
 # .env.production
+
+a.json
+a.text

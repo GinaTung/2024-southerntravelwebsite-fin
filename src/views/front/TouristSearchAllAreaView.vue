@@ -51,7 +51,9 @@
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
                 }" class="btn-outline-square w-100 me-2 px-2 px-md-3" type="button">行程介紹</router-link>
-                <a class="btn-square w-100 ms-2 px-2 px-md-3" href="#" type="button">預約套裝行程</a>
+                <router-link class="btn-square w-100 ms-2 px-2 px-md-3"
+                @click="addToCart(productsItem.id, quantity, productsItem.price)"
+                to="/cart" type="button">預約套裝行程</router-link>
               </div>
           </div>
 
@@ -106,7 +108,20 @@ export default {
       enabledProducts: [],
       searchChiayi: [],
       serchTainan: [],
-      searchKaohsiung: []
+      searchKaohsiung: [],
+      enabledProducts: [],
+      carts: [],
+      quantity: 3,
+      newQty: '',
+      newCarts: [],
+      cartId: null,
+    }
+  },
+  computed: {
+    totalPrice() {
+      return this.carts.reduce((sum, cartItem) => {
+        return sum + cartItem.order.price * cartItem.order.qty
+      }, 0)
     }
   },
   methods: {
@@ -191,7 +206,79 @@ export default {
         descriptions
       }))
       //   console.log(this.newProductsDes)
-    }
+    },
+    isProductInCart(productId) {
+      return this.carts.some((cartItem) => cartItem.product.id === productId)
+    },
+    addToCart(product_id, qty, price) {
+      this.getCart();
+      const order = {
+        product_id,
+        qty,
+        price,
+        total: qty * price
+      }
+
+      const cartId = this.cartId // 將cartId存入一個變數，以確保所有商品使用相同的cartId
+
+      if (this.isProductInCart(product_id)) {
+        // 如果產品已經在購物車中，更新數量
+        const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
+        existingCartItem.order.qty += qty
+        existingCartItem.order.total = existingCartItem.order.qty * price
+        this.quantity = existingCartItem.order.qty
+
+        this.axios
+          .put(`${api_url2}/carts/${existingCartItem.id}`, {
+            data: { ...existingCartItem.order, cartId }
+          })
+          .then((res) => {
+            this.newCarts = res.data
+            this.cartId = this.newCarts.id
+            this.saveCardId()
+            this.$router.go('/cart');
+          })
+          .catch((err) => {
+            alert(`${err.response}`)
+          })
+      } else {
+        // 如果產品不在購物車中，新增一個新項目
+        this.axios
+          .post(`${api_url2}/carts?_embed=products`, { data: { ...order, cartId } })
+          .then((res) => {
+            this.products.forEach((item) => {
+              if (item.id === order.product_id) {
+                this.carts.push({
+                  id: res.data.id,
+                  order,
+                  product: item
+                })
+              }
+            })
+            this.newCarts = res.data
+            this.cartId = this.newCarts.id
+            this.saveCardId()
+            this.$router.go('/cart');
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    },
+    saveCardId() {
+      document.cookie = `cartId=${this.newCarts.id}; path=/;`
+    },
+    getCart() {
+      this.axios
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          // console.log(res);
+        })
+        .catch((err) => {
+          // console.log(err);
+          alert(`${err}`);
+        });
+    },
   },
   mounted() {
     this.getProducts()

@@ -30,7 +30,7 @@
       <thead>
         <tr>
           <th style="width: 100px"></th>
-          <th>圖片</th>
+          <th style="width: 150px">圖片</th>
           <th>行程名稱</th>
           <th style="width: 180px">數量/單位</th>
           <th style="width: 100px">單價</th>
@@ -38,18 +38,19 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr v-for="item in newCart" :key="item.id">
           <td>
             <button type="button" class="btn btn-outline-danger btn-sm">
-              <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+              <!-- <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> -->
               <!-- <i class="fas fa-spinner fa-pulse"></i> -->
               x
             </button>
           </td>
           <td>
-            <img src="" alt="" />
+            <img :src="item.cartData.product.imageUrl" alt="" class="img-fluid" />
           </td>
           <td>
+            {{ item.cartData.product.title }}
             <!-- <div class="text-success">已套用優惠券</div> -->
           </td>
           <td>
@@ -63,26 +64,32 @@
                 >
                   <i class="bi bi-trash"></i>
                 </button>
-                <input min="1" type="number" class="form-control text-end" />
+                <input
+                  min="1"
+                  type="number"
+                  class="form-control text-end"
+                  v-model="item.cartData.qty"
+                />
                 <button class="btn btn-outline-primary" type="button">+</button>
               </div>
             </div>
           </td>
-          <td>$</td>
+          <td>$ {{ item.cartData.price }}</td>
           <td class="text-end">
             <!-- <small class="text-success">折扣價：</small> -->
-            $
+            $ {{ item.cartData.total }}
           </td>
         </tr>
       </tbody>
       <tfoot>
         <tr>
           <td colspan="5" class="text-end text-success">預約</td>
-          <td class="text-end text-success">0項行程</td>
+          <td class="text-end text-success">{{ newCart.length }} 項行程</td>
         </tr>
-        <tr>
+        <tr v-for="(item,index) in newCart" :key="item.id">
           <td colspan="5" class="text-end">總計</td>
-          <td class="text-end">$</td>
+          <td class="text-end" v-if="index ===0"> {{ thousand(item.cartData.total) }}</td>
+
         </tr>
       </tfoot>
     </table>
@@ -135,37 +142,86 @@ const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   data() {
     return {
-     id: '',
+      id: '',
       title: '',
       category: '',
       status: {
-        addCartLoading: "",
-        carteQtyLoading:""
+        addCartLoading: '',
+        carteQtyLoading: ''
       },
-      cart:[]
+      cart: [],
+      cartId: null,
+      products: [],
+      enabledProducts: [],
+      newCart: []
     }
   },
-  methods:{
-    thousand (data) {
+  methods: {
+    thousand(data) {
       if (data !== undefined) {
-        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
       }
-      return data;
+      return `$ ${data}`
     },
-    getCart(){
+    getCart() {
       this.axios
-          .get(`${api_url2}/carts/3?_embed=products/KvBuohr`)
-          .then((res) => {
-            console.log(res)
-            this.cart = res.data;
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          // console.log(res.data)
+          this.cart = res.data
+          this.cart.forEach((item) => {
+            if (item.id === this.cartId) {
+              this.cart = item
+            }
           })
-          .catch((err) => {
-            alert(`${err}`)
+          // console.log(this.cart)
+          this.combineCart()
+        })
+        .catch((err) => {
+          console.log(err)
+          // alert(`${err}`)
+        })
+    },
+    getCookie(name) {
+      const value = `; ${document.cookie}`
+      const parts = value.split(`; ${name}=`)
+      if (parts.length === 2) return parts.pop().split(';').shift()
+    },
+    getProducts() {
+      this.axios
+        .get(`${api_url2}/products`)
+        .then((res) => {
+          // console.log(res)
+          this.products = res.data
+          this.combineCart()
+        })
+        .catch((err) => {
+          console.log(err)
+          // alert(`${err.message}`)
+        })
+    },
+    combineCart() {
+      this.products.forEach((item) => {
+        if (item.id === this.cart.data.product_id) {
+          // 假设 cartData 是一个对象，你需要将产品信息添加到 cartData 中
+          const updatedCartData = { ...this.cart.data, product: item }
+
+          this.newCart.push({
+            cartData: updatedCartData
           })
+        }
+      })
+
+      // console.log(this.newCart)
     }
   },
-  mounted(){
-    this.getCart();
+  mounted() {
+    this.getCart()
+    this.getProducts()
+    // console.log(this.$route)
+    // console.log(document.cookie)
+    this.cartId = this.getCookie('cartId') * 1
+    // console.log(this.cartId)
   }
 }
 </script>

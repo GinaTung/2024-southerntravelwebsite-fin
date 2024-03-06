@@ -323,3 +323,54 @@ upload() {
                   </div>
                 </div>
               </div>
+
+                  addToCart(product_id, qty, price) {
+      const order = {
+        product_id,
+        qty,
+        price,
+        total: qty * price
+      }
+
+      const cartId = this.cartId // 將cartId存入一個變數，以確保所有商品使用相同的cartId
+
+      if (this.isProductInCart(product_id)) {
+        // 如果產品已經在購物車中，更新數量
+        const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
+        existingCartItem.order.qty += qty
+        existingCartItem.order.total = existingCartItem.order.qty * price
+        this.quantity = existingCartItem.order.qty
+
+        this.axios
+          .put(`${api_url2}/carts/${existingCartItem.id}`, {
+            data: { ...existingCartItem.order, cartId }
+          })
+          .then((res) => {
+            this.newCarts = res.data
+            this.cartId = this.newCarts.id
+          })
+          .catch((err) => {
+            alert(`${err.response}`)
+          })
+      } else {
+        // 如果產品不在購物車中，新增一個新項目
+        this.axios
+          .post(`${api_url2}/carts?_embed=products`, { data: { ...order, cartId } })
+          .then((res) => {
+            this.products.forEach((item) => {
+              if (item.id === order.product_id) {
+                this.carts.push({
+                  id: res.data.id,
+                  order,
+                  product: item
+                })
+              }
+            })
+            this.newCarts = res.data
+            this.cartId = this.newCarts.id
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+      }
+    },
