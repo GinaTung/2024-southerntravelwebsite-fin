@@ -34,6 +34,7 @@
       </ol>
     </nav>
     <!-- {{ enabledProducts }} -->
+
     <div
       class="row h-100 flex-wrap-reverse flex-md-nowrap"
       v-for="productsItem in enabledProducts"
@@ -423,111 +424,124 @@
         </div>
         <a
           class="btn-square w-100 fs-5 mb-4"
-          href="#"
           type="button"
-          @click="addToCart(productsItem.id, quantity, productsItem.price)"
           data-bs-toggle="offcanvas"
           data-bs-target="#offcanvasRight"
           aria-controls="offcanvasRight"
+          @click="addToCart(productsItem.id, quantity, productsItem.price)"
           >預約套裝行程</a
         >
-        <router-link class="btn-outline-square w-100 fs-5" type="button" to="/cart/checkProduct"
+        <!-- {{ newCarts.id }}{{ newCarts.qty }} -->
+        <!-- <router-link class="btn-square fs-5 w-100"  type="button"
+        :to="{ name: 'checkProduct' }"
+        >直接結帳</router-link> -->
+        <router-link
+          class="btn-square fs-5 w-100"
+          type="button"
+          :class="{ 'disabled-btn': !cartId }"
+          :to="{ name: 'checkProduct' }"
+          @click="saveCardId"
           >直接結帳</router-link
         >
       </div>
     </div>
   </div>
-  <div
-    class="offcanvas offcanvas-end"
-    tabindex="-1"
-    id="offcanvasRight"
-    aria-labelledby="offcanvasRightLabel"
-  >
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasRightLabel">購物車</h5>
-      <button
-        type="button"
-        class="btn-close"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
-    </div>
-    <div class="offcanvas-body">
-      <hr />
-      <div class="row" v-for="cartItem in carts" :key="cartItem.id">
-        <div class="col-5">
-          <div class="card-att-img card-att-img-2">
-            <img
-              :src="cartItem.product.imageUrl"
-              class="img-fluid pb-4 pb-lg-0"
-              :alt="cartItem.product.title"
-            />
+  <div class="d-none d-lg-flex">
+    <div
+      class="offcanvas offcanvas-end"
+      tabindex="-1"
+      id="offcanvasRight"
+      aria-labelledby="offcanvasRightLabel"
+    >
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasRightLabel">購物車</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="offcanvas"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="offcanvas-body">
+        <hr />
+        <div class="row" v-for="cartItem in carts" :key="cartItem.id">
+          <div class="col-5">
+            <div class="card-att-img card-att-img-2">
+              <img
+                :src="cartItem.product.imageUrl"
+                class="img-fluid pb-4 pb-lg-0"
+                :alt="cartItem.product.title"
+              />
+            </div>
           </div>
-        </div>
-        <div class="col-7">
-          <h5 class="mb-2">{{ cartItem.product.title }}</h5>
-          <h6 class="mb-2">NT{{ thousand(totalPrice) }}</h6>
-          <div class="d-flex mb-4">
-            <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="至少3人成行">
+          <div class="col-7">
+            <h5 class="mb-2">{{ cartItem.product.title }}</h5>
+            <h6 class="mb-2">NT{{ thousand(totalPrice) }}</h6>
+            <div class="d-flex mb-4">
+              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="至少3人成行">
+                <button
+                  type="button"
+                  class="btn btn-outline-dark rounded-0"
+                  :disabled="quantity === 3"
+                  data-toggle="tooltip"
+                  data-placement="top"
+                  title="至少3人成行"
+                  @click="decrementQuantity"
+                >
+                  <i class="bi bi-dash-lg"></i>
+                </button>
+              </span>
+              <input
+                min="3"
+                max="10"
+                type="number"
+                v-model="quantity"
+                class="form-control text-center rounded-0 border border-dark"
+                @input="checkMaxValue"
+              />
               <button
                 type="button"
                 class="btn btn-outline-dark rounded-0"
-                :disabled="quantity === 3"
+                @click="incrementQuantity"
                 data-toggle="tooltip"
                 data-placement="top"
-                title="至少3人成行"
-                @click="decrementQuantity"
+                title="最多10人成行"
               >
-                <i class="bi bi-dash-lg"></i>
+                <i class="bi bi-plus-lg"></i>
               </button>
-            </span>
-            <input
-              min="3"
-              max="10"
-              type="number"
-              value="3"
-              v-model="quantity"
-              class="form-control text-center rounded-0 border border-dark"
-              @input="checkMaxValue"
-            />
-            <button
-              type="button"
-              class="btn btn-outline-dark rounded-0"
-              @click="incrementQuantity"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="最多10人成行"
-            >
-              <i class="bi bi-plus-lg"></i>
-            </button>
-            <button type="button" class="btn btn-outline-dark rounded-0 ms-2">
-              <i class="bi bi-heart"></i>
-            </button>
-            <div class="d-flex align-items-center">
-              <i class="bi bi-trash"></i>
+              <button class="d-flex align-items-center"  type="button" @click="removeCartItem(cartItem.product.title,cartItem.id)">
+                <i class="bi bi-trash"></i>
+              </button>
             </div>
+            <!-- {{ cartItem.order.qty }} -->
           </div>
+
+          <hr />
         </div>
-        <hr />
       </div>
-    </div>
-    <div class="offcanvas-footer">
-      <hr />
-      <p>購買 {{ carts.length }} 項產品</p>
-      <h4 class="mt-4">總共：NT {{ thousand(totalPrice) }} 元</h4>
-      <div class="d-flex pe-8">
-        <a
-          class="btn-outline-square w-100 fs-5 mt-4 me-1"
-          href="#"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
-          >繼續預約</a
-        >
-        <router-link class="btn-square w-100 fs-5 ms-1 mt-4" type="button" to="/cart/checkProduct"
-          >直接結帳</router-link
-        >
+      <div class="offcanvas-footer">
+        <hr />
+        <p>購買 {{ carts.length }} 項產品</p>
+        <h4 class="mt-4">總共：NT {{ thousand(totalPrice) }} 元</h4>
+        <div class="d-flex pe-8">
+          <a
+            class="btn-outline-square w-100 fs-5 mt-4 me-1"
+            href="#"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasRight"
+            aria-controls="offcanvasRight"
+            >繼續預約</a
+          >
+          <router-link
+            class="btn-square mt-4 fs-5 w-100"
+            type="button"
+            :class="{ 'disabled-btn': !cartId }"
+            :to="{ name: 'checkProduct' }"
+            @click="saveCardId"
+            >直接結帳</router-link
+          >
+        </div>
       </div>
     </div>
   </div>
@@ -568,6 +582,10 @@ p {
     bottom: 16px;
     width: 400px;
   }
+  .disabled-btn {
+    pointer-events: none;
+    opacity: 0.5;
+  }
 }
 </style>
 
@@ -587,22 +605,16 @@ export default {
       newProductsContent: '',
       enabledProducts: [],
       carts: [],
-      quantity: 3
+      quantity: 3,
+      newQty: '',
+      newCarts: [],
+      cartId: null,
+      bsOffcanvas:null
     }
   },
   created() {
-    // 此做法可以取出動態路由，讓ajax取出資料
-    // console.log(this.$route)
-
     this.category = this.$route.params.category
     this.packageTitle = this.$route.params.title
-
-    // // const seed = this.$route.params.id;
-    // this.axios.get(`${api_url2}/products/${id}`).then(res=>
-    // {
-    //     console.log(res)
-    //     this.id = id;
-    // })
   },
   computed: {
     totalPrice() {
@@ -626,6 +638,7 @@ export default {
               this.enabledProducts.push(item)
             }
           })
+          // console.log(this.enabledProducts)
           this.getNewText()
         })
         .catch((err) => {
@@ -669,8 +682,8 @@ export default {
     isProductInCart(productId) {
       return this.carts.some((cartItem) => cartItem.product.id === productId)
     },
-
     addToCart(product_id, qty, price) {
+      this.getCart();
       const order = {
         product_id,
         qty,
@@ -678,26 +691,31 @@ export default {
         total: qty * price
       }
 
+      const cartId = this.cartId // 將cartId存入一個變數，以確保所有商品使用相同的cartId
+
       if (this.isProductInCart(product_id)) {
         // 如果產品已經在購物車中，更新數量
         const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
         existingCartItem.order.qty += qty
         existingCartItem.order.total = existingCartItem.order.qty * price
+        this.quantity = existingCartItem.order.qty
 
         this.axios
-          .put(`${api_url2}/carts/${existingCartItem.id}`, { data: existingCartItem.order })
+          .put(`${api_url2}/carts/${existingCartItem.id}`, {
+            data: { ...existingCartItem.order, cartId }
+          })
           .then((res) => {
-            console.log(res)
+            this.newCarts = res.data
+            this.cartId = this.newCarts.id
           })
           .catch((err) => {
-            alert(`${err.response.data.message}`)
+            alert(`${err.response}`)
           })
       } else {
         // 如果產品不在購物車中，新增一個新項目
         this.axios
-          .post(`${api_url2}/carts?_embed=products`, { data: order })
+          .post(`${api_url2}/carts?_embed=products`, { data: { ...order, cartId } })
           .then((res) => {
-            console.log(res)
             this.products.forEach((item) => {
               if (item.id === order.product_id) {
                 this.carts.push({
@@ -707,53 +725,30 @@ export default {
                 })
               }
             })
-            console.log(this.carts)
+            this.newCarts = res.data
+            this.cartId = this.newCarts.id
           })
           .catch((err) => {
-            alert(`${err.response.data.message}`)
+            console.log(err)
           })
       }
     },
-
     removeCartItem(productTitle, id) {
-      console.log(this.carts)
+      console.log(productTitle,id)
       this.axios
-        .delete(`${tapi_url2}/cart/${id}`)
+        .delete(`${api_url2}/carts/${id}`)
         .then((res) => {
           // console.log(res);
-          Swal.fire({
-            position: 'top',
-            icon: 'success',
-            title: `已刪除 <span style="color: red;">${productTitle}</span> 成功`,
-            showConfirmButton: false,
-            timer: 1500
-          })
+          alert(`已刪除成功`)
+          this.getCart();
+          this.bsOffcanvas.hide();
 
-          this.getCart()
+          // 返回上一個頁面
+          this.$router.go(0);
         })
         .catch((err) => {
-          // console.log(err);
-          alert(`${err.response.data.message}`)
-        })
-    },
-    deleteAllCarts() {
-      const url = `${api_url2}/carts`
-      this.axios
-        .delete(url)
-        .then((response) => {
-          // alert(response.data.message);
-          // alert("已全部刪除")
-          Swal.fire({
-            position: 'top',
-            icon: 'success',
-            title: '已全部刪除',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          this.getCart()
-        })
-        .catch((err) => {
-          alert(err.response.data.message)
+          // console.log(err.message)
+          alert(`${err.message}`)
         })
     },
     incrementQuantity() {
@@ -781,10 +776,27 @@ export default {
         // Now you can safely access the DOM elements
         $('[data-toggle="tooltip"]').tooltip()
       })
-    }
+    },
+    saveCardId() {
+      document.cookie = `cartId=${this.newCarts.id}; path=/;`
+    },
+    getCart() {
+      this.axios
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          // console.log(res);
+        })
+        .catch((err) => {
+          // console.log(err);
+          alert(`${err}`);
+        });
+    },
   },
   mounted() {
     this.getProducts()
+    this.getCart()
+    this.bsOffcanvas = new bootstrap.Offcanvas('#offcanvasRight')
+
     // this.initTooltip();
   }
 }
