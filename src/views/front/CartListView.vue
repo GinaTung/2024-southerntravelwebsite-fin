@@ -32,7 +32,7 @@
           <th style="width: 100px"></th>
           <th style="width: 150px">圖片</th>
           <th>行程名稱</th>
-          <th style="width: 180px">數量/單位</th>
+          <th style="width: 150px">數量/單位</th>
           <th style="width: 100px">單價</th>
           <th class="text-end" style="width: 100px">小計</th>
         </tr>
@@ -56,21 +56,22 @@
           <td>
             <div class="input-group input-group-sm">
               <div class="input-group my-3">
-                <button class="btn btn-outline-primary" type="button">-</button>
+                <button class="btn btn-outline-primary" type="button" :disabled="item.cartData.qty===3" v-if="item.cartData.qty > 3"> <i class="bi bi-dash-lg"></i></button>
                 <button
                   type="button"
-                  class="btn btn-outline-danger"
+                  class="btn btn-outline-danger" v-else
                   style="padding-left: 10px; padding-right: 10px"
                 >
                   <i class="bi bi-trash"></i>
                 </button>
                 <input
-                  min="1"
+                  min="3"
+                  max="10"
                   type="number"
                   class="form-control text-end"
                   v-model="item.cartData.qty"
                 />
-                <button class="btn btn-outline-primary" type="button">+</button>
+                <button class="btn btn-outline-primary" type="button"><i class="bi bi-plus-lg"></i></button>
               </div>
             </div>
           </td>
@@ -174,7 +175,7 @@ export default {
               this.cart = item
             }
           })
-          // console.log(this.cart)
+          console.log(this.cart)
           this.combineCart()
         })
         .catch((err) => {
@@ -221,7 +222,7 @@ export default {
     // console.log(this.$route)
     // console.log(document.cookie)
     this.cartId = this.getCookie('cartId') * 1
-    // console.log(this.cartId)
+    console.log(this.cartId)
   }
 }
 </script>
