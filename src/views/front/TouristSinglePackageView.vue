@@ -531,6 +531,7 @@
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasRight"
             aria-controls="offcanvasRight"
+            @click="addToCart(carts.product.id, quantity, carts.product.price)"
             >繼續預約</a
           >
           <router-link
@@ -606,7 +607,7 @@ export default {
       enabledProducts: [],
       carts: [],
       quantity: 3,
-      newQty: '',
+      newQty: 0,
       newCarts: [],
       cartId: null,
       bsOffcanvas:null
@@ -696,7 +697,7 @@ export default {
       if (this.isProductInCart(product_id)) {
         // 如果產品已經在購物車中，更新數量
         const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
-        existingCartItem.order.qty += qty
+        existingCartItem.order.qty = qty
         existingCartItem.order.total = existingCartItem.order.qty * price
         this.quantity = existingCartItem.order.qty
 
@@ -705,10 +706,12 @@ export default {
             data: { ...existingCartItem.order, cartId }
           })
           .then((res) => {
+            console.log(res);
             this.newCarts = res.data
             this.cartId = this.newCarts.id
           })
           .catch((err) => {
+            console.log(err);
             alert(`${err.response}`)
           })
       } else {
