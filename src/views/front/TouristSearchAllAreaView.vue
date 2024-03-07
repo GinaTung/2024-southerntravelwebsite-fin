@@ -56,7 +56,6 @@
                 to="/cart" type="button">預約套裝行程</router-link>
               </div>
           </div>
-
         </div>
       </div>
     </div>
