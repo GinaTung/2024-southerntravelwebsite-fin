@@ -56,10 +56,19 @@
           <td>
             <div class="input-group input-group-sm">
               <div class="input-group my-3">
-                <button class="btn btn-outline-primary" type="button" :disabled="item.cartData.qty===3" v-if="item.cartData.qty > 3"> <i class="bi bi-dash-lg"></i></button>
+                <button
+                  class="btn btn-outline-primary"
+                  type="button"
+                  :disabled="item.cartData.qty === 3"
+                  v-if="item.cartData.qty > 3"
+                  @click="decrementQuantity"
+                >
+                  <i class="bi bi-dash-lg"></i>
+                </button>
                 <button
                   type="button"
-                  class="btn btn-outline-danger" v-else
+                  class="btn btn-outline-danger"
+                  v-else
                   style="padding-left: 10px; padding-right: 10px"
                 >
                   <i class="bi bi-trash"></i>
@@ -70,8 +79,11 @@
                   type="number"
                   class="form-control text-end"
                   v-model="item.cartData.qty"
+                  @input="checkMaxValue"
                 />
-                <button class="btn btn-outline-primary" type="button"><i class="bi bi-plus-lg"></i></button>
+                <button class="btn btn-outline-primary" type="button" @click="incrementQuantity">
+                  <i class="bi bi-plus-lg"></i>
+                </button>
               </div>
             </div>
           </td>
@@ -87,13 +99,21 @@
           <td colspan="5" class="text-end text-success">預約</td>
           <td class="text-end text-success">{{ newCart.length }} 項行程</td>
         </tr>
-        <tr v-for="(item,index) in newCart" :key="item.id">
+        <tr v-for="(item, index) in newCart" :key="item.id">
           <td colspan="5" class="text-end">總計</td>
-          <td class="text-end" v-if="index ===0"> {{ thousand(item.cartData.total) }}</td>
-
+          <td class="text-end" v-if="index === 0">{{ thousand(item.cartData.total) }}</td>
         </tr>
       </tfoot>
     </table>
+    <div class="d-flex">
+      <div class="w-50"></div>
+      <div class="w-50 d-flex">
+        <a class="btn-outline-square w-100 fs-5 mt-4 me-1" href="/TouristPackage" type="button">繼續預約</a>
+        <router-link class="btn-square mt-4 fs-5 w-100" type="button" to="/cart/CartForm">下一步</router-link>
+  
+      </div>
+
+    </div>
   </div>
 </template>
 <style>
@@ -214,6 +234,25 @@ export default {
       })
 
       // console.log(this.newCart)
+    },
+    incrementQuantity() {
+      if (this.newCart.cartData.qty < 10) {
+        this.newCart.cartData.qty += 1
+      }
+    },
+    decrementQuantity() {
+      if (this.newCart.cartData.qty > 3) {
+        this.newCart.cartData.qty -= 1
+      }
+    },
+    checkMaxValue() {
+      // 檢查輸入值是否超過最大值
+      if (this.newCart.cartData.qty > 10) {
+        this.newCart.cartData.qty = 10
+      }
+      if (this.newCart.cartData.qty < 3) {
+        this.newCart.cartData.qty = 3
+      }
     }
   },
   mounted() {

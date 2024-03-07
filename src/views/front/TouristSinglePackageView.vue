@@ -717,7 +717,7 @@ export default {
       } else {
         // 如果產品不在購物車中，新增一個新項目
         this.axios
-          .post(`${api_url2}/carts?_embed=products`, { data: { ...order, cartId } })
+          .post(`${api_url2}/carts?_embed=products`, { data: { ...order } })
           .then((res) => {
             this.products.forEach((item) => {
               if (item.id === order.product_id) {

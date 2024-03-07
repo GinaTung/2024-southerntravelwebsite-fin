@@ -68,6 +68,21 @@ const router = createRouter({
               path: 'checkProduct',
               name: 'checkProduct',
               component: () => import('../views/front/CartListView.vue')
+            },
+            {
+              path: 'cartForm',
+              name: 'cartForm',
+              component: () => import('../views/front/CartFormView.vue')
+            },
+            {
+              path: 'payList',
+              name: 'payList',
+              component: () => import('../views/front/PayListView.vue')
+            },
+            {
+              path: 'orderDone',
+              name: 'orderDone',
+              component: () => import('../views/front/OrderDoneView.vue')
             }
           ]
         },
