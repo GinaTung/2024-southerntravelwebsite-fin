@@ -50,7 +50,7 @@
             </h2>
             <div
               id="collapseTwo"
-              class="accordion-collapse collapse show"
+              class="accordion-collapse collapse"
               data-bs-parent="#accordionExample"
             >
               <div class="accordion-body">
@@ -116,26 +116,26 @@ export default {
       if (!this.token) {
         alert(`目前未登入管理者身分，請重新登入`)
         this.$router.push({ path: '/admin/adminlogin' })
-      }else{
+      } else {
         this.axios
-        .post(`${api_url}/api/user/check`)
-        .then((res) => {
-          // 登入成功
-          this.userIsLoggedIn = true;
-        })
-        .catch((err) => {
-          // 登入失敗或驗證失敗
-          this.userIsLoggedIn = false;
-          alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
-          this.$router.push({ path: '/admin/adminlogin' })
-        });
+          .post(`${api_url}/api/user/check`)
+          .then((res) => {
+            // 登入成功
+            this.userIsLoggedIn = true
+          })
+          .catch((err) => {
+            // 登入失敗或驗證失敗
+            this.userIsLoggedIn = false
+            alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+            this.$router.push({ path: '/admin/adminlogin' })
+          })
       }
     }
   },
   mounted() {
     setTimeout(() => {
-      this.checkAdmin();
-    }, 500); // 3000 毫秒即為 3 秒
+      this.checkAdmin()
+    }, 500) // 3000 毫秒即為 3 秒
   }
 }
 </script>

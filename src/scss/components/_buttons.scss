@@ -21,6 +21,7 @@
     }
   }
 
+
   .btn-cerulean-blue{
     padding: 16px 69px;
     background: $primary-600;
@@ -62,6 +63,18 @@
     &:hover {
       background: $primary-400 !important;
       color: $white !important;
+    }
+  }
+  .btn-cerulean {
+    padding: 8px 24px;
+    background: $primary-600;
+    border-radius: 8px;
+    color: $white;
+    text-align: center;
+    &:hover {
+      background: $white;
+      color: $primary-600;
+      outline: 1px solid $primary-600 !important;
     }
   }
   .btn-golden-yellow {

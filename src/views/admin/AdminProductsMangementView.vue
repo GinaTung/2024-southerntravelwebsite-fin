@@ -337,20 +337,13 @@
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                          class="accordion-button bg-light"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseSecondDay"
-                          aria-expanded="true"
-                          aria-controls="collapseSecondDay"
+                        class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
                         >
                           行程資料-第二天
                         </button>
                       </h2>
                       <div
-                        id="collapseSecondDay"
-                        class="accordion-collapse collapse"
-                        data-bs-parent="#accordionSecondDay"
+                      id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionSecondDay"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -430,20 +423,13 @@
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                          class="accordion-button bg-light"
-                          type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseThirdDay"
-                          aria-expanded="true"
-                          aria-controls="collapseThirdDay"
+                        class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
                         >
                           行程資料-第三天
                         </button>
                       </h2>
                       <div
-                        id="collapseThirdDay"
-                        class="accordion-collapse collapse"
-                        data-bs-parent="#accordionThirdDay"
+                      id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionThirdDay"
                       >
                         <div class="accordion-body">
                           <div class="row">
