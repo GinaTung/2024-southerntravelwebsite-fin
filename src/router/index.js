@@ -13,13 +13,38 @@ const router = createRouter({
           component: () => import('../views/front/HomeView.vue')
         },
         {
+          path: 'TouristAttractions/:category/:title',
+          name: 'TouristSingleAttraction',
+          component: () => import('../views/front/TouristSingleAttractionView.vue')
+        },
+        {
           path: 'TouristAttractions',
+          redirect: '/TouristAttractions/all', // Redirect to '/newpage/a' by default
           name: 'TouristAttractions',
-          component: () => import('../views/front/TouristAttractionsView.vue')
+          component: () => import('../views/front/TouristAttractionsView.vue'),
+          children: [
+            {
+              path: 'all',
+              component: () => import('../views/front/TouristSearchAllAreaAttractionView.vue')
+            },
+            {
+              path: 'searchChiayi',
+              component: () => import('../views/front/TouristSearchChiayiAttractioniView.vue')
+            },
+            // Tainan, Kaohsiung
+            {
+              path: 'searchTainan',
+              component: () => import('../views/front/TouristSearchTainanAttractionView.vue')
+            },
+            {
+              path: 'searchKaohsiung',
+              component: () => import('../views/front/TouristSearchKaohsiungAttractionView.vue')
+            }
+          ]
         },
         {
           path: 'TouristPackage/:category/:title',
-          name:'TouristSinglePackage',
+          name: 'TouristSinglePackage',
           component: () => import('../views/front/TouristSinglePackageView.vue')
         },
         {
@@ -85,7 +110,7 @@ const router = createRouter({
               component: () => import('../views/front/OrderDoneView.vue')
             }
           ]
-        },
+        }
       ]
     },
     {

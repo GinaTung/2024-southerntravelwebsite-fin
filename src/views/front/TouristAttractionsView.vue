@@ -15,75 +15,39 @@
             <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
             <ul class="nav flex-column attractions-select">
               <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   data-name="全部"
                   aria-current="page"
-                  href="#"
-                  >全部區域<span class="attractionsNum"></span>
-                </a>
+                  to="/TouristAttractions/all"
+                  >全部區域<span class="">{{ enabledAttractions.length }}</span
+                ></router-link>
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  href="#"
+                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  to="/TouristAttractions/searchChiayi"
                   data-name="嘉義"
-                  >嘉義<span class="attractionsNum2"></span
-                ></a>
+                  >嘉義<span class="">{{ searchChiayi.length }}</span
+                ></router-link>
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  href="#"
+                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  to="/TouristAttractions/searchTainan"
                   data-name="台南"
-                  >台南<span class="attractionsNum2">0</span></a
-                >
+                  >台南<span class="">{{ serchTainan.length }}</span
+                ></router-link>
               </li>
               <li class="nav-item">
-                <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  to="/TouristAttractions/searchKaohsiung"
                   data-name="高雄"
-                  >高雄<span class="attractionsNum2">0</span></a
-                >
+                  >高雄<span class="">{{ searchKaohsiung.length }}</span
+                ></router-link>
               </li>
             </ul>
           </div>
         </div>
         <div class="col-12 col-lg-9">
-          <div class="row g-3">
-            <div
-              class="col-4"
-              v-for="attractionItem in attractions"
-              :key="attractionItem.id"
-            >
-              <div class="card card-att h-100">
-                <span class="tag text-white">{{ attractionItem.category }}</span>
-                <div class="card-att-img">
-                  <img :src="attractionItem.imageUrl" class="card-img-top img-fluid" alt="" />
-                </div>
-                <div class="heart3">
-                  <i class="bi bi-heart heart-click"></i>
-                </div>
-                <div style="transform: rotate(0)">
-                  <div class="card-body card-body-att">
-                    <div
-                      class="card-title d-flex justify-content-between align-items-center card-title-att"
-                    >
-                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att">
-                        {{ attractionItem.title }}
-                      </h4>
-                    </div>
-                    <p class="card-text card-font-truncate">
-                      {{ attractionItem.description }}
-                    </p>
-                  </div>
-                  <div class="card-footer text-end border-0">
-                    <a href="#" class="fs-5 stretched-link">more</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <router-view></router-view>
         </div>
       </div>
     </div>
@@ -95,43 +59,92 @@ const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   data() {
     return {
-      attractions: []
+      attractions: [],
+      enabledAttractions: [],
+      searchChiayi:[],
+      serchTainan:[],
+      searchKaohsiung:[]
     }
   },
   methods: {
-    checkAdmin() {
+    getAttractions() {
       this.axios
-        .post(`${api_url2}/users`)
+        .get(`${api_url2}/attractions`)
         .then((res) => {
           // console.log(res)
-          // alert(`驗證成功`);
-          // this.getAttractions()
+          this.attractions = res.data
+          this.attractions.forEach((item) => {
+            if (item.is_enabled === 1) {
+              // console.log(item)
+              this.enabledAttractions.push(item)
+            }
+          })
         })
         .catch((err) => {
           // console.log(err)
           alert(`${err.message}`)
         })
     },
-    getAttractions() {
+    searchAttractions(){
       this.axios
-        .get(`${api_url2}/attractions`)
+        .get(`${api_url2}/attractions?category=嘉義`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.attractions = res.data
+
+          this.attractions.forEach((item) => {
+            if (item.is_enabled === 1) {
+              // console.log(item)
+              this.searchChiayi.push(item)
+            }
+          })
+          // console.log(this.searchChiayi);
         })
         .catch((err) => {
           // console.log(err)
           alert(`${err.message}`)
         })
+        this.axios
+          .get(`${api_url2}/attractions?category=台南`)
+          .then((res) => {
+            // console.log(res)
+            this.attractions = res.data
+  
+            this.attractions.forEach((item) => {
+              if (item.is_enabled === 1) {
+                // console.log(item)
+                this.serchTainan.push(item)
+              }
+            })
+            // console.log(this.serchTainan)
+          })
+          .catch((err) => {
+            // console.log(err)
+            alert(`${err.message}`)
+          })
+          this.axios
+          .get(`${api_url2}/attractions?category=高雄`)
+          .then((res) => {
+            // console.log(res)
+            this.attractions = res.data
+  
+            this.attractions.forEach((item) => {
+              if (item.is_enabled === 1) {
+                // console.log(item)
+                this.searchKaohsiung.push(item)
+              }
+            })
+            // console.log(this.searchKaohsiung)
+          })
+          .catch((err) => {
+            // console.log(err)
+            alert(`${err.message}`)
+          })
     }
   },
   mounted() {
-    //取得cookie資料
-    // const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    // this.axios.defaults.headers.common['Authorization'] = token
-    // console.log(token)
-    // this.checkAdmin()
     this.getAttractions()
+    this.searchAttractions()
   }
 }
 </script>

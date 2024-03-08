@@ -77,28 +77,6 @@ export default {
     }
   },
   methods: {
-    checkAdmin() {
-      this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      this.axios.defaults.headers.common['Authorization'] = this.token
-      if (!this.token) {
-        alert(`目前未登入管理者身分，請重新登入`)
-        this.$router.push({ path: '/admin/adminlogin' })
-      } else {
-        console.log(token, user)
-        this.axios
-          .post(`${api_url2}/api/users/${user}`)
-          .then((res) => {
-            // 登入成功
-            this.userIsLoggedIn = true
-          })
-          .catch((err) => {
-            // 登入失敗或驗證失敗
-            this.userIsLoggedIn = false
-            alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
-            this.$router.push({ path: '/admin/adminlogin' })
-          })
-      }
-    },
     getProducts() {
       this.axios
         .get(`${api_url2}/products`)
@@ -211,11 +189,6 @@ export default {
     }
   },
   mounted() {
-    //取得cookie資料
-    // const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-    // this.axios.defaults.headers.common['Authorization'] = token
-    // console.log(token)
-    // this.checkAdmin()
     this.searchProducts()
     this.getProducts()
   }
