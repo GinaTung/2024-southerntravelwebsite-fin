@@ -181,9 +181,7 @@ export default {
         })
     },
     getProduct(){
-      // console.log(this.productsLength);
       this.product = this.products[this.productsLength-1]
-      // console.log(this.products[this.productsLength-1]);
     }
   },
   mounted() {
