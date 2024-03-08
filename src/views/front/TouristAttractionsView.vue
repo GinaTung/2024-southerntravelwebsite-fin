@@ -116,7 +116,7 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          console.log(res)
+          // console.log(res)
           this.attractions = res.data
         })
         .catch((err) => {
