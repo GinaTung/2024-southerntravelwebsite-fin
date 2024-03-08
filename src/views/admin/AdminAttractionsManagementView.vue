@@ -17,9 +17,9 @@
               <th width="100">上架</th>
               <th width="120">分類</th>
               <th>景點名稱</th>
-              <th>標籤</th>
-              <th width="120" class="text-end">原價</th>
-              <th width="120" class="text-end">售價</th>
+              <th>標籤1</th>
+              <th class="text-end">標籤2</th>
+
               <th width="120"></th>
             </tr>
           </thead>
@@ -33,8 +33,7 @@
               <td>{{ attractionItem.category }}</td>
               <td>{{ attractionItem.title }}</td>
               <td>{{ attractionItem.tag_1 }}</td>
-              <td class="text-end">{{ attractionItem.origin_price }}</td>
-              <td class="text-end">{{ attractionItem.price }}</td>
+              <td class="text-end">{{ attractionItem.tag_2 }}</td>
 
               <td>
                 <div class="btn-group">
@@ -193,31 +192,42 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="origin_price" class="form-label">原價</label>
+                  <label for="origin_price" class="form-label">套裝方案連結</label>
                   <input
                     id="origin_price"
-                    type="number"
-                    v-model="tempProduct.origin_price"
+                    type="text"
+                    v-model="tempProduct.aboutAroductLink"
                     min="0"
                     class="form-control"
-                    placeholder="請輸入原價"
-                  />
-                </div>
-                <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">售價</label>
-                  <input
-                    id="price"
-                    type="number"
-                    v-model="tempProduct.price"
-                    min="0"
-                    class="form-control"
-                    placeholder="請輸入售價"
+                    placeholder="請輸入套裝方案連結"
                   />
                 </div>
               </div>
 
               <hr />
-
+              <div class="row">
+                <div class="mb-3">
+                  <label for="imgMap" class="form-label">位置</label>
+                  <input
+                    id="imgMap"
+                    type="text"
+                    v-model="tempProduct.imgMap"
+                    class="form-control"
+                    placeholder="請輸入位置"
+                  />
+                  <img :src="tempProduct.imgMap" alt="" class="img-fluid my-2" />
+                </div>
+              </div>
+              <div class="mb-3 col">
+                  <label for="timeOpen" class="form-label">開放時間</label>
+                  <textarea
+                    id="timeOpen"
+                    type="text"
+                    v-model="tempProduct.timeOpen"
+                    class="form-control"
+                    placeholder="請輸入開放時間"
+                  ></textarea>
+                </div>
               <div class="mb-3">
                 <label for="description" class="form-label">產品描述</label>
                 <textarea
@@ -230,13 +240,13 @@
                 </textarea>
               </div>
               <div class="mb-3">
-                <label for="content" class="form-label">說明內容</label>
+                <label for="content" class="form-label">交通資訊</label>
                 <textarea
                   id="description"
                   type="text"
                   v-model="tempProduct.content"
                   class="form-control"
-                  placeholder="請輸入說明內容"
+                  placeholder="請輸入交通資訊"
                 >
                 </textarea>
               </div>
@@ -260,7 +270,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
+          <button type="button" class="btn btn-primary" @click="updateAttractions">確認</button>
         </div>
       </div>
     </div>
@@ -351,7 +361,7 @@ const api_url2 = import.meta.env.VITE_API_URL2
           this.attractions = res.data;
         })
         .catch((arr) => {
-          alert(`${err.data.message}`)
+          alert(`${err}`)
         })
     },
     openModal(status, attractionItem) {
@@ -374,18 +384,57 @@ const api_url2 = import.meta.env.VITE_API_URL2
         this.modalDel.show()
       }
     },
+        //新增
+    // const newProduct = this.tempProduct
+    // this.$data.products.push(newProduct)
+    updateAttractions() {
+      // const filteredProducts = this.attractions.map((product) => this.filterProduct(product))
+      // console.log(filteredProducts)
+      if (this.isNew) {
+        this.axios
+          .post(`${api_url2}/attractions`, this.tempProduct)
+          .then((res) => {
+            // console.log(res)
+            alert(`已建立產品`)
+            this.getAttractions()
+            this.tempProduct = {}
+            this.modalProduct.hide()
+          })
+          .catch((err) => {
+            console.log(err);
+            alert(`${err}`)
+          })
+      } else if (!this.isNew) {
+        //更新
+        this.axios
+          .put(`${api_url2}/attractions/${this.tempProduct.id}`, this.tempProduct)
+          .then((res) => {
+            // console.log(res);
+            alert(`已更新產品`)
+            this.getAttractions()
+
+            this.tempProduct = {}
+            this.modalProduct.hide()
+          })
+          .catch((err) => {
+            // console.log(err);
+            alert(`${err}`)
+          })
+      }
+    },
     deleteAttraction() {
       this.axios
         .delete(`${api_url2}/attractions/${this.tempProduct.id}`, this.tempProduct)
         .then((res) => {
           console.log(res)
+          alert(`已刪除成功`)
           this.getAttractions()
           this.tempProduct = {}
           this.modalDel.hide()
         })
         .catch((err) => {
           // console.log(err);
-          alert(`${err.data.message}`)
+          alert(`${err}`)
         })
     },
     upload() {

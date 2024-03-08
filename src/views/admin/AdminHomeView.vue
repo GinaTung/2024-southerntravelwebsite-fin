@@ -17,7 +17,7 @@
                 aria-expanded="true"
                 aria-controls="collapseOne"
               >
-                Accordion Item #1
+               最新景點建立資訊
               </button>
             </h2>
             <div
@@ -26,12 +26,20 @@
               data-bs-parent="#accordionExample"
             >
               <div class="accordion-body">
-                <strong>This is the first item's accordion body.</strong> It is shown by default,
-                until the collapse plugin adds the appropriate classes that we use to style each
-                element. These classes control the overall appearance, as well as the showing and
-                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                our default variables. It's also worth noting that just about any HTML can go within
-                the <code>.accordion-body</code>, though the transition does limit overflow.
+                <div class="row">
+                  <div class="col-12 col-md-5">
+                    <img :src="attraction.imageUrl" alt="" class="img-fluid">
+                  </div>
+                  <div class="col-12 col-md-7">
+                    <strong class="fs-5">景點名稱：{{ attraction.title }}</strong> <br>
+                    <strong class="fs-6">分類：{{ attraction.category }}</strong> <br>
+                    <div class="d-flex">
+                      <strong class="fs-6">上架：</strong>
+                      <strong class="fs-6" :class="{ 'text-success': attraction.is_enabled === 1, 'text-danger': attraction.is_enabled === 0 }">{{ attraction.is_enabled ? "啟用" : "未啟用"}}</strong>
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -45,7 +53,7 @@
                 aria-expanded="false"
                 aria-controls="collapseTwo"
               >
-                Accordion Item #2
+                最新產品建立資訊
               </button>
             </h2>
             <div
@@ -54,12 +62,21 @@
               data-bs-parent="#accordionExample"
             >
               <div class="accordion-body">
-                <strong>This is the second item's accordion body.</strong> It is hidden by default,
-                until the collapse plugin adds the appropriate classes that we use to style each
-                element. These classes control the overall appearance, as well as the showing and
-                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                our default variables. It's also worth noting that just about any HTML can go within
-                the <code>.accordion-body</code>, though the transition does limit overflow.
+                <div class="row">
+                  <div class="col-12 col-md-5">
+                    <!-- {{product}} -->
+                    <img :src="product.imageUrl" alt="" class="img-fluid">
+                  </div>
+                  <div class="col-12 col-md-7">
+                    <strong class="fs-5">景點名稱：{{ product.title }}</strong> <br>
+                    <strong class="fs-6">分類：{{ product.category }}</strong> <br>
+                    <div class="d-flex">
+                      <strong class="fs-6">上架：</strong>
+                      <strong class="fs-6" :class="{ 'text-success': product.is_enabled === 1, 'text-danger': product.is_enabled === 0 }">{{ product.is_enabled ? "啟用" : "未啟用"}}</strong>
+                    </div>
+
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -73,7 +90,7 @@
                 aria-expanded="false"
                 aria-controls="collapseThree"
               >
-                Accordion Item #3
+                留言
               </button>
             </h2>
             <div
@@ -82,12 +99,7 @@
               data-bs-parent="#accordionExample"
             >
               <div class="accordion-body">
-                <strong>This is the third item's accordion body.</strong> It is hidden by default,
-                until the collapse plugin adds the appropriate classes that we use to style each
-                element. These classes control the overall appearance, as well as the showing and
-                hiding via CSS transitions. You can modify any of this with custom CSS or overriding
-                our default variables. It's also worth noting that just about any HTML can go within
-                the <code>.accordion-body</code>, though the transition does limit overflow.
+                目前無資料
               </div>
             </div>
           </div>
@@ -106,7 +118,13 @@ export default {
   },
   data() {
     return {
-      token: ''
+      token: '',
+      attractions: [],
+      attraction:[],
+      attractionsLength:0,
+      products:[],
+      productsLength:0,
+      product:[],
     }
   },
   methods: {
@@ -130,12 +148,50 @@ export default {
             this.$router.push({ path: '/admin/adminlogin' })
           })
       }
+    },
+    getAttractions() {
+      this.axios
+        .get(`${api_url2}/attractions`)
+        .then((res) => {
+          // console.log(res.data)
+          this.attractions = res.data;
+          this.attractionsLength =this.attractions.length;
+          // console.log(this.attractionsLength);
+          this.getAttraction()
+        })
+        .catch((arr) => {
+          alert(`${err}`)
+        })
+    },
+    getAttraction() {
+      // console.log(this.attractionsLength);
+      this.attraction = this.attractions[this.attractionsLength-1]
+    },
+    getProducts() {
+      this.axios
+        .get(`${api_url2}/products`)
+        .then((res) => {
+          // console.log(res)
+          this.products = res.data
+          this.productsLength =this.products.length;
+          this.getProduct()
+        })
+        .catch((arr) => {
+          alert(`${err.data.message}`)
+        })
+    },
+    getProduct(){
+      // console.log(this.productsLength);
+      this.product = this.products[this.productsLength-1]
+      // console.log(this.products[this.productsLength-1]);
     }
   },
   mounted() {
     setTimeout(() => {
       this.checkAdmin()
     }, 500) // 3000 毫秒即為 3 秒
+    this.getAttractions()
+    this.getProducts()
   }
 }
 </script>
