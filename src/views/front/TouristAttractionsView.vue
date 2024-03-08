@@ -57,9 +57,9 @@
               :key="attractionItem.id"
             >
               <div class="card card-att h-100">
-                <span class="tag text-white">{{ attractionItem.author }}</span>
+                <span class="tag text-white">{{ attractionItem.category }}</span>
                 <div class="card-att-img">
-                  <img :src="attractionItem.image" class="card-img-top img-fluid" alt="" />
+                  <img :src="attractionItem.imageUrl" class="card-img-top img-fluid" alt="" />
                 </div>
                 <div class="heart3">
                   <i class="bi bi-heart heart-click"></i>
@@ -116,7 +116,7 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          // console.log(res)
+          console.log(res)
           this.attractions = res.data
         })
         .catch((err) => {
