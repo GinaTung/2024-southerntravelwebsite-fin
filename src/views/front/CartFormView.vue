@@ -227,7 +227,8 @@ export default {
           comment:'',
           shippingMethod:''
         },
-      shippingMethod:['超商取貨','宅配']
+      shippingMethod:['超商取貨','宅配'],
+      product_id:''
     }
   },
   watch: {
@@ -255,6 +256,7 @@ export default {
             }
           })
           // console.log(this.product)
+          this.product_id = this.cart.data.product_id
         })
         .catch((err) => {
           console.log(err)

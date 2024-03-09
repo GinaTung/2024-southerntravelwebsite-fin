@@ -53,10 +53,10 @@
           </button>
         </p>
         <div class="collapse show" id="collapseExample" ref="headerCollapse" v-show="isOpen">
-          <div class="card card-body rounded-0" style="height: 300px;">
+          <div class="card card-body rounded-0 order-h-size">
             <div class="row py-10">
               <div class="col-12 col-md-5">
-                <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100" />
+                <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100 pb-4" />
               </div>
               <div class="col-12 col-md-7">
                 <h3 class="mb-4 fs-5">套裝行程名稱：{{ product.title }}</h3>
@@ -166,6 +166,15 @@
 .border-top {
   border-radius: 12px 12px 0 0;
 }
+.order-h-size{
+  height: 300px;
+}
+@media (max-width: 992px) {
+  .order-h-size{
+    height: 600px !important;
+}
+
+}
 </style>
 <script>
 import Collapse from 'bootstrap/js/dist/collapse'
@@ -185,7 +194,8 @@ export default {
       shoppingData: [],
       user: {
         payMethod: 'creditCard'
-      }
+      },
+      product_id:''
     }
   },
   watch: {
@@ -217,6 +227,7 @@ export default {
             }
           })
           // console.log(this.product)
+          this.product_id = this.cart.data.product_id;
         })
         .catch((err) => {
           console.log(err)

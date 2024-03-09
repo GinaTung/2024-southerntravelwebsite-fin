@@ -174,7 +174,8 @@ export default {
       cartId: null,
       products: [],
       enabledProducts: [],
-      newCart: []
+      newCart: [],
+      product_id:''
     }
   },
   methods: {
@@ -195,8 +196,9 @@ export default {
               this.cart = item
             }
           })
-          console.log(this.cart)
+          // console.log(this.cart)
           this.combineCart()
+          this.product_id =this.cart.data.product_id;
         })
         .catch((err) => {
           console.log(err)
@@ -261,7 +263,7 @@ export default {
     // console.log(this.$route)
     // console.log(document.cookie)
     this.cartId = this.getCookie('cartId') * 1
-    console.log(this.cartId)
+    // console.log(this.cartId)
   }
 }
 </script>

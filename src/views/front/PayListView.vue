@@ -50,7 +50,7 @@
         <div class="card card-body rounded-0">
           <div class="row p-10">
             <div class="col-12 col-md-4">
-              <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100" />
+              <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100 pb-4" />
             </div>
             <div class="col-12 col-md-8">
               <h3 class="mb-4">套裝行程名稱：{{ product.title }}</h3>
@@ -259,7 +259,8 @@ export default {
       shoppingData: [],
       user: {
         payMethod: '信用卡'
-      }
+      },
+      product_id:''
     }
   },
   watch: {
@@ -291,6 +292,7 @@ export default {
             }
           })
           // console.log(this.product)
+          this.product_id = this.cart.data.product_id;
         })
         .catch((err) => {
           console.log(err)
