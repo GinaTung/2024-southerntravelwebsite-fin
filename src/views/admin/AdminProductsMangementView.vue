@@ -213,6 +213,20 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
+                  <label for="link" class="form-label">連結</label>
+                  <input
+                    id="link"
+                    type="text"
+                    v-model="tempProduct.link"
+                    class="form-control"
+                    placeholder="請輸入標籤"
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-md-6">
                   <label for="origin_price" class="form-label">原價</label>
                   <input
                     id="origin_price"

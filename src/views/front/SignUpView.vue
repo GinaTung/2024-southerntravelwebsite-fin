@@ -1,10 +1,10 @@
 <template>
-  <div class="container d-flex justify-content-center flex-column vh-85">
+  <div class="container py-10 py-lg-30">
     <div class="row justify-content-center align-items-cneter">
       <div class="col-6">
-        <h1 class="h3 mb-3">會員註冊</h1>
+        <h1 class="h3 mb-4">會員註冊</h1>
         <form id="form" class="form-signin" @submit.prevent="signup">
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-4">
             <input
               type="text"
               class="form-control"
@@ -15,7 +15,7 @@
             />
             <label for="username">姓名</label>
           </div>
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-4">
             <input
               type="email"
               class="form-control"
@@ -27,7 +27,7 @@
             />
             <label for="useremail">Email address</label>
           </div>
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-4">
             <input
               type="password"
               class="form-control"
@@ -39,7 +39,7 @@
             />
             <label for="userpassword">Password</label>
           </div>
-          <div class="form-floating mb-3">
+          <div class="form-floating mb-4">
             <input
               type="tel"
               class="form-control"
