@@ -799,7 +799,6 @@ export default {
     this.getProducts()
     this.getCart()
     this.bsOffcanvas = new bootstrap.Offcanvas('#offcanvasRight')
-
     // this.initTooltip();
   }
 }
