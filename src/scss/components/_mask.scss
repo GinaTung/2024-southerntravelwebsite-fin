@@ -114,14 +114,14 @@
       // min-height: 33.5%;
       // height: 170px;
       @include pc-lg {
-        height: 400px;
+        height: 400px !important;
       }
     }
     .img-size-attractions-2 {
       // min-height: 65%;
       // height: 460px;
       @include pc-lg {
-        height: 400px;
+        height: 400px !important;
       }
     }
   }
