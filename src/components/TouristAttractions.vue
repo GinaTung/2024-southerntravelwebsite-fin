@@ -16,7 +16,7 @@
               alt="高跟鞋教堂"
             />
             <a href="https://ginatung.github.io/2024-southerntravelwebsite-fin/#/TouristAttractions/%E5%98%89%E7%BE%A9/%E9%AB%98%E8%B7%9F%E9%9E%8B%E6%95%99%E5%A0%82" class="stretched-link">
-              <div class="mask  d-none d-sm-flex flex-column">
+              <div class="mask  d-none d-sm-flex">
                 <p class="fs-5 fs-xl-3 fw-bold mb-4">高跟鞋教堂</p>
                 <p class="fs-6 fs-xl-5">
                   高跟鞋教堂高度約17m，寬度約11m，主結構由1,269根鋼架組成，外表共約320餘片玻璃，造型相當亮麗美觀，其設計與裝設不僅是全臺第一，更是全世界唯一。

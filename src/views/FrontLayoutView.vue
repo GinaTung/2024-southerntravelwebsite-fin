@@ -54,6 +54,9 @@
           <li class="nav-item">
             <a href="#" @click="logout()" class="btn-outline-turquoise">登出</a>
           </li>
+          <li class="nav-item">
+            <a href="#" class="btn-outline-turquoise ms-3">會員資料</a>
+          </li>
         </ul>
       </div>
     </div>

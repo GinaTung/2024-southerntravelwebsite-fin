@@ -3,7 +3,7 @@
     <div class="container py-10 py-lg-30">
       <p class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊方案</p>
       <p class="fs-6 fs-lg-5 text-center mb-5 mb-lg-20">Southern tourist attractions</p>
-      <div class="row row-cols-1 row-cols-md-2 row-col-lg-3 g-4">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <div class="col" v-for="item in enabledProducts" :key="item.id">
           <div class="card card-att h-100">
             <span class="tag text-white">{{ item.category }}</span>

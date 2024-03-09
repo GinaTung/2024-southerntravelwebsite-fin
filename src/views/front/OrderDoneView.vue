@@ -32,72 +32,77 @@
         </ol>
       </div>
     </div>
-    <div class="mb-4">
-      <p class="d-grid gap-2">
-        <button
-          class="btn btn-primary-600 border-top"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseExample"
-          aria-expanded="false"
-          aria-controls="collapseExample"
-          @click="toggleOpen"
-        >
-          總計：{{ cartTotal }}元<br />購買清單
-          <i class="bi bi-chevron-down" v-if="isOpen === false"></i>
-          <i class="bi bi-chevron-up" v-else></i>
-        </button>
-      </p>
-      <div class="collapse" id="collapseExample" ref="headerCollapse" v-show="isOpen">
-        <div class="card card-body rounded-0">
-          <div class="row p-10">
-            <div class="col-12 col-md-4">
-              <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100" />
-            </div>
-            <div class="col-12 col-md-8">
-              <h3 class="mb-4">套裝行程名稱：{{ product.title }}</h3>
-              <h3 class="mb-4">單價：{{ thousand(product.price) }}</h3>
-              <h3 class="mb-4">總計：{{ thousand(cartTotal) }}</h3>
-              <router-link
-                :to="{
-                  path: '/TouristPackage/' + product.category + '/' + product.title
-                }"
-                class="btn-square px-2 px-md-3 w-50"
-                type="button"
-                >查看更多</router-link
-              >
+    <div class="text-center mb-10">
+      <p class="fs-4"><i class="bi bi-check-circle-fill text-success"></i>感謝您！您的訂單已建立完成</p>
+    </div>
+    <div class="row">
+      <div class="mb-4 col-12 col-md-6">
+        <p class="d-grid gap-2">
+          <button
+            class="btn btn-primary-600 border-top"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseExample"
+            aria-expanded="true"
+            aria-controls="collapseExample"
+            @click="toggleOpen"
+          >
+            總計：{{ cartTotal }}元<br />購買清單
+            <i class="bi bi-chevron-down" v-if="isOpen === false"></i>
+            <i class="bi bi-chevron-up" v-else></i>
+          </button>
+        </p>
+        <div class="collapse show" id="collapseExample" ref="headerCollapse" v-show="isOpen">
+          <div class="card card-body rounded-0" style="height: 300px;">
+            <div class="row py-10">
+              <div class="col-12 col-md-5">
+                <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100" />
+              </div>
+              <div class="col-12 col-md-7">
+                <h3 class="mb-4 fs-5">套裝行程名稱：{{ product.title }}</h3>
+                <h3 class="mb-4 fs-5">單價：{{ thousand(product.price) }}</h3>
+                <h3 class="mb-4 fs-5">總計：{{ thousand(cartTotal) }}</h3>
+                <router-link
+                  :to="{
+                    path: '/TouristPackage/' + product.category + '/' + product.title
+                  }"
+                  class="btn-square px-2 px-md-3 w-50"
+                  type="button"
+                  >查看更多</router-link
+                >
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="mb-4">
-      <p class="d-grid gap-2">
-        <button
-          class="btn btn-primary-600 border-top"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#collapseOrder"
-          aria-expanded="false"
-          aria-controls="collapseOrder"
-          @click="toggleOpenOrder"
-        >
-          訂單及運送資料
-          <i class="bi bi-chevron-down" v-if="isOrderOpen === false"></i>
-          <i class="bi bi-chevron-up" v-else></i>
-        </button>
-      </p>
-      <div class="collapse" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
-        <div class="card card-body rounded-0">
-          <div class="row p-10">
-            <div class="col-12 col-md-5">
-              <h5>收件人名字：{{ shoppingData.name }}</h5>
-              <h5>收件人電話：{{ shoppingData.tel }}</h5>
-              <h5>備註：{{ shoppingData.comment }}</h5>
-            </div>
-            <div class="col-12 col-md-7">
-              <h5>收件人地址：{{ shoppingData.address }}</h5>
-              <h5>運送方式：{{ shoppingData.shippingMethod }}</h5>
+      <div class="mb-4 col-12 col-md-6">
+        <p class="d-grid gap-2">
+          <button
+            class="btn btn-primary-600 border-top"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#collapseOrder"
+            aria-expanded="true"
+            aria-controls="collapseOrder"
+            @click="toggleOpenOrder"
+          >
+            訂單及運送資料<br>
+            <i class="bi bi-chevron-down" v-if="isOrderOpen === false"></i>
+            <i class="bi bi-chevron-up" v-else></i>
+          </button>
+        </p>
+        <div class="collapse show" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
+          <div class="card card-body rounded-0" style="height: 300px;">
+            <div class="row py-10">
+              <div class="col-12 col-md-7">
+                <h5 class="mb-4">收件人名字：{{ shoppingData.name }}</h5>
+                <h5 class="mb-4">收件人電話：{{ shoppingData.tel }}</h5>
+                <h5 class="mb-4">備註：{{ shoppingData.comment }}</h5>
+              </div>
+              <div class="col-12 col-md-5">
+                <h5 class="mb-4">收件人地址：{{ shoppingData.address }}</h5>
+                <h5 class="mb-4">運送方式：{{ shoppingData.shippingMethod }}</h5>
+              </div>
             </div>
           </div>
         </div>
@@ -171,8 +176,8 @@ export default {
       text: 123,
       cartId: 0,
       cart: [],
-      isOpen: false,
-      isOrderOpen: false,
+      isOpen: true,
+      isOrderOpen: true,
       headerCollapse: {},
       products: [],
       product: {},

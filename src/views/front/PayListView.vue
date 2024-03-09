@@ -111,6 +111,7 @@
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
+              value="貨到付款"
               v-model="user.payMethod"
             />
             <label class="form-check-label" for="flexRadioDefault1"> 貨到付款</label>
@@ -121,13 +122,14 @@
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault2"
+              value="信用卡"
               v-model="user.payMethod"
               checked
             />
-            <label class="form-check-label" for="flexRadioDefault2"> 信用卡 </label>
+            <label class="form-check-label" for="flexRadioDefault2">信用卡</label>
           </div>
         </div>
-        <div v-if="user.payMethod === 'creditCard'">
+        <div v-if="user.payMethod === '信用卡'">
             <label for="floatingAddress" class="fs-5 mb-4">信用卡卡號</label>
             <div class="row g-3 d-flex mb-4">
               <div class="col-3 d-flex">
@@ -256,7 +258,7 @@ export default {
       cartTotal: 0,
       shoppingData: [],
       user: {
-        payMethod: 'creditCard'
+        payMethod: '信用卡'
       }
     }
   },
