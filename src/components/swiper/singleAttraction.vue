@@ -59,7 +59,7 @@ import '../../scss/components/_singleAttraction.scss';
 
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 
-export default (await import('vue')).defineComponent({
+export default {
     components: {
       Swiper,
       SwiperSlide,
@@ -77,5 +77,5 @@ export default (await import('vue')).defineComponent({
         modules: [FreeMode, Navigation, Thumbs],
       };
     },
-  });
+  };
 </script>
