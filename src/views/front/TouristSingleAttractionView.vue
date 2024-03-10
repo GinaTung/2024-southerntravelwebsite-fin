@@ -35,7 +35,8 @@
         </li>
       </ol>
     </nav>
-    <div
+    <singleAttraction></singleAttraction>
+    <!-- <div
       class="intr-title d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-3"
     >
       <span class="fs-3 me-2 fw-bold ps-3">{{ category }}</span>
@@ -110,7 +111,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <style>
@@ -128,7 +129,12 @@ p {
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import singleAttraction from "@/components/swiper/singleAttraction.vue"
+
 export default {
+  components:{
+    singleAttraction
+  },
   data() {
     return {
       category: '',
