@@ -8,12 +8,34 @@
         <li class="breadcrumb-item" aria-current="page">
           <router-link
             v-if="fullPath !== '/TouristPackage'"
-            :to="{ path: '/TouristPackage' }" exact
-      active-class="active-link"
+            :to="{ path: '/TouristPackage' }"
+            exact
+            active-class="active-link"
           >
             南部旅遊景點
           </router-link>
           <span v-else> 南部旅遊景點 </span>
+        </li>
+        <li class="breadcrumb-item d-lg-none" v-if="currentURL === '/TouristPackage/all'">
+          <router-link to="/TouristPackage/all">全部</router-link>
+        </li>
+        <li
+          class="breadcrumb-item d-lg-none"
+          v-else-if="currentURL === '/TouristPackage/searchTainan'"
+        >
+          <router-link to="/TouristPackage/searchTainan">台南</router-link>
+        </li>
+        <li
+          class="breadcrumb-item d-lg-none"
+          v-else-if="currentURL === '/TouristPackage/searchChiayi'"
+        >
+          <router-link to="/TouristPackage/searchChiayi">嘉義</router-link>
+        </li>
+        <li
+          class="breadcrumb-item d-lg-none"
+          v-else-if="currentURL === '/TouristPackage/searchKaohsiung'"
+        >
+          <router-link to="/TouristPackage/searchKaohsiung">高雄</router-link>
         </li>
       </ol>
     </nav>
@@ -24,33 +46,37 @@
             <p class="fs-4 p-5 bg-primary-500 text-white rounded-top">地區篩選</p>
             <ul class="nav flex-column">
               <li class="nav-item">
-                <router-link class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   data-name="全部"
                   aria-current="page"
                   to="/TouristPackage/all"
-                  >全部區域<span class="">{{ enabledProducts.length }}</span
-                ></router-link>
+                  >全部區域<span class="">{{ enabledProducts.length }}</span></router-link
+                >
               </li>
               <li class="nav-item">
-                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   to="/TouristPackage/searchChiayi"
                   data-name="嘉義"
-                  >嘉義<span class="">{{ searchChiayi.length }}</span
-                ></router-link>
+                  >嘉義<span class="">{{ searchChiayi.length }}</span></router-link
+                >
               </li>
               <li class="nav-item">
-                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   to="/TouristPackage/searchTainan"
                   data-name="台南"
-                  >台南<span class="">{{ serchTainan.length }}</span
-                ></router-link>
+                  >台南<span class="">{{ serchTainan.length }}</span></router-link
+                >
               </li>
               <li class="nav-item">
-                <router-link  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                <router-link
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
                   to="/TouristPackage/searchKaohsiung"
                   data-name="高雄"
-                  >高雄<span class="">{{ searchKaohsiung.length }}</span
-                ></router-link>
+                  >高雄<span class="">{{ searchKaohsiung.length }}</span></router-link
+                >
               </li>
             </ul>
           </div>
@@ -63,7 +89,7 @@
   </div>
 </template>
 <style lang="scss">
-.rounded-top{
+.rounded-top {
   border-radius: 4px 0 !important;
 }
 p {
@@ -80,10 +106,17 @@ export default {
       user: '',
       newProductsDes: '',
       enabledProducts: [],
-      searchChiayi:[],
-      serchTainan:[],
-      searchKaohsiung:[],
-      fullPath: ''
+      searchChiayi: [],
+      serchTainan: [],
+      searchKaohsiung: [],
+      fullPath: '',
+      currentURL: ''
+    }
+  },
+  watch: {
+    $route(to, from) {
+      // 當路由變化時觸發
+      this.currentURL = to.fullPath
     }
   },
   methods: {
@@ -141,7 +174,7 @@ export default {
       }))
       // console.log(this.newProductsDes)
     },
-    searchProducts(){
+    searchProducts() {
       this.axios
         .get(`${api_url2}/products?category=嘉義`)
         .then((res) => {
@@ -160,48 +193,48 @@ export default {
           // console.log(err)
           alert(`${err.message}`)
         })
-        this.axios
-          .get(`${api_url2}/products?category=台南`)
-          .then((res) => {
-            // console.log(res)
-            this.products = res.data
-  
-            this.products.forEach((item) => {
-              if (item.is_enabled === 1) {
-                // console.log(item)
-                this.serchTainan.push(item)
-              }
-            })
-            // console.log(this.serchTainan)
+      this.axios
+        .get(`${api_url2}/products?category=台南`)
+        .then((res) => {
+          // console.log(res)
+          this.products = res.data
+
+          this.products.forEach((item) => {
+            if (item.is_enabled === 1) {
+              // console.log(item)
+              this.serchTainan.push(item)
+            }
           })
-          .catch((err) => {
-            // console.log(err)
-            alert(`${err.message}`)
+          // console.log(this.serchTainan)
+        })
+        .catch((err) => {
+          // console.log(err)
+          alert(`${err.message}`)
+        })
+      this.axios
+        .get(`${api_url2}/products?category=高雄`)
+        .then((res) => {
+          // console.log(res)
+          this.products = res.data
+
+          this.products.forEach((item) => {
+            if (item.is_enabled === 1) {
+              // console.log(item)
+              this.searchKaohsiung.push(item)
+            }
           })
-          this.axios
-          .get(`${api_url2}/products?category=高雄`)
-          .then((res) => {
-            // console.log(res)
-            this.products = res.data
-  
-            this.products.forEach((item) => {
-              if (item.is_enabled === 1) {
-                // console.log(item)
-                this.searchKaohsiung.push(item)
-              }
-            })
-            // console.log(this.searchKaohsiung)
-          })
-          .catch((err) => {
-            // console.log(err)
-            alert(`${err.message}`)
-          })
+          // console.log(this.searchKaohsiung)
+        })
+        .catch((err) => {
+          // console.log(err)
+          alert(`${err.message}`)
+        })
     }
   },
   mounted() {
     this.searchProducts()
     this.getProducts()
-        console.log(this.$route.fullPath)
+    // console.log(this.$route)
     this.fullPath = this.$route.fullPath
   }
 }

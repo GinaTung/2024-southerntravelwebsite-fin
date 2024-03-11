@@ -15,6 +15,27 @@
           </router-link>
           <span v-else> 南部旅遊景點 </span>
         </li>
+        <li class="breadcrumb-item d-lg-none" v-if="currentURL === '/TouristAttractions/all'">
+          <router-link to="/TouristAttractions/all">全部</router-link>
+        </li>
+        <li
+          class="breadcrumb-item d-lg-none"
+          v-else-if="currentURL === '/TouristAttractions/searchTainan'"
+        >
+          <router-link to="/TouristAttractions/searchTainan">台南</router-link>
+        </li>
+        <li
+          class="breadcrumb-item d-lg-none"
+          v-else-if="currentURL === '/TouristAttractions/searchChiayi'"
+        >
+          <router-link to="/TouristAttractions/searchChiayi">嘉義</router-link>
+        </li>
+        <li
+          class="breadcrumb-item d-lg-none"
+          v-else-if="currentURL === '/TouristAttractions/searchKaohsiung'"
+        >
+          <router-link to="/TouristAttractions/searchKaohsiung">高雄</router-link>
+        </li>
       </ol>
     </nav>
     <div class="tourist-list">
@@ -77,8 +98,15 @@ export default {
       searchChiayi: [],
       serchTainan: [],
       searchKaohsiung: [],
-      fullPath: ''
+      fullPath: '',
+      currentURL: "",
     }
+  },
+  watch: {
+    $route(to, from) {
+      // 當路由變化時觸發
+      this.currentURL = to.fullPath;
+    },
   },
   methods: {
     getAttractions() {
