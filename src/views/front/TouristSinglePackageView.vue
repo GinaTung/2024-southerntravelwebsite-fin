@@ -3,28 +3,32 @@
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
-          <router-link to="/" class="navbar-brand py-6">首頁</router-link>
+          <router-link to="/" exact active-class="active-link"> 首頁 </router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/TouristPackage" class="navbar-brand py-6"> 南部旅遊方案 </router-link>
+          <router-link to="/TouristPackage" exact
+      active-class="active-link"> 南部旅遊方案 </router-link>
         </li>
         <li class="breadcrumb-item">
           <router-link
             v-if="category === '台南'"
             to="/TouristPackage/searchTainan"
-            class="navbar-brand py-6"
+            exact
+      active-class="active-link"
             >台南</router-link
           >
           <router-link
             v-else-if="category === '嘉義'"
             to="/TouristPackage/searchChiayi"
-            class="navbar-brand py-6"
+            exact
+      active-class="active-link"
             >嘉義</router-link
           >
           <router-link
             v-else-if="category === '高雄'"
             to="/TouristPackage/searchKaohsiung"
-            class="navbar-brand py-6"
+            exact
+      active-class="active-link"
             >高雄</router-link
           >
         </li>

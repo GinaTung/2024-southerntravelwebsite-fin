@@ -3,9 +3,18 @@
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
-          <router-link to="/" class="navbar-brand py-6"> 首頁 </router-link>
+          <router-link to="/" exact active-class="active-link"> 首頁 </router-link>
         </li>
-        <li class="breadcrumb-item" aria-current="page">南部旅遊方案</li>
+        <li class="breadcrumb-item" aria-current="page">
+          <router-link
+            v-if="fullPath !== '/TouristPackage'"
+            :to="{ path: '/TouristPackage' }" exact
+      active-class="active-link"
+          >
+            南部旅遊景點
+          </router-link>
+          <span v-else> 南部旅遊景點 </span>
+        </li>
       </ol>
     </nav>
     <div class="tourist-list">
@@ -73,7 +82,8 @@ export default {
       enabledProducts: [],
       searchChiayi:[],
       serchTainan:[],
-      searchKaohsiung:[]
+      searchKaohsiung:[],
+      fullPath: ''
     }
   },
   methods: {
@@ -191,6 +201,8 @@ export default {
   mounted() {
     this.searchProducts()
     this.getProducts()
+        console.log(this.$route.fullPath)
+    this.fullPath = this.$route.fullPath
   }
 }
 </script>

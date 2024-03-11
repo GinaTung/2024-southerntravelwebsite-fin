@@ -3,10 +3,11 @@
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
-          <router-link to="/" class="navbar-brand py-6">首頁</router-link>
+          <router-link to="/" exact active-class="active-link">首頁</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/TouristAttractions" class="navbar-brand py-6">
+          <router-link to="/TouristAttractions" exact
+      active-class="active-link">
             南部旅遊景點
           </router-link>
         </li>
@@ -20,13 +21,11 @@
           <router-link
             v-else-if="category === '嘉義'"
             to="/TouristAttractions/searchChiayi"
-            class="navbar-brand py-6"
             >嘉義</router-link
           >
           <router-link
             v-else-if="category === '高雄'"
             to="/TouristAttractions/searchKaohsiung"
-            class="navbar-brand py-6"
             >高雄</router-link
           >
         </li>
@@ -35,8 +34,8 @@
         </li>
       </ol>
     </nav>
-    <singleAttraction></singleAttraction>
-    <!-- <div
+
+    <div
       class="intr-title d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-3"
     >
       <span class="fs-3 me-2 fw-bold ps-3">{{ category }}</span>
@@ -45,28 +44,9 @@
         <i class="bi bi-heart"></i>
       </div>
     </div>
+    <singleAttraction></singleAttraction>
     <div class="row g-3" v-for="(item, index) in enabledAttractions" :key="item.id">
       <div v-if="index === 0">
-        <div class="col-12 d-flex justify-content-between">
-          <div class="col-12 col-lg-8 pe-2">
-            <img
-              :src="item.imageUrl"
-              alt="高跟鞋教堂"
-              class="img-fluid w-100 img-size-height"
-              style="object-fit: cover"
-            />
-          </div>
-          <div class="col-4 d-lg-flex flex-column justify-content-between ps-1 d-none">
-            <div class="border" v-for="(item2, key) in item.imagesUrl" :key="key + 1213">
-              <img
-                :src="item2"
-                class="img-fluid w-100"
-                alt=""
-                style="object-fit: cover; height: 180px"
-              />
-            </div>
-          </div>
-        </div>
         <div class="tourist-intr-content my-lg-10 my-5">
           <div class="mb-8">
             <p class="fs-5 fs-md-4 fw-bold mb-4">景點介紹</p>
@@ -90,7 +70,11 @@
               <div class="d-flex col-12 col-lg-7 justify-content-between flex-column">
                 <div v-for="item3 in newProductsContent" :key="item3.id">
                   <div v-if="item3.id === item.id">
-                    <p v-for="description in item3.content" :key="description" class="fs-6 fs-md-5 my-4 mb-4">
+                    <p
+                      v-for="description in item3.content"
+                      :key="description"
+                      class="fs-6 fs-md-5 my-4 mb-4"
+                    >
                       {{ description }}
                     </p>
                   </div>
@@ -111,7 +95,7 @@
           </div>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </template>
 <style>
@@ -124,15 +108,15 @@ p {
 @media (max-width: 768px) {
   .img-size-height {
     height: 240px;
-}
+  }
 }
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
-import singleAttraction from "@/components/swiper/singleAttraction.vue"
+import singleAttraction from '@/components/swiper/singleAttraction.vue'
 
 export default {
-  components:{
+  components: {
     singleAttraction
   },
   data() {
