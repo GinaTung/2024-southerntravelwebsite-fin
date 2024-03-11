@@ -12,31 +12,11 @@
             exact
             active-class="active-link"
           >
-            南部旅遊景點
+            南部旅遊方案
           </router-link>
-          <span v-else> 南部旅遊景點 </span>
+          <span v-else> 南部旅遊方案 </span>
         </li>
-        <li class="breadcrumb-item d-lg-none" v-if="currentURL === '/TouristPackage/all'">
-          <router-link to="/TouristPackage/all">全部</router-link>
-        </li>
-        <li
-          class="breadcrumb-item d-lg-none"
-          v-else-if="currentURL === '/TouristPackage/searchTainan'"
-        >
-          <router-link to="/TouristPackage/searchTainan">台南</router-link>
-        </li>
-        <li
-          class="breadcrumb-item d-lg-none"
-          v-else-if="currentURL === '/TouristPackage/searchChiayi'"
-        >
-          <router-link to="/TouristPackage/searchChiayi">嘉義</router-link>
-        </li>
-        <li
-          class="breadcrumb-item d-lg-none"
-          v-else-if="currentURL === '/TouristPackage/searchKaohsiung'"
-        >
-          <router-link to="/TouristPackage/searchKaohsiung">高雄</router-link>
-        </li>
+
       </ol>
     </nav>
     <div class="tourist-list">
@@ -110,13 +90,19 @@ export default {
       serchTainan: [],
       searchKaohsiung: [],
       fullPath: '',
-      currentURL: ''
+      currentURL: '',
+      // currentPath: "",
+      // currentQuery: "",
+      // currentHash: "",
     }
   },
   watch: {
     $route(to, from) {
       // 當路由變化時觸發
       this.currentURL = to.fullPath
+      // this.currentPath = to.path;
+      // this.currentQuery = to.query;
+      // this.currentHash = to.hash;
     }
   },
   methods: {
@@ -234,7 +220,7 @@ export default {
   mounted() {
     this.searchProducts()
     this.getProducts()
-    // console.log(this.$route)
+    console.log(this.$route)
     this.fullPath = this.$route.fullPath
   }
 }
