@@ -51,9 +51,9 @@
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
                 }" class="btn-outline-square w-100 me-2 px-2 px-md-3" type="button">行程介紹</router-link>
-                <router-link class="btn-square w-100 ms-2 px-2 px-md-3"
+                <a class="btn-square w-100 ms-2 px-2 px-md-3"
                 @click="addToCart(productsItem.id, quantity, productsItem.price)"
-                to="/cart" type="button">預約套裝行程</router-link>
+                type="button">預約套裝行程</a>
               </div>
           </div>
 
@@ -106,42 +106,15 @@
         searchKaohsiung: [],
         enabledProducts: [],
       carts: [],
-      quantity: 3,
+      quantity: 1,
       newQty: '',
       newCarts: [],
       cartId: null,
+      userId: '',
+      token: '',
       }
     },
-    computed: {
-    totalPrice() {
-      return this.carts.reduce((sum, cartItem) => {
-        return sum + cartItem.order.price * cartItem.order.qty
-      }, 0)
-    }
-  },
     methods: {
-      checkAdmin() {
-        this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-        this.axios.defaults.headers.common['Authorization'] = this.token
-        if (!this.token) {
-          alert(`目前未登入管理者身分，請重新登入`)
-          this.$router.push({ path: '/admin/adminlogin' })
-        } else {
-          console.log(token, user)
-          this.axios
-            .post(`${api_url2}/api/users/${user}`)
-            .then((res) => {
-              // 登入成功
-              this.userIsLoggedIn = true
-            })
-            .catch((err) => {
-              // 登入失敗或驗證失敗
-              this.userIsLoggedIn = false
-              alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
-              this.$router.push({ path: '/admin/adminlogin' })
-            })
-        }
-      },
       getProducts() {
         this.axios
           .get(`${api_url2}/products`)
@@ -222,62 +195,57 @@
             alert(`${err.message}`)
           })
       },
-      isProductInCart(productId) {
-      return this.carts.some((cartItem) => cartItem.product.id === productId)
-    },
-    addToCart(product_id, qty, price) {
-      this.getCart();
-      const order = {
-        product_id,
-        qty,
-        price,
-        total: qty * price
-      }
-
-      const cartId = this.cartId // 將cartId存入一個變數，以確保所有商品使用相同的cartId
-
-      if (this.isProductInCart(product_id)) {
-        // 如果產品已經在購物車中，更新數量
-        const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
-        existingCartItem.order.qty += qty
-        existingCartItem.order.total = existingCartItem.order.qty * price
-        this.quantity = existingCartItem.order.qty
-
-        this.axios
-          .put(`${api_url2}/carts/${existingCartItem.id}`, {
-            data: { ...existingCartItem.order, cartId }
-          })
-          .then((res) => {
-            this.newCarts = res.data
-            this.cartId = this.newCarts.id
-            this.saveCardId()
-            this.$router.go('/cart');
-          })
-          .catch((err) => {
-            alert(`${err.response}`)
-          })
+      addToCart(productId, qty = 1, price) {
+      if (!this.token) {
+        alert('請登入會員後，才能預約套裝行程')
       } else {
-        // 如果產品不在購物車中，新增一個新項目
-        this.axios
-          .post(`${api_url2}/carts?_embed=products`, { data: { ...order, cartId } })
-          .then((res) => {
-            this.products.forEach((item) => {
-              if (item.id === order.product_id) {
-                this.carts.push({
-                  id: res.data.id,
-                  order,
-                  product: item
-                })
-              }
+        let productExists = false
+
+        // 檢查是否有重複產品，如果有則標記為存在
+        this.newCarts.forEach((item) => {
+          if (item.productId === productId && item.id) {
+            productExists = true
+            this.cartId = item.id
+          }
+        })
+        // 如果產品已經存在於購物車中，則執行 put 操作
+        if (productExists) {
+          this.axios
+            .put(`${api_url2}/carts/${this.cartId}`, {
+              productId,
+              qty,
+              price,
+              total: qty * price,
+              userId: this.userId
             })
-            this.newCarts = res.data
-            this.cartId = this.newCarts.id
-            this.saveCardId()
-            this.$router.go('/cart');
-          })
-          .catch((err) => {
-            console.log(err)
-          })
+            .then((res) => {
+              alert('已更新預約人數')
+              this.getCart()
+            })
+            .catch((err) => {
+              // console.error('更新預約人數失敗:', err)
+              alert('更新預約人數失敗')
+            })
+        } else {
+          // 如果產品不在購物車中，則執行 post 操作
+          this.axios
+            .post(`${api_url2}/carts`, {
+              productId,
+              qty,
+              price,
+              total: qty * price,
+              userId: this.userId
+            })
+            .then((res) => {
+              // console.log(res)
+              alert(`已預約成功`)
+              this.getCart()
+            })
+            .catch((err) => {
+              // console.log(err);
+              alert('預約失敗，再重新登入預約')
+            })
+        }
       }
     },
     saveCardId() {
@@ -288,21 +256,38 @@
         .get(`${api_url2}/carts`)
         .then((res) => {
           // console.log(res);
+          this.carts = res.data
+          // console.log(this.carts);
+          this.carts.forEach((item) => {
+            if (item.userId === this.userId) {
+              this.newCarts.push(item)
+            }
+          })
+          // console.log(this.newCarts)
         })
         .catch((err) => {
-          // console.log(err);
-          alert(`${err}`);
-        });
+          // console.log(err)
+          alert('取得購物車資料失敗')
+        })
     },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
+    }
     },
     mounted() {
-      //取得cookie資料
-      // const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      // this.axios.defaults.headers.common['Authorization'] = token
-      // console.log(token)
-      // this.checkAdmin()
       this.searchProducts()
       this.getProducts()
+      const cookieUserId = this.getCookie('userId')
+    const cookieToken = this.getCookie('hexTokenU')
+    this.userId = cookieUserId * 1
+    this.token = cookieToken
     }
   }
   </script>

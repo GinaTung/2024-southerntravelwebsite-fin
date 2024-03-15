@@ -89,7 +89,7 @@ export default {
   },
   mounted() {
     this.getProducts()
-    console.log(this.$route);
+    // console.log(this.$route);
   }
 }
 </script>

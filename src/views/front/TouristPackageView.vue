@@ -220,7 +220,7 @@ export default {
   mounted() {
     this.searchProducts()
     this.getProducts()
-    console.log(this.$route)
+    // console.log(this.$route)
     this.fullPath = this.$route.fullPath
   }
 }

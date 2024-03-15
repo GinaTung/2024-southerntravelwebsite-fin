@@ -6,29 +6,30 @@
           <router-link to="/" exact active-class="active-link"> 首頁 </router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/TouristPackage" exact
-      active-class="active-link"> 南部旅遊方案 </router-link>
+          <router-link to="/TouristPackage" exact active-class="active-link">
+            南部旅遊方案
+          </router-link>
         </li>
         <li class="breadcrumb-item">
           <router-link
             v-if="category === '台南'"
             to="/TouristPackage/searchTainan"
             exact
-      active-class="active-link"
+            active-class="active-link"
             >台南</router-link
           >
           <router-link
             v-else-if="category === '嘉義'"
             to="/TouristPackage/searchChiayi"
             exact
-      active-class="active-link"
+            active-class="active-link"
             >嘉義</router-link
           >
           <router-link
             v-else-if="category === '高雄'"
             to="/TouristPackage/searchKaohsiung"
             exact
-      active-class="active-link"
+            active-class="active-link"
             >高雄</router-link
           >
         </li>
@@ -367,16 +368,39 @@
         <span
           class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
         >
-          <i class="bi bi-person-walking"></i>景點行程
+          <i class="bi bi-person-walking me-2"></i>景點行程
         </span>
-        <div class="mt-4 mb-6">
-          <div v-for="item in newProductsContent" :key="item.id">
-            <div v-if="item.id === productsItem.id">
-              <p v-for="description in item.content" :key="description">
-                {{ description }}
-              </p>
-            </div>
+        <div class="mt-2 mb-6">
+          <div v-for="(item, index) in newProductsContent" :key="index + 123">
+            <p v-for="description in item.content" :key="description">
+              {{ description }}
+            </p>
           </div>
+        </div>
+        <div class="d-flex mb-4 flex-column mb-6">
+          <h5 class="mb-2">
+            <span
+              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+            >
+              <i class="bi bi-calendar-plus me-2"></i>預約期間
+            </span>
+          </h5>
+          <h6 class="mt-2" v-if="currentDate <= productsItem.endDate">
+            {{ productsItem.startDate }} 至 {{ productsItem.endDate }}
+          </h6>
+          <h5 class="mt-2 text-danger" v-else>預約時間已截止</h5>
+        </div>
+        <div class="d-flex mb-4 flex-column">
+          <h5 class="mb-2">
+            <span
+              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+            >
+              <i class="bi bi-car-front-fill me-2"></i>出發時間
+            </span>
+          </h5>
+          <h6 class="mt-2">
+            {{ productsItem.goStartDate }} 至 {{ productsItem.goEndDate }}
+          </h6>
         </div>
         <div class="d-flex justify-content-between mb-4 align-items-end">
           <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">
@@ -389,164 +413,61 @@
             </p>
           </div>
         </div>
-        <div class="d-flex mb-4">
-          <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="至少3人成行">
-            <button
-              type="button"
-              class="btn btn-outline-dark rounded-0"
-              :disabled="quantity === 3"
-              data-toggle="tooltip"
-              data-placement="top"
-              title="至少3人成行"
-              @click="decrementQuantity"
-            >
-              <i class="bi bi-dash-lg"></i>
-            </button>
-          </span>
+        <div class="d-flex mb-2">
+          <button
+            class="btn btn-outline-dark rounded-0"
+            type="button"
+            :disabled="quantity === 1"
+            @click="decrementQuantity"
+          >
+            <i class="bi bi-dash-lg"></i>
+          </button>
           <input
-            min="3"
+            min="1"
             max="10"
             type="number"
-            value="3"
-            v-model="quantity"
+            :disabled="quantity > 10"
             class="form-control text-center rounded-0 border border-dark"
-            @input="checkMaxValue"
+            v-model="quantity"
+            readonly
           />
-          <button
-            type="button"
-            class="btn btn-outline-dark rounded-0"
-            @click="incrementQuantity"
-            data-toggle="tooltip"
-            data-placement="top"
-            title="最多10人成行"
-          >
+          <button class="btn btn-outline-dark rounded-0" type="button" @click="incrementQuantity">
             <i class="bi bi-plus-lg"></i>
           </button>
           <button type="button" class="btn btn-outline-dark rounded-0 ms-2">
             <i class="bi bi-heart"></i>
           </button>
         </div>
-        <a
-          class="btn-square w-100 fs-5 mb-4"
+
+        <h6 class="mb-2">
+          注意：
+          <span class="text-danger"> 至少3位成團，最多10位出遊 </span>
+        </h6>
+        <h6 class="mb-5" v-if="currentDate <= productsItem.endDate">
+          目前已有
+          <span class="text-danger">0</span>
+          位預約，剩
+          <span class="text-danger">10</span>
+          位可預約
+        </h6>
+        <button
+          class="btn-square w-100 fs-5 mb-4 border-0"
           type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#offcanvasRight"
-          aria-controls="offcanvasRight"
+          :class="{ 'disabled-btn': currentDate > endDate }"
           @click="addToCart(productsItem.id, quantity, productsItem.price)"
-          >預約套裝行程</a
         >
-        <!-- {{ newCarts.id }}{{ newCarts.qty }} -->
-        <!-- <router-link class="btn-square fs-5 w-100"  type="button"
-        :to="{ name: 'checkProduct' }"
-        >直接結帳</router-link> -->
+          預約套裝行程
+        </button>
         <router-link
           class="btn-square fs-5 w-100"
           type="button"
-          :class="{ 'disabled-btn': !cartId }"
+          :class="{ 'disabled-btn': currentDate > endDate }"
           :to="{ name: 'checkProduct' }"
           @click="saveCardId"
           >直接結帳</router-link
         >
-      </div>
-    </div>
-  </div>
-  <div class="d-none d-lg-flex">
-    <div
-      class="offcanvas offcanvas-end"
-      tabindex="-1"
-      id="offcanvasRight"
-      aria-labelledby="offcanvasRightLabel"
-    >
-      <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasRightLabel">購物車</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="offcanvas"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="offcanvas-body">
-        <hr />
-        <div class="row" v-for="cartItem in carts" :key="cartItem.id">
-          <div class="col-5">
-            <div class="card-att-img card-att-img-2">
-              <img
-                :src="cartItem.product.imageUrl"
-                class="img-fluid pb-4 pb-lg-0"
-                :alt="cartItem.product.title"
-              />
-            </div>
-          </div>
-          <div class="col-7">
-            <h5 class="mb-2">{{ cartItem.product.title }}</h5>
-            <h6 class="mb-2">NT{{ thousand(totalPrice) }}</h6>
-            <div class="d-flex mb-4">
-              <span class="d-inline-block" tabindex="0" data-toggle="tooltip" title="至少3人成行">
-                <button
-                  type="button"
-                  class="btn btn-outline-dark rounded-0"
-                  :disabled="quantity === 3"
-                  data-toggle="tooltip"
-                  data-placement="top"
-                  title="至少3人成行"
-                  @click="decrementQuantity"
-                >
-                  <i class="bi bi-dash-lg"></i>
-                </button>
-              </span>
-              <input
-                min="3"
-                max="10"
-                type="number"
-                v-model="quantity"
-                class="form-control text-center rounded-0 border border-dark"
-                @input="checkMaxValue"
-              />
-              <button
-                type="button"
-                class="btn btn-outline-dark rounded-0"
-                @click="incrementQuantity"
-                data-toggle="tooltip"
-                data-placement="top"
-                title="最多10人成行"
-              >
-                <i class="bi bi-plus-lg"></i>
-              </button>
-              <button class="d-flex align-items-center"  type="button" @click="removeCartItem(cartItem.product.title,cartItem.id)">
-                <i class="bi bi-trash"></i>
-              </button>
-            </div>
-            <!-- {{ cartItem.order.qty }} -->
-          </div>
-
-          <hr />
-        </div>
-      </div>
-      <div class="offcanvas-footer">
-        <hr />
-        <p>購買 {{ carts.length }} 項產品</p>
-        <h4 class="mt-4">總共：NT {{ thousand(totalPrice) }} 元</h4>
-        <div class="d-flex pe-8">
-          <a
-            class="btn-outline-square w-100 fs-5 mt-4 me-1"
-            href="#"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#offcanvasRight"
-            aria-controls="offcanvasRight"
-            @click="addToCart(carts.product.id, quantity, carts.product.price)"
-            >繼續預約</a
-          >
-          <router-link
-            class="btn-square mt-4 fs-5 w-100"
-            type="button"
-            :class="{ 'disabled-btn': !cartId }"
-            :to="{ name: 'checkProduct' }"
-            @click="saveCardId"
-            >直接結帳</router-link
-          >
-        </div>
+        <!-- <h6 class="mt-2">集合地點為{{productsItem.category}}火車站</h6>
+          <h6 class="mt-2">集合時間為早上9點</h6> -->
       </div>
     </div>
   </div>
@@ -579,28 +500,15 @@
 p {
   text-align: justify; /* 將文字左右對齊 */
 }
-@media (min-width: 992px) {
-  .offcanvas-footer {
-    background: #fff;
-    position: fixed;
-    right: -16px;
-    bottom: 16px;
-    width: 400px;
-  }
-  .disabled-btn {
-    pointer-events: none;
-    opacity: 0.5;
-  }
+.disabled-btn {
+  pointer-events: none;
+  opacity: 0.5;
 }
 </style>
 
 <script>
-import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
 const api_url2 = import.meta.env.VITE_API_URL2
-const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
-const tooltipList = [...tooltipTriggerList].map(
-  (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
-)
+
 export default {
   data() {
     return {
@@ -610,25 +518,41 @@ export default {
       newProductsContent: '',
       enabledProducts: [],
       carts: [],
-      quantity: 3,
+      quantity: 1,
       newQty: 0,
       newCarts: [],
       cartId: null,
-      bsOffcanvas:null
+      bsOffcanvas: null,
+      userId: '',
+      token: '',
+      currentDate: '',
+      endDate:'',
+      isDisabled: false
     }
   },
   created() {
     this.category = this.$route.params.category
     this.packageTitle = this.$route.params.title
   },
-  computed: {
-    totalPrice() {
-      return this.carts.reduce((sum, cartItem) => {
-        return sum + cartItem.order.price * cartItem.order.qty
-      }, 0)
-    }
-  },
   methods: {
+    checkDate() {
+      //先創建一個Date實體
+      var time = new Date()
+
+      var timeDetails = {
+        year: time.getFullYear(),
+        month: time.getMonth() + 1,
+        date: time.getDate()
+      }
+      // 將月份和日期補零，如果小於 10
+      var monthString = (timeDetails.month < 10 ? '0' : '') + timeDetails.month
+      var dateString = (timeDetails.date < 10 ? '0' : '') + timeDetails.date
+
+      var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
+      this.currentDate = formattedDate;
+      // console.log(this.currentDate)
+
+    },
     getProducts() {
       // console.log(this.packageTitle)
       this.axios
@@ -644,6 +568,7 @@ export default {
             }
           })
           // console.log(this.enabledProducts)
+          this.endDate = this.enabledProducts[0].endDate
           this.getNewText()
         })
         .catch((err) => {
@@ -660,7 +585,7 @@ export default {
     getNewText() {
       // console.log(this.products)
       const idDescriptionsMap = {}
-      this.products.forEach((item) => {
+      this.enabledProducts.forEach((item) => {
         // 檢查 item.description 是否存在
         // console.log(item.content)
         if (item.content) {
@@ -669,14 +594,25 @@ export default {
           splitText.forEach((text) => {
             const trimmedText = text.trim()
 
-            if (!idDescriptionsMap[item.id]) {
-              idDescriptionsMap[item.id] = []
+            if (trimmedText !== '') {
+              // 檢查是否為空字符串
+              if (!idDescriptionsMap[item.id]) {
+                idDescriptionsMap[item.id] = []
+              }
+              idDescriptionsMap[item.id].push(trimmedText)
             }
-            idDescriptionsMap[item.id].push(trimmedText)
           })
         }
       })
 
+      // 刪除陣列為空的項目
+      for (const id in idDescriptionsMap) {
+        if (idDescriptionsMap[id].length === 0) {
+          delete idDescriptionsMap[id]
+        }
+      }
+
+      // console.log(idDescriptionsMap)
       // 將 id 與描述合併成物件
       this.newProductsContent = Object.entries(idDescriptionsMap).map(([id, content]) => ({
         id,
@@ -684,79 +620,58 @@ export default {
       }))
       // console.log(this.newProductsContent)
     },
-    isProductInCart(productId) {
-      return this.carts.some((cartItem) => cartItem.product.id === productId)
-    },
-    addToCart(product_id, qty, price) {
-      this.getCart();
-      const order = {
-        product_id,
-        qty,
-        price,
-        total: qty * price
-      }
-
-      const cartId = this.cartId // 將cartId存入一個變數，以確保所有商品使用相同的cartId
-
-      if (this.isProductInCart(product_id)) {
-        // 如果產品已經在購物車中，更新數量
-        const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
-        existingCartItem.order.qty = qty
-        existingCartItem.order.total = existingCartItem.order.qty * price
-        this.quantity = existingCartItem.order.qty
-
-        this.axios
-          .put(`${api_url2}/carts/${existingCartItem.id}`, {
-            data: { ...existingCartItem.order, cartId }
-          })
-          .then((res) => {
-            console.log(res);
-            this.newCarts = res.data
-            this.cartId = this.newCarts.id
-          })
-          .catch((err) => {
-            console.log(err);
-            alert(`${err.response}`)
-          })
+    addToCart(productId, qty = 1, price) {
+      if (!this.token) {
+        alert('請登入會員後，才能預約套裝行程')
       } else {
-        // 如果產品不在購物車中，新增一個新項目
-        this.axios
-          .post(`${api_url2}/carts?_embed=products`, { data: { ...order } })
-          .then((res) => {
-            this.products.forEach((item) => {
-              if (item.id === order.product_id) {
-                this.carts.push({
-                  id: res.data.id,
-                  order,
-                  product: item
-                })
-              }
-            })
-            this.newCarts = res.data
-            this.cartId = this.newCarts.id
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
-    },
-    removeCartItem(productTitle, id) {
-      console.log(productTitle,id)
-      this.axios
-        .delete(`${api_url2}/carts/${id}`)
-        .then((res) => {
-          // console.log(res);
-          alert(`已刪除成功`)
-          this.getCart();
-          this.bsOffcanvas.hide();
+        let productExists = false
 
-          // 返回上一個頁面
-          this.$router.go(0);
+        // 檢查是否有重複產品，如果有則標記為存在
+        this.newCarts.forEach((item) => {
+          if (item.productId === productId && item.id) {
+            productExists = true
+            this.cartId = item.id
+          }
         })
-        .catch((err) => {
-          // console.log(err.message)
-          alert(`${err.message}`)
-        })
+        // 如果產品已經存在於購物車中，則執行 put 操作
+        if (productExists) {
+          this.axios
+            .put(`${api_url2}/carts/${this.cartId}`, {
+              productId,
+              qty,
+              price,
+              total: qty * price,
+              userId: this.userId
+            })
+            .then((res) => {
+              alert('已更新預約人數')
+              this.getCart()
+            })
+            .catch((err) => {
+              // console.error('更新預約人數失敗:', err)
+              alert('更新預約人數失敗')
+            })
+        } else {
+          // 如果產品不在購物車中，則執行 post 操作
+          this.axios
+            .post(`${api_url2}/carts`, {
+              productId,
+              qty,
+              price,
+              total: qty * price,
+              userId: this.userId
+            })
+            .then((res) => {
+              // console.log(res)
+              alert(`已預約${this.packageTitle}成功`)
+              this.getCart()
+            })
+            .catch((err) => {
+              // console.log(err);
+              alert('預約失敗，再重新登入預約')
+            })
+        }
+      }
     },
     incrementQuantity() {
       if (this.quantity < 10) {
@@ -764,7 +679,7 @@ export default {
       }
     },
     decrementQuantity() {
-      if (this.quantity > 3) {
+      if (this.quantity > 1) {
         this.quantity -= 1
       }
     },
@@ -773,16 +688,9 @@ export default {
       if (this.quantity > 10) {
         this.quantity = 10
       }
-      if (this.quantity < 3) {
-        this.quantity = 3
-      }
     },
-    initTooltip() {
-      // Use Vue's $nextTick to make sure the DOM is updated before accessing elements
-      this.$nextTick(() => {
-        // Now you can safely access the DOM elements
-        $('[data-toggle="tooltip"]').tooltip()
-      })
+    handlePlus(item) {
+      this.quantity = item++
     },
     saveCardId() {
       document.cookie = `cartId=${this.newCarts.id}; path=/;`
@@ -792,18 +700,41 @@ export default {
         .get(`${api_url2}/carts`)
         .then((res) => {
           // console.log(res);
+          this.carts = res.data
+          // console.log(this.carts);
+          this.carts.forEach((item) => {
+            if (item.userId === this.userId) {
+              this.newCarts.push(item)
+            }
+          })
+          // console.log(this.newCarts)
         })
         .catch((err) => {
-          // console.log(err);
-          alert(`${err}`);
-        });
+          // console.log(err)
+          alert('取得購物車資料失敗')
+        })
     },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
+    }
   },
   mounted() {
     this.getProducts()
     this.getCart()
-    this.bsOffcanvas = new bootstrap.Offcanvas('#offcanvasRight')
-    // this.initTooltip();
+    // console.log(document.cookie)
+    const cookieUserId = this.getCookie('userId')
+    const cookieToken = this.getCookie('hexTokenU')
+    this.userId = cookieUserId * 1
+    this.token = cookieToken
+    this.checkDate()
+    // console.log(this.userId,this.token)
   }
 }
 </script>

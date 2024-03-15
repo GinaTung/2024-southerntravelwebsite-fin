@@ -4,7 +4,11 @@
       <div class="col-md-4">
         <span class="tag text-white">{{ productsItem.category }}</span>
         <div class="card-att-img h-100">
-          <img :src="productsItem.imageUrl" class="card-img-top img-fluid" :alt="productsItem.title" />
+          <img
+            :src="productsItem.imageUrl"
+            class="card-img-top img-fluid"
+            :alt="productsItem.title"
+          />
         </div>
       </div>
       <div class="col-md-8">
@@ -17,46 +21,57 @@
               {{ productsItem.title }}
             </h4>
             <div class="d-flex mb-4">
-              <span class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6">{{
-                productsItem.tag_2 }}</span>
+              <span
+                class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
+                >{{ productsItem.tag_2 }}</span
+              >
             </div>
-  
+
             <div class="row">
               <div class="col-8 col-sm-8 my-2">
                 <div v-for="item in newProductsDes" :key="item.id">
                   <div v-if="item.id === productsItem.id">
                     <p v-for="description in item.descriptions" :key="description">
-                      {{ truncateContent(description,85) }}
+                      {{ truncateContent(description, 85) }}
                     </p>
                   </div>
                 </div>
               </div>
               <div class="col-12 col-sm-4">
                 <div class="d-flex flex-column">
-                  <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">NT{{ thousand(productsItem.origin_price) }}</p>
+                  <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">
+                    NT{{ thousand(productsItem.origin_price) }}
+                  </p>
                   <div class="d-flex flex-sm-column align-items-end justify-content-end">
                     <p class="text-danger fw-bold d-none d-sm-block">促銷價</p>
-                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">NT{{ thousand(productsItem.price) }}</p>
+                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                      NT{{ thousand(productsItem.price) }}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-12">
-  
-            </div>
+            <div class="col-12"></div>
           </div>
           <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
             <div class="d-flex align-items-end">
-                <router-link :to="{
+              <router-link
+                :to="{
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
-                }" class="btn-outline-square w-100 me-2 px-2 px-md-3" type="button">行程介紹</router-link>
-                <router-link class="btn-square w-100 ms-2 px-2 px-md-3"
+                }"
+                class="btn-outline-square w-100 me-2 px-2 px-md-3"
+                type="button"
+                >行程介紹</router-link
+              >
+              <a
+                class="btn-square w-100 ms-2 px-2 px-md-3"
                 @click="addToCart(productsItem.id, quantity, productsItem.price)"
-                to="/cart" type="button">預約套裝行程</router-link>
-              </div>
+                type="button"
+                >預約套裝行程</a
+              >
+            </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -91,218 +106,203 @@
   border-radius: 4px 0 0 4px !important;
 }
 </style>
-  <script>
-  const api_url2 = import.meta.env.VITE_API_URL2
-  export default {
-    data() {
-      return {
-        text: '南部旅遊方案',
-        products: [],
-        user: '',
-        newProductsDes: '',
-        enabledProducts: [],
-        searchChiayi: [],
-        serchTainan: [],
-        searchKaohsiung: [],
+<script>
+const api_url2 = import.meta.env.VITE_API_URL2
+export default {
+  data() {
+    return {
+      text: '南部旅遊方案',
+      products: [],
+      user: '',
+      newProductsDes: '',
+      enabledProducts: [],
+      searchChiayi: [],
+      serchTainan: [],
+      searchKaohsiung: [],
       enabledProducts: [],
       carts: [],
       quantity: 3,
       newQty: '',
       newCarts: [],
       cartId: null,
-      }
-    },
-    computed: {
-    totalPrice() {
-      return this.carts.reduce((sum, cartItem) => {
-        return sum + cartItem.order.price * cartItem.order.qty
-      }, 0)
+      userId: '',
+      token: ''
     }
   },
-    methods: {
-      checkAdmin() {
-        this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-        this.axios.defaults.headers.common['Authorization'] = this.token
-        if (!this.token) {
-          alert(`目前未登入管理者身分，請重新登入`)
-          this.$router.push({ path: '/admin/adminlogin' })
-        } else {
-          console.log(token, user)
-          this.axios
-            .post(`${api_url2}/api/users/${user}`)
-            .then((res) => {
-              // 登入成功
-              this.userIsLoggedIn = true
-            })
-            .catch((err) => {
-              // 登入失敗或驗證失敗
-              this.userIsLoggedIn = false
-              alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
-              this.$router.push({ path: '/admin/adminlogin' })
-            })
-        }
-      },
-      getProducts() {
-        this.axios
-          .get(`${api_url2}/products`)
-          .then((res) => {
-            // console.log(res)
-            this.products = res.data
-  
-            this.products.forEach((item) => {
-              if (item.is_enabled === 1) {
-                // console.log(item)
-                this.enabledProducts.push(item)
-              }
-            })
-            // 現在 enabledProducts 將包含所有 is_enabled 為 1 的項目
-            // console.log(this.enabledProducts)
-  
-            this.getNewText()
+  methods: {
+    getProducts() {
+      this.axios
+        .get(`${api_url2}/products`)
+        .then((res) => {
+          // console.log(res)
+          this.products = res.data
+
+          this.products.forEach((item) => {
+            if (item.is_enabled === 1) {
+              // console.log(item)
+              this.enabledProducts.push(item)
+            }
           })
-          .catch((err) => {
-            // console.log(err)
-            alert(`${err.message}`)
-          })
-      },
-      thousand (data) {
-      if (data !== undefined) {
-        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-      }
-      return `$ ${data}`;
+          // 現在 enabledProducts 將包含所有 is_enabled 為 1 的項目
+          // console.log(this.enabledProducts)
+
+          this.getNewText()
+        })
+        .catch((err) => {
+          // console.log(err)
+          alert(`${err.message}`)
+        })
     },
-      truncateContent(content, maxLength) {
-        if (content && content.length > maxLength) {
-          return content.substring(0, maxLength) + '...'
+    thousand(data) {
+      if (data !== undefined) {
+        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+      }
+      return `$ ${data}`
+    },
+    truncateContent(content, maxLength) {
+      if (content && content.length > maxLength) {
+        return content.substring(0, maxLength) + '...'
+      }
+      return content
+    },
+    getNewText() {
+      const idDescriptionsMap = {}
+      this.products.forEach((item) => {
+        // 檢查 item.description 是否存在
+        if (item.description) {
+          const splitText = item.description.split(';')
+
+          splitText.forEach((text) => {
+            const trimmedText = text.trim()
+
+            if (!idDescriptionsMap[item.id]) {
+              idDescriptionsMap[item.id] = []
+            }
+            idDescriptionsMap[item.id].push(trimmedText)
+          })
         }
-        return content
-      },
-      getNewText() {
-        const idDescriptionsMap = {}
-        this.products.forEach((item) => {
-          // 檢查 item.description 是否存在
-          if (item.description) {
-            const splitText = item.description.split(';')
-  
-            splitText.forEach((text) => {
-              const trimmedText = text.trim()
-  
-              if (!idDescriptionsMap[item.id]) {
-                idDescriptionsMap[item.id] = []
-              }
-              idDescriptionsMap[item.id].push(trimmedText)
-            })
+      })
+
+      // 將 id 與描述合併成物件
+      this.newProductsDes = Object.entries(idDescriptionsMap).map(([id, descriptions]) => ({
+        id,
+        descriptions
+      }))
+      // console.log(this.newProductsDes)
+    },
+    searchProducts() {
+      this.axios
+        .get(`${api_url2}/products?category=台南`)
+        .then((res) => {
+          // console.log(res)
+          this.products = res.data
+
+          this.products.forEach((item) => {
+            if (item.is_enabled === 1) {
+              // console.log(item)
+              this.serchTainan.push(item)
+            }
+          })
+          // console.log(this.serchTainan)
+        })
+        .catch((err) => {
+          console.log(err)
+          // alert(`${err.message}`)
+        })
+    },
+    addToCart(productId, qty = 1, price) {
+      if (!this.token) {
+        alert('請登入會員後，才能預約套裝行程')
+      } else {
+        let productExists = false
+
+        // 檢查是否有重複產品，如果有則標記為存在
+        this.newCarts.forEach((item) => {
+          if (item.productId === productId && item.id) {
+            productExists = true
+            this.cartId = item.id
           }
         })
-  
-        // 將 id 與描述合併成物件
-        this.newProductsDes = Object.entries(idDescriptionsMap).map(([id, descriptions]) => ({
-          id,
-          descriptions
-        }))
-        // console.log(this.newProductsDes)
-      },
-      searchProducts() {
-        this.axios
-          .get(`${api_url2}/products?category=台南`)
-          .then((res) => {
-            // console.log(res)
-            this.products = res.data
-  
-            this.products.forEach((item) => {
-              if (item.is_enabled === 1) {
-                // console.log(item)
-                this.serchTainan.push(item)
-              }
-            })
-            // console.log(this.serchTainan)
-          })
-          .catch((err) => {
-            console.log(err)
-            // alert(`${err.message}`)
-          })
-      },
-      isProductInCart(productId) {
-      return this.carts.some((cartItem) => cartItem.product.id === productId)
-      },
-      addToCart(product_id, qty, price) {
-        this.getCart();
-        const order = {
-          product_id,
-          qty,
-          price,
-          total: qty * price
-        }
-
-        const cartId = this.cartId // 將cartId存入一個變數，以確保所有商品使用相同的cartId
-
-        if (this.isProductInCart(product_id)) {
-          // 如果產品已經在購物車中，更新數量
-          const existingCartItem = this.carts.find((cartItem) => cartItem.product.id === product_id)
-          existingCartItem.order.qty += qty
-          existingCartItem.order.total = existingCartItem.order.qty * price
-          this.quantity = existingCartItem.order.qty
-
+        // 如果產品已經存在於購物車中，則執行 put 操作
+        if (productExists) {
           this.axios
-            .put(`${api_url2}/carts/${existingCartItem.id}`, {
-              data: { ...existingCartItem.order, cartId }
+            .put(`${api_url2}/carts/${this.cartId}`, {
+              productId,
+              qty,
+              price,
+              total: qty * price,
+              userId: this.userId
             })
             .then((res) => {
-              this.newCarts = res.data
-              this.cartId = this.newCarts.id
-              this.saveCardId()
-            this.$router.go('/cart');
+              alert('已更新預約人數')
+              this.getCart()
             })
             .catch((err) => {
-              alert(`${err.response}`)
+              // console.error('更新預約人數失敗:', err)
+              alert('更新預約人數失敗')
             })
         } else {
-          // 如果產品不在購物車中，新增一個新項目
+          // 如果產品不在購物車中，則執行 post 操作
           this.axios
-            .post(`${api_url2}/carts?_embed=products`, { data: { ...order, cartId } })
+            .post(`${api_url2}/carts`, {
+              productId,
+              qty,
+              price,
+              total: qty * price,
+              userId: this.userId
+            })
             .then((res) => {
-              this.products.forEach((item) => {
-                if (item.id === order.product_id) {
-                  this.carts.push({
-                    id: res.data.id,
-                    order,
-                    product: item
-                  })
-                }
-              })
-              this.newCarts = res.data
-              this.cartId = this.newCarts.id
-              this.saveCardId()
-            this.$router.go('/cart');
+              // console.log(res)
+              alert(`已預約成功`)
+              this.getCart()
             })
             .catch((err) => {
-              console.log(err)
+              // console.log(err);
+              alert('預約失敗，再重新登入預約')
             })
         }
-      },
-      getCart() {
+      }
+    },
+    getCart() {
       this.axios
         .get(`${api_url2}/carts`)
         .then((res) => {
           // console.log(res);
+          this.carts = res.data
+          // console.log(this.carts);
+          this.carts.forEach((item) => {
+            if (item.userId === this.userId) {
+              this.newCarts.push(item)
+            }
+          })
+          // console.log(this.newCarts)
         })
         .catch((err) => {
-          // console.log(err);
-          alert(`${err}`);
-        });
-     },
-     saveCardId() {
+          // console.log(err)
+          alert('取得購物車資料失敗')
+        })
+    },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
+    },
+    saveCardId() {
       document.cookie = `cartId=${this.newCarts.id}; path=/;`
-    },
-    },
-    mounted() {
-      //取得cookie資料
-      // const token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      // this.axios.defaults.headers.common['Authorization'] = token
-      // console.log(token)
-      // this.checkAdmin()
-      this.searchProducts()
-      this.getProducts()
     }
+  },
+  mounted() {
+    this.searchProducts()
+    this.getProducts()
+    const cookieUserId = this.getCookie('userId')
+    const cookieToken = this.getCookie('hexTokenU')
+    this.userId = cookieUserId * 1
+    this.token = cookieToken
   }
-  </script>
+}
+</script>

@@ -63,6 +63,9 @@ export default {
           alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
           this.$router.push({ path: '/admin/AdminHome' })
         });
+    }else{
+      alert(`目前未登入管理者身分，請重新登入`)
+        this.$router.push({ path: '/admin/adminlogin' })
     }
   },
     logout() {

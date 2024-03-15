@@ -134,7 +134,7 @@ export default {
               this.enabledAttractions.push(item)
             }
           })
-          console.log(this.enabledAttractions);
+          // console.log(this.enabledAttractions);
         })
         .catch((err) => {
           // console.log(err)

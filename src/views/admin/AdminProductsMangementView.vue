@@ -223,6 +223,16 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
+                  <label for="max_travelers" class="form-label">出遊上限人數</label>
+                  <input
+                    id="max_travelers"
+                    type="number"
+                    v-model="tempProduct.max_travelers"
+                    min="3"
+                    max="30"
+                    class="form-control"
+                    placeholder="請輸入出遊上限人數"
+                  />
                 </div>
               </div>
               <div class="row">
@@ -351,13 +361,20 @@
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                        class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseTwo"
+                          aria-expanded="false"
+                          aria-controls="collapseTwo"
                         >
                           行程資料-第二天
                         </button>
                       </h2>
                       <div
-                      id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionSecondDay"
+                        id="collapseTwo"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionSecondDay"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -437,13 +454,20 @@
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                        class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"
+                          class="accordion-button collapsed"
+                          type="button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#collapseThree"
+                          aria-expanded="false"
+                          aria-controls="collapseThree"
                         >
                           行程資料-第三天
                         </button>
                       </h2>
                       <div
-                      id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionThirdDay"
+                        id="collapseThree"
+                        class="accordion-collapse collapse"
+                        data-bs-parent="#accordionThirdDay"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -462,7 +486,6 @@
                                 />
                               </div>
                               <div class="mb-3 col-md-6" v-if="index === 2">
-                                
                                 <label for="itinerary_third_day_am_title" class="form-label"
                                   >景點名稱-早上</label
                                 >
@@ -592,7 +615,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="start_date" class="form-label">預訂起始日</label>
+                  <label for="start_date" class="form-label">預約起始日</label>
                   <input
                     id="start_date"
                     type="date"
@@ -603,11 +626,35 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="end_date" class="form-label">預訂結束日</label>
+                  <label for="end_date" class="form-label">預約結束日</label>
                   <input
                     id="start_date"
                     type="date"
                     v-model="tempProduct.endDate"
+                    class="form-control"
+                    :min="minDate"
+                    :max="maxDate"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="mb-3 col-md-6">
+                  <label for="go_start_date" class="form-label">出發起始日</label>
+                  <input
+                    id="go_start_date"
+                    type="date"
+                    v-model="tempProduct.goStartDate"
+                    class="form-control"
+                    :min="minDate"
+                    :max="maxDate"
+                  />
+                </div>
+                <div class="mb-3 col-md-6">
+                  <label for="go_end_date" class="form-label">出發結束日</label>
+                  <input
+                    id="go_start_date"
+                    type="date"
+                    v-model="tempProduct.goEndDate"
                     class="form-control"
                     :min="minDate"
                     :max="maxDate"
@@ -762,7 +809,7 @@ export default {
           // console.log(res)
           this.products = res.data
         })
-        .catch((arr) => {
+        .catch((err) => {
           alert(`${err.data.message}`)
         })
     },
@@ -798,7 +845,58 @@ export default {
         this.modalProduct.show()
       } else if (status === 'edit') {
         this.tempProduct = { ...product }
-        // this.getNewItineraryData();
+        if (this.tempProduct.itinerary_data.length === 0) {
+          this.tempProduct = {
+            itinerary_data: [
+              {
+                first_day_title: '',
+                itinerary_first_day_am_title: '',
+                itinerary_first_day_am_content: '',
+                itinerary_first_day_pm_title: '',
+                itinerary_first_day_pm_content: ''
+              },
+              {
+                second_day_title: '',
+                itinerary_second_day_am_title: '',
+                itinerary_second_day_am_content: '',
+                itinerary_second_day_pm_title: '',
+                itinerary_second_day_pm_content: ''
+              },
+              {
+                third_day_title: '',
+                itinerary_third_day_am_title: '',
+                itinerary_third_day_am_content: '',
+                itinerary_third_day_pm_title: '',
+                itinerary_third_day_pm_content: ''
+              }
+            ]
+          }
+        } else if (this.tempProduct.itinerary_data.length === 1) {
+          this.tempProduct.itinerary_data.push(
+            {
+              second_day_title: '',
+              itinerary_second_day_am_title: '',
+              itinerary_second_day_am_content: '',
+              itinerary_second_day_pm_title: '',
+              itinerary_second_day_pm_content: ''
+            },
+            {
+              third_day_title: '',
+              itinerary_third_day_am_title: '',
+              itinerary_third_day_am_content: '',
+              itinerary_third_day_pm_title: '',
+              itinerary_third_day_pm_content: ''
+            }
+          )
+        } else if (this.tempProduct.itinerary_data.length === 2) {
+          this.tempProduct.itinerary_data.push({
+            third_day_title: '',
+            itinerary_third_day_am_title: '',
+            itinerary_third_day_am_content: '',
+            itinerary_third_day_pm_title: '',
+            itinerary_third_day_pm_content: ''
+          })
+        }
         if (!Array.isArray(this.tempProduct.imagesUrl)) {
           this.tempProduct.imagesUrl = []
         }
@@ -809,12 +907,10 @@ export default {
         this.modalDel.show()
       }
     },
-    //新增
-    // const newProduct = this.tempProduct
-    // this.$data.products.push(newProduct)
     updateProduct() {
-      const filteredProducts = this.products.map((product) => this.filterProduct(product))
-      console.log(filteredProducts)
+      const filteredProduct = this.filterProduct(this.tempProduct);
+      this.tempProduct = filteredProduct
+      // console.log(this.tempProduct)
       if (this.isNew) {
         this.axios
           .post(`${api_url2}/products`, this.tempProduct)
@@ -866,6 +962,7 @@ export default {
 
       return filteredProduct
     },
+
     filterItineraryData(itineraryData) {
       // 過濾 itinerary_data 陣列中的物件
       return itineraryData.map((itinerary) => {
@@ -935,7 +1032,7 @@ export default {
     }
   },
   mounted() {
-    this.checkAdmin()
+    // this.checkAdmin()
     this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)

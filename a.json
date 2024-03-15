@@ -1,55 +1,103 @@
-
-{
-    "products": [
-        {
-          "category": "嘉義",
-          "tag_1": "雙日遊",
-          "tag_2": "鐵道之旅",
-          "day_num": 2,
-          "itinerary_data": [
-            {
-              "first_day_title": "第一天",
-              "itinerary_first_day_am_title": "阿里山森林鐵路",
-              "itinerary_first_day_am_content": "全線自海拔30公尺的。",
-              "itinerary_first_day_pm_title": "阿里山森林遊樂園",
-              "itinerary_first_day_pm_content": "阿里山共由十八座高山組成，屬於玉山山脈的支脈，隔同富溪與。"
-            },
-            {
-              "second_day_title": "第二天",
-              "itinerary_second_day_am_title": "阿里山國家風景區-觸口遊客中心",
-              "itinerary_second_day_am_content": "因應日漸成熟之旅遊風潮與國內旅遊市場的廣大需求",
-              "itinerary_second_day_pm_title": "奮起湖風景區",
-              "itinerary_second_day_pm_content": "奮起湖位於。"
-            },
-            {
-              "third_day_title": "",
-              "itinerary_third_day_am_title": "",
-              "itinerary_third_day_am_content": "",
-              "itinerary_third_day_pm_title": "",
-              "itinerary_third_day_pm_content": ""
-            }
-          ]
-        },
-        {
-            "category": "嘉義",
-            "tag_1": "雙日遊",
-            "tag_2": "鐵道之旅",
-            "day_num": 2,
-            "itinerary_data": [
-              {
-                "first_day_title": "第一天",
-                "itinerary_first_day_am_title": "阿里山森林鐵路",
-                "itinerary_first_day_am_content": "全線自海拔30公尺的。",
-                "itinerary_first_day_pm_title": "阿里山森林遊樂園",
-                "itinerary_first_day_pm_content": "阿里山共由十八座高山組成，屬於"
-              }
-            ]
-        }
+{//post
+  "success": true,
+  "message": "已加入購物車",
+  "data": {
+    "product_id": "-L9tH8jxVb2Ka_DYPwng",
+    "qty": 1,
+    "id": "-LAl5v_2MhWeh3linQxx",
+    "total": 600,
+    "final_total": 600,
+    "product": {
+      "category": "衣服3",
+      "content": "這是內容",
+      "description": "Sit down please 名設計師設計",
+      "id": "-L9tH8jxVb2Ka_DYPwng",
+      "imageUrl": "主圖網址",
+      "imagesUrl": [
+        "圖片網址一",
+        "圖片網址二",
+        "圖片網址三",
+        "圖片網址四",
+        "圖片網址五"
       ],
-      "user": {
-        "name": "test",
-        "email": "test@gmail.com",
-        "tel": "0912346768",
-        "address": "kaohsiung"
+      "is_enabled": 1,
+      "num": 1,
+      "origin_price": 500,
+      "price": 600,
+      "title": "[賣]動物園造型衣服3",
+      "unit": "個"
+    }
+  }
+}
+{//get
+  "success": true,
+  "data": {
+    "carts": [
+      {
+        "coupon": {
+          "code": "testCode",
+          "due_date": 6547658,
+          "id": "-L9u",
+          "is_enabled": 1,
+          "percent": 60,
+          "title": "超格"
+        },
+        "final_total": 240,
+        "id": "-Ns4",
+        "product": {
+          "category": "風景",
+          "content": "這是內容",
+          "description": "台北101",
+          "id": "-Nrj5",
+          "imageUrl": "https://images.unsplash",
+          "imagesUrl": [
+            "",
+            ""
+          ],
+          "is_enabled": 1,
+          "origin_price": 300,
+          "price": 240,
+          "title": "taiwan B",
+          "unit": "個"
+        },
+        "product_id": "-Nr",
+        "qty": 1,
+        "total": 240
+      },
+      {
+        "final_total": 2999,
+        "id": "-Ns",
+        "product": {
+          "category": "高雄",
+          "description": "遇旗津",
+          "id": "-NpwWG9CAjx-ADKhFG54",
+          "imageUrl": "",
+          "imagesUrl": [
+            "",
+            ""
+          ],
+          "is_enabled": 1,
+          "num": 1,
+          "origin_price": 3000,
+          "price": 2999,
+          "title": "旗津",
+          "unit": "套"
+        },
+        "product_id": "-N",
+        "qty": 1,
+        "total": 2999
       }
+    ],
+    "total": 3239,
+    "final_total": 3239
+  },
+  "messages": []
+}
+{//put 須帶入購物車id、產品id、數量
+  "success": true,
+  "message": "已更新購物車",
+  "data": {
+    "product_id": "-NrjKlKfFnXOK9KQngn5",
+    "qty": 3
+  }
 }
