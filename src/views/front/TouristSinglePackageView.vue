@@ -441,13 +441,13 @@
 
         <h6 class="mb-2">
           注意：
-          <span class="text-danger"> 至少3位成團，最多10位出遊 </span>
+          <span class="text-danger"> 至少3位成團，最多{{ productsItem.max_travelers }}位出遊 </span>
         </h6>
         <h6 class="mb-5" v-if="currentDate <= productsItem.endDate">
           目前已有
           <span class="text-danger">0</span>
           位預約，剩
-          <span class="text-danger">10</span>
+          <span class="text-danger">{{ productsItem.max_travelers }}</span>
           位可預約
         </h6>
         <button
@@ -458,13 +458,12 @@
         >
           預約套裝行程
         </button>
-        <router-link
-          class="btn-square fs-5 w-100"
+        <button
+          class="btn-square fs-5 w-100 border-0"
           type="button"
           :class="{ 'disabled-btn': currentDate > endDate }"
-          :to="{ name: 'checkProduct' }"
           @click="saveCardId"
-          >直接結帳</router-link
+          >直接結帳</button
         >
         <!-- <h6 class="mt-2">集合地點為{{productsItem.category}}火車站</h6>
           <h6 class="mt-2">集合時間為早上9點</h6> -->
@@ -620,12 +619,11 @@ export default {
       }))
       // console.log(this.newProductsContent)
     },
-    addToCart(productId, qty = 1, price) {
+    addToCart(productId, qty = 1, price,percent=1) {
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
         let productExists = false
-
         // 檢查是否有重複產品，如果有則標記為存在
         this.newCarts.forEach((item) => {
           if (item.productId === productId && item.id) {
@@ -641,9 +639,11 @@ export default {
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
+              // console.log(res);
               alert('已更新預約人數')
               this.getCart()
             })
@@ -659,7 +659,8 @@ export default {
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
               // console.log(res)
@@ -693,7 +694,12 @@ export default {
       this.quantity = item++
     },
     saveCardId() {
-      document.cookie = `cartId=${this.newCarts.id}; path=/;`
+      if (!this.token) {
+        alert('請登入會員後，才能預約套裝行程')
+      } else{
+        // document.cookie = `cartId=${this.newCarts.id}; path=/;`
+        this.$router.push('/cart')
+      }
     },
     getCart() {
       this.axios
@@ -702,12 +708,12 @@ export default {
           // console.log(res);
           this.carts = res.data
           // console.log(this.carts);
-          this.carts.forEach((item) => {
-            if (item.userId === this.userId) {
+          this.carts.forEach(item=>{
+            if(this.userId === item.userId){
               this.newCarts.push(item)
             }
           })
-          // console.log(this.newCarts)
+          // console.log(this.newCarts);
         })
         .catch((err) => {
           // console.log(err)

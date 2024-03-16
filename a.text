@@ -422,3 +422,23 @@ upload() {
       // document.cookie = `userId=; expires=`
       // // 重置用户状态
       // this.userId = null
+
+      else{
+         // 如果產品不在購物車中，新增一個新項目
+            this.axios
+            .post(`${api_url2}/carts`,{
+              productId,
+              qty,
+              price,
+              total : qty*price,
+              userId : this.userId
+            })
+            .then((res) => {
+              console.log(res)
+            
+            })
+            .catch((err) => {
+              // console.log(err)
+              alert(`${err.message}`)
+            })
+          }

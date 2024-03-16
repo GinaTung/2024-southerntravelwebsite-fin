@@ -2,34 +2,7 @@
   <div class="container py-10 py-lg-30">
     <div class="row">
       <div class="col-md-6 mx-auto pb-5 pb-lg-15">
-        <ol
-          class="pay-list mt-5 d-flex justify-content-between list-unstyled pe-0 position-relative"
-        >
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center number-active mb-0">
-              1
-            </p>
-            <p class="fw-bold mb-0">確認行程</p>
-          </li>
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center mb-0 number-active">
-              2
-            </p>
-            <p class="fw-bold mb-0">訂單資料</p>
-          </li>
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center mb-0 number-active">
-              3
-            </p>
-            <p class="fw-bold mb-0">付款資料</p>
-          </li>
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center mb-0 number-active">
-              4
-            </p>
-            <p class="fw-bold mb-0">訂單完成</p>
-          </li>
-        </ol>
+        <CartNavbar></CartNavbar>
       </div>
     </div>
     <div class="text-center mb-10">
@@ -177,9 +150,13 @@
 }
 </style>
 <script>
+import CartNavbar from '@/components/CartNavbar.vue';
 import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
+  components:{
+    CartNavbar
+  },
   data() {
     return {
       text: 123,
@@ -289,6 +266,7 @@ export default {
     this.getOrderData()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
+    console.log(this.$route);
   }
 }
 </script>

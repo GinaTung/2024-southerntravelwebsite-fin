@@ -216,7 +216,8 @@
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
               alert('已更新預約人數')
@@ -247,9 +248,6 @@
             })
         }
       }
-    },
-    saveCardId() {
-      document.cookie = `cartId=${this.newCarts.id}; path=/;`
     },
     getCart() {
       this.axios
