@@ -200,7 +200,7 @@
         alert('請登入會員後，才能預約套裝行程')
       } else {
         let productExists = false
-
+        let percent =1;
         // 檢查是否有重複產品，如果有則標記為存在
         this.newCarts.forEach((item) => {
           if (item.productId === productId && item.id) {
@@ -216,7 +216,8 @@
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
               alert('已更新預約人數')
@@ -234,7 +235,8 @@
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
               // console.log(res)
@@ -247,9 +249,6 @@
             })
         }
       }
-    },
-    saveCardId() {
-      document.cookie = `cartId=${this.newCarts.id}; path=/;`
     },
     getCart() {
       this.axios

@@ -2,30 +2,7 @@
   <div class="container py-10 py-lg-30">
     <div class="row">
       <div class="col-md-6 mx-auto pb-5 pb-lg-15">
-        <ol
-          class="pay-list mt-5 d-flex justify-content-between list-unstyled pe-0 position-relative"
-        >
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center number-active mb-0">
-              1
-            </p>
-            <p class="fw-bold mb-0">確認行程</p>
-          </li>
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center mb-0 number-active">
-              2
-            </p>
-            <p class="fw-bold mb-0">訂單資料</p>
-          </li>
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center mb-0">3</p>
-            <p class="fw-bold mb-0">付款資料</p>
-          </li>
-          <li class="d-flex flex-column align-items-center">
-            <p class="number d-flex justify-content-center align-items-center mb-0">4</p>
-            <p class="fw-bold mb-0">訂單完成</p>
-          </li>
-        </ol>
+        <CartNavbar></CartNavbar>
       </div>
     </div>
     <div class="mb-4">
@@ -39,29 +16,33 @@
           aria-controls="collapseExample"
           @click="toggleOpen"
         >
-          總計：{{ cartTotal }}元<br />購買清單
+          總計：{{ thousand(total) }}元<br />購買清單
           <i class="bi bi-chevron-down" v-if="isOpen === false"></i>
           <i class="bi bi-chevron-up" v-else></i>
         </button>
       </p>
       <div class="collapse" id="collapseExample" ref="headerCollapse" v-show="isOpen">
         <div class="card card-body rounded-0">
-          <div class="row p-10">
-            <div class="col-12 col-md-4">
-              <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100" />
+          <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
+            <div class="col-12 col-md-5 col-lg-4">
+              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid h-100" />
             </div>
-            <div class="col-12 col-md-8">
-              <h3 class="mb-4">套裝行程名稱：{{ product.title }}</h3>
-              <h3 class="mb-4">單價：{{ thousand(product.price) }}</h3>
-              <h3 class="mb-4">總計：{{ thousand(cartTotal) }}</h3>
-              <router-link
-                :to="{
-                  path: '/TouristPackage/' + product.category + '/' + product.title
-                }"
-                class="btn-square px-2 px-md-3 w-50"
-                type="button"
-                >查看更多</router-link
-              >
+            <div class="col-12 col-md-7 col-lg-8 d-flex flex-column justify-content-between">
+              <div>
+                <h4 class="mt-4 mt-md-0 mb-4">套裝行程名稱：{{ item.product.title }}</h4>
+                <h5 class="mb-4">單價：{{ thousand(item.product.price) }}</h5>
+                <h5 class="mb-4">預約數量：{{ item.qty }} 位</h5>
+                <h5 class="mb-4">總計：{{ thousand(item.final_total) }}</h5>
+              </div>
+              <div>
+                <button
+                  type="button"
+                  class="btn-turquoise border-0 rounded-1"
+                  @click="forId(item.product.id, item.product.title)"
+                >
+                  查看更多
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -81,8 +62,13 @@
           <label for="floatingInput">姓名</label>
         </div>
         <div class="form-floating mb-4">
-          <input type="tel" class="form-control rounded-1" id="floatingTel" placeholder="tel" 
-          v-model="user.tel"/>
+          <input
+            type="tel"
+            class="form-control rounded-1"
+            id="floatingTel"
+            placeholder="tel"
+            v-model="user.tel"
+          />
           <label for="floatingTel">電話</label>
         </div>
         <div class="form-floating mb-4">
@@ -120,7 +106,7 @@
         <h3 class="mb-4">運送資料</h3>
         <div class="form-floating mb-4">
           <select
-          v-model="user.shippingMethod"
+            v-model="user.shippingMethod"
             class="form-select rounded-1"
             id="floatingSelect"
             aria-label="Floating label select example"
@@ -144,17 +130,24 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-      <div class="w-25">
+      <div class="w-100 w-md-50 d-flex">
         <a class="btn-cerulean w-100 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
-      </div>
-      <div class="w-25">
-        <router-link class="btn-square mt-4 fs-5 w-100" type="button" to="/cart/payList"
-        @click="orderData"
+        <router-link
+          class="btn-square mt-4 fs-5 w-100"
+          type="button"
+          to="/cart/payList"
+          @click="orderData"
           >下一步</router-link
         >
       </div>
     </div>
   </div>
+  <UserProductModal
+    ref="userProductModal"
+    :userCart="userCart"
+    :productId="productId"
+    :productTitle="productTitle"
+  />
 </template>
 <style>
 .number {
@@ -204,31 +197,38 @@
 }
 </style>
 <script>
+import UserProductModal from '@/components/UserProductModal.vue'
+import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
+  components: {
+    CartNavbar,
+    UserProductModal
+  },
   data() {
     return {
-      text: 123,
-      cartId: 0,
-      cart: [],
+      cartsData: [],
+      userCart: [],
+      userId: '',
       isOpen: false,
       headerCollapse: {},
-      products: [],
-      product: {},
-      cartTotal: 0,
       order: {},
       user: {
-          name: '',
-          email: '',
-          tel: '',
-          address: '',
-          birthday:'',
-          comment:'',
-          shippingMethod:''
-        },
-      shippingMethod:['超商取貨','宅配'],
-      product_id:''
+        name: '',
+        email: '',
+        tel: '',
+        address: '',
+        birthday: '',
+        comment: '',
+        shippingMethod: ''
+      },
+      shippingMethod: ['超商取貨', '宅配'],
+      total: 0,
+      productId: '',
+      productTitle: '',
+      cartDataId: '',
+      ordersData: []
     }
   },
   watch: {
@@ -243,49 +243,47 @@ export default {
     toggleOpen() {
       this.isOpen = !this.isOpen
     },
-    getProducts() {
-      this.axios
-        .get(`${api_url2}/products`)
-        .then((res) => {
-          // console.log(res)
-          this.products = res.data
-          // console.log(this.cart.data.product_id)
-          this.products.forEach((item) => {
-            if (item.id === this.cart.data.product_id) {
-              this.product = item
-            }
-          })
-          // console.log(this.product)
-          this.product_id = this.cart.data.product_id
-        })
-        .catch((err) => {
-          console.log(err)
-          // alert(`${err.message}`)
-        })
+    forId(id, title) {
+      // console.log(id,title);
+      this.productId = id
+      this.productTitle = title
+      this.$refs.userProductModal.openModal()
     },
     getCart() {
       this.axios
-        .get(`${api_url2}/carts`)
+        .get(`${api_url2}/cartsData`)
         .then((res) => {
           // console.log(res.data)
-          this.cart = res.data
-          this.cart.forEach((item) => {
-            if (item.id === this.cartId) {
-              this.cart = item
+          this.cartsData = res.data
+          this.cartsData.forEach((item) => {
+            if(item.status === false){
+              item.data.forEach((dataItem) => {
+                if (dataItem.userId === this.userId) {
+                  this.userCart.push(dataItem)
+                }
+              })
             }
           })
-          // console.log(this.cart)
-          this.cartTotal = this.cart.data.total
+          // console.log(this.userCart)
+          this.userCart.forEach((item) => {
+            this.total += item.final_total
+          })
+          // console.log(this.total);
         })
         .catch((err) => {
           console.log(err)
           // alert(`${err}`)
         })
     },
-    getCookie(name) {
-      const value = `; ${document.cookie}`
-      const parts = value.split(`; ${name}=`)
-      if (parts.length === 2) return parts.pop().split(';').shift()
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
     },
     thousand(data) {
       if (data !== undefined) {
@@ -293,38 +291,87 @@ export default {
       }
       return `$ ${data}`
     },
-    orderData() {
-      const user = {
-          name: this.user.name,
-          email: this.user.email,
-          tel: this.user.tel,
-          address: this.user.address,
-          birthday:this.user.birthday,
-          comment:this.user.comment,
-          shippingMethod:this.user.shippingMethod,
-          cartId:this.cartId
-      }
+    getOderData() {
       this.axios
-        .post(`${api_url2}/order`, { user })
+        .get(`${api_url2}/order`)
         .then((res) => {
           // console.log(res)
-          this.order = res.data;
+          this.ordersData = res.data
         })
         .catch((err) => {
           console.log(err)
           // alert(`${err.message}`)
         })
+    },
+    orderData() {
+      // console.log(this.ordersData)
+      const userExists = this.ordersData.some((item) => item.user.cartDataId === this.cartDataId  && item.user.status === false)
+      let orderId = 0;
+      this.ordersData.forEach(item=>{
+        if(item.user.cartDataId === this.cartDataId && item.user.status === false){
+          orderId = item.id
+        }
+      });
+      // console.log(orderId,userExists);
+      if (userExists) {
+        const user = {
+          name: this.user.name,
+          email: this.user.email,
+          tel: this.user.tel,
+          address: this.user.address,
+          birthday: this.user.birthday,
+          comment: this.user.comment,
+          shippingMethod: this.user.shippingMethod,
+          userId: this.userId,
+          cartDataId: this.cartDataId,
+          status: false,
+        }
+        this.axios
+          .put(`${api_url2}/order/${orderId}`, { user })
+          .then((res) => {
+            // console.log("res")
+            this.order = res.data
+          })
+          .catch((err) => {
+            console.log(err)
+            // alert(`${err.message}`)
+          })
+      } else {
+        const user = {
+          name: this.user.name,
+          email: this.user.email,
+          tel: this.user.tel,
+          address: this.user.address,
+          birthday: this.user.birthday,
+          comment: this.user.comment,
+          shippingMethod: this.user.shippingMethod,
+          userId: this.userId,
+          cartDataId: this.cartDataId,
+          status: false,
+        }
+        this.axios
+          .post(`${api_url2}/order`, { user })
+          .then((res) => {
+            // console.log("s")
+            this.order = res.data
+          })
+          .catch((err) => {
+            console.log(err)
+            // alert(`${err.message}`)
+          })
+      }
     }
   },
   mounted() {
     // console.log(document.cookie)
-    this.cartId = this.getCookie('cartId') * 1
-    if (!document.cookie) {
-      alert('目前購物車無資料，請加入預約行程')
-    } else {
-      this.getCart()
-    }
-    this.getProducts()
+    const cookieUserId = this.getCookie('userId')
+    const cookieCartDataId = this.getCookie('cartDataId')
+    this.userId = cookieUserId * 1
+    this.cartDataId = cookieCartDataId * 1
+    // console.log(this.cartDataId)
+    this.getCart()
+    this.getOderData()
+    // this.getProducts()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
   }
 }

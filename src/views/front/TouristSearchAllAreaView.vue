@@ -116,6 +116,7 @@ export default {
       token: '',
       newCarts: [],
       cartId: null,
+      userCarts: [],
     }
   },
   methods: {
@@ -180,18 +181,22 @@ export default {
       //   console.log(this.newProductsDes)
     },
     addToCart(productId, qty = 1, price) {
+      console.log(productId,qty,price);
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
-        let productExists = false
 
-        // 檢查是否有重複產品，如果有則標記為存在
+        console.log( this.newCarts);
+        let productExists = false
+        let percent =1;
+        //檢查是否有重複產品，如果有則標記為存在
         this.newCarts.forEach((item) => {
           if (item.productId === productId && item.id) {
             productExists = true
             this.cartId = item.id
           }
         })
+
         // 如果產品已經存在於購物車中，則執行 put 操作
         if (productExists) {
           this.axios
@@ -200,11 +205,13 @@ export default {
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
               alert('已更新預約人數')
               this.getCart()
+              this.$router.go(0)
             })
             .catch((err) => {
               // console.error('更新預約人數失敗:', err)
@@ -218,12 +225,14 @@ export default {
               qty,
               price,
               total: qty * price,
-              userId: this.userId
+              userId: this.userId,
+              final_total: qty * price* percent,
             })
             .then((res) => {
               // console.log(res)
               alert(`已預約成功`)
               this.getCart()
+              this.$router.go(0)
             })
             .catch((err) => {
               // console.log(err);
@@ -231,9 +240,6 @@ export default {
             })
         }
       }
-    },
-    saveCardId() {
-      document.cookie = `cartId=${this.newCarts.id}; path=/;`
     },
     getCart() {
       this.axios
@@ -271,6 +277,7 @@ export default {
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1
     this.token = cookieToken
+    this.getCart()
     // console.log(this.userId,this.token);
   }
 }
