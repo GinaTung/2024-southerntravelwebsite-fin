@@ -54,8 +54,16 @@
           v-else
           class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center"
         >
-          <li class="nav-item" style="padding-top: 5px; padding-bottom: 5px">
-            <a href="#/cart" class="btn-outline-turquoise"> <i class="bi bi-cart-fill fs-5"></i></a>
+          <li class="nav-item">
+            <a type="button" class="btn-outline-turquoise position-relative" href="#/cart"  style="padding-top: 5px; padding-bottom: 5px">
+              <i class="bi bi-cart-fill fs-5"></i>
+              <span
+                class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
+              >
+                {{userCarts.length}}
+                <span class="visually-hidden">unread messages</span>
+              </span>
+            </a>
           </li>
           <li
             class="nav-item btn-outline-turquoise ms-3"
@@ -88,7 +96,9 @@ export default {
       headerCollapse: {},
       isNavbarOpen: false,
       userIsLoggedIn2: false,
-      token: ''
+      token: '',
+      carts:[],
+      userCarts:[]
     }
   }, // 路由改變時隱藏選單
   watch: {
@@ -119,6 +129,25 @@ export default {
       // 导向至登录页面或首页
       this.$router.push('/') // 或者你想导向的其他路径
     },
+    getCarts() {
+      this.axios
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          // console.log(res)
+          this.carts = res.data
+          // console.log(this.carts)
+          this.carts.forEach((item) => {
+            if (item.userId === this.userId) {
+              this.userCarts.push(item)
+            }
+          })
+          // console.log(this.userCarts)
+        })
+        .catch((err) => {
+          // console.log(err)
+          alert(`${err.message}`)
+        })
+    },
     deleteAllCookies() {
       var cookies = document.cookie.split(';')
       for (var i = 0; i < cookies.length; i++) {
@@ -127,7 +156,17 @@ export default {
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
       }
-    }
+    },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
+    },
   },
   mounted() {
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
@@ -135,6 +174,9 @@ export default {
     this.axios.defaults.headers.common['Authorization'] = this.token
     // console.log(this.token)
     this.checkLoggedInUser()
+    const cookieUserId = this.getCookie('userId')
+    this.userId = cookieUserId * 1
+    this.getCarts()
   }
 }
 </script>

@@ -6,49 +6,60 @@
       </div>
     </div>
     <div class="text-center mb-10">
-      <p class="fs-4"><i class="bi bi-check-circle-fill text-success"></i>感謝您！您的訂單已建立完成</p>
+      <div class="text-center">
+        <i class="bi bi-check-circle-fill text-success fs-3"></i>
+        <p class="fs-4">感謝您！您的訂單已建立完成</p>
+      </div>
     </div>
     <div class="row">
-      <div class="mb-4 col-12 col-md-6">
+      <div class="mb-4">
         <p class="d-grid gap-2">
           <button
             class="btn btn-primary-600 border-top"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#collapseExample"
-            aria-expanded="true"
+            aria-expanded="false"
             aria-controls="collapseExample"
             @click="toggleOpen"
           >
-            總計：{{ cartTotal }}元<br />購買清單
+            總計：{{ thousand(total) }}元<br />購買清單
             <i class="bi bi-chevron-down" v-if="isOpen === false"></i>
             <i class="bi bi-chevron-up" v-else></i>
           </button>
         </p>
-        <div class="collapse show" id="collapseExample" ref="headerCollapse" v-show="isOpen">
-          <div class="card card-body rounded-0 order-h-size">
-            <div class="row py-10">
-              <div class="col-12 col-md-5">
-                <img :src="product.imageUrl" :alt="product.title" class="img-fluid h-100 pb-4" />
+        <div class="collapse" id="collapseExample" ref="headerCollapse" v-show="isOpen">
+          <div class="card card-body rounded-0">
+            <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
+              <div class="col-12 col-md-5 col-lg-4">
+                <img
+                  :src="item.product.imageUrl"
+                  :alt="item.product.title"
+                  class="img-fluid h-100"
+                />
               </div>
-              <div class="col-12 col-md-7">
-                <h3 class="mb-4 fs-5">套裝行程名稱：{{ product.title }}</h3>
-                <h3 class="mb-4 fs-5">單價：{{ thousand(product.price) }}</h3>
-                <h3 class="mb-4 fs-5">總計：{{ thousand(cartTotal) }}</h3>
-                <router-link
-                  :to="{
-                    path: '/TouristPackage/' + product.category + '/' + product.title
-                  }"
-                  class="btn-square px-2 px-md-3 w-50"
-                  type="button"
-                  >查看更多</router-link
-                >
+              <div class="col-12 col-md-7 col-lg-8 d-flex flex-column justify-content-between">
+                <div>
+                  <h4 class="mt-4 mt-md-0 mb-4">套裝行程名稱：{{ item.product.title }}</h4>
+                  <h5 class="mb-4">單價：{{ thousand(item.product.price) }}</h5>
+                  <h5 class="mb-4">預約數量：{{ item.qty }} 位</h5>
+                  <h5 class="mb-4">總計：{{ thousand(item.final_total) }}</h5>
+                </div>
+                <div>
+                  <button
+                    type="button"
+                    class="btn-turquoise border-0 rounded-1"
+                    @click="forId(item.product.id, item.product.title)"
+                  >
+                    查看更多
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="mb-4 col-12 col-md-6">
+      <div class="mb-4 col-12">
         <p class="d-grid gap-2">
           <button
             class="btn btn-primary-600 border-top"
@@ -59,39 +70,46 @@
             aria-controls="collapseOrder"
             @click="toggleOpenOrder"
           >
-            訂單及運送資料<br>
+            訂單及運送資料<br />
             <i class="bi bi-chevron-down" v-if="isOrderOpen === false"></i>
             <i class="bi bi-chevron-up" v-else></i>
           </button>
         </p>
         <div class="collapse show" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
-          <div class="card card-body rounded-0" style="height: 300px;">
+          <div class="card card-body rounded-0" style="height: 400px">
             <div class="row py-10">
-              <div class="col-12 col-md-7">
-                <h5 class="mb-4">收件人名字：{{ shoppingData.name }}</h5>
-                <h5 class="mb-4">收件人電話：{{ shoppingData.tel }}</h5>
-                <h5 class="mb-4">備註：{{ shoppingData.comment }}</h5>
+              <div class="col-12  col-md-5 col-lg-4">
+                <h5 class="mb-4">收件人名字：{{ userOrder.name }}</h5>
+                <h5 class="mb-4">收件人電話：{{ userOrder.tel }}</h5>
+                <h5 class="mb-4">備註：{{ userOrder.comment }}</h5>
               </div>
-              <div class="col-12 col-md-5">
-                <h5 class="mb-4">收件人地址：{{ shoppingData.address }}</h5>
-                <h5 class="mb-4">運送方式：{{ shoppingData.shippingMethod }}</h5>
+              <div class="col-12  col-md-7 col-lg-8">
+                <h5 class="mb-4">收件人地址：{{ userOrder.address }}</h5>
+                <h5 class="mb-4">運送方式：{{ userOrder.shippingMethod }}</h5>
+                <h5 class="mb-4">付款方式：{{ userOrder.payMethod }}</h5>
+                <h5 class="mb-4" >付款狀態：
+                  <span :class="{'text-danger': userOrder.status===false,'text-success': userOrder.status===true}">
+                    {{ userOrder.status ? '已付款' : '未付款' }}
+                  </span>
+                </h5>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="d-flex justify-content-between">
-      <div class="w-25">
-        <a class="btn-cerulean w-100 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
-      </div>
-      <div class="w-25">
-        <router-link class="btn-square mt-4 fs-5 w-100" type="button" to="/"
-          >回首頁</router-link
-        >
+    <div class="d-flex justify-content-center">
+      <div class="w-100 w-md-25">
+        <router-link class="btn-square mt-4 fs-5 w-100" type="button" to="/">回首頁</router-link>
       </div>
     </div>
   </div>
+  <UserProductModal
+    ref="userProductModal"
+    :userCart="userCart"
+    :productId="productId"
+    :productTitle="productTitle"
+  />
 </template>
 <style>
 .number {
@@ -139,40 +157,42 @@
 .border-top {
   border-radius: 12px 12px 0 0;
 }
-.order-h-size{
+.order-h-size {
   height: 300px;
 }
 @media (max-width: 992px) {
-  .order-h-size{
+  .order-h-size {
     height: 600px !important;
-}
-
+  }
 }
 </style>
 <script>
-import CartNavbar from '@/components/CartNavbar.vue';
+import UserProductModal from '@/components/UserProductModal.vue'
+import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
-  components:{
-    CartNavbar
+  components: {
+    CartNavbar,
+    UserProductModal
   },
   data() {
     return {
-      text: 123,
-      cartId: 0,
-      cart: [],
+      userId: '',
+      total: 0,
+      cartsData: [],
+      userCart: [],
       isOpen: true,
       isOrderOpen: true,
       headerCollapse: {},
       products: [],
       product: {},
       cartTotal: 0,
-      shoppingData: [],
-      user: {
-        payMethod: 'creditCard'
-      },
-      product_id:''
+      orderData: [],
+      userOrder: '',
+      product_id: '',
+      productId: '',
+      productTitle: ''
     }
   },
   watch: {
@@ -191,20 +211,23 @@ export default {
     toggleOpenOrder() {
       this.isOrderOpen = !this.isOrderOpen
     },
-    getProducts() {
+    forId(id, title) {
+      // console.log(id,title);
+      this.productId = id
+      this.productTitle = title
+      this.$refs.userProductModal.openModal()
+    },
+    getOderData() {
       this.axios
-        .get(`${api_url2}/products`)
+        .get(`${api_url2}/order`)
         .then((res) => {
           // console.log(res)
-          this.products = res.data
-          // console.log(this.cart.data.product_id)
-          this.products.forEach((item) => {
-            if (item.id === this.cart.data.product_id) {
-              this.product = item
+          this.orderData = res.data
+          this.orderData.forEach((item) => {
+            if (item.user.userId === this.userId && item.status === false) {
+              this.userOrder = item.user
             }
           })
-          // console.log(this.product)
-          this.product_id = this.cart.data.product_id;
         })
         .catch((err) => {
           console.log(err)
@@ -213,17 +236,25 @@ export default {
     },
     getCart() {
       this.axios
-        .get(`${api_url2}/carts`)
+        .get(`${api_url2}/cartsData`)
         .then((res) => {
           // console.log(res.data)
-          this.cart = res.data
-          this.cart.forEach((item) => {
-            if (item.id === this.cartId) {
-              this.cart = item
+          this.cartsData = res.data
+          this.cartsData.forEach((item) => {
+            if(item.orderStatus === false){
+              item.data.forEach((dataItem) => {
+                if (dataItem.userId === this.userId) {
+                  this.userCart.push(dataItem)
+                }
+              })
             }
           })
-          // console.log(this.cart)
-          this.cartTotal = this.cart.data.total
+
+          // console.log(this.userCart)
+          this.userCart.forEach((item) => {
+            this.total += item.final_total
+          })
+          // console.log(this.total);
         })
         .catch((err) => {
           console.log(err)
@@ -235,18 +266,6 @@ export default {
       const parts = value.split(`; ${name}=`)
       if (parts.length === 2) return parts.pop().split(';').shift()
     },
-    getOrderData() {
-      this.axios
-        .get(`${api_url2}/order?user.cartId=${this.cartId}`)
-        .then((res) => {
-          //   console.log(res.data[0].user)
-          this.shoppingData = res.data[0].user
-        })
-        .catch((err) => {
-          console.log(err)
-          // alert(`${err.message}`)
-        })
-    },
     thousand(data) {
       if (data !== undefined) {
         data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
@@ -256,17 +275,15 @@ export default {
   },
   mounted() {
     // console.log(document.cookie)
-    this.cartId = this.getCookie('cartId') * 1
-    if (!document.cookie) {
-      alert('目前購物車無資料，請加入預約行程')
-    } else {
-      this.getCart()
-    }
-    this.getProducts()
-    this.getOrderData()
+    const cookieUserId = this.getCookie('userId')
+    this.userId = cookieUserId * 1
+
+    // this.getProducts()
+    this.getOderData()
+    this.getCart()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
-    console.log(this.$route);
+    // console.log(this.$route);
   }
 }
 </script>

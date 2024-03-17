@@ -5,96 +5,108 @@
         <CartNavbar></CartNavbar>
       </div>
     </div>
-    <table class="table align-middle">
-      <thead>
-        <tr>
-          <th style="width: 100px"></th>
-          <th style="width: 150px">圖片</th>
-          <th>行程名稱</th>
-          <th style="width: 160px">數量/單位</th>
-          <th style="width: 100px">單價</th>
-          <th class="text-end" style="width: 100px">小計</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in cartsData" :key="item.id">
-          <td>
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-sm"
-              @click="deleteCart(item.id, item.product.title)"
-            >
-              <!-- <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> -->
-              <!-- <i class="fas fa-spinner fa-pulse"></i> -->
-              x
-            </button>
-          </td>
-          <td>
-            <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid" />
-          </td>
-          <td>
-            {{ item.product.title }}
-            <!-- <div class="text-success">已套用優惠券</div> -->
-          </td>
-          <td>
-            <div class="input-group input-group-sm">
-              <div class="input-group my-3">
-                <button
-                  class="btn btn-outline-dark rounded-0"
-                  type="button"
-                  v-if="item.qty > 1"
-                  @click="decrementQuantity(item.id, item.qty, item.price)"
-                >
-                  <i class="bi bi-dash-lg"></i>
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-danger rounded-0"
-                  v-else
-                  @click="deleteCart(item.id, item.product.title)"
-                >
-                  <i class="bi bi-trash"></i>
-                </button>
-                <input
-                  min="1"
-                  max="10"
-                  type="number"
-                  :disabled="item.qty > 10"
-                  class="form-control rounded-0 border border-dark d-flex"
-                  v-model="item.qty"
-                  readonly
-                />
-                <button
-                  class="btn btn-outline-dark rounded-0"
-                  type="button"
-                  @click="incrementQuantity(item.id, item.qty, item.price)"
-                >
-                  <i class="bi bi-plus-lg"></i>
-                </button>
+    <div class="table-responsive">
+      <table class="table align-middle table-rwd">
+        <thead>
+          <tr class="tr-only-hide">
+            <th style="width: 80px"></th>
+            <th style="width: 180px">圖片</th>
+            <th>行程名稱</th>
+            <th style="width: 150px">數量/單位</th>
+            <th style="width: 70px" class="text-end">單價</th>
+            <th class="text-end" style="width: 100px">小計</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in cartsData" :key="item.id">
+            <td data-th="">
+              <button
+                type="button"
+                class="btn btn-outline-danger btn-sm"
+                @click="deleteCart(item.id, item.product.title)"
+              >
+                <i class="bi bi-x"></i>刪除
+              </button>
+            </td>
+            <td data-th="圖片" class="">
+              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid" />
+            </td>
+            <td data-th="行程名稱" class="fs-6 pb-0 pb-md-2">
+              <span class="td-p-left">
+                {{ item.product.title }}
+              </span>
+              <!-- <div class="text-success">已套用優惠券</div> -->
+            </td>
+            <td class="py-0 py-md-2">
+              <div class="td-number-direction">
+                <span class="fw-bold d-md-none fs-6">數量/單位</span>
+                <div class="input-group my-3 w-length">
+                  <button
+                    class="btn btn-outline-dark rounded-0 btn-sm"
+                    type="button"
+                    v-if="item.qty > 1"
+                    @click="decrementQuantity(item.id, item.qty, item.price)"
+                  >
+                    <i class="bi bi-dash-lg"></i>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger rounded-0 btn-sm"
+                    v-else
+                    @click="deleteCart(item.id, item.product.title)"
+                  >
+                    <i class="bi bi-trash"></i>
+                  </button>
+                  <input
+                    min="1"
+                    max="10"
+                    type="number"
+                    :disabled="item.qty > 10"
+                    class="form-control rounded-0 border border-dark d-flex"
+                    v-model="item.qty"
+                    readonly
+                    style="text-align: center"
+                  />
+                  <button
+                    class="btn btn-outline-dark rounded-0 btn-sm"
+                    type="button"
+                    @click="incrementQuantity(item.id, item.qty, item.price)"
+                  >
+                    <i class="bi bi-plus-lg"></i>
+                  </button>
+                </div>
               </div>
-            </div>
-          </td>
-          <td>{{ thousand(item.price) }}</td>
-          <td class="text-end">
-            <!-- <small class="text-success">折扣價：</small> -->
-            {{ thousand(item.final_total) }}
-          </td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <td colspan="5" class="text-end text-success">預約</td>
-          <td class="text-end text-success">{{ cartsData.length }} 項行程</td>
-        </tr>
-        <tr>
-          <td colspan="5" class="text-end fs-5">總計</td>
-          <td class="text-end fs-5">{{ thousand(cartsData.final_total) }}</td>
-        </tr>
-      </tfoot>
-    </table>
-    <div class="d-flex">
-      <div class="w-50"></div>
-      <div class="w-50 d-flex">
+            </td>
+            <td data-th="單價" class="text-end">
+              <span class="td-p-left">{{ thousand(item.price) }}</span>
+            </td>
+            <td class="text-end" data-th="小計">
+              <span class="td-p-left">{{ thousand(item.final_total) }}</span>
+              <!-- <small class="text-success">折扣價：</small> -->
+            </td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr class="tr-border-bottom-0">
+            <td colspan="6" class="text-end text-success">
+              <span class="td-p-right">預約</span>
+              {{ cartsData.length }} 項行程
+            </td>
+            <!-- <td class="text-end text-success"></td> -->
+          </tr>
+          <tr class="tr-border-bottom-0">
+            <td colspan="6" class="text-end fs-5">
+              <span class="td-p-right">總計 </span>
+              {{ thousand(cartsData.final_total) }}
+            </td>
+            <!-- <td class="text-end fs-5"></td> -->
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+    <div class="d-flex justify-content-end">
+      <!-- <div class="w-md-50 d-none"></div> -->
+      <div class="w-100 w-md-50 d-flex">
         <a class="btn-outline-square w-100 fs-5 mt-4 me-1" @click="back" type="button">繼續預約</a>
         <router-link
           class="btn-square mt-4 fs-5 w-100"
@@ -150,6 +162,81 @@
 .border-top-size {
   border-top: 2px solid blue;
 }
+.input-group
+  > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(
+    .invalid-tooltip
+  ):not(.invalid-feedback) {
+  margin-right: calc(1px * -0);
+}
+@media (max-width: 768px) {
+  .table-rwd {
+    min-width: 100%;
+  }
+  .table > :not(caption) > * > * {
+    border-bottom-width: 0px;
+  }
+  /*針對tr去做隱藏*/
+  tr.tr-only-hide {
+    display: none !important;
+  }
+  /*讓tr變成區塊主要讓他有個區塊*/
+  .table-rwd tr {
+    display: block;
+    /* border: 1px solid #ddd; */
+    margin-top: 5px;
+  }
+  .table-rwd td {
+    text-align: left;
+    font-size: 15px;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+  }
+  .td-only-hide {
+    display: none !important;
+  }
+  .table-rwd td:before {
+    /*最重要的就是這串*/
+    content: attr(data-th) ' ';
+    /*最重要的就是這串*/
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    /* margin-right: 10px; */
+    /* color: #D20B2A; */
+  }
+  .table-rwd td .td-p-left {
+    padding-left: 8px;
+  }
+  .table-rwd td .td-p-right {
+    padding-right: 8px;
+  }
+
+  /*當RWD縮小的時候.table-bordered 會有兩條線，所以針對.table-bordered去做修正*/
+  .table-rwd.table-bordered td,
+  .table-rwd.table-bordered th,
+  .table-rwd.table-bordered {
+    border: 0;
+  }
+
+  .table-rwd tr {
+    border: 1px solid #ddd;
+    padding: 5px;
+  }
+  .tr-border-bottom-0 {
+    border: 0px solid #ddd !important;
+  }
+  .td-number-direction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .w-length {
+    width: 50%;
+    text-align: center;
+  }
+}
 </style>
 
 <script>
@@ -172,7 +259,8 @@ export default {
       isCartProductsFetched: false,
       isGetProductsTriggered: false,
       isGetCartsTriggered: false,
-      quantity: ''
+      quantity: '',
+      cartIdData:[],
     }
   },
   methods: {
@@ -218,10 +306,10 @@ export default {
               this.cartsData.push(cartItem)
             }
           })
-          // console.log(this.cartsData)
           this.cartsData.total = cartsTotal
           let percent = 1
           this.cartsData.final_total = cartsTotal * percent
+          // console.log(this.cartsData)
         })
         .catch((err) => {
           // console.log(err)
@@ -309,48 +397,6 @@ export default {
           alert('刪除購物車資料失敗')
         })
     },
-    // getCartProducts() {
-    //   if (this.isGetProductsTriggered && this.isGetCartsTriggered && !this.isCartProductsFetched) {
-    //     let cartsTotal = 0
-    //     // 遍歷每個購物車中的物品
-    //     this.userCarts.forEach((cartItem) => {
-    //       // 獲取該物品的 productId
-    //       const productId = cartItem.productId
-
-    //       // 在 enabledProducts 中尋找與該 productId 相匹配的產品
-    //       const matchingProduct = this.enabledProducts.find((product) => product.id === productId)
-
-    //       // 如果找到了匹配的產品
-    //       if (matchingProduct) {
-    //         // 將匹配的產品資料存入該物品的 product 屬性中
-    //         cartItem.product = matchingProduct
-    //         // 將物品的 finalTotal 加到總額中
-
-    //         cartsTotal += cartItem.final_total
-
-    //         // 將物品添加到 cartData 中
-    //         this.cartsData.push(cartItem)
-    //       }
-    //     })
-    //     let percent = 1
-
-    //     this.axios
-    //       .post(`${api_url2}/cartsData`, {
-    //         data: this.cartsData,
-    //         total: cartsTotal, // 將 total 加入到 post 的物件中
-    //         final_total: cartsTotal * percent // 將 final_total 加入到 post 的物件中
-    //       })
-    //       .then((res) => {
-    //         console.log(res)
-    //       })
-    //       .catch((err) => {
-    //         // console.log(err)
-    //         alert(`${err.message}`)
-    //       })
-    //     console.log(this.cartsData)
-    //     this.isCartProductsFetched = true
-    //   }
-    // },
     back() {
       this.$router.back()
     },
@@ -364,30 +410,76 @@ export default {
       }
       return null
     },
-    saveCartData(final_total, total) {
+    getCartSData(){
       this.axios
-        .post(`${api_url2}/cartsData`, {
-          data: this.cartsData,
-          total: total,
-          final_total: final_total
-        })
+        .get(`${api_url2}/cartsData`)
         .then((res) => {
-          // console.log(res)
+          // console.log(res.data)
+          this.cartIdData = res.data
+          // console.log(this.cartIdData);
         })
-        .catch((err) => {
-          // console.log(err)
-          alert(`儲存最終購物車資料失敗}`)
-        })
+    },
+    saveCartData(final_total, total) {
+      // console.log(final_total,total);
+      // 判斷 cartsData 中是否存在該使用者的資料
+      const userExists = this.cartIdData.some((item) => item.userId === this.userId && item.status === false)
+      // console.log(userExists);
+      let cartDataId = 0;
+      this.cartIdData.forEach(item=>{
+        if(item.userId === this.userId && item.status === false){
+          cartDataId = item.id
+        }
+      })
+      // console.log(cartDataId);
+
+      document.cookie = `cartDataId=${cartDataId}`
+      if (userExists && cartDataId !== 0) {
+        // 如果使用者資料已存在，執行 PUT 請求
+        this.axios
+          .put(`${api_url2}/cartsData/${cartDataId}`, {
+            data: this.cartsData,
+            total: total,
+            final_total: final_total,
+            status: false,
+            userId:this.userId,
+            orderStatus:false,
+          })
+          .then((res) => {
+            // console.log(res)
+            // console.log("s");
+            this.getCartSData()
+          })
+          .catch((err) => {
+            console.log(err);
+            alert(`更新購物車資料失敗`)
+          })
+      } else {
+        // 如果使用者資料不存在，執行 POST 請求
+        this.axios
+          .post(`${api_url2}/cartsData`, {
+            data: this.cartsData,
+            total: total,
+            final_total: final_total,
+            status: false,
+            userId:this.userId
+          })
+          .then((res) => {
+            // console.log("sss")
+            this.getCartSData()
+          })
+          .catch((err) => {
+            alert(`儲存購物車資料失敗`)
+          })
+      }
     }
   },
   mounted() {
-    // console.log(this.$route)
     // console.log(document.cookie)
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
     // console.log(this.userId)
-    // this.getProducts()
     this.getCarts()
+    this.getCartSData()
   }
 }
 </script>

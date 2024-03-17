@@ -461,7 +461,7 @@
         <button
           class="btn-square fs-5 w-100 border-0"
           type="button"
-          :class="{ 'disabled-btn': currentDate > endDate }"
+          :class="{ 'disabled-btn': currentDate > endDate || newCarts.length===0}"
           @click="saveCardId"
           >直接結帳</button
         >
@@ -644,6 +644,7 @@ export default {
             })
             .then((res) => {
               // console.log(res);
+              this.$router.go(0);
               alert('已更新預約人數')
               this.getCart()
             })
@@ -664,6 +665,7 @@ export default {
             })
             .then((res) => {
               // console.log(res)
+              this.$router.go(0);
               alert(`已預約${this.packageTitle}成功`)
               this.getCart()
             })
@@ -713,7 +715,7 @@ export default {
               this.newCarts.push(item)
             }
           })
-          // console.log(this.newCarts);
+          console.log(this.newCarts);
         })
         .catch((err) => {
           // console.log(err)
