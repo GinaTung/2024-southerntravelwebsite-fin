@@ -130,18 +130,16 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-      <div class="w-100 w-md-50 d-flex">
-        <a class="btn-cerulean w-100 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
-        <router-link
-          class="btn-square mt-4 fs-5 w-100"
-          type="button"
-          to="/cart/payList"
-          @click="orderData"
-          >下一步</router-link
-        >
-      </div>
-    </div>
+        <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
+          <router-link
+            class="btn-square mt-4 fs-5 w-50 w-md-25"
+            type="button"
+            to="/cart/payList"
+            @click="orderData"
+            >下一步</router-link
+          >
   </div>
+</div>
   <UserProductModal
     ref="userProductModal"
     :userCart="userCart"
@@ -306,6 +304,7 @@ export default {
     orderData() {
       // console.log(this.ordersData)
       const userExists = this.ordersData.some((item) => item.user.cartDataId === this.cartDataId  && item.user.status === false)
+      console.log(this.cartDataId);
       let orderId = 0;
       this.ordersData.forEach(item=>{
         if(item.user.cartDataId === this.cartDataId && item.user.status === false){
@@ -368,7 +367,7 @@ export default {
     const cookieCartDataId = this.getCookie('cartDataId')
     this.userId = cookieUserId * 1
     this.cartDataId = cookieCartDataId * 1
-    // console.log(this.cartDataId)
+    console.log(this.cartDataId)
     this.getCart()
     this.getOderData()
     // this.getProducts()

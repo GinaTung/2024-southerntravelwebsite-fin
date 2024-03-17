@@ -9,16 +9,27 @@
       <table class="table align-middle table-rwd">
         <thead>
           <tr class="tr-only-hide">
+            <th style="width: 100px"></th>
+            <th style="width: 170px">圖片</th>
+            <th style="width: 170px">行程名稱</th>
+            <th style="width: 170px">數量/單位</th>
+            <th style="width: 100px" class="text-end">單價</th>
+            <th class="text-end" style="width: 100px">小計</th>
+          </tr>
+          <tr class="d-md-none" v-if="cartsData.length === 0">
             <th style="width: 80px"></th>
-            <th style="width: 180px">圖片</th>
-            <th>行程名稱</th>
-            <th style="width: 150px">數量/單位</th>
-            <th style="width: 70px" class="text-end">單價</th>
+            <th style="width: 170px">圖片</th>
+            <th style="width: 170px">行程名稱</th>
+            <th style="width: 170px">數量/單位</th>
+            <th style="width: 100px" class="text-end">單價</th>
             <th class="text-end" style="width: 100px">小計</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="item in cartsData" :key="item.id">
+          <tr v-if="cartsData.length === 0">
+            <td colspan="6" class="text-center">購物車是空的</td>
+          </tr>
+          <tr v-for="item in cartsData" :key="item.id" v-else>
             <td data-th="">
               <button
                 type="button"
@@ -104,18 +115,19 @@
         </tfoot>
       </table>
     </div>
-    <div class="d-flex justify-content-end">
+    <div class="d-flex justify-content-between">
       <!-- <div class="w-md-50 d-none"></div> -->
-      <div class="w-100 w-md-50 d-flex">
-        <a class="btn-outline-square w-100 fs-5 mt-4 me-1" @click="back" type="button">繼續預約</a>
+
+        <a class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1" @click="back" type="button">繼續預約</a>
+
         <router-link
-          class="btn-square mt-4 fs-5 w-100"
+          class="btn-square mt-4 fs-5 w-50 w-md-25"
           type="button"
           to="/cart/CartForm"
           @click="saveCartData(cartsData.final_total, cartsData.total)"
           >下一步</router-link
         >
-      </div>
+
     </div>
   </div>
 </template>
@@ -168,6 +180,12 @@
   ):not(.invalid-feedback) {
   margin-right: calc(1px * -0);
 }
+@media (min-width: 768px) {
+  .d-lg-none-thead {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .table-rwd {
     min-width: 100%;
@@ -260,7 +278,7 @@ export default {
       isGetProductsTriggered: false,
       isGetCartsTriggered: false,
       quantity: '',
-      cartIdData:[],
+      cartIdData: []
     }
   },
   methods: {
@@ -410,29 +428,28 @@ export default {
       }
       return null
     },
-    getCartSData(){
-      this.axios
-        .get(`${api_url2}/cartsData`)
-        .then((res) => {
-          // console.log(res.data)
-          this.cartIdData = res.data
-          // console.log(this.cartIdData);
-        })
+    getCartSData() {
+      this.axios.get(`${api_url2}/cartsData`).then((res) => {
+        // console.log(res.data)
+        this.cartIdData = res.data
+        // console.log(this.cartIdData);
+      })
     },
     saveCartData(final_total, total) {
       // console.log(final_total,total);
       // 判斷 cartsData 中是否存在該使用者的資料
-      const userExists = this.cartIdData.some((item) => item.userId === this.userId && item.status === false)
-      // console.log(userExists);
-      let cartDataId = 0;
-      this.cartIdData.forEach(item=>{
-        if(item.userId === this.userId && item.status === false){
+      const userExists = this.cartIdData.some(
+        (item) => item.userId === this.userId && item.status === false
+      )
+      console.log(userExists);
+      let cartDataId = 0
+      this.cartIdData.forEach((item) => {
+        if (item.userId === this.userId && item.status === false) {
           cartDataId = item.id
         }
       })
-      // console.log(cartDataId);
+      console.log(cartDataId);
 
-      document.cookie = `cartDataId=${cartDataId}`
       if (userExists && cartDataId !== 0) {
         // 如果使用者資料已存在，執行 PUT 請求
         this.axios
@@ -441,16 +458,17 @@ export default {
             total: total,
             final_total: final_total,
             status: false,
-            userId:this.userId,
-            orderStatus:false,
+            userId: this.userId,
+            orderStatus: false
           })
           .then((res) => {
             // console.log(res)
-            // console.log("s");
+            document.cookie = `cartDataId=${cartDataId}`
+            console.log("s");
             this.getCartSData()
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err)
             alert(`更新購物車資料失敗`)
           })
       } else {
@@ -461,10 +479,16 @@ export default {
             total: total,
             final_total: final_total,
             status: false,
-            userId:this.userId
+            userId: this.userId
           })
           .then((res) => {
-            // console.log("sss")
+            console.log("sss")
+            this.cartIdData.forEach((item) => {
+              if (item.userId === this.userId && item.status === false) {
+                cartDataId = item.id
+              }
+            })
+            document.cookie = `cartDataId=${cartDataId}`
             this.getCartSData()
           })
           .catch((err) => {
