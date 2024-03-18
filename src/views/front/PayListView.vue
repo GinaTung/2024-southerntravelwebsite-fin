@@ -330,7 +330,7 @@ export default {
     deleteCartsUSerData() {
       // 使用者的 userId
       // const userId = 4
-
+      console.log(`Successfully deleted cart with ID: ${this.userId}`);
       // 取得符合 userId 的購物車 ID 列表
       this.axios
         .get(`${api_url2}/carts?userId=${this.userId}`)

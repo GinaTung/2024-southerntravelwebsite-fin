@@ -254,6 +254,7 @@ export default {
           // console.log(res.data)
           this.cartsData = res.data
           this.cartsData.forEach((item) => {
+            this.cartDataId = item.id;
             if(item.status === false){
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
@@ -267,6 +268,7 @@ export default {
             this.total += item.final_total
           })
           // console.log(this.total);
+          console.log(this.cartDataId);
         })
         .catch((err) => {
           console.log(err)
@@ -303,6 +305,7 @@ export default {
     },
     orderData() {
       // console.log(this.ordersData)
+      console.log(`Successfully deleted cart with ID: ${this.cartDataId}`);
       const userExists = this.ordersData.some((item) => item.user.cartDataId === this.cartDataId  && item.user.status === false)
       console.log(this.cartDataId);
       let orderId = 0;
@@ -366,8 +369,8 @@ export default {
     const cookieUserId = this.getCookie('userId')
     const cookieCartDataId = this.getCookie('cartDataId')
     this.userId = cookieUserId * 1
-    this.cartDataId = cookieCartDataId * 1
-    console.log(this.cartDataId)
+    // this.cartDataId = cookieCartDataId * 1
+    // console.log(this.cartDataId);
     this.getCart()
     this.getOderData()
     // this.getProducts()

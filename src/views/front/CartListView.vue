@@ -278,7 +278,8 @@ export default {
       isGetProductsTriggered: false,
       isGetCartsTriggered: false,
       quantity: '',
-      cartIdData: []
+      cartIdData: [],
+      resData:[]
     }
   },
   methods: {
@@ -459,6 +460,7 @@ export default {
             final_total: final_total,
             status: false,
             userId: this.userId,
+            orderStatus: false,
             orderStatus: false
           })
           .then((res) => {
@@ -479,19 +481,23 @@ export default {
             total: total,
             final_total: final_total,
             status: false,
-            userId: this.userId
+            userId: this.userId,
+            orderStatus: false
           })
           .then((res) => {
-            console.log("sss")
-            this.cartIdData.forEach((item) => {
-              if (item.userId === this.userId && item.status === false) {
-                cartDataId = item.id
-              }
-            })
-            document.cookie = `cartDataId=${cartDataId}`
+            console.log(res.data.id);
+            // console.log("sss")
+            // this.resData = res.data;
+            // resData.forEach(item=>{
+            //   cartDataId = item.id
+            //   console.log(item.id);
+            // })
+            // console.log(cartDataId);
+            document.cookie = `cartDataId=${res.data.id}`
             this.getCartSData()
           })
           .catch((err) => {
+            console.log(err);
             alert(`儲存購物車資料失敗`)
           })
       }
