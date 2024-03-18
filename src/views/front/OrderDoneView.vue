@@ -28,7 +28,7 @@
             <i class="bi bi-chevron-up" v-else></i>
           </button>
         </p>
-        <div class="collapse" id="collapseExample" ref="headerCollapse" v-show="isOpen">
+        <div class="collapse show" id="collapseExample" ref="headerCollapse" v-show="isOpen">
           <div class="card card-body rounded-0">
             <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
               <div class="col-12 col-md-5 col-lg-4">
@@ -76,8 +76,8 @@
           </button>
         </p>
         <div class="collapse show" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
-          <div class="card card-body rounded-0" style="height: 400px">
-            <div class="row py-10">
+          <div class="card card-body rounded-0" style="height: 350px">
+            <div class="row p-4 p-md-10">
               <div class="col-12  col-md-5 col-lg-4">
                 <h5 class="mb-4">收件人名字：{{ userOrder.name }}</h5>
                 <h5 class="mb-4">收件人電話：{{ userOrder.tel }}</h5>
@@ -192,7 +192,8 @@ export default {
       userOrder: '',
       product_id: '',
       productId: '',
-      productTitle: ''
+      productTitle: '',
+      orderId:0
     }
   },
   watch: {
@@ -238,13 +239,14 @@ export default {
       this.axios
         .get(`${api_url2}/cartsData`)
         .then((res) => {
-          // console.log(res.data)
+          //  console.log(res.data)
           this.cartsData = res.data
           this.cartsData.forEach((item) => {
-            if(item.orderStatus === false){
+            if(item.orderStatus === false && item.orderId === this.orderId){
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
                   this.userCart.push(dataItem)
+                  // console.log(item.orderId);
                 }
               })
             }
@@ -277,7 +279,8 @@ export default {
     // console.log(document.cookie)
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
-
+    const cookieOrderId = this.getCookie('orderId')
+    this.orderId = cookieOrderId * 1
     // this.getProducts()
     this.getOderData()
     this.getCart()

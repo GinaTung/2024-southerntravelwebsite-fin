@@ -265,7 +265,8 @@ export default {
       userCart: [],
       total: 0,
       productId: '',
-      productTitle: ''
+      productTitle: '',
+      orderId: 0
     }
   },
   watch: {
@@ -330,13 +331,13 @@ export default {
     deleteCartsUSerData() {
       // 使用者的 userId
       // const userId = 4
-      console.log(`Successfully deleted cart with ID: ${this.userId}`);
+      // console.log(`Successfully deleted cart with ID: ${this.userId}`)
       // 取得符合 userId 的購物車 ID 列表
       this.axios
         .get(`${api_url2}/carts?userId=${this.userId}`)
         .then((res) => {
           const cartIds = res.data.map((cart) => cart.id)
-          console.log(cartIds)
+          // console.log(cartIds)
           // 逐一刪除每個購物車
           cartIds.forEach((cartId) => {
             this.axios
@@ -354,9 +355,11 @@ export default {
         })
     },
     changeCartsDataStatus() {
+      // console.log(this.orderId)
       this.axios
         .patch(`${api_url2}/cartsData/${this.cartDataId}`, {
-          status: true
+          status: true,
+          orderId:this.orderId
         })
         .then((res) => {
           // console.log('修改ok')
@@ -375,13 +378,14 @@ export default {
           this.orderData.forEach((item) => {
             if (item.user.userId === this.userId && item.user.status === false) {
               this.userOrderData = item
+              this.orderId = item.id
             }
           })
 
-          // console.log(this.userOrderData);
+          // console.log(this.orderId)
           this.userOrderData_user = this.userOrderData.user
           // this.updateOderData()
-          // this.changeOrderDataStatus()
+          this.changeCartsDataStatus()
         })
         .catch((err) => {
           console.log(err)
@@ -413,11 +417,12 @@ export default {
             .patch(`${api_url2}/order/${item.id}`, {
               user: updatedUser,
               status: false,
-              billStatus:false,
-              transportStatus:false
+              billStatus: false,
+              transportStatus: false
             })
             .then((res) => {
               // console.log('ss')
+              document.cookie = `orderId=${item.id}`
               this.$router.go(0)
               document.cookie = 'cartDataId=; expires='
             })
@@ -443,7 +448,7 @@ export default {
     this.cartDataId = cookieCartDataId * 1
     this.getCart()
     this.getOrderData()
-    // this.updateOderData()
+    // this.changeCartsDataStatus()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     // this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
   }

@@ -460,17 +460,16 @@ export default {
             final_total: final_total,
             status: false,
             userId: this.userId,
-            orderStatus: false,
             orderStatus: false
           })
           .then((res) => {
             // console.log(res)
             document.cookie = `cartDataId=${cartDataId}`
-            console.log("s");
+            // console.log("s");
             this.getCartSData()
           })
           .catch((err) => {
-            console.log(err)
+            // console.log(err)
             alert(`更新購物車資料失敗`)
           })
       } else {
@@ -485,7 +484,7 @@ export default {
             orderStatus: false
           })
           .then((res) => {
-            console.log(res.data.id);
+            // console.log(res.data.id);
             // console.log("sss")
             // this.resData = res.data;
             // resData.forEach(item=>{
@@ -497,7 +496,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
             alert(`儲存購物車資料失敗`)
           })
       }
