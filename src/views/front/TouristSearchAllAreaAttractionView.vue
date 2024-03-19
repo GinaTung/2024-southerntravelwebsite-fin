@@ -123,35 +123,6 @@ export default {
           alert(`${err.message}`)
         })
     },
-    parseLinkHeader(linkHeader) {
-      // 將鏈接標頭字符串分割為各個鏈接
-      const links = linkHeader.split(', ')
-
-      // 創建一個空的對象來存儲解析後的鏈接
-      const parsedLinks = {}
-
-      // 對每個鏈接進行遍歷
-      links.forEach((link) => {
-        // 將每個鏈接分割為URL和標籤
-        const [url, rel] = link.split('; ')
-
-        // 利用正則表達式從URL中提取真實的URL
-        const urlRegex = /<(.*)>/
-        const urlMatch = urlRegex.exec(url)
-        const trueUrl = urlMatch[1]
-
-        // 利用正則表達式從標籤中提取關係(rel)
-        const relRegex = /rel="(.*)"/
-        const relMatch = relRegex.exec(rel)
-        const trueRel = relMatch[1]
-
-        // 在解析後的鏈接對象中添加鏈接
-        parsedLinks[trueRel] = trueUrl
-      })
-
-      // 返回解析後的鏈接對象
-      return parsedLinks
-    },
     truncateContent(content, maxLength) {
       if (content && content.length > maxLength) {
         return content.substring(0, maxLength) + '...'
