@@ -74,7 +74,7 @@ export default {
               this.enabledAttractions.push(item)
             }
           })
-          console.log(this.enabledAttractions[0].imagesUrl)
+          // console.log(this.enabledAttractions[0].imagesUrl)
           this.imagesUrl = this.enabledAttractions[0].imagesUrl;
         })
         .catch((err) => {

@@ -4,7 +4,11 @@
       <div class="col-md-4">
         <span class="tag text-white">{{ productsItem.category }}</span>
         <div class="card-att-img h-100">
-          <img :src="productsItem.imageUrl" class="card-img-top img-fluid" :alt="productsItem.title" />
+          <img
+            :src="productsItem.imageUrl"
+            class="card-img-top img-fluid"
+            :alt="productsItem.title"
+          />
         </div>
       </div>
       <div class="col-md-8">
@@ -17,59 +21,81 @@
               {{ productsItem.title }}
             </h4>
             <div class="d-flex mb-4">
-              <span class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6">{{
-                productsItem.tag_2 }}</span>
+              <span
+                class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
+                >{{ productsItem.tag_2 }}</span
+              >
             </div>
-  
+
             <div class="row">
               <div class="col-12 col-sm-8 my-2">
                 <div v-for="item in newProductsDes" :key="item.id">
                   <div v-if="item.id === productsItem.id">
                     <p v-for="description in item.descriptions" :key="description">
-                      {{ truncateContent(description,85) }}
+                      {{ truncateContent(description, 85) }}
                     </p>
                   </div>
                 </div>
               </div>
               <div class="col-12 col-sm-4">
                 <div class="d-flex flex-column">
-                  <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">NT{{ thousand(productsItem.origin_price) }}</p>
+                  <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">
+                    NT{{ thousand(productsItem.origin_price) }}
+                  </p>
                   <div class="d-flex flex-sm-column align-items-end justify-content-end">
                     <p class="text-danger fw-bold d-none d-sm-block">促銷價</p>
-                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">NT{{ thousand(productsItem.price) }}</p>
+                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                      NT{{ thousand(productsItem.price) }}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-12">
-  
-            </div>
+            <div class="col-12"></div>
           </div>
           <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
             <div class="d-flex align-items-end">
-                <router-link :to="{
+              <router-link
+                :to="{
                   name: 'TouristSinglePackage',
                   params: { category: productsItem.category, title: productsItem.title }
-                }" class="btn-outline-square w-100 me-2 px-2 px-md-3" type="button">行程介紹</router-link>
-                <a class="btn-square w-100 ms-2 px-2 px-md-3"
+                }"
+                class="btn-outline-square w-100 me-2 px-2 px-md-3"
+                type="button"
+                >行程介紹</router-link
+              >
+              <a
+                class="btn-square w-100 ms-2 px-2 px-md-3"
                 @click="addToCart(productsItem.id, quantity, productsItem.price)"
-                 type="button">預約套裝行程</a>
-              </div>
+                type="button"
+                >預約套裝行程</a
+              >
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <nav aria-label="Page navigation example " class="my-10">
+
+  <nav aria-label="Page navigation example" class="my-10">
     <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link page-link-radius-2">Previous</a>
+      <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
+        <a class="page-link page-link-radius-2" href="" @click.prevent="getProducts(currentPage - 1)"
+          >上一頁</a
+        >
       </li>
-      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">1</a></li>
-      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">2</a></li>
-      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">3</a></li>
+      <li class="page-item" v-for="i in pageTotal" :key="i+123">
+        <a
+          class="page-link page-link-0 rounded-0"
+          href=""
+          :value="i"
+          :class="{'active': i === currentPage}"
+          @click.prevent="getProducts(i)"
+          >{{ i }}</a
+        >
+      </li>
       <li class="page-item">
-        <a class="page-link page-link-radius" href="#">Next</a>
+        <a class="page-link page-link-radius" href="" @click.prevent="getProducts(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
       </li>
     </ul>
   </nav>
@@ -93,21 +119,29 @@ p {
 .page-link-radius-2 {
   border-radius: 4px 0 0 4px !important;
 }
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active{
+  background: #43B8BD;
+  border-color: #0EA0A6;
+  color: #fff !important;
+}
 </style>
 
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+
 export default {
   data() {
     return {
-      text: '南部旅遊方案',
+      pageTotal: 0,
+      currentPage: 1,
+      limitPage:5,
+      parsedLinks:'',
       products: [],
       user: '',
       newProductsDes: '',
-      enabledProducts: [],
-      searchChiayi: [],
-      serchTainan: [],
-      searchKaohsiung: [],
       enabledProducts: [],
       carts: [],
       quantity: 1,
@@ -120,13 +154,18 @@ export default {
     }
   },
   methods: {
-    getProducts() {
+    getProducts(currentPage=1) {
       this.axios
-        .get(`${api_url2}/products`)
+        .get(`${api_url2}/products?_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
-          //   console.log(res)
+          // response.headers.get
+          // console.log(res.headers['x-total-count'])  
+          var totalCount = parseInt(res.headers['x-total-count'])
+          this.pageTotal = Math.ceil(totalCount / this.limitPage)
+          this.parsedLinks = this.parseLinkHeader(res.headers.link)   
+          this.currentPage = currentPage
           this.products = res.data
-
+          this.enabledProducts = [] // 清空已啟用的產品列表
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
               // console.log(item)
@@ -143,11 +182,40 @@ export default {
           alert(`${err.message}`)
         })
     },
-    thousand (data) {
+    parseLinkHeader(linkHeader) {
+      // 將鏈接標頭字符串分割為各個鏈接
+      const links = linkHeader.split(', ')
+
+      // 創建一個空的對象來存儲解析後的鏈接
+      const parsedLinks = {}
+
+      // 對每個鏈接進行遍歷
+      links.forEach((link) => {
+        // 將每個鏈接分割為URL和標籤
+        const [url, rel] = link.split('; ')
+
+        // 利用正則表達式從URL中提取真實的URL
+        const urlRegex = /<(.*)>/
+        const urlMatch = urlRegex.exec(url)
+        const trueUrl = urlMatch[1]
+
+        // 利用正則表達式從標籤中提取關係(rel)
+        const relRegex = /rel="(.*)"/
+        const relMatch = relRegex.exec(rel)
+        const trueRel = relMatch[1]
+
+        // 在解析後的鏈接對象中添加鏈接
+        parsedLinks[trueRel] = trueUrl
+      })
+
+      // 返回解析後的鏈接對象
+      return parsedLinks
+    },
+    thousand(data) {
       if (data !== undefined) {
-        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
       }
-      return `$ ${data}`;
+      return `$ ${data}`
     },
     truncateContent(content, maxLength) {
       if (content && content.length > maxLength) {
@@ -181,14 +249,13 @@ export default {
       //   console.log(this.newProductsDes)
     },
     addToCart(productId, qty = 1, price) {
-      console.log(productId,qty,price);
+      console.log(productId, qty, price)
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
-
-        console.log( this.newCarts);
+        console.log(this.newCarts)
         let productExists = false
-        let percent =1;
+        let percent = 1
         //檢查是否有重複產品，如果有則標記為存在
         this.newCarts.forEach((item) => {
           if (item.productId === productId && item.id) {
@@ -206,7 +273,7 @@ export default {
               price,
               total: qty * price,
               userId: this.userId,
-              final_total: qty * price* percent,
+              final_total: qty * price * percent
             })
             .then((res) => {
               alert('已更新預約人數')
@@ -226,7 +293,7 @@ export default {
               price,
               total: qty * price,
               userId: this.userId,
-              final_total: qty * price* percent,
+              final_total: qty * price * percent
             })
             .then((res) => {
               // console.log(res)
@@ -278,6 +345,7 @@ export default {
     this.userId = cookieUserId * 1
     this.token = cookieToken
     this.getCart()
+    // console.log(this.$route)
     // console.log(this.userId,this.token);
   }
 }

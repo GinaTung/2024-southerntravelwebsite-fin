@@ -42,10 +42,43 @@
       </div>
     </div>
   </div>
+  <nav aria-label="Page navigation example " class="my-10">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
+        <a class="page-link page-link-radius-2" href="" @click.prevent="searchAttractions(currentPage - 1)"
+          >上一頁</a
+        >
+      </li>
+      <li class="page-item" v-for="i in pageTotal" :key="i+123">
+        <a
+          class="page-link page-link-0 rounded-0"
+          href=""
+          :value="i"
+          :class="{'active': i === currentPage}"
+          @click.prevent="searchAttractions(i)"
+          >{{ i }}</a
+        >
+      </li>
+      <li class="page-item">
+        <a class="page-link page-link-radius" href="" @click.prevent="searchAttractions(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
+      </li>
+    </ul>
+  </nav>
 </template>
 <style lang="scss">
 .card-att .card-att-img img {
   border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0 ;
+}
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active{
+  background: #43B8BD;
+  border-color: #0EA0A6;
+  color: #fff !important;
 }
 </style>
 <script>
@@ -54,42 +87,32 @@ export default {
   data() {
     return {
       attractions: [],
-      enabledAttractions: [],
       serchTainan:[],
+      pageTotal: 0,
+      currentPage: 1,
+      limitPage: 6,
+      parsedLinks: ''
     }
   },
   methods: {
-    getAttractions() {
-      this.axios
-        .get(`${api_url2}/attractions`)
-        .then((res) => {
-          // console.log(res)
-          this.attractions = res.data
-          this.attractions.forEach((item) => {
-            if (item.is_enabled === 1) {
-              // console.log(item)
-              this.enabledAttractions.push(item)
-            }
-          })
-        })
-        .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
-        })
-    },
     truncateContent(content, maxLength) {
       if (content && content.length > maxLength) {
         return content.substring(0, maxLength) + '...'
       }
       return content
     },
-    searchAttractions() {
+    searchAttractions(currentPage=1) {
       this.axios
-        .get(`${api_url2}/attractions?category=台南`)
+        .get(`${api_url2}/attractions?category=台南&_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
           // console.log(res)
+          var totalCount = parseInt(res.headers['x-total-count'])
+          // console.log(totalCount);
+          this.pageTotal = Math.ceil(totalCount / this.limitPage)
+          // console.log(this.pageTotal);
+          this.currentPage = currentPage
           this.attractions = res.data
-
+          this.serchTainan = [] // 清空已啟用的產品列表
           this.attractions.forEach((item) => {
             if (item.is_enabled === 1) {
               // console.log(item)
@@ -102,10 +125,38 @@ export default {
           // console.log(err)
           alert(`${err.message}`)
         })
-    }
+    },
+    parseLinkHeader(linkHeader) {
+      // 將鏈接標頭字符串分割為各個鏈接
+      const links = linkHeader.split(', ')
+
+      // 創建一個空的對象來存儲解析後的鏈接
+      const parsedLinks = {}
+
+      // 對每個鏈接進行遍歷
+      links.forEach((link) => {
+        // 將每個鏈接分割為URL和標籤
+        const [url, rel] = link.split('; ')
+
+        // 利用正則表達式從URL中提取真實的URL
+        const urlRegex = /<(.*)>/
+        const urlMatch = urlRegex.exec(url)
+        const trueUrl = urlMatch[1]
+
+        // 利用正則表達式從標籤中提取關係(rel)
+        const relRegex = /rel="(.*)"/
+        const relMatch = relRegex.exec(rel)
+        const trueRel = relMatch[1]
+
+        // 在解析後的鏈接對象中添加鏈接
+        parsedLinks[trueRel] = trueUrl
+      })
+
+      // 返回解析後的鏈接對象
+      return parsedLinks
+    },
   },
   mounted() {
-    this.getAttractions()
     this.searchAttractions()
   }
 }

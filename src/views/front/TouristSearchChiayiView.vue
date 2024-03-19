@@ -63,14 +63,23 @@
   </div>
   <nav aria-label="Page navigation example " class="my-10">
     <ul class="pagination justify-content-center">
-      <li class="page-item disabled">
-        <a class="page-link page-link-radius-2">Previous</a>
+      <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
+        <a class="page-link page-link-radius-2" href="" @click.prevent="searchProducts(currentPage - 1)"
+          >上一頁</a
+        >
       </li>
-      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">1</a></li>
-      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">2</a></li>
-      <li class="page-item"><a class="page-link page-link-0 rounded-0" href="#">3</a></li>
+      <li class="page-item" v-for="i in pageTotal" :key="i+123">
+        <a
+          class="page-link page-link-0 rounded-0"
+          href=""
+          :value="i"
+          :class="{'active': i === currentPage}"
+          @click.prevent="searchProducts(i)"
+          >{{ i }}</a
+        >
+      </li>
       <li class="page-item">
-        <a class="page-link page-link-radius" href="#">Next</a>
+        <a class="page-link page-link-radius" href="" @click.prevent="searchProducts(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
       </li>
     </ul>
   </nav>
@@ -82,7 +91,6 @@
     border-bottom-right-radius: 0 !important;
   }
 }
-
 .page-link-radius {
   border-radius: 0 4px 4px 0 !important;
 }
@@ -90,20 +98,29 @@
 .page-link-radius-2 {
   border-radius: 4px 0 0 4px !important;
 }
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active{
+  background: #43B8BD;
+  border-color: #0EA0A6;
+  color: #fff !important;
+}
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   data() {
     return {
-      text: '南部旅遊方案',
+      pageTotal: 0,
+      currentPage: 1,
+      limitPage:5,
+      parsedLinks:'',
       products: [],
       user: '',
       newProductsDes: '',
       enabledProducts: [],
       searchChiayi: [],
-      serchTainan: [],
-      searchKaohsiung: [],
       newProductsContent: '',
       enabledProducts: [],
       carts: [],
@@ -116,29 +133,6 @@ export default {
     }
   },
   methods: {
-    getProducts() {
-      this.axios
-        .get(`${api_url2}/products`)
-        .then((res) => {
-          // console.log(res)
-          this.products = res.data
-
-          this.products.forEach((item) => {
-            if (item.is_enabled === 1) {
-              // console.log(item)
-              this.enabledProducts.push(item)
-            }
-          })
-          // 現在 enabledProducts 將包含所有 is_enabled 為 1 的項目
-          // console.log(this.enabledProducts)
-
-          this.getNewText()
-        })
-        .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
-        })
-    },
     thousand (data) {
       if (data !== undefined) {
         data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
@@ -176,13 +170,18 @@ export default {
       }))
       // console.log(this.newProductsDes)
     },
-    searchProducts() {
+    searchProducts(currentPage=1) {
       this.axios
-        .get(`${api_url2}/products?category=嘉義`)
+        .get(`${api_url2}/products?category=嘉義&_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
           // console.log(res)
+          var totalCount = parseInt(res.headers['x-total-count'])
+          // console.log(totalCount);
+          this.pageTotal = Math.ceil(totalCount / this.limitPage)
+          // console.log(this.pageTotal);
+          this.currentPage = currentPage
           this.products = res.data
-
+          this.searchChiayi = [] // 清空已啟用的產品列表
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
               // console.log(item)
@@ -190,11 +189,41 @@ export default {
             }
           })
           // console.log(this.searchChiayi)
+          this.getNewText()
         })
         .catch((err) => {
           // console.log(err)
           alert(`${err.message}`)
         })
+    },
+    parseLinkHeader(linkHeader) {
+      // 將鏈接標頭字符串分割為各個鏈接
+      const links = linkHeader.split(', ')
+
+      // 創建一個空的對象來存儲解析後的鏈接
+      const parsedLinks = {}
+
+      // 對每個鏈接進行遍歷
+      links.forEach((link) => {
+        // 將每個鏈接分割為URL和標籤
+        const [url, rel] = link.split('; ')
+
+        // 利用正則表達式從URL中提取真實的URL
+        const urlRegex = /<(.*)>/
+        const urlMatch = urlRegex.exec(url)
+        const trueUrl = urlMatch[1]
+
+        // 利用正則表達式從標籤中提取關係(rel)
+        const relRegex = /rel="(.*)"/
+        const relMatch = relRegex.exec(rel)
+        const trueRel = relMatch[1]
+
+        // 在解析後的鏈接對象中添加鏈接
+        parsedLinks[trueRel] = trueUrl
+      })
+
+      // 返回解析後的鏈接對象
+      return parsedLinks
     },
     addToCart(productId, qty = 1, price) {
       if (!this.token) {
@@ -283,7 +312,6 @@ export default {
   },
   mounted() {
     this.searchProducts()
-    this.getProducts()
     const cookieUserId = this.getCookie('userId')
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1
