@@ -2,19 +2,23 @@
   <ul class="list-group rounded-1">
     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"  aria-current="true">
       <router-link to="/admin/attractionsManagement">景點管理</router-link>
-      <span class="badge text-bg-primary rounded-pill">{{ attractions.length }}</span>
+      <span class="badge text-bg-primary-400 text-white rounded-pill">{{ attractions.length }}</span>
     </li>
     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"> 
       <router-link to="/admin/productsManagement">產品管理</router-link>
-      <span class="badge text-bg-primary rounded-pill">{{ products.length }}</span>
+      <span class="badge text-bg-primary-400 text-white rounded-pill">{{ products.length }}</span>
+    </li>
+    <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"> 
+      <router-link to="/admin/ordersManagement">訂單管理</router-link>
+      <span class="badge text-bg-primary-400 text-white rounded-pill">0</span>
     </li>
     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"> 
       留言
-      <span class="badge text-bg-primary rounded-pill">0</span>
+      <span class="badge text-bg-primary-400 text-white rounded-pill">0</span>
     </li>
     <li class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"> 
       優惠券
-      <span class="badge text-bg-primary rounded-pill">0</span>
+      <span class="badge text-bg-primary-400 text-white rounded-pill">0</span>
     </li>
   </ul>
 </template>

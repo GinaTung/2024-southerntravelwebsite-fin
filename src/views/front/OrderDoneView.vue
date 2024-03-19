@@ -220,7 +220,7 @@ export default {
     },
     getOderData() {
       this.axios
-        .get(`${api_url2}/order`)
+        .get(`${api_url2}/orders`)
         .then((res) => {
           // console.log(res)
           this.orderData = res.data

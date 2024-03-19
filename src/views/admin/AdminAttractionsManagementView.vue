@@ -1,25 +1,24 @@
 <template>
-    <div class="container">
-      <div class="row">
-      <div class="col-3">
+  <div class="container">
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-2">
         <h1 class="my-4">景點管理</h1>
         <AdminSidebar></AdminSidebar>
       </div>
-      <div class="col-9">
-      <div class="text-end mt-4">
-          <button class="btn btn-primary" id="addModalBtn" @click="openModal('new', product)">
+      <div class="col-12 col-md-10">
+        <div class="text-end mt-4">
+          <button type="button" class="btn-turquoise border-0" id="addModalBtn" @click="openModal('new', product)">
             建立新的景點
           </button>
         </div>
         <table class="table mt-4">
           <thead>
             <tr>
-              <th width="100">上架</th>
-              <th width="120">分類</th>
-              <th>景點名稱</th>
-              <th>標籤1</th>
-              <th class="text-end">標籤2</th>
-
+              <th width="80">上架</th>
+              <th width="80">分類</th>
+              <th width="200">景點名稱</th>
+              <th width="120">標籤1</th>
+              <th width="120">標籤2</th>
               <th width="120"></th>
             </tr>
           </thead>
@@ -56,10 +55,32 @@
             </tr>
           </tbody>
         </table>
+        <nav aria-label="Page navigation example " class="my-10">
+        <ul class="pagination justify-content-center">
+          <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
+            <a class="page-link page-link-radius-2" href="" @click.prevent="getAttractions(currentPage - 1)"
+              >上一頁</a
+            >
+          </li>
+          <li class="page-item" v-for="i in pageTotal" :key="i+123">
+            <a
+              class="page-link page-link-0 rounded-0"
+              href=""
+              :value="i"
+              :class="{'active': i === currentPage}"
+              @click.prevent="getAttractions(i)"
+              >{{ i }}</a
+            >
+          </li>
+          <li class="page-item">
+            <a class="page-link page-link-radius" href="" @click.prevent="getAttractions(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
+          </li>
+        </ul>
+      </nav>
       </div>
     </div>
-    </div>
-      <!-- Modal -->
+  </div>
+  <!-- Modal -->
   <div
     id="productModal"
     ref="productModal"
@@ -219,15 +240,15 @@
                 </div>
               </div>
               <div class="mb-3 col">
-                  <label for="timeOpen" class="form-label">開放時間</label>
-                  <textarea
-                    id="timeOpen"
-                    type="text"
-                    v-model="tempProduct.timeOpen"
-                    class="form-control"
-                    placeholder="請輸入開放時間"
-                  ></textarea>
-                </div>
+                <label for="timeOpen" class="form-label">開放時間</label>
+                <textarea
+                  id="timeOpen"
+                  type="text"
+                  v-model="tempProduct.timeOpen"
+                  class="form-control"
+                  placeholder="請輸入開放時間"
+                ></textarea>
+              </div>
               <div class="mb-3">
                 <label for="description" class="form-label">產品描述</label>
                 <textarea
@@ -310,13 +331,30 @@
     </div>
   </div>
   <!-- Modal -->
-  </template>
-  <script>
-  import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
-  import AdminSidebar from '../../components/AdminSidebar.vue'
-  const api_url = import.meta.env.VITE_API_URL
+</template>
+<style>
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active {
+  background: #43b8bd;
+  border-color: #0ea0a6;
+  color: #fff !important;
+}
+</style>
+<script>
+import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
+import AdminSidebar from '../../components/AdminSidebar.vue'
+const api_url = import.meta.env.VITE_API_URL
 const api_url2 = import.meta.env.VITE_API_URL2
-  export default {
+export default {
   components: {
     AdminSidebar
   },
@@ -327,40 +365,28 @@ const api_url2 = import.meta.env.VITE_API_URL2
       pages: {},
       modalProduct: null, //productModal
       modelDel: null, //delProductModal
-      isNew: false
+      isNew: false,
+      pageTotal: 0,
+      currentPage: 1,
+      limitPage: 10,
+      parsedLinks: ''
     }
   },
-  methods:{
-    checkAdmin() {
-      this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      this.axios.defaults.headers.common['Authorization'] = this.token
-      if (!this.token) {
-        alert(`目前未登入管理者身分，請重新登入`)
-        this.$router.push({ path: '/admin/adminlogin' })
-      }else{
-        this.axios
-        .post(`${api_url}/api/user/check`)
-        .then((res) => {
-          // 登入成功
-          this.userIsLoggedIn = true;
-        })
-        .catch((err) => {
-          // 登入失敗或驗證失敗
-          this.userIsLoggedIn = false;
-          this.$router.push({ path: '/admin/adminlogin' })
-        });
-      }
-    },
-    getAttractions() {
-      //參數預設值
-      //有分頁
+  methods: {
+    getAttractions(currentPage = 1) {
       this.axios
-        .get(`${api_url2}/attractions`)
+        .get(`${api_url2}/attractions?_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
           // console.log(res.data)
-          this.attractions = res.data;
+          var totalCount = parseInt(res.headers['x-total-count'])
+          // console.log(totalCount);
+          this.pageTotal = Math.ceil(totalCount / this.limitPage)
+          // console.log(this.pageTotal);
+          this.currentPage = currentPage
+          this.attractions = res.data
         })
-        .catch((arr) => {
+        .catch((err) => {
+          console.log(err)
           alert(`${err}`)
         })
     },
@@ -384,7 +410,7 @@ const api_url2 = import.meta.env.VITE_API_URL2
         this.modalDel.show()
       }
     },
-        //新增
+    //新增
     // const newProduct = this.tempProduct
     // this.$data.products.push(newProduct)
     updateAttractions() {
@@ -401,7 +427,7 @@ const api_url2 = import.meta.env.VITE_API_URL2
             this.modalProduct.hide()
           })
           .catch((err) => {
-            console.log(err);
+            console.log(err)
             alert(`${err}`)
           })
       } else if (!this.isNew) {
@@ -472,10 +498,9 @@ const api_url2 = import.meta.env.VITE_API_URL2
     }
   },
   mounted() {
-    this.checkAdmin();
     this.getAttractions()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
   }
 }
-</script>  
+</script>
