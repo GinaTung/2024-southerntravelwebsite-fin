@@ -101,3 +101,17 @@
     "qty": 3
   }
 }
+cartsData:[{
+  "data": [
+    {
+      "productId": "-c35c4Q9gWLGb7p4aWAM4",
+      "qty": 9,
+      "price": 6380,
+      "total": 57420,
+      "userId": 3,
+      "final_total": 57420,
+      "id": 1,
+    },
+  ]
+  "CartDataId": 1,
+}]

@@ -100,7 +100,7 @@
     </div>
     <div class="d-flex justify-content-center">
       <div class="w-100 w-md-25">
-        <router-link class="btn-square mt-4 fs-5 w-100" type="button" to="/">回首頁</router-link>
+        <a class="btn-square mt-4 fs-5 w-100" type="button" href="#">回首頁</a>
       </div>
     </div>
   </div>

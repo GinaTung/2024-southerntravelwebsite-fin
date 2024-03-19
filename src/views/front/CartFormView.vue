@@ -130,16 +130,20 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-        <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
-          <router-link
-            class="btn-square mt-4 fs-5 w-50 w-md-25"
-            type="button"
-            to="/cart/payList"
-            @click="orderData"
-            >下一步</router-link
-          >
+      <div class="w-100 w-md-50 d-flex">
+        <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button"
+          >上一步</a
+        >
+        <a
+          class="btn-square mt-4 fs-5 w-50 w-md-25"
+          type="button"
+          href="#/cart/payList"
+          @click="orderData"
+          >下一步</a
+        >
+      </div>
+    </div>
   </div>
-</div>
   <UserProductModal
     ref="userProductModal"
     :userCart="userCart"
@@ -254,8 +258,8 @@ export default {
           // console.log(res.data)
           this.cartsData = res.data
           this.cartsData.forEach((item) => {
-            this.cartDataId = item.id;
-            if(item.status === false){
+            this.cartDataId = item.id
+            if (item.status === false) {
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
                   this.userCart.push(dataItem)
@@ -268,7 +272,7 @@ export default {
             this.total += item.final_total
           })
           // console.log(this.total);
-          console.log(this.cartDataId);
+          console.log(this.cartDataId)
         })
         .catch((err) => {
           console.log(err)
@@ -305,15 +309,17 @@ export default {
     },
     orderData() {
       // console.log(this.ordersData)
-      console.log(`Successfully deleted cart with ID: ${this.cartDataId}`);
-      const userExists = this.ordersData.some((item) => item.user.cartDataId === this.cartDataId  && item.user.status === false)
-      console.log(this.cartDataId);
-      let orderId = 0;
-      this.ordersData.forEach(item=>{
-        if(item.user.cartDataId === this.cartDataId && item.user.status === false){
+      console.log(`Successfully deleted cart with ID: ${this.cartDataId}`)
+      const userExists = this.ordersData.some(
+        (item) => item.user.cartDataId === this.cartDataId && item.user.status === false
+      )
+      console.log(this.cartDataId)
+      let orderId = 0
+      this.ordersData.forEach((item) => {
+        if (item.user.cartDataId === this.cartDataId && item.user.status === false) {
           orderId = item.id
         }
-      });
+      })
       // console.log(orderId,userExists);
       if (userExists) {
         const user = {
@@ -326,7 +332,7 @@ export default {
           shippingMethod: this.user.shippingMethod,
           userId: this.userId,
           cartDataId: this.cartDataId,
-          status: false,
+          status: false
         }
         this.axios
           .put(`${api_url2}/order/${orderId}`, { user })
@@ -349,7 +355,7 @@ export default {
           shippingMethod: this.user.shippingMethod,
           userId: this.userId,
           cartDataId: this.cartDataId,
-          status: false,
+          status: false
         }
         this.axios
           .post(`${api_url2}/order`, { user })
