@@ -134,6 +134,10 @@ const router = createRouter({
         {
           path: 'productsManagement',
           component: () => import('../views/admin/AdminProductsMangementView.vue')
+        },
+        {
+          path: 'ordersManagement',
+          component: () => import('../views/admin/AdminOrdersManagementView.vue')
         }
       ]
     },

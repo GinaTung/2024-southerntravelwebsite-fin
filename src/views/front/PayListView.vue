@@ -371,7 +371,7 @@ export default {
     },
     getOrderData() {
       this.axios
-        .get(`${api_url2}/order`)
+        .get(`${api_url2}/orders`)
         .then((res) => {
           this.orderData = res.data
           // console.log(this.orderData)
@@ -414,7 +414,7 @@ export default {
             payMethod: this.user.payMethod
           }
           this.axios
-            .patch(`${api_url2}/order/${item.id}`, {
+            .patch(`${api_url2}/orders/${item.id}`, {
               user: updatedUser,
               status: false,
               billStatus: false,

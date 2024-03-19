@@ -297,7 +297,7 @@ export default {
     },
     getOderData() {
       this.axios
-        .get(`${api_url2}/order`)
+        .get(`${api_url2}/orders`)
         .then((res) => {
           // console.log(res)
           this.ordersData = res.data
@@ -335,7 +335,7 @@ export default {
           status: false
         }
         this.axios
-          .put(`${api_url2}/order/${orderId}`, { user })
+          .put(`${api_url2}/orders/${orderId}`, { user })
           .then((res) => {
             // console.log("res")
             this.order = res.data
@@ -358,7 +358,7 @@ export default {
           status: false
         }
         this.axios
-          .post(`${api_url2}/order`, { user })
+          .post(`${api_url2}/orders`, { user })
           .then((res) => {
             // console.log("s")
             this.order = res.data
