@@ -130,7 +130,7 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-      <div class="w-100 w-md-50 d-flex">
+
         <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button"
           >上一步</a
         >
@@ -141,7 +141,7 @@
           @click="orderData"
           >下一步</a
         >
-      </div>
+
     </div>
   </div>
   <UserProductModal
@@ -323,6 +323,7 @@ export default {
       // console.log(orderId,userExists);
       if (userExists) {
         const user = {
+          create_at:new Date(),
           name: this.user.name,
           email: this.user.email,
           tel: this.user.tel,
@@ -346,6 +347,7 @@ export default {
           })
       } else {
         const user = {
+          create_at:new Date(),
           name: this.user.name,
           email: this.user.email,
           tel: this.user.tel,

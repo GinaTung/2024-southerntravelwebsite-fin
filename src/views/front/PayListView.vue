@@ -168,16 +168,14 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-      <div class="w-100 w-md-50 d-flex">
-        <a class="btn-cerulean w-100 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
+        <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
         <a
-          class="btn-square mt-4 fs-5 w-100"
+          class="btn-square mt-4 fs-5 w-50 w-md-25"
           type="button"
           href="#/cart/orderDone"
           @click="updateOderData"
           >下一步</a
         >
-      </div>
     </div>
   </div>
   <UserProductModal
@@ -401,6 +399,7 @@ export default {
       this.orderData.forEach((item) => {
         if (item.user.userId === this.userId && item.user.cartDataId === this.cartDataId) {
           const updatedUser = {
+            create_at:new Date(),
             name: item.user.name,
             email: item.user.email,
             tel: item.user.tel,
