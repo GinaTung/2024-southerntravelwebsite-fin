@@ -22,8 +22,16 @@
               <table class="table">
                 <tbody v-if="tempOrder.user">
                   <tr>
-                    <th style="width: 100px">姓名</th>
-                    <td>{{ tempOrder.user.name }}</td>
+                    <th style="width: 100px">主要聯繫人</th>
+                    <td>{{ tempOrder.user.name }} {{ tempOrder.user.appellation }}</td>
+                  </tr>
+                  <tr>
+                    <th>身分證字號</th>
+                    <td>{{ tempOrder.user.memberId }}</td>
+                  </tr>
+                  <tr>
+                    <th>護照號碼</th>
+                    <td>{{ tempOrder.user.passport }}</td>
                   </tr>
                   <tr>
                     <th>Email</th>
@@ -72,7 +80,7 @@
                   <tr>
                     <th>付款狀態</th>
                     <td>
-                      <strong v-if="tempOrder.user.status" class="text-success">已付款</strong>
+                      <strong v-if="tempOrder.user?.status" class="text-success">已付款</strong>
                       <span v-else class="text-muted">尚未付款</span>
                     </td>
                   </tr>

@@ -22,14 +22,15 @@
           ></button>
         </div>
         <div class="modal-body" v-if="item.user">
-          是否刪除 <strong class="text-danger me-2">訂單編號：{{ item.id }}</strong> 
-          <span class="text-primary">客戶：{{item.user.name}}</span>(刪除後將無法恢復)。
+          是否刪除 <strong class="text-danger me-2">訂單編號：{{ item.id }}</strong>
+          <span class="text-primary">客戶：{{ item.user.name }}</span
+          >(刪除後將無法恢復)。
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-danger">確認刪除</button>
+          <button type="button" class="btn btn-danger" @click="delOrder">確認刪除</button>
         </div>
       </div>
     </div>
@@ -40,7 +41,8 @@ import { Modal } from 'bootstrap'
 
 export default {
   props: {
-    item: Object
+    item: Object,
+    delOrder: Function // 声明 delOrder 为一个函数类型的 prop
   },
   data() {
     return {

@@ -125,6 +125,7 @@ export default {
       products:[],
       productsLength:0,
       product:[],
+      orders:[]
     }
   },
   methods: {
@@ -159,8 +160,8 @@ export default {
           // console.log(this.attractionsLength);
           this.getAttraction()
         })
-        .catch((arr) => {
-          alert(`${err}`)
+        .catch((err) => {
+          console.log(err)
         })
     },
     getAttraction() {
@@ -176,13 +177,25 @@ export default {
           this.productsLength =this.products.length;
           this.getProduct()
         })
-        .catch((arr) => {
-          alert(`${err.data.message}`)
+        .catch((err) => {
+          console.log(err)
         })
     },
     getProduct(){
       this.product = this.products[this.productsLength-1]
-    }
+    },
+    getOrders() {
+      this.axios
+        .get(`${api_url2}/orders`)
+        .then((res) => {
+          // console.log(res)
+          this.orders = res.data
+
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
   },
   mounted() {
     setTimeout(() => {

@@ -58,9 +58,11 @@
                   </div>
                 </td>
                 <td>
-                  <p v-if="!item.status && !item.billStatus && !item.checkDataStatus">訂單處理中</p>
-                  <p v-else-if="!item.status && !item.billStatus && item.checkDataStatus">預約安排出遊</p>
-                  <p v-else>未付款</p>
+                  <p v-if="!item.status && !item.billStatus && !item.checkDataStatus && !item.user.status" class="text-primary-emphasis">訂單處理中</p>
+                  <p v-else-if="!item.status && !item.billStatus && !item.checkDataStatus && item.user.status" class="text-primary">預約安排出遊</p>
+                  <p v-else-if="!item.status && !item.billStatus && item.checkDataStatus && item.user.status" class="text-warning">發票開立中</p>
+                  <p v-else-if="!item.status && item.billStatus && item.checkDataStatus && item.user.status" class="text-danger">訂單完成，準備出遊</p>
+                  <p v-else class="text-success">已出遊結束</p>
                 </td>
                 <td>
                   <div class="btn-group">
@@ -122,7 +124,7 @@
   <!-- orderModal -->
   <order-modal ref="orderModal" :order="tempOrder" :orders-date="ordersDate"></order-modal>
   <!-- delOrderModal -->
-  <del-order-modal ref="delModal" :item="tempOrder"></del-order-modal>
+  <del-order-modal ref="delModal" :item="tempOrder" :del-order="delOrder"></del-order-modal>
 </template>
 <style>
 .page-link-radius {
@@ -211,7 +213,22 @@ export default {
     openDelOrderModal(item) {
       this.tempOrder = { ...item }
       this.$refs.delModal.openModal()
-    }
+    },
+    delOrder() {
+      this.axios
+        .delete(`${api_url2}/orders/${this.tempOrder.id}`, this.tempOrder)
+        .then((res) => {
+          console.log(res)
+          alert(`已刪除成功`)
+          this.getOrders()
+          this.tempProduct = {}
+          this.$refs.delModal.closeModal()
+        })
+        .catch((err) => {
+          // console.log(err);
+          alert(`${err}`)
+        })
+    },
   },
   mounted() {
     this.getOrders()
