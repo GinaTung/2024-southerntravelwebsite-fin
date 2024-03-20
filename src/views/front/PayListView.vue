@@ -409,7 +409,7 @@ export default {
             shippingMethod: item.user.shippingMethod,
             userId: item.user.userId,
             cartDataId: item.user.cartDataId,
-            status: true,
+            status: false,
             payMethod: this.user.payMethod
           }
           this.axios
