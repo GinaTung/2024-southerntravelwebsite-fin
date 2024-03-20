@@ -16,40 +16,71 @@
               <th>購買款項</th>
               <th>應付金額</th>
               <th>是否付款</th>
+              <th>處理狀態</th>
               <th>編輯</th>
             </tr>
           </thead>
           <tbody>
             <template v-for="item in orders" :key="item.id">
-              <tr v-if="orders.length" :class="{ 'text-secondary': !item.status }">
-                  <td></td>
-                  <td><span v-text="item.user.email" v-if="item.user"></span></td>
-                  <td>
-                    <ul class="list-unstyled">
-                      <li v-for="product in item.products" :key="product.id">
-                        {{ product.product.title }} 數量：{{ product.qty }}
-                        {{ product.product.unit }}
-                      </li>
-                    </ul>
-                  </td>
-                  <td class="text-right">{{ item.total }}</td>
-                  <td>
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button class="btn btn-outline-primary btn-sm" type="button" @click="openModal(item)">
-                        檢視
-                      </button>
-                      <button
-                        class="btn btn-outline-danger btn-sm"
-                        type="button"
-                        @click="openDelOrderModal(item)"
-                      >
-                        刪除
-                      </button>
-                    </div>
-                  </td>
-                </tr>
+              <tr>
+                <td>
+                  <ul class="list-unstyled">
+                    <li v-for="date in ordersDate" :key="date.id">
+                      <span v-if="date.id === item.id">
+                        {{ date.create_at }}
+                      </span>
+                    </li>
+                  </ul>
+                </td>
+
+                <td><span v-text="item.user.email" v-if="item.user"></span></td>
+                <td>
+                  <ul class="list-unstyled">
+                    <li v-for="product in item.products" :key="product.id">
+                      {{ product.product.title }} 數量：{{ product.qty }}
+                      {{ product.product.unit }}
+                    </li>
+                  </ul>
+                </td>
+                <td class="text-right">{{ item.total }}</td>
+                <td>
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      v-model="item.user.status"
+                      @change="updatePaid(item)"
+                    />
+                    <label class="form-check-label">
+                      <span v-if="item.user.status">已付款</span>
+                      <span v-else>未付款</span>
+                    </label>
+                  </div>
+                </td>
+                <td>
+                  <p v-if="!item.status && !item.billStatus && !item.checkDataStatus">訂單處理中</p>
+                  <p v-else-if="!item.status && !item.billStatus && item.checkDataStatus">預約安排出遊</p>
+                  <p v-else>未付款</p>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <button
+                      class="btn btn-outline-primary btn-sm"
+                      type="button"
+                      @click="openModal(item)"
+                    >
+                      檢視
+                    </button>
+                    <button
+                      class="btn btn-outline-danger btn-sm"
+                      type="button"
+                      @click="openDelOrderModal(item)"
+                    >
+                      刪除
+                    </button>
+                  </div>
+                </td>
+              </tr>
             </template>
           </tbody>
         </table>
@@ -88,10 +119,10 @@
     </div>
   </div>
 
-<!-- orderModal -->
-<order-modal ref="orderModal" :order="tempOrder"></order-modal>
-<!-- delOrderModal -->
-<del-order-modal ref="delModal" :item="tempOrder"></del-order-modal>
+  <!-- orderModal -->
+  <order-modal ref="orderModal" :order="tempOrder" :orders-date="ordersDate"></order-modal>
+  <!-- delOrderModal -->
+  <del-order-modal ref="delModal" :item="tempOrder"></del-order-modal>
 </template>
 <style>
 .page-link-radius {
@@ -104,9 +135,9 @@
 .page-link:focus {
   box-shadow: 0px;
 }
-.page-link.active{
-  background: #43B8BD;
-  border-color: #0EA0A6;
+.page-link.active {
+  background: #43b8bd;
+  border-color: #0ea0a6;
   color: #fff !important;
 }
 </style>
@@ -120,7 +151,9 @@ const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
   components: {
-    AdminSidebar,OrderModal,DelOrderModal
+    AdminSidebar,
+    OrderModal,
+    DelOrderModal
   },
   data() {
     return {
@@ -131,8 +164,9 @@ export default {
       limitPage: 10,
       isLoading: false,
       tempOrder: {},
-      orderModal: null, 
-      delModal:null
+      orderModal: null,
+      delModal: null,
+      ordersDate: []
     }
   },
   methods: {
@@ -147,24 +181,40 @@ export default {
           // console.log(this.pageTotal);
           this.currentPage = currentPage
           this.orders = res.data
+          this.transDate()
         })
         .catch((err) => {
-            console.log(err)
+          console.log(err)
         })
     },
+    transDate() {
+      this.orders.forEach((item) => {
+        this.ordersDate.push({ create_at: item.user.create_at, id: item.id })
+      })
+      console.log(this.ordersDate)
+      this.ordersDate.forEach((item) => {
+        var date = new Date(item.create_at)
+        var utcDateTimeString = date.toISOString()
+        var datePart = utcDateTimeString.slice(0, 10)
+
+        // 將轉換後的值賦給原來的 create_at 屬性
+        item.create_at = datePart
+      })
+      console.log(this.ordersDate)
+    },
+
     openModal(item) {
-      this.tempOrder = { ...item };
-      this.isNew = false;
-      this.$refs.orderModal.openModal();
+      this.tempOrder = { ...item }
+      this.isNew = false
+      this.$refs.orderModal.openModal()
     },
     openDelOrderModal(item) {
-      this.tempOrder = { ...item };
-      this.$refs.delModal.openModal();
-    },
+      this.tempOrder = { ...item }
+      this.$refs.delModal.openModal()
+    }
   },
-  mounted(){
+  mounted() {
     this.getOrders()
-  
   }
 }
 </script>
