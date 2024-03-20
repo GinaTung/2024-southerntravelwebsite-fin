@@ -198,7 +198,6 @@ export default {
         var date = new Date(item.create_at)
         var utcDateTimeString = date.toISOString()
         var datePart = utcDateTimeString.slice(0, 10)
-
         // 將轉換後的值賦給原來的 create_at 屬性
         item.create_at = datePart
       })
