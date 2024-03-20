@@ -11,7 +11,7 @@
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title" id="exampleModalLabel">
-            <span>訂單細節</span>
+            <span>訂單細節(目前查看訂單編號：{{tempOrder.id}})</span>
           </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -50,7 +50,15 @@
                   </tr>
                   <tr>
                     <th>下單時間</th>
-                    <td>{{tempOrder.create_at }}</td>
+                    <td>
+                      <ul class="list-unstyled mb-0">
+                    <li v-for="date in ordersDate" :key="date.id">
+                      <span v-if="date.id === tempOrder.id">
+                        {{ date.create_at }}
+                      </span>
+                    </li>
+                  </ul>
+                    </td>
                   </tr>
                   <tr>
                     <th>付款時間</th>
@@ -64,7 +72,7 @@
                   <tr>
                     <th>付款狀態</th>
                     <td>
-                      <strong v-if="tempOrder.is_paid" class="text-success">已付款</strong>
+                      <strong v-if="tempOrder.user.status" class="text-success">已付款</strong>
                       <span v-else class="text-muted">尚未付款</span>
                     </td>
                   </tr>
@@ -125,6 +133,9 @@ export default {
   props: {
     order: {
       type: Object
+    },
+    ordersDate: {
+      type: Array
     }
   },
   data() {
