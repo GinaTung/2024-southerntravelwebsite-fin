@@ -59,7 +59,50 @@
             placeholder="王小明"
             v-model="user.name"
           />
-          <label for="floatingInput">姓名</label>
+          <label for="floatingInput">主要聯繫人</label>
+        </div>
+        <div class="form-floating mb-4">
+          <select
+            v-model="user.appellation"
+            class="form-select rounded-1"
+            id="floatingAppellation"
+            aria-label="Floating label select example"
+          >
+            <option selected value="" disabled>請選擇稱謂</option>
+            <option value="female">女士</option>
+            <option value="male">男士</option>
+          </select>
+          <label for="floatingAppellation">稱謂</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input
+            type="text"
+            class="form-control rounded-1"
+            id="floatingMemberId"
+            placeholder="身分證字號"
+            v-model="user.memberId"
+          />
+          <label for="floatingMemberId">身分證字號</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input
+            type="text"
+            class="form-control rounded-1"
+            id="floatingPassport"
+            placeholder="護照號碼"
+            v-model="user.passport"
+          />
+          <label for="floatingPassport">護照號碼</label>
+        </div>
+        <div class="form-floating mb-4">
+          <input
+            type="date"
+            class="form-control rounded-1"
+            id="floatingDate"
+            placeholder="2024/03/08"
+            v-model="user.birthday"
+          />
+          <label for="floatingDate">生日</label>
         </div>
         <div class="form-floating mb-4">
           <input
@@ -71,6 +114,7 @@
           />
           <label for="floatingTel">電話</label>
         </div>
+
         <div class="form-floating mb-4">
           <input
             type="email"
@@ -83,42 +127,6 @@
         </div>
         <div class="form-floating mb-4">
           <input
-            type="date"
-            class="form-control rounded-1"
-            id="floatingDate"
-            placeholder="2024/03/08"
-            v-model="user.birthday"
-          />
-          <label for="floatingDate">生日</label>
-        </div>
-        <div class="form-floating">
-          <textarea
-            class="form-control rounded-1"
-            placeholder="Leave a comment here"
-            id="floatingTextarea2"
-            style="height: 100px"
-            v-model="user.comment"
-          ></textarea>
-          <label for="floatingTextarea2">備註</label>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 mb-4">
-        <h3 class="mb-4">運送資料</h3>
-        <div class="form-floating mb-4">
-          <select
-            v-model="user.shippingMethod"
-            class="form-select rounded-1"
-            id="floatingSelect"
-            aria-label="Floating label select example"
-          >
-            <option selected value="" disabled>選擇運送方式</option>
-            <option value="超商取貨">超商取貨</option>
-            <option value="宅配">宅配</option>
-          </select>
-          <label for="floatingSelect">運送方式</label>
-        </div>
-        <div class="form-floating mb-4">
-          <input
             type="text"
             class="form-control rounded-1"
             id="floatingAddress"
@@ -128,20 +136,42 @@
           <label for="floatingAddress">住址</label>
         </div>
       </div>
+      <div class="col-12 col-md-6 mb-4">
+        <h3 class="mb-4">取件方式</h3>
+        <div class="form-floating mb-4">
+          <select
+            v-model="user.shippingMethod"
+            class="form-select rounded-1"
+            id="floatingSelect2"
+            aria-label="Floating label select example"
+          >
+            <option selected value="" disabled>請選擇取件方式</option>
+            <option value="電子郵件">電子郵件</option>
+            <option value="郵寄">郵寄</option>
+          </select>
+          <label for="floatingSelect2">選擇取件方式</label>
+        </div>
+        <div class="form-floating mb-4">
+          <textarea
+            class="form-control rounded-1"
+            placeholder="備註"
+            id="floatingTextarea2"
+            style="height: 280px"
+            v-model="user.comment"
+          ></textarea>
+          <label for="floatingTextarea2">備註(如:飲食、暈車等注意事項)</label>
+        </div>
+      </div>
     </div>
     <div class="d-flex justify-content-between">
-
-        <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button"
-          >上一步</a
-        >
-        <a
-          class="btn-square mt-4 fs-5 w-50 w-md-25"
-          type="button"
-          href="#/cart/payList"
-          @click="orderData"
-          >下一步</a
-        >
-
+      <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
+      <a
+        class="btn-square mt-4 fs-5 w-50 w-md-25"
+        type="button"
+        href="#/cart/payList"
+        @click="orderData"
+        >下一步</a
+      >
     </div>
   </div>
   <UserProductModal
@@ -223,9 +253,12 @@ export default {
         address: '',
         birthday: '',
         comment: '',
-        shippingMethod: ''
+        shippingMethod: '',
+        passport: '',
+        memberId: '',
+        appellation:''
       },
-      shippingMethod: ['超商取貨', '宅配'],
+      shippingMethod: ['電子郵件', '郵寄'],
       total: 0,
       productId: '',
       productTitle: '',
@@ -309,11 +342,11 @@ export default {
     },
     orderData() {
       // console.log(this.ordersData)
-      console.log(`Successfully deleted cart with ID: ${this.cartDataId}`)
+      // console.log(`Successfully deleted cart with ID: ${this.cartDataId}`)
       const userExists = this.ordersData.some(
         (item) => item.user.cartDataId === this.cartDataId && item.user.status === false
       )
-      console.log(this.cartDataId)
+      // console.log(this.cartDataId)
       let orderId = 0
       this.ordersData.forEach((item) => {
         if (item.user.cartDataId === this.cartDataId && item.user.status === false) {
@@ -323,7 +356,7 @@ export default {
       // console.log(orderId,userExists);
       if (userExists) {
         const user = {
-          create_at:new Date(),
+          create_at: new Date(),
           name: this.user.name,
           email: this.user.email,
           tel: this.user.tel,
@@ -331,6 +364,9 @@ export default {
           birthday: this.user.birthday,
           comment: this.user.comment,
           shippingMethod: this.user.shippingMethod,
+          passport: this.user.passport,
+          memberId: this.user.memberId,
+          appellation:this.user.appellation,
           userId: this.userId,
           cartDataId: this.cartDataId,
           status: false
@@ -347,7 +383,7 @@ export default {
           })
       } else {
         const user = {
-          create_at:new Date(),
+          create_at: new Date(),
           name: this.user.name,
           email: this.user.email,
           tel: this.user.tel,
@@ -355,6 +391,9 @@ export default {
           birthday: this.user.birthday,
           comment: this.user.comment,
           shippingMethod: this.user.shippingMethod,
+          passport: this.user.passport,
+          memberId: this.user.memberId,
+          appellation:this.user.appellation,
           userId: this.userId,
           cartDataId: this.cartDataId,
           status: false

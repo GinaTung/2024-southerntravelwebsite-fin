@@ -59,7 +59,7 @@
           aria-controls="collapseOrder"
           @click="toggleOpenOrder"
         >
-          訂單及運送資料
+        訂單資料及收件方式
           <i class="bi bi-chevron-down" v-if="isOrderOpen === false"></i>
           <i class="bi bi-chevron-up" v-else></i>
         </button>
@@ -68,14 +68,17 @@
         <div class="card card-body rounded-0">
           <div class="row p-4 p-md-5">
             <!-- {{ userOrderData_user }} -->
-            <div class="col-12 col-md-5 col-lg-4">
-              <h5>收件人名字：{{ userOrderData_user.name }}</h5>
-              <h5>收件人電話：{{ userOrderData_user.tel }}</h5>
-              <h5>備註：{{ userOrderData_user.comment }}</h5>
+            <div class="col-12 col-md-6 col-lg-6">
+              <h5>主要聯繫人名字：{{ userOrderData_user.name }}</h5>
+              <h5>主要聯繫人電話：{{ userOrderData_user.tel }}</h5>
+              <h5>主要聯繫人身分證字號：{{ userOrderData_user.memberId }}</h5>
+              <h5>主要聯繫人護照號碼：{{ userOrderData_user.passport }}</h5>
+             
             </div>
-            <div class="col-12 col-md-7 col-lg-8">
-              <h5>收件人地址：{{ userOrderData_user.address }}</h5>
-              <h5>運送方式：{{ userOrderData_user.shippingMethod }}</h5>
+            <div class="col-12 col-md-6 col-lg-6">
+              <h5>主要聯繫人地址：{{ userOrderData_user.address }}</h5>
+              <h5>收取方式：{{ userOrderData_user.shippingMethod }}</h5>
+              <h5>備註：{{ userOrderData_user.comment }}</h5>
             </div>
           </div>
         </div>
@@ -91,10 +94,10 @@
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault1"
-              value="貨到付款"
+              value="帳號匯款"
               v-model="user.payMethod"
             />
-            <label class="form-check-label" for="flexRadioDefault1"> 貨到付款</label>
+            <label class="form-check-label" for="flexRadioDefault1"> 帳號匯款</label>
           </div>
           <div class="form-check">
             <input
@@ -102,14 +105,14 @@
               type="radio"
               name="flexRadioDefault"
               id="flexRadioDefault2"
-              value="信用卡"
+              value="信用卡付款"
               v-model="user.payMethod"
               checked
             />
-            <label class="form-check-label" for="flexRadioDefault2">信用卡</label>
+            <label class="form-check-label" for="flexRadioDefault2">信用卡付款</label>
           </div>
         </div>
-        <div v-if="user.payMethod === '信用卡'">
+        <div v-if="user.payMethod === '信用卡付款'">
           <label for="floatingAddress" class="fs-5 mb-4">信用卡卡號</label>
           <div class="row g-3 d-flex mb-4">
             <div class="col-3 d-flex">
@@ -255,7 +258,7 @@ export default {
       userOrderData: [],
       userOrderData_user: '',
       user: {
-        payMethod: '信用卡'
+        payMethod: '信用卡付款'
       },
       product_id: '',
       userId: '',
@@ -409,6 +412,9 @@ export default {
             shippingMethod: item.user.shippingMethod,
             userId: item.user.userId,
             cartDataId: item.user.cartDataId,
+            passport: item.user.passport,
+          memberId: item.user.memberId,
+          appellation:item.user.appellation,
             status: false,
             payMethod: this.user.payMethod
           }
@@ -417,7 +423,7 @@ export default {
               user: updatedUser,
               status: false,
               billStatus: false,
-              transportStatus: false
+              checkDataStatus: false
             })
             .then((res) => {
               // console.log('ss')
