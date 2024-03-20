@@ -1,12 +1,12 @@
 <template>
   <!-- <VueLoading :active="isLoading" :z-index="1060" /> -->
   <div class="container">
-    <div class="row flex-column flex-lg-row">
-      <div class="col-12 col-lg-2">
-        <h1 class="my-4">訂單管理</h1>
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-3">
+        <h1 class="my-4 fs-4 fs-md-1">訂單管理</h1>
         <AdminSidebar></AdminSidebar>
       </div>
-      <div class="col-12 col-lg-10">
+      <div class="col-12 col-md-9">
         <div class="text-end mt-18"></div>
         <table class="table mt-4">
           <thead>
@@ -21,9 +21,8 @@
           </thead>
           <tbody>
             <template v-for="item in orders" :key="item.id">
-                {{ orders }}
-              <!-- <tr v-if="orders.length" :class="{ 'text-secondary': !item.is_paid }">
-                  <td>{{ $filters.date(item.create_at) }}</td>
+              <tr v-if="orders.length" :class="{ 'text-secondary': !item.status }">
+                  <td></td>
                   <td><span v-text="item.user.email" v-if="item.user"></span></td>
                   <td>
                     <ul class="list-unstyled">
@@ -35,19 +34,6 @@
                   </td>
                   <td class="text-right">{{ item.total }}</td>
                   <td>
-                    <div class="form-check form-switch">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        :id="`paidSwitch${item.id}`"
-                        v-model="item.is_paid"
-                        @change="updatePaid(item)"
-                      />
-                      <label class="form-check-label" :for="`paidSwitch${item.id}`">
-                        <span v-if="item.is_paid">已付款</span>
-                        <span v-else>未付款</span>
-                      </label>
-                    </div>
                   </td>
                   <td>
                     <div class="btn-group">
@@ -63,7 +49,7 @@
                       </button>
                     </div>
                   </td>
-                </tr> -->
+                </tr>
             </template>
           </tbody>
         </table>
@@ -101,24 +87,52 @@
       </div>
     </div>
   </div>
-</template>
 
+<!-- orderModal -->
+<order-modal ref="orderModal" :order="tempOrder"></order-modal>
+<!-- delOrderModal -->
+<del-order-modal ref="delModal" :item="tempOrder"></del-order-modal>
+</template>
+<style>
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active{
+  background: #43B8BD;
+  border-color: #0EA0A6;
+  color: #fff !important;
+}
+</style>
 <script>
 // import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
+import OrderModal from '@/components/OrderModal.vue'
+import DelOrderModal from '@/components/DelOrderModal.vue'
 import AdminSidebar from '../../components/AdminSidebar.vue'
+import DelOrderModalVue from '@/components/DelOrderModal.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,OrderModal,DelOrderModal
   },
   data() {
     return {
       orders: [],
+      isNew: false,
       pageTotal: 0,
       currentPage: 1,
       limitPage: 10,
-      parsedLinks: ''
+      isLoading: false,
+      tempOrder: {},
+      orderModal: null, 
+      delModal:null
     }
   },
   methods: {
@@ -137,10 +151,20 @@ export default {
         .catch((err) => {
             console.log(err)
         })
-    }
+    },
+    openModal(item) {
+      this.tempOrder = { ...item };
+      this.isNew = false;
+      this.$refs.orderModal.openModal();
+    },
+    openDelOrderModal(item) {
+      this.tempOrder = { ...item };
+      this.$refs.delModal.openModal();
+    },
   },
   mounted(){
     this.getOrders()
+  
   }
 }
 </script>

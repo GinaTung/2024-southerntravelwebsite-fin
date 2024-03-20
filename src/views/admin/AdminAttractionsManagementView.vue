@@ -1,11 +1,11 @@
 <template>
   <div class="container">
     <div class="row flex-column flex-md-row">
-      <div class="col-12 col-md-2">
-        <h1 class="my-4">景點管理</h1>
+      <div class="col-12 col-md-3">
+        <h1 class="my-4 fs-4 fs-md-1">景點管理</h1>
         <AdminSidebar></AdminSidebar>
       </div>
-      <div class="col-12 col-md-10">
+      <div class="col-12 col-md-9">
         <div class="text-end mt-4">
           <button type="button" class="btn-turquoise border-0" id="addModalBtn" @click="openModal('new', product)">
             建立新的景點

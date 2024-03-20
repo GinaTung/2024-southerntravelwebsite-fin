@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <h1 class="my-4">後台首頁</h1>
-    <div class="row">
-      <div class="col-3">
+    <h1 class="my-4 fs-4 fs-md-1">後台首頁</h1>
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-3">
         <AdminSidebar></AdminSidebar>
       </div>
-      <div class="col-9">
-        <div class="accordion" id="accordionExample">
+      <div class="col-12 col-md-9">
+        <div class="accordion mt-4" id="accordionExample">
           <div class="accordion-item">
             <h2 class="accordion-header">
               <button
