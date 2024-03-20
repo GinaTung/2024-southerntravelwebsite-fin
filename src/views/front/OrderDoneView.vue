@@ -70,7 +70,7 @@
             aria-controls="collapseOrder"
             @click="toggleOpenOrder"
           >
-            訂單及運送資料<br />
+            訂單資料及收件方式<br />
             <i class="bi bi-chevron-down" v-if="isOrderOpen === false"></i>
             <i class="bi bi-chevron-up" v-else></i>
           </button>
@@ -78,20 +78,30 @@
         <div class="collapse show" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
           <div class="card card-body rounded-0" style="height: 350px">
             <div class="row p-4 p-md-10">
-              <div class="col-12  col-md-5 col-lg-4">
-                <h5 class="mb-4">收件人名字：{{ userOrder.name }}</h5>
-                <h5 class="mb-4">收件人電話：{{ userOrder.tel }}</h5>
-                <h5 class="mb-4">備註：{{ userOrder.comment }}</h5>
+              <div class="col-12 col-md-6 col-lg-6">
+                <h5 class="mb-4">
+                  主要聯繫人名字：{{ userOrder.name }} {{ userOrder.appellation ==="female" ? "女士" : "男士"}}
+                </h5>
+                <h5 class="mb-4">主要聯繫人電話：{{ userOrder.tel }}</h5>
+                <h5 class="mb-4">主要聯繫人身分證字號：{{ userOrder.memberId }}</h5>
+                <h5 class="mb-4">主要聯繫人護照號碼：{{ userOrder.passport }}</h5>
+                <h5 class="mb-4">主要聯繫人地址：{{ userOrder.address }}</h5>
               </div>
-              <div class="col-12  col-md-7 col-lg-8">
-                <h5 class="mb-4">收件人地址：{{ userOrder.address }}</h5>
-                <h5 class="mb-4">運送方式：{{ userOrder.shippingMethod }}</h5>
+              <div class="col-12 col-md-6 col-lg-6">
+                <h5 class="mb-4">收取方式：{{ userOrder.shippingMethod }}</h5>
                 <h5 class="mb-4">付款方式：{{ userOrder.payMethod }}</h5>
-                <h5 class="mb-4" >付款狀態：
-                  <span :class="{'text-danger': userOrder.status===false,'text-success': userOrder.status===true}">
+                <h5 class="mb-4">
+                  付款狀態：
+                  <span
+                    :class="{
+                      'text-danger': userOrder.status === false,
+                      'text-success': userOrder.status === true
+                    }"
+                  >
                     {{ userOrder.status ? '已付款' : '未付款' }}
                   </span>
                 </h5>
+                <h5>備註：{{ userOrder.comment }}</h5>
               </div>
             </div>
           </div>
@@ -193,7 +203,7 @@ export default {
       product_id: '',
       productId: '',
       productTitle: '',
-      orderId:0
+      orderId: 0
     }
   },
   watch: {
@@ -229,6 +239,7 @@ export default {
               this.userOrder = item.user
             }
           })
+          // console.log(this.userCart);
         })
         .catch((err) => {
           console.log(err)
@@ -242,7 +253,7 @@ export default {
           //  console.log(res.data)
           this.cartsData = res.data
           this.cartsData.forEach((item) => {
-            if(item.orderStatus === false && item.orderId === this.orderId){
+            if (item.orderStatus === false && item.orderId === this.orderId) {
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
                   this.userCart.push(dataItem)
