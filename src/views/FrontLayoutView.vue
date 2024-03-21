@@ -110,10 +110,8 @@ export default {
     }
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
-    console.log(1)
     this.$emitter.on('updateCart', () => {
       //  this.transCartNumberStatus = msg;
-      console.log(8)
       this.getCarts()
     })
   },
@@ -132,7 +130,6 @@ export default {
       if (this.token) {
         // 已登入
         this.userIsLoggedIn2 = true
-        console.log(3)
       } else {
         // 未登入
         this.userIsLoggedIn2 = false
@@ -173,11 +170,7 @@ export default {
 
           // 更新購物車數量
           this.cartsLength = this.userCarts.length
-          // this.cartsLength = this.userCarts.length
-          // this.transCartNumberStatus = true;
-          console.log(this.userCarts)
-          console.log(this.cartsLength)
-          console.log(4)
+
         })
         .catch((err) => {
           // console.log(err)
@@ -208,7 +201,6 @@ export default {
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexTokenU\s*\=\s*([^;]*).*$)|^.*$/, '$1')
     this.axios.defaults.headers.common['Authorization'] = this.token
-    console.log(5)
     // console.log(this.token)
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')

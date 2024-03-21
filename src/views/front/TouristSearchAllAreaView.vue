@@ -250,7 +250,6 @@ export default {
             .then((res) => {
               alert('已更新預約人數')
               this.getCart()
-              console.log(6);
               // this.$router.go(0)
             })
             .catch((err) => {
@@ -273,7 +272,6 @@ export default {
               alert(`已預約成功`)
               this.getCart()
               this.$emitter.emit('updateCart') // 發送特定事件
-              console.log(7);
               // this.$router.go(0)
             })
             .catch((err) => {
