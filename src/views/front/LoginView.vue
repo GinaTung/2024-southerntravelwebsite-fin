@@ -59,11 +59,9 @@ export default {
         .then((res) => {
           // console.log(res)
           alert(`會員登入成功`)
-
           // 解構資料中的 accessToken, expired 和 userId
           const { accessToken, expired } = res.data
           const userId = res.data.user.id;
-
           // 將資訊存入 cookie
           document.cookie = `hexTokenU=${accessToken}; expires=${new Date(expired).toUTCString()}`
           document.cookie = `userId=${userId}`
