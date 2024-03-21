@@ -1,36 +1,41 @@
 <template>
   <div class="container py-10 py-lg-30">
     <div class="row justify-content-center align-items-cneter">
-      <div class="col-6">
-        <h1 class="h3 mb-4">會員登入</h1>
-        <form id="form" class="form-signin" @submit.prevent="login">
+      <div class="col-md-6">
+        <h1 class="h3 mb-4 text-center">會員登入</h1>
+        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit.prevent="login">
           <div class="form-floating mb-4">
-            <input
+            <VeeField
               type="email"
+              name="email"
               class="form-control"
               v-model="user.email"
-              id="username"
-              placeholder="name@example.com"
-              required
-              autofocus
+              id="email"
+              :class="{ 'is-invalid': errors['email'] }"
+              placeholder="請輸入 Email"
+              rules="email|required"
               autocomplete="useremail"
             />
-            <label for="username">Email address</label>
+            <label for="email">請輸入 Email</label>
+            <ErrorMessage name="email" class="invalid-feedback" />
           </div>
-          <div class="form-floating">
-            <input
+          <div class="form-floating mb-4">
+            <VeeField
               type="password"
               class="form-control"
-              v-model="user.password"
-              id="password"
-              placeholder="Password"
-              required
+              name="password"
+              id="userpassword"
+              :class="{ 'is-invalid': errors['password'] }"
+              placeholder="請輸入Password"
+              rules="min:8|alpha_dash|required"
               autocomplete="current-password"
+              v-model="user.password"
             />
-            <label for="password">Password</label>
+            <label for="userpassword">請輸入Password</label>
+            <ErrorMessage name="password" class="invalid-feedback" />
           </div>
           <button class="btn-turquoise w-100 mt-4 border-0" type="submit" id="login">登入</button>
-        </form>
+        </VeeForm>
       </div>
     </div>
   </div>

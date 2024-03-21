@@ -13,26 +13,32 @@
             </div>
             <img
               :src="item.imageUrl"
-              class="card-img-top-2 img-fluid pb-6 pb-6 h-100"
+              class="card-img-top-2 img-fluid h-100"
               :alt="item.title"
             />
-            <!-- ?q=台南&title=臺南七股北門雙日遊 -->
             <div class="card-body">
               <a :href="item.link">
-                <h3 class="fs-5 fs-lg-3 card-title pb-4 fw-bold text-primary-700 stretched-link">
+                <h3 class="fs-5 fs-lg-4 card-title pb-4 fw-bold text-primary-700 stretched-link mb-0">
                   {{ item.title }}
                 </h3>
               </a>
-              <div class="d-flex justify-content-between">
+              <div class="col-12">
+                <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
+                  預約時間：{{ item.startDate }} ~ {{ item.endDate }}
+                </p>
+                <p class="fs-6 text-danger" v-else>預約時間已截止</p>
+                <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
+                  出遊時間：{{ item.goStartDate }} ~ {{ item.goEndDate }}
+                </p>
+                <p class="fs-6 text-danger" v-else>已出遊完成</p>
+              </div>
+            </div>
+            <div class="card-footer text-end border-0 pt-0 pb-3">
+              <div class="d-flex justify-content-between align-items-end">
                 <div class="d-flex align-items-center">
-                  <img
-                    src="../assets/img/calendar_today.png"
-                    alt="calendar_today"
-                    class="img-fluid me-2"
-                  />
-                  <span class="fs-6 fs-lg-5">{{ item.tag_1 }}</span>
+                  <span class="fs-6 fs-lg-5"><i class="bi bi-calendar-week me-2"></i>{{ item.tag_1 }}</span>
                 </div>
-                <p class="fs-4 fs-lg-3 text-primary-500">{{ thousand(item.price) }}</p>
+                <p class="fs-5 fs-lg-4 text-primary-500">{{ thousand(item.price) }}</p>
               </div>
             </div>
           </div>
@@ -55,10 +61,28 @@ export default {
     return {
       products: [],
       newProductsContent: '',
-      enabledProducts: []
+      enabledProducts: [],
+      currentDate: ''
     }
   },
   methods: {
+    checkDate() {
+      //先創建一個Date實體
+      var time = new Date()
+
+      var timeDetails = {
+        year: time.getFullYear(),
+        month: time.getMonth() + 1,
+        date: time.getDate()
+      }
+      // 將月份和日期補零，如果小於 10
+      var monthString = (timeDetails.month < 10 ? '0' : '') + timeDetails.month
+      var dateString = (timeDetails.date < 10 ? '0' : '') + timeDetails.date
+
+      var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
+      this.currentDate = formattedDate
+      // console.log(this.currentDate)
+    },
     getProducts() {
       // console.log(this.packageTitle)
       this.axios
@@ -69,7 +93,6 @@ export default {
 
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
-              // console.log(item)
               this.enabledProducts.push(item)
             }
           })

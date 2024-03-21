@@ -28,7 +28,7 @@
     border-radius: 40px !important;
     color: $white;
     @include pad-md{
-      padding: 8px 40px;
+      padding: 16px 40px;
     }
     &:hover {
       background: $dark;

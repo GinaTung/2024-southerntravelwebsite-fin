@@ -71,8 +71,11 @@
                     <span class="badge rounded-pill bg-light2 text-dark2 py-1 px-4 fs-6">{{ item.category }}</span>
                 </div>
                 <div class="nav-section-title">
-                    <h4 class="fs-5 fs-lg-3 mb-2 fw-bold text-primary-700">{{ item.title }}</h4>
-                    <p class="fs-6 fs-lg-5 text-dark2">{{ item.startDate }} ~ {{ item.endDate }}</p>
+                    <h4 class="fs-6 fs-lg-5 mb-2 fw-bold text-primary-700">{{ item.title }}</h4>
+                    <p class="fs-6 fs-lg-5 text-dark2"
+                    v-if="currentDate <= item.endDate">預約時間：{{ item.startDate }} ~ {{ item.endDate }}</p>
+                    <p class="fs-6 fs-lg-5 text-danger"
+                    v-else>預約時間已截止</p>
                 </div>
                 </div>
                 <span class="material-symbols-outlined"> chevron_right </span>
@@ -93,10 +96,29 @@ export default {
       products: [],
       enabledProducts: [],
       newsLatestProductData: [],
-      attractions: []
+      attractions: [],
+      currentDate: '',
     }
   },
   methods: {
+    checkDate() {
+      //先創建一個Date實體
+      var time = new Date()
+
+      var timeDetails = {
+        year: time.getFullYear(),
+        month: time.getMonth() + 1,
+        date: time.getDate()
+      }
+      // 將月份和日期補零，如果小於 10
+      var monthString = (timeDetails.month < 10 ? '0' : '') + timeDetails.month
+      var dateString = (timeDetails.date < 10 ? '0' : '') + timeDetails.date
+
+      var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
+      this.currentDate = formattedDate;
+      // console.log(this.currentDate)
+
+    },
     getProducts() {
       this.axios
         .get(`${api_url2}/products?id=-c35c4Q9gWLGb7p4aWAM4&id=KvBuohr&id=xoGgJIk&id=fsfguEU`)
@@ -135,6 +157,7 @@ export default {
   },
   mounted() {
     this.getProducts()
+    this.checkDate()
   }
 }
 </script>

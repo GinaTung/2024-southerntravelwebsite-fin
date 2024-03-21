@@ -17,7 +17,7 @@
             <div class="heart3">
               <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
             </div>
-            <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-8">
+            <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-10">
               {{ productsItem.title }}
             </h4>
             <div class="d-flex mb-4">
@@ -51,7 +51,16 @@
                 </div>
               </div>
             </div>
-            <div class="col-12"></div>
+            <div class="col-12">
+              <p class="fs-6 fs-lg-5 text-dark2" v-if="currentDate <= productsItem.endDate">
+                預約時間：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
+              </p>
+              <p class="fs-6 fs-lg-5 text-danger" v-else>預約時間已截止</p>
+              <p class="fs-6 fs-lg-5 text-dark2" v-if="currentDate <= productsItem.endDate">
+                出遊時間：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
+              </p>
+              <p class="fs-6 fs-lg-5 text-danger" v-else>已出遊完成</p>
+            </div>
           </div>
           <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
             <div class="d-flex align-items-end">
@@ -66,9 +75,16 @@
               >
               <a
                 class="btn-square w-100 ms-2 px-2 px-md-3"
+                v-if="currentDate <= productsItem.endDate"
                 @click="addToCart(productsItem.id, quantity, productsItem.price)"
                 type="button"
                 >預約套裝行程</a
+              >
+              <a
+                class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
+                v-else
+                type="button"
+                >預約時間截止</a
               >
             </div>
           </div>
@@ -79,23 +95,32 @@
 
   <nav aria-label="Page navigation example" class="my-10">
     <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
-        <a class="page-link page-link-radius-2" href="" @click.prevent="getProducts(currentPage - 1)"
+      <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+        <a
+          class="page-link page-link-radius-2"
+          href=""
+          @click.prevent="getProducts(currentPage - 1)"
           >上一頁</a
         >
       </li>
-      <li class="page-item" v-for="i in pageTotal" :key="i+123">
+      <li class="page-item" v-for="i in pageTotal" :key="i + 123">
         <a
           class="page-link page-link-0 rounded-0"
           href=""
           :value="i"
-          :class="{'active': i === currentPage}"
+          :class="{ active: i === currentPage }"
           @click.prevent="getProducts(i)"
           >{{ i }}</a
         >
       </li>
       <li class="page-item">
-        <a class="page-link page-link-radius" href="" @click.prevent="getProducts(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
+        <a
+          class="page-link page-link-radius"
+          href=""
+          @click.prevent="getProducts(currentPage + 1)"
+          :class="{ disabled: !currentPage || currentPage === pageTotal }"
+          >下一頁</a
+        >
       </li>
     </ul>
   </nav>
@@ -122,10 +147,13 @@ p {
 .page-link:focus {
   box-shadow: 0px;
 }
-.page-link.active{
-  background: #43B8BD;
-  border-color: #0EA0A6;
+.page-link.active {
+  background: #43b8bd;
+  border-color: #0ea0a6;
   color: #fff !important;
+}
+.btn-danger-rounded {
+  border-radius: 8px;
 }
 </style>
 
@@ -137,8 +165,8 @@ export default {
     return {
       pageTotal: 0,
       currentPage: 1,
-      limitPage:5,
-      parsedLinks:'',
+      limitPage: 5,
+      parsedLinks: '',
       products: [],
       user: '',
       newProductsDes: '',
@@ -152,17 +180,36 @@ export default {
       cartId: null,
       userCarts: [],
       transCartNumberStatus:false
+      currentDate: ''
+
     }
   },
   methods: {
-    getProducts(currentPage=1) {
+    checkDate() {
+      //先創建一個Date實體
+      var time = new Date()
+
+      var timeDetails = {
+        year: time.getFullYear(),
+        month: time.getMonth() + 1,
+        date: time.getDate()
+      }
+      // 將月份和日期補零，如果小於 10
+      var monthString = (timeDetails.month < 10 ? '0' : '') + timeDetails.month
+      var dateString = (timeDetails.date < 10 ? '0' : '') + timeDetails.date
+
+      var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
+      this.currentDate = formattedDate
+      // console.log(this.currentDate)
+    },
+    getProducts(currentPage = 1) {
       this.axios
         .get(`${api_url2}/products?_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
           // response.headers.get
-          // console.log(res.headers['x-total-count'])  
+          // console.log(res.headers['x-total-count'])
           var totalCount = parseInt(res.headers['x-total-count'])
-          this.pageTotal = Math.ceil(totalCount / this.limitPage)  
+          this.pageTotal = Math.ceil(totalCount / this.limitPage)
           this.currentPage = currentPage
           this.products = res.data
           this.enabledProducts = [] // 清空已啟用的產品列表
@@ -318,6 +365,7 @@ export default {
     this.userId = cookieUserId * 1
     this.token = cookieToken
     this.getCart()
+    this.checkDate()
     // console.log(this.$route)
     // console.log(this.userId,this.token);
   }
