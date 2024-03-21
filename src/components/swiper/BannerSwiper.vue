@@ -21,7 +21,7 @@
           </p>
           <h1 class="font-hero mb-0 mb-md-10 text-nowrap">高雄港旅運中心</h1>
           <p class="fs-6 fs-lg-5 mb-2 d-none d-md-block text-center">
-            高雄港是台灣港務與海運的核心，近年來亞太地區的郵輪旅遊產業日益興盛
+            高雄港是台灣港務與海運核心，近年來亞太地區郵輪旅遊產業日益興盛
           </p>
           <p class="fs-6 fs-lg-5 d-none d-md-block text-center">
             ，作為台灣第一大港的高雄，在港市合作、水岸開發的方針下
@@ -29,10 +29,10 @@
         </div>
         <div class="d-block d-md-none mt-8 text-center text-white mb-8">
           <p class="fs-7 mb-2 text-center">
-            可同時停泊2艘排水量達22.5萬噸的豪華郵輪<br />是南台灣最重要的海上門戶
+            同時停泊2艘排水量達22.5萬噸豪華郵輪<br />是南台灣最重要的海上門戶
           </p>
           <p class="fs-7 text-center">
-            輕軌串連駁二藝術中心、高雄流行音樂中心等大型建設<br />共築高雄水岸的新天際線。
+            輕軌串連駁二藝術中心、高雄流行音樂中心等建設<br />共築高雄水岸的新天際線。
           </p>
         </div>
       </div>

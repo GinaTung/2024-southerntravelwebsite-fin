@@ -80,7 +80,7 @@ export default {
           //   console.dir(err);
           alert(`${err.data.message}`)
         })
-    }
+    },
   },
   mounted(){
     setTimeout(() => {
