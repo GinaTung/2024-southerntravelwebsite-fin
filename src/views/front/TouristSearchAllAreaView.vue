@@ -179,7 +179,9 @@ export default {
       newCarts: [],
       cartId: null,
       userCarts: [],
+      transCartNumberStatus:false
       currentDate: ''
+
     }
   },
   methods: {
@@ -265,11 +267,12 @@ export default {
       //   console.log(this.newProductsDes)
     },
     addToCart(productId, qty = 1, price) {
+
       console.log(productId, qty, price)
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
-        console.log(this.newCarts)
+        // console.log(this.newCarts)
         let productExists = false
         let percent = 1
         //檢查是否有重複產品，如果有則標記為存在
@@ -294,10 +297,10 @@ export default {
             .then((res) => {
               alert('已更新預約人數')
               this.getCart()
-              this.$router.go(0)
+              // this.$router.go(0)
             })
             .catch((err) => {
-              // console.error('更新預約人數失敗:', err)
+              console.error('更新預約人數失敗:', err)
               alert('更新預約人數失敗')
             })
         } else {
@@ -315,10 +318,11 @@ export default {
               // console.log(res)
               alert(`已預約成功`)
               this.getCart()
-              this.$router.go(0)
+              this.$emitter.emit('updateCart') // 發送特定事件
+              // this.$router.go(0)
             })
             .catch((err) => {
-              // console.log(err);
+              console.log(err);
               alert('預約失敗，再重新登入預約')
             })
         }
