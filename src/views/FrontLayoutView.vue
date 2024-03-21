@@ -55,12 +55,17 @@
           class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center"
         >
           <li class="nav-item">
-            <a type="button" class="btn-outline-turquoise position-relative" href="#/cart"  style="padding-top: 5px; padding-bottom: 5px">
+            <a
+              type="button"
+              class="btn-outline-turquoise position-relative"
+              href="#/cart"
+              style="padding-top: 5px; padding-bottom: 5px"
+            >
               <i class="bi bi-cart-fill fs-5"></i>
               <span
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
               >
-                {{userCarts.length}}
+                {{ cartsLength }}
                 <span class="visually-hidden">unread messages</span>
               </span>
             </a>
@@ -97,10 +102,22 @@ export default {
       isNavbarOpen: false,
       userIsLoggedIn2: false,
       token: '',
-      carts:[],
-      userCarts:[]
+      carts: [],
+      userCarts: [],
+      cartsLength: 0,
+      userCartsNum: [],
+      transCartNumberStatus: false
     }
-  }, // 路由改變時隱藏選單
+  }, // 在頁首區塊中監聽事件並更新購物車數量的值
+  created() {
+    console.log(1)
+    this.$emitter.on('updateCart', () => {
+      //  this.transCartNumberStatus = msg;
+      console.log(8)
+      this.getCarts()
+    })
+  },
+  // 路由改變時隱藏選單
   watch: {
     $route() {
       this.headerCollapse.hide()
@@ -108,12 +125,14 @@ export default {
   },
   methods: {
     checkLoggedInUser() {
+      console.log(2)
       this.$emitter.on('loginCheck2', (msg) => {
         this.userIsLoggedIn2 = msg
       })
       if (this.token) {
         // 已登入
         this.userIsLoggedIn2 = true
+        console.log(3)
       } else {
         // 未登入
         this.userIsLoggedIn2 = false
@@ -141,7 +160,24 @@ export default {
               this.userCarts.push(item)
             }
           })
-          // console.log(this.userCarts)
+          // 移除重複的產品
+          const uniqueUserCarts = []
+          const productIdSet = new Set()
+          this.userCarts.forEach((item) => {
+            if (!productIdSet.has(item.productId)) {
+              productIdSet.add(item.productId)
+              uniqueUserCarts.push(item)
+            }
+          })
+          this.userCarts = uniqueUserCarts
+
+          // 更新購物車數量
+          this.cartsLength = this.userCarts.length
+          // this.cartsLength = this.userCarts.length
+          // this.transCartNumberStatus = true;
+          console.log(this.userCarts)
+          console.log(this.cartsLength)
+          console.log(4)
         })
         .catch((err) => {
           // console.log(err)
@@ -166,17 +202,19 @@ export default {
         }
       }
       return null
-    },
+    }
   },
   mounted() {
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexTokenU\s*\=\s*([^;]*).*$)|^.*$/, '$1')
     this.axios.defaults.headers.common['Authorization'] = this.token
+    console.log(5)
     // console.log(this.token)
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
     this.getCarts()
+    // this.getCarts2()
   }
 }
 </script>
