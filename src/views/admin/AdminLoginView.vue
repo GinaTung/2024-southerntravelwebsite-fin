@@ -3,31 +3,36 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <h1 class="h3 mb-4 text-center">管理者登入</h1>
-        <form id="form" class="form-signin" @submit.prevent="login">
+        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit.prevent="login">
           <div class="form-floating mb-4">
-            <input
+            <VeeField
               type="email"
+              name="email"
               class="form-control"
-              v-model="user.username"
-              id="username"
-              placeholder="name@example.com"
-              required
-              autofocus
-              autocomplete="username"
+              v-model="user.email"
+              id="email"
+              :class="{ 'is-invalid': errors['email'] }"
+              placeholder="請輸入 Email"
+              rules="email|required"
+              autocomplete="useremail"
             />
-            <label for="username">Email address</label>
+            <label for="email">請輸入 Email</label>
+            <ErrorMessage name="email" class="invalid-feedback" />
           </div>
           <div class="form-floating mb-4">
-            <input
+            <VeeField
               type="password"
               class="form-control"
-              v-model="user.password"
-              id="password"
-              placeholder="Password"
-              required
+              name="password"
+              id="userpassword"
+              :class="{ 'is-invalid': errors['password'] }"
+              placeholder="請輸入Password"
+              rules="min:8|alpha_dash|required"
               autocomplete="current-password"
+              v-model="user.password"
             />
-            <label for="password">Password</label>
+            <label for="userpassword">請輸入Password</label>
+            <ErrorMessage name="password" class="invalid-feedback" />
           </div>
           <a class="btn-turquoise w-100 mt-3 text-center" type="button" @click="login"> 登入 </a>
           <div class="mt-3">
@@ -35,7 +40,7 @@
               >回前台</router-link
             >
           </div>
-        </form>
+        </VeeForm>
       </div>
     </div>
   </div>
