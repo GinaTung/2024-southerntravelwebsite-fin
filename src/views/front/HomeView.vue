@@ -12,7 +12,7 @@
               v-model.trim="searchText"
               @input="search"
               class="form-control rounded-pill px-6 px-md-10 py-4 z-index-2 border-0 my-3 w-100"
-              placeholder="輸入遊玩縣市"
+              placeholder="輸入遊玩景點，推薦：漫遊蓮潭風光"
             />
 
             <a
