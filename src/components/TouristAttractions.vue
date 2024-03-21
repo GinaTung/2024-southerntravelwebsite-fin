@@ -15,7 +15,7 @@
               class=" img-fluid card-attractions-img"
               alt="高跟鞋教堂"
             />
-            <a href="https://ginatung.github.io/2024-southerntravelwebsite-fin/#/TouristAttractions/%E5%98%89%E7%BE%A9/%E9%AB%98%E8%B7%9F%E9%9E%8B%E6%95%99%E5%A0%82" class="stretched-link">
+            <a href="#/TouristAttractions/%E5%98%89%E7%BE%A9/%E9%AB%98%E8%B7%9F%E9%9E%8B%E6%95%99%E5%A0%82" class="stretched-link">
               <div class="mask  d-none d-sm-flex">
                 <p class="fs-5 fs-xl-3 fw-bold mb-4">高跟鞋教堂</p>
                 <p class="fs-6 fs-xl-5">
@@ -42,7 +42,7 @@
                   alt="Image 2"
                   class="img-size-attractions-1 image-mask-img"
                 />
-                <a href="https://ginatung.github.io/2024-southerntravelwebsite-fin/#/TouristAttractions/%E9%AB%98%E9%9B%84/%E6%97%97%E6%B4%A5%E9%BB%83%E9%87%91%E6%B5%B7%E9%9F%BB-%E6%B5%B7%E7%8F%8D%E7%8F%A0" class="stretched-link">
+                <a href="#/TouristAttractions/%E9%AB%98%E9%9B%84/%E6%97%97%E6%B4%A5%E9%BB%83%E9%87%91%E6%B5%B7%E9%9F%BB-%E6%B5%B7%E7%8F%8D%E7%8F%A0" class="stretched-link">
                   <div class="mask mask-33 flex-column">
                     <p class="fs-5 fs-xl-4 fw-bold mb-2">黃金海韻海珍珠</p>
                     <p class="fs-6">情侶必遊之地</p>
@@ -59,7 +59,7 @@
                   alt="Image 2"
                   class="img-size-attractions-2 image-mask-img"
                 />
-                <a href="https://ginatung.github.io/2024-southerntravelwebsite-fin/#/TouristAttractions/%E5%8F%B0%E5%8D%97/%E5%AE%89%E5%B9%B3%E5%8F%A4%E5%A0%A1" class="stretched-link">
+                <a href="#/TouristAttractions/%E5%8F%B0%E5%8D%97/%E5%AE%89%E5%B9%B3%E5%8F%A4%E5%A0%A1" class="stretched-link">
                   <div class="mask mask-62 flex-column">
                     <p class="fs-5 fs-xl-4 fw-bold mb-2">安平古堡</p>
                     <p class="fs-6">荷蘭時期遺蹟</p>
@@ -78,7 +78,7 @@
                   alt="嘉義公園-射日塔"
                   class="img-fluid img-size-attractions-2 image-mask-img h-100"
                 />
-                <a href="https://ginatung.github.io/2024-southerntravelwebsite-fin/#/TouristAttractions/%E5%98%89%E7%BE%A9/%E5%98%89%E7%BE%A9%E5%85%AC%E5%9C%92-%E5%B0%84%E6%97%A5%E5%A1%94" class="stretched-link">
+                <a href="#/TouristAttractions/%E5%98%89%E7%BE%A9/%E5%98%89%E7%BE%A9%E5%85%AC%E5%9C%92-%E5%B0%84%E6%97%A5%E5%A1%94" class="stretched-link">
                   <div class="mask flex-column">
                     <p class="fs-5 fs-xl-4 fw-bold mb-2">嘉義公園-射日塔</p>
                     <p class="fs-6">親子共遊</p>
@@ -95,7 +95,7 @@
                   alt="Image 4"
                   class="img-fluid img-size-attractions-1 image-mask-img"
                 />
-                <a href="https://ginatung.github.io/2024-southerntravelwebsite-fin/#/TouristAttractions/%E9%AB%98%E9%9B%84/%E6%84%9B%E6%B2%B3%E6%B2%B3%E7%95%94%E7%BE%8E%E6%99%AF" class="stretched-link">
+                <a href="#/TouristAttractions/%E9%AB%98%E9%9B%84/%E6%84%9B%E6%B2%B3%E6%B2%B3%E7%95%94%E7%BE%8E%E6%99%AF" class="stretched-link">
                   <div class="mask flex-column">
                     <p class="fs-5 fs-xl-4 fw-bold mb-2">愛河河畔美景</p>
                     <p class="fs-6">愛之船情侶遊覽</p>

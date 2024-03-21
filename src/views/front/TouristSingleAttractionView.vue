@@ -213,6 +213,7 @@ export default {
     this.attractionTitle = this.$route.params.title
     // console.log(this.category, this.attractionTitle)
     this.getAttractions()
+    window.scrollTo(0, 0);
   }
 }
 </script>
