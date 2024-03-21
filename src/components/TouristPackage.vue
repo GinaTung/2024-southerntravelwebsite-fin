@@ -13,13 +13,12 @@
             </div>
             <img
               :src="item.imageUrl"
-              class="card-img-top-2 img-fluid pb-6 pb-6 h-100"
+              class="card-img-top-2 img-fluid h-100"
               :alt="item.title"
             />
-            <!-- ?q=台南&title=臺南七股北門雙日遊 -->
             <div class="card-body">
               <a :href="item.link">
-                <h3 class="fs-5 fs-lg-4 card-title pb-4 fw-bold text-primary-700 stretched-link">
+                <h3 class="fs-5 fs-lg-4 card-title pb-4 fw-bold text-primary-700 stretched-link mb-0">
                   {{ item.title }}
                 </h3>
               </a>
@@ -33,10 +32,8 @@
                 </p>
                 <p class="fs-6 text-danger" v-else>已出遊完成</p>
               </div>
-
-
             </div>
-            <div class="card-footer text-end border-0">
+            <div class="card-footer text-end border-0 pt-0 pb-3">
               <div class="d-flex justify-content-between align-items-end">
                 <div class="d-flex align-items-center">
                   <span class="fs-6 fs-lg-5"><i class="bi bi-calendar-week me-2"></i>{{ item.tag_1 }}</span>

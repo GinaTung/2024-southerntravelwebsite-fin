@@ -1,8 +1,8 @@
 <template>
   <div class="container py-10 py-lg-30">
     <div class="row justify-content-center">
-      <div class="col-6">
-        <h1 class="h3 mb-4">管理者登入</h1>
+      <div class="col-md-6">
+        <h1 class="h3 mb-4 text-center">管理者登入</h1>
         <form id="form" class="form-signin" @submit.prevent="login">
           <div class="form-floating mb-4">
             <input
