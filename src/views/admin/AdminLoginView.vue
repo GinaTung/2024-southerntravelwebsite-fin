@@ -9,7 +9,7 @@
               type="email"
               name="email"
               class="form-control"
-              v-model="user.email"
+              v-model="user.username"
               id="email"
               :class="{ 'is-invalid': errors['email'] }"
               placeholder="請輸入 Email"
