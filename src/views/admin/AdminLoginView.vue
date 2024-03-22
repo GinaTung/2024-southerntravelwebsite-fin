@@ -3,7 +3,7 @@
     <div class="row justify-content-center">
       <div class="col-md-6">
         <h1 class="h3 mb-4 text-center">管理者登入</h1>
-        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit.prevent="login">
+        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit="login">
           <div class="form-floating mb-4">
             <VeeField
               type="email"
@@ -81,9 +81,9 @@ export default {
           document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
         })
         .catch((err) => {
-          // console.log(err);
+          console.log(err);
           //   console.dir(err);
-          alert(`${err.data.message}`)
+          alert(`${err.message}`)
         })
     },
   },
