@@ -89,8 +89,12 @@
                 class="btn-square w-100 ms-2 px-2 px-md-3"
                 v-if="currentDate <= productsItem.endDate"
                 @click="addToCart(productsItem.id, quantity, productsItem.price)"
+                :disabled="status.loadingItem === productsItem.id"
                 type="button"
-                >預約套裝行程</a
+                >
+                <span class="spinner-border spinner-grow-sm" role="status"
+                v-if="status.loadingItem === productsItem.id"></span>
+                預約套裝行程</a
               >
               <a
                 class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
@@ -192,7 +196,10 @@ export default {
       cartId: null,
       userCarts: [],
       transCartNumberStatus: false,
-      currentDate: ''
+      currentDate: '',
+      status: {
+        loadingItem: '',
+      },
     }
   },
   methods: {
@@ -278,7 +285,8 @@ export default {
       //   console.log(this.newProductsDes)
     },
     addToCart(productId, qty = 1, price) {
-      console.log(productId, qty, price)
+      // console.log(productId, qty, price)
+      this.status.loadingItem = productId;
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
@@ -305,6 +313,8 @@ export default {
               final_total: qty * price * percent
             })
             .then((res) => {
+              this.status.loadingItem = '';
+               this.isLoading = false;
               alert('已更新預約人數')
               this.getCart()
               // this.$router.go(0)
@@ -326,6 +336,8 @@ export default {
             })
             .then((res) => {
               // console.log(res)
+              this.status.loadingItem = '';
+               this.isLoading = false;
               alert(`已預約成功`)
               this.getCart()
               this.$emitter.emit('updateCart') // 發送特定事件

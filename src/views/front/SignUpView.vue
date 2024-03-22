@@ -3,7 +3,7 @@
     <div class="row justify-content-center align-items-cneter">
       <div class="col-md-6">
         <h1 class="h3 mb-4 text-center">會員註冊</h1>
-        <VeeForm ref="form" v-slot="{ errors }" @submit.prevent="signup">
+        <VeeForm ref="form" v-slot="{ errors }" @submit="signup">
           <div class="form-floating mb-4">
             <VeeField
               type="text"
@@ -103,6 +103,7 @@ export default {
       return phoneNumber.test(value) ? true : '需要正確的電話號碼'
     },
     signup() {
+      event.preventDefault();
       const api_url2 = import.meta.env.VITE_API_URL2
       this.axios
         .post(`${api_url2}/signup`, {
@@ -118,7 +119,7 @@ export default {
           this.$router.push('/login')
         })
         .catch((err) => {
-          // console.log(err)
+          console.log(err)
           alert(`會員註冊失敗，請再次填寫註冊資料`)
         })
     }
