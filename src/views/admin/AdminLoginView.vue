@@ -88,6 +88,7 @@ export default {
     },
   },
   mounted(){
+    window.scrollTo(0, 0);
     setTimeout(() => {
       this.checkAdmin();
     }, 1000); // 3000 毫秒即為 3 秒

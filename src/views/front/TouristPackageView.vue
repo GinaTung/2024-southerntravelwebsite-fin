@@ -220,6 +220,7 @@ export default {
   mounted() {
     this.searchProducts()
     this.getProducts()
+    window.scrollTo(0, 0);
     // console.log(this.$route)
     this.fullPath = this.$route.fullPath
   }

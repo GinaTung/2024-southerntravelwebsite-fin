@@ -120,12 +120,13 @@ export default {
 
     },
     getProducts() {
+      this.isLoading = true
       this.axios
         .get(`${api_url2}/products?id=-c35c4Q9gWLGb7p4aWAM4&id=KvBuohr&id=xoGgJIk&id=fsfguEU`)
         .then((res) => {
           //   console.log(res)
           this.products = res.data
-
+          this.isLoading = false
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
               // console.log(item)
@@ -158,6 +159,7 @@ export default {
   mounted() {
     this.getProducts()
     this.checkDate()
+
   }
 }
 </script>

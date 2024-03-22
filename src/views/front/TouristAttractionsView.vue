@@ -167,6 +167,7 @@ export default {
   mounted() {
     this.getAttractions()
     this.searchAttractions()
+    window.scrollTo(0, 0);
     // console.log(this.$route.fullPath)
     this.fullPath = this.$route.fullPath
   }
