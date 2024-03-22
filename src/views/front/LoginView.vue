@@ -3,7 +3,7 @@
     <div class="row justify-content-center align-items-cneter">
       <div class="col-md-6">
         <h1 class="h3 mb-4 text-center">會員登入</h1>
-        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit.prevent="login">
+        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit="login">
           <div class="form-floating mb-4">
             <VeeField
               type="email"
@@ -54,6 +54,7 @@ export default {
   },
   methods: {
     login() {
+      event.preventDefault();
       this.axios
         .post(`${api_url2}/login`, this.user)
         .then((res) => {
@@ -76,7 +77,7 @@ export default {
           this.$emitter.emit('loginCheck2', true)
         })
         .catch((err) => {
-          // console.log(err)
+          console.log(err)
           alert(`會員登入失敗，請再次填寫會員登入資料`)
         })
     }
