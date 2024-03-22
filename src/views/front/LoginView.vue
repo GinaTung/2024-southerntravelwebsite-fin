@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+import sweetAlert from '../../js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   data() {
@@ -59,7 +61,8 @@ export default {
         .post(`${api_url2}/login`, this.user)
         .then((res) => {
           // console.log(res)
-          alert(`會員登入成功`)
+          // alert(`會員登入成功`)
+          sweetAlert.typicalType('會員登入成功', '', 'success', false)
           // 解構資料中的 accessToken, expired 和 userId
           const { accessToken, expired } = res.data
           const userId = res.data.user.id;
@@ -77,7 +80,7 @@ export default {
           this.$emitter.emit('loginCheck2', true)
         })
         .catch((err) => {
-          console.log(err)
+          // console.log(err)
           alert(`會員登入失敗，請再次填寫會員登入資料`)
         })
     }

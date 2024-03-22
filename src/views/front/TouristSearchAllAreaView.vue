@@ -42,23 +42,24 @@
                   <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">
                     NT{{ thousand(productsItem.origin_price) }}
                   </p>
-                  <div class="d-flex flex-md-column align-items-end justify-content-end justify-content-sm-between justify-content-md-end">
+                  <div
+                    class="d-flex flex-md-column align-items-end justify-content-end justify-content-sm-between justify-content-md-end"
+                  >
                     <p class="text-danger fw-bold d-none d-md-block">促銷價</p>
 
-                      <div class="d-sm-flex flex-sm-column d-none d-md-none">
-                        <p class="fs-7 fs-sm-6 text-dark2" v-if="currentDate <= productsItem.endDate">
-                          預約：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
-                        </p>
-                        <p class="fs-7 fs-sm-6 text-danger" v-else>預約時間已截止</p>
-                        <p class="fs-7 fs-sm-6 text-dark2" v-if="currentDate <= productsItem.endDate">
-                          出遊：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
-                        </p>
-                        <p class="fs-6 text-danger" v-else>已出遊完成</p>
-                      </div>
-                      <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
-                        NT{{ thousand(productsItem.price) }}
+                    <div class="d-sm-flex flex-sm-column d-none d-md-none">
+                      <p class="fs-7 fs-sm-6 text-dark2" v-if="currentDate <= productsItem.endDate">
+                        預約：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
                       </p>
-  
+                      <p class="fs-7 fs-sm-6 text-danger" v-else>預約時間已截止</p>
+                      <p class="fs-7 fs-sm-6 text-dark2" v-if="currentDate <= productsItem.endDate">
+                        出遊：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
+                      </p>
+                      <p class="fs-6 text-danger" v-else>已出遊完成</p>
+                    </div>
+                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                      NT{{ thousand(productsItem.price) }}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -91,9 +92,12 @@
                 @click="addToCart(productsItem.id, quantity, productsItem.price)"
                 :disabled="status.loadingItem === productsItem.id"
                 type="button"
-                >
-                <span class="spinner-border spinner-grow-sm" role="status"
-                v-if="status.loadingItem === productsItem.id"></span>
+              >
+                <span
+                  class="spinner-border spinner-grow-sm"
+                  role="status"
+                  v-if="status.loadingItem === productsItem.id"
+                ></span>
                 預約套裝行程</a
               >
               <a
@@ -195,11 +199,10 @@ export default {
       newCarts: [],
       cartId: null,
       userCarts: [],
-      transCartNumberStatus: false,
       currentDate: '',
       status: {
-        loadingItem: '',
-      },
+        loadingItem: ''
+      }
     }
   },
   methods: {
@@ -286,7 +289,7 @@ export default {
     },
     addToCart(productId, qty = 1, price) {
       // console.log(productId, qty, price)
-      this.status.loadingItem = productId;
+      this.status.loadingItem = productId
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
@@ -313,14 +316,14 @@ export default {
               final_total: qty * price * percent
             })
             .then((res) => {
-              this.status.loadingItem = '';
-               this.isLoading = false;
+              this.status.loadingItem = ''
+              // this.isLoading = false
               alert('已更新預約人數')
               this.getCart()
               // this.$router.go(0)
             })
             .catch((err) => {
-              console.error('更新預約人數失敗:', err)
+              // console.error('更新預約人數失敗:', err)
               alert('更新預約人數失敗')
             })
         } else {
@@ -336,15 +339,15 @@ export default {
             })
             .then((res) => {
               // console.log(res)
-              this.status.loadingItem = '';
-               this.isLoading = false;
+              this.status.loadingItem = ''
+              // this.isLoading = false
               alert(`已預約成功`)
               this.getCart()
               this.$emitter.emit('updateCart') // 發送特定事件
               // this.$router.go(0)
             })
             .catch((err) => {
-              console.log(err)
+              // console.log(err)
               alert('預約失敗，再重新登入預約')
             })
         }

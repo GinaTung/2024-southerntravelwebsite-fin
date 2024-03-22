@@ -72,18 +72,17 @@ export default {
       this.axios
         .post(`${api_url}/admin/signin`, this.user)
         .then((res) => {
-          // console.log(res);
-          alert(`${res.data.message}`)
-          this.$router.push({ name: 'AdminHome' })
-          // this.userIsLoggedIn = true;
-          this.$emitter.emit('loginCheck', true)
+          console.log(res);
+          alert(`管理者登入成功`)
           const { expired, token } = res.data
           document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
+          this.$router.push({ name: 'AdminHome' })
+          this.$emitter.emit('loginCheck', true)
         })
         .catch((err) => {
           console.log(err);
           //   console.dir(err);
-          alert(`${err.message}`)
+          alert(`管理者登入失敗`)
         })
     },
   },
@@ -91,7 +90,7 @@ export default {
     window.scrollTo(0, 0);
     setTimeout(() => {
       this.checkAdmin();
-    }, 1000); // 3000 毫秒即為 3 秒
+    }, 1000); 
   }
 }
 </script>

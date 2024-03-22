@@ -90,6 +90,8 @@
 
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import Swal from 'sweetalert2'
+import sweetAlert from '../js/sweetAlert'
 import Collapse from 'bootstrap/js/dist/collapse'
 import FrontLayoutFooter from '../components/FrontLayoutFooter.vue'
 export default {
@@ -123,7 +125,7 @@ export default {
   },
   methods: {
     checkLoggedInUser() {
-      console.log(2)
+      // console.log(2)
       this.$emitter.on('loginCheck2', (msg) => {
         this.userIsLoggedIn2 = msg
       })
@@ -141,7 +143,7 @@ export default {
     logout() {
       this.deleteAllCookies()
       this.userIsLoggedIn2 = false
-
+      sweetAlert.typicalType('會員登出成功', '', 'success', false)
       // 导向至登录页面或首页
       this.$router.push('/') // 或者你想导向的其他路径
     },

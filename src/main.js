@@ -13,6 +13,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import Loading from 'vue-loading-overlay';
 import 'vue-loading-overlay/dist/css/index.css';
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
 import {
     Form, Field, ErrorMessage, defineRule, configure,
   } from 'vee-validate';
@@ -37,6 +39,7 @@ const app = createApp(App)
 app.use(createPinia())
 app.use(router)
 app.use(VueAxios, axios)
+app.use(VueSweetalert2);
 app.config.globalProperties.$emitter = emitter
 app.component('VueLoading', Loading);
 app.component('VeeForm', Form);
