@@ -80,6 +80,9 @@ export default {
           alert(`會員登入失敗，請再次填寫會員登入資料`)
         })
     }
+  },
+  mounted(){
+    window.scrollTo(0, 0);
   }
 }
 </script>

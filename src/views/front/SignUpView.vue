@@ -122,6 +122,9 @@ export default {
           alert(`會員註冊失敗，請再次填寫註冊資料`)
         })
     }
+  },
+  mounted(){
+    window.scrollTo(0, 0);
   }
 }
 </script>

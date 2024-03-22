@@ -179,7 +179,7 @@ export default {
       newCarts: [],
       cartId: null,
       userCarts: [],
-      transCartNumberStatus:false
+      transCartNumberStatus:false,
       currentDate: ''
 
     }
