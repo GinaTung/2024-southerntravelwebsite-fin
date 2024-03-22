@@ -28,7 +28,7 @@
             </div>
 
             <div class="row">
-              <div class="col-12 col-sm-8 my-2">
+              <div class="col-12 col-md-8 my-2">
                 <div v-for="item in newProductsDes" :key="item.id">
                   <div v-if="item.id === productsItem.id">
                     <p v-for="description in item.descriptions" :key="description">
@@ -37,29 +37,41 @@
                   </div>
                 </div>
               </div>
-              <div class="col-12 col-sm-4">
+              <div class="col-12 col-md-4">
                 <div class="d-flex flex-column">
                   <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">
                     NT{{ thousand(productsItem.origin_price) }}
                   </p>
-                  <div class="d-flex flex-sm-column align-items-end justify-content-end">
-                    <p class="text-danger fw-bold d-none d-sm-block">促銷價</p>
-                    <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
-                      NT{{ thousand(productsItem.price) }}
-                    </p>
+                  <div class="d-flex flex-md-column align-items-end justify-content-end justify-content-sm-between justify-content-md-end">
+                    <p class="text-danger fw-bold d-none d-md-block">促銷價</p>
+
+                      <div class="d-sm-flex flex-sm-column d-none d-md-none">
+                        <p class="fs-7 fs-sm-6 text-dark2" v-if="currentDate <= productsItem.endDate">
+                          預約：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
+                        </p>
+                        <p class="fs-7 fs-sm-6 text-danger" v-else>預約時間已截止</p>
+                        <p class="fs-7 fs-sm-6 text-dark2" v-if="currentDate <= productsItem.endDate">
+                          出遊：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
+                        </p>
+                        <p class="fs-6 text-danger" v-else>已出遊完成</p>
+                      </div>
+                      <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                        NT{{ thousand(productsItem.price) }}
+                      </p>
+  
                   </div>
                 </div>
               </div>
             </div>
-            <div class="col-12">
-              <p class="fs-6 fs-lg-5 text-dark2" v-if="currentDate <= productsItem.endDate">
+            <div class="col-12 d-none d-md-flex flex-md-column">
+              <p class="fs-6 text-dark2" v-if="currentDate <= productsItem.endDate">
                 預約時間：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
               </p>
-              <p class="fs-6 fs-lg-5 text-danger" v-else>預約時間已截止</p>
-              <p class="fs-6 fs-lg-5 text-dark2" v-if="currentDate <= productsItem.endDate">
+              <p class="fs-6 text-danger" v-else>預約時間已截止</p>
+              <p class="fs-6 text-dark2" v-if="currentDate <= productsItem.endDate">
                 出遊時間：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
               </p>
-              <p class="fs-6 fs-lg-5 text-danger" v-else>已出遊完成</p>
+              <p class="fs-6 text-danger" v-else>已出遊完成</p>
             </div>
           </div>
           <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
@@ -179,9 +191,8 @@ export default {
       newCarts: [],
       cartId: null,
       userCarts: [],
-      transCartNumberStatus:false,
+      transCartNumberStatus: false,
       currentDate: ''
-
     }
   },
   methods: {
@@ -267,7 +278,6 @@ export default {
       //   console.log(this.newProductsDes)
     },
     addToCart(productId, qty = 1, price) {
-
       console.log(productId, qty, price)
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
@@ -322,7 +332,7 @@ export default {
               // this.$router.go(0)
             })
             .catch((err) => {
-              console.log(err);
+              console.log(err)
               alert('預約失敗，再重新登入預約')
             })
         }

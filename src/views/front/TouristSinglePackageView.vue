@@ -715,7 +715,7 @@ export default {
               this.newCarts.push(item)
             }
           })
-          console.log(this.newCarts);
+          // console.log(this.newCarts);
         })
         .catch((err) => {
           // console.log(err)
@@ -742,6 +742,7 @@ export default {
     this.userId = cookieUserId * 1
     this.token = cookieToken
     this.checkDate()
+    window.scrollTo(0, 0);
     // console.log(this.userId,this.token)
   }
 }
