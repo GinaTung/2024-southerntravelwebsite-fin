@@ -2,25 +2,30 @@
   <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <banner-swiper></banner-swiper>
   <div class="search-bar bg-primary-400 border-left-bottom">
-    <div class="container text-center pt-10 pb-25 py-md-20">
+    <div class="container text-center pt-10 pb-10 py-md-20">
       <p class="fs-3 text-white mb-10 fw-bold text-center">開始你的南部輕旅遊！</p>
       <div class="mx-auto" style="max-width: 856px">
         <div class="input-group position-relative flex-column">
           <div class="input-wrapper">
             <input
               type="search"
-              v-model.trim="searchText"
               @input="search"
-              class="form-control rounded-pill px-6 px-md-10 py-4 z-index-2 border-0 my-3 w-100"
+              v-model.trim="searchText"
+              class="form-control rounded-pill px-6 px-md-10 py-4 z-index-2 border-0 my-3 w-100 d-none d-md-block"
               placeholder="輸入遊玩景點，推薦：漫遊蓮潭風光"
             />
-
+            <input
+              type="search"
+              v-model.trim="searchText"
+              @input="search"
+              class="form-control rounded-pill px-6 px-md-10 py-4 z-index-2 border-0 my-3 w-100 d-md-none"
+              placeholder="輸入遊玩南部縣市"
+            />
             <a
               class="btn-cerulean-blue position-absolute search-btn-cerulean-blue-position h-70"
               type="button"
-              href="#"
               @click="search"
-              >GO !</a
+              >搜尋</a
             >
           </div>
         </div>
@@ -30,7 +35,7 @@
               <a :href="item.link">{{ item.title }}</a>
             </li>
           </template>
-          <li v-if="showResults && searchResults.length === 0">無資料</li>
+          <li v-if="showResults && searchResults.length === 0">無資料，關鍵字：嘉義、台南、高雄</li>
         </ul>
       </div>
     </div>
