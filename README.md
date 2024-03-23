@@ -1,8 +1,8 @@
-# 南部輕旅遊網站
+# 2024-southerntravelwebsite-fin
 
 This template should help get you started developing with Vue 3 in Vite.
 
-## 專案說明
+## Recommended IDE Setup
 
 [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
 
