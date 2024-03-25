@@ -1,4 +1,5 @@
 <template>
+   <VueLoading :active="isLoading" :z-index="1060" />
   <div
     class="modal fade"
     id="orderModal"
@@ -11,9 +12,14 @@
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
           <h5 class="modal-title" id="exampleModalLabel">
-            <span>訂單細節(目前查看訂單編號：{{tempOrder.id}})</span>
+            <span>訂單細節(目前查看訂單編號：{{ tempOrder.id }})</span>
           </h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
         </div>
         <div class="modal-body">
           <div class="row">
@@ -58,21 +64,15 @@
                   </tr>
                   <tr>
                     <th>下單時間</th>
-                    <td>
-                      <ul class="list-unstyled mb-0">
-                    <li v-for="date in ordersDate" :key="date.id">
-                      <span v-if="date.id === tempOrder.id">
-                        {{ date.create_at }}
-                      </span>
-                    </li>
-                  </ul>
+                    <td v-if="tempOrder.user">
+                      {{ tempOrder.user.create_at }}
                     </td>
                   </tr>
                   <tr>
                     <th>付款時間</th>
                     <td>
                       <span v-if="tempOrder.paid_date">
-                        {{tempOrder.paid_date }}
+                        {{ tempOrder.paid_date }}
                       </span>
                       <span v-else>時間不正確</span>
                     </td>
@@ -87,36 +87,138 @@
                   <tr>
                     <th>總金額</th>
                     <td>
-                      {{tempOrder.total }}
+                      <template v-for="item in tempOrder.product" :key="item.id">
+                        {{ thousand(item.final_total) }}
+                      </template>
                     </td>
                   </tr>
                 </tbody>
               </table>
-              <h3>選購商品</h3>
+              <h3 class="mb-3">選購商品</h3>
               <table class="table">
                 <thead>
-                  <tr></tr>
+                  <tr>
+                    <th scope="col">行程名稱</th>
+                    <th scope="col">預約數量</th>
+                    <th scope="col">金額</th>
+                  </tr>
                 </thead>
                 <tbody>
-                  <tr v-for="item in tempOrder.products" :key="item.id">
-                    <th>
-                      {{ item.product.title }}
-                    </th>
-                    <td>{{ item.qty }} / {{ item.product.unit }}</td>
-                    <td class="text-end">
-                      {{item.final_total }}
-                    </td>
-                  </tr>
+                  <template v-for="(productItem, index) in tempOrder.product" :key="index + 123">
+                    <tr v-for="item in productItem.products" :key="item.id">
+                      <th>
+                        {{ item.title }}
+                      </th>
+                      <td>預約 {{ item.qty }} / 位</td>
+                      <td>
+                        {{ thousand(item.final_total) }}
+                      </td>
+                    </tr>
+                  </template>
                 </tbody>
               </table>
-              <div class="d-flex justify-content-end">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"
-                    v-model="tempOrder.is_paid" />
-                  <label class="form-check-label" for="flexCheckDefault">
-                    <span v-if="tempOrder.is_paid">已付款</span>
-                    <span v-else>未付款</span>
-                  </label>
+              <div class="d-flex justify-content-start">
+                <div class="me-10" v-if="tempOrder.user">
+                  目前訂單狀態 :
+                  <span
+                    v-if="
+                      !tempOrder.status &&
+                      !tempOrder.billStatus &&
+                      !tempOrder.checkDataStatus &&
+                      !tempOrder.user.status
+                    "
+                    class="text-primary-emphasis"
+                  >
+                    訂單處理中
+                  </span>
+                  <span
+                    v-else-if="
+                      !tempOrder.status &&
+                      !tempOrder.billStatus &&
+                      !tempOrder.checkDataStatus &&
+                      tempOrder.user.status
+                    "
+                    class="text-primary"
+                  >
+                    確認出遊資料中
+                  </span>
+                  <span
+                    v-else-if="
+                      !tempOrder.status &&
+                      !tempOrder.billStatus &&
+                      tempOrder.checkDataStatus &&
+                      tempOrder.user.status
+                    "
+                    class="text-warning"
+                  >
+                    發票開立中
+                  </span>
+                  <span
+                    v-else-if="
+                      !tempOrder.status &&
+                      tempOrder.billStatus &&
+                      tempOrder.checkDataStatus &&
+                      tempOrder.user.status
+                    "
+                    class="text-danger"
+                  >
+                    訂單即將完成，準備出遊
+                  </span>
+                  <span v-else class="text-success">已出遊結束</span>
+                </div>
+                <div  v-if="tempOrder.user">
+                  <div class="form-check me-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault"
+                      v-model="tempOrder.user.status"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault">
+                      <span v-if="tempOrder.user.status">已付款</span>
+                      <span v-else>未付款</span>
+                    </label>
+                  </div>
+                  <div class="form-check me-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault2"
+                      v-model="tempOrder.checkDataStatus"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault2">
+                      <span v-if="tempOrder.checkDataStatus">已確認出遊資料完成</span>
+                      <span v-else>未確認出遊資料</span>
+                    </label>
+                  </div>
+                  <div class="form-check me-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault3"
+                      v-model="tempOrder.billStatus"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault3">
+                      <span v-if="tempOrder.billStatus">已開立發票</span>
+                      <span v-else>未開立發票</span>
+                    </label>
+                  </div>
+                  <div class="form-check me-4">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      value=""
+                      id="flexCheckDefault4"
+                      v-model="tempOrder.status"
+                    />
+                    <label class="form-check-label" for="flexCheckDefault4">
+                      <span v-if="tempOrder.status">出遊結束</span>
+                      <span v-else>最後確認訂單資料</span>
+                    </label>
+                  </div>
                 </div>
               </div>
             </div>
@@ -126,7 +228,7 @@
           <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-primary" @click="$emit('update-paid', tempOrder)">
+          <button type="button" class="btn btn-primary" @click="updateOrderStatue(tempOrder)">
             修改付款狀態
           </button>
         </div>
@@ -136,6 +238,8 @@
 </template>
 <script>
 import { Modal } from 'bootstrap'
+import sweetAlert from '../js/sweetAlert'
+const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
   props: {
@@ -144,12 +248,19 @@ export default {
     },
     ordersDate: {
       type: Array
+    },
+    updatePaid: {
+      type: Function // Assuming updatePaid is a function
+    },
+    getOrders:{
+      type: Function
     }
   },
   data() {
     return {
       orderModal: null,
-      tempOrder: {}
+      tempOrder: {},
+      isLoading:false
     }
   },
   methods: {
@@ -158,6 +269,41 @@ export default {
     },
     closeModal() {
       this.orderModal.hide()
+    },
+    thousand(data) {
+      if (data !== undefined) {
+        data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
+      }
+      return `$ ${data}`
+    },
+    updateOrderStatue(status) {
+      this.isLoading = true;
+      // 切换 status 的值
+      const updatedStatus = status.user.status
+      // console.log(updatedStatus)
+      const updatedUser = {
+        status: updatedStatus,
+        ...status.user // 保留原来的用户数据
+      }
+      // console.log(updatedUser)
+      this.axios
+        .patch(`${api_url2}/orders/${status.id}`, {
+          user: updatedUser,
+          billStatus: status.billStatus,
+          checkDataStatus: status.checkDataStatus,
+          status: status.status
+        })
+        .then((res) => {
+          // console.log(res)
+          this.getOrders()
+          this.isLoading = false;
+          this.orderModal.hide()
+          sweetAlert.threeLayerCheckType('success','更新訂單狀態')
+        })
+        .catch((err) => {
+          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `${err.message}`);
+        })
     }
   },
   watch: {
@@ -167,6 +313,7 @@ export default {
   },
   mounted() {
     this.orderModal = new Modal(this.$refs.orderModal)
+
   }
 }
 </script>

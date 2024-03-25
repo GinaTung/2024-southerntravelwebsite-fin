@@ -178,6 +178,7 @@ p {
 </style>
 
 <script>
+import sweetAlert from '../../js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
@@ -318,13 +319,15 @@ export default {
             .then((res) => {
               this.status.loadingItem = ''
               // this.isLoading = false
-              alert('已更新預約人數')
+              // alert('已更新預約人數')
+              sweetAlert.threeLayerCheckType('success', '已更新預約人數')
               this.getCart()
               // this.$router.go(0)
             })
             .catch((err) => {
               // console.error('更新預約人數失敗:', err)
-              alert('更新預約人數失敗')
+              // alert('更新預約人數失敗')
+              sweetAlert.threeLayerCheckType('error', `更新預約人數失敗`);
             })
         } else {
           // 如果產品不在購物車中，則執行 post 操作
@@ -341,14 +344,16 @@ export default {
               // console.log(res)
               this.status.loadingItem = ''
               // this.isLoading = false
-              alert(`已預約成功`)
+              // alert(`已預約成功`)
+              sweetAlert.threeLayerCheckType('success', '已預約成功')
               this.getCart()
               this.$emitter.emit('updateCart') // 發送特定事件
               // this.$router.go(0)
             })
             .catch((err) => {
               // console.log(err)
-              alert('預約失敗，再重新登入預約')
+              // alert('預約失敗，再重新登入預約')
+              sweetAlert.threeLayerCheckType('error', `預約失敗，再重新登入預約`);
             })
         }
       }
