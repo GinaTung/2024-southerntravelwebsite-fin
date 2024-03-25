@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+import sweetAlert from '../../js/sweetAlert.js'
 export default {
   data() {
     return {
@@ -115,12 +116,14 @@ export default {
         })
         .then((response) => {
           // console.log(response)
-          alert(`會員註冊完成`)
+          // alert(`會員註冊完成`)
           this.$router.push('/login')
+          sweetAlert.threeLayerCheckType('success', '會員註冊完成')
         })
         .catch((err) => {
           console.log(err)
-          alert(`會員註冊失敗，請再次填寫註冊資料`)
+          // alert(`會員註冊失敗，請再次填寫註冊資料`)
+          sweetAlert.threeLayerCheckType('error', `會員註冊失敗，請再次填寫註冊資料`);
         })
     }
   },

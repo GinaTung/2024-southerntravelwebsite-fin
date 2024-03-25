@@ -143,7 +143,7 @@ export default {
     logout() {
       this.deleteAllCookies()
       this.userIsLoggedIn2 = false
-      sweetAlert.typicalType('會員登出成功', '', 'success', false)
+      sweetAlert.threeLayerCheckType('success', '會員登出成功')
       // 导向至登录页面或首页
       this.$router.push('/') // 或者你想导向的其他路径
     },
