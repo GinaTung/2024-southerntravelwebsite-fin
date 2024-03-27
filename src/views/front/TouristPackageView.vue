@@ -17,8 +17,8 @@
           </router-link>
           <span v-else> 南部旅遊方案 </span>
         </li>
-        <li class="breadcrumb-item" aria-current="page" v-if="selectedCategory !=='全部'">
-          <span> {{selectedCategory}} </span>
+        <li class="breadcrumb-item" aria-current="page" v-if="selectedCategory !== '全部'">
+          <span> {{ selectedCategory }} </span>
         </li>
       </ol>
     </nav>
@@ -41,41 +41,6 @@
                 </a>
               </li>
             </ul>
-            <!-- <ul class="nav flex-column">
-              <li class="nav-item">
-                <router-link
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  data-name="全部"
-                  aria-current="page"
-                  to="/TouristPackage/all"
-                  >全部區域<span class="">{{ enabledProducts.length }}</span></router-link
-                >
-              </li>
-              <li class="nav-item">
-                <router-link
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  to="/TouristPackage/searchChiayi"
-                  data-name="嘉義"
-                  >嘉義<span class="">{{ searchChiayi.length }}</span></router-link
-                >
-              </li>
-              <li class="nav-item">
-                <router-link
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  to="/TouristPackage/searchTainan"
-                  data-name="台南"
-                  >台南<span class="">{{ serchTainan.length }}</span></router-link
-                >
-              </li>
-              <li class="nav-item">
-                <router-link
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  to="/TouristPackage/searchKaohsiung"
-                  data-name="高雄"
-                  >高雄<span class="">{{ searchKaohsiung.length }}</span></router-link
-                >
-              </li>
-            </ul> -->
           </div>
         </div>
         <div class="col-12 col-lg-9">
@@ -315,7 +280,7 @@ export default {
       status: {
         loadingItem: ''
       },
-      category:''
+      category: '全部'
     }
   },
   watch: {
@@ -354,7 +319,7 @@ export default {
     }
   },
   created() {
-       const cookieCategory = this.getCookie('category')
+    const cookieCategory = this.getCookie('category')
     this.category = cookieCategory
     // console.log(this.category);
     // 根据URL中的category参数来设置selectedCategory
@@ -396,7 +361,7 @@ export default {
             // console.log(this.enabledProducts, 'A')
             this.status.loadingItem = false
             this.$router.push({
-              path: '/TouristPackage/all',
+              path: '/TouristPackage',
               query: { category: this.selectedCategory, page: this.currentPage }
             })
             window.scrollTo(0, 0)
@@ -420,7 +385,7 @@ export default {
             this.enabledProducts = this.products.filter((item) => item.is_enabled === 1)
             this.status.loadingItem = false
             this.$router.push({
-              path: '/TouristPackage/all',
+              path: '/TouristPackage',
               query: { category: this.selectedCategory, page: this.currentPage }
             })
             // console.log(this.enabledProducts, 'B')
@@ -553,7 +518,7 @@ export default {
             .catch((err) => {
               // console.error('更新預約人數失敗:', err)
               // alert('更新預約人數失敗')
-              sweetAlert.threeLayerCheckType('error', `更新預約人數失敗`);
+              sweetAlert.threeLayerCheckType('error', `更新預約人數失敗`)
             })
         } else {
           // 如果產品不在購物車中，則執行 post 操作
@@ -579,7 +544,7 @@ export default {
             .catch((err) => {
               // console.log(err)
               // alert('預約失敗，再重新登入預約')
-              sweetAlert.threeLayerCheckType('error', `預約失敗，再重新登入預約`);
+              sweetAlert.threeLayerCheckType('error', `預約失敗，再重新登入預約`)
             })
         }
       }
@@ -596,7 +561,21 @@ export default {
     }
   },
   mounted() {
-    // this.searchProducts()
+    // 在這裡檢查 URL 中是否有 category 參數
+    const urlParams = new URLSearchParams(window.location.search)
+    const categoryParam = urlParams.get('category')
+
+    // 如果 URL 中沒有 category 參數，或者 category 參數為空，則嘗試從 cookie 中取得 category
+    if (!categoryParam || categoryParam.trim() === '') {
+      const cookieCategory = this.getCookie('category')
+      if (cookieCategory) {
+        this.selectedCategory = cookieCategory
+      } else {
+        this.selectedCategory = '全部'
+      }
+    } else {
+      this.selectedCategory = categoryParam
+    }
     this.isLoading = true
     this.getProducts()
     window.scrollTo(0, 0)
