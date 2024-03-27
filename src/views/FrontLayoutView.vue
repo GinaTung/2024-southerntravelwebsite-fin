@@ -90,7 +90,6 @@
 
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
-import Swal from 'sweetalert2'
 import sweetAlert from '../js/sweetAlert'
 import Collapse from 'bootstrap/js/dist/collapse'
 import FrontLayoutFooter from '../components/FrontLayoutFooter.vue'
