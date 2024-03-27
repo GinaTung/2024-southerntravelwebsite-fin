@@ -6,28 +6,20 @@
           <router-link to="/" exact active-class="active-link">首頁</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/TouristAttractions" exact
-      active-class="active-link">
+          <router-link to="/TouristAttractions" exact active-class="active-link">
             南部旅遊景點
           </router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link
-            v-if="category === '台南'"
-            to="/TouristAttractions/searchTainan"
-            class="navbar-brand py-6"
-            >台南</router-link
-          >
-          <router-link
-            v-else-if="category === '嘉義'"
-            to="/TouristAttractions/searchChiayi"
-            >嘉義</router-link
-          >
-          <router-link
-            v-else-if="category === '高雄'"
-            to="/TouristAttractions/searchKaohsiung"
-            >高雄</router-link
-          >
+          <a v-if="category === '台南'" type="button"
+          @click="redirectToA('台南')"
+          class="navbar-brand">台南</a>
+          <a v-else-if="category === '嘉義'" type="button"
+          @click="redirectToA('嘉義')"
+          class="navbar-brand">嘉義</a>
+          <a  v-else-if="category === '高雄'" type="button"
+          @click="redirectToA('高雄')"
+          class="navbar-brand">高雄</a>
         </li>
         <li class="breadcrumb-item">
           {{ attractionTitle }}
@@ -110,6 +102,9 @@ p {
     height: 240px;
   }
 }
+.navbar-brand:hover {
+    color: #43B8BD;
+}
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
@@ -130,6 +125,9 @@ export default {
     }
   },
   methods: {
+    redirectToA(category) {
+      this.$router.push({ path: '/TouristAttractions', query: { category: category } })
+    },
     getAttractions() {
       this.axios
         .get(`${api_url2}/attractions`)
@@ -213,7 +211,7 @@ export default {
     this.attractionTitle = this.$route.params.title
     // console.log(this.category, this.attractionTitle)
     this.getAttractions()
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
   }
 }
 </script>
