@@ -11,26 +11,26 @@
           </router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link
+          <a
             v-if="category === '台南'"
-            to="/TouristPackage/searchTainan"
-            exact
-            active-class="active-link"
-            >台南</router-link
+            type="button"
+            @click="redirectToA('台南')"
+            class="navbar-brand"
+            >台南</a
           >
-          <router-link
+          <a
             v-else-if="category === '嘉義'"
-            to="/TouristPackage/searchChiayi"
-            exact
-            active-class="active-link"
-            >嘉義</router-link
+            type="button"
+            @click="redirectToA('嘉義')"
+            class="navbar-brand"
+            >嘉義</a
           >
-          <router-link
+          <a
             v-else-if="category === '高雄'"
-            to="/TouristPackage/searchKaohsiung"
-            exact
-            active-class="active-link"
-            >高雄</router-link
+            type="button"
+            @click="redirectToA('高雄')"
+            class="navbar-brand"
+            >高雄</a
           >
         </li>
         <li class="breadcrumb-item">
@@ -398,9 +398,7 @@
               <i class="bi bi-car-front-fill me-2"></i>出發時間
             </span>
           </h5>
-          <h6 class="mt-2">
-            {{ productsItem.goStartDate }} 至 {{ productsItem.goEndDate }}
-          </h6>
+          <h6 class="mt-2">{{ productsItem.goStartDate }} 至 {{ productsItem.goEndDate }}</h6>
         </div>
         <div class="d-flex justify-content-between mb-4 align-items-end">
           <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">
@@ -453,18 +451,26 @@
         <button
           class="btn-square w-100 fs-5 mb-4 border-0"
           type="button"
+          v-if="currentDate <= endDate"
           :class="{ 'disabled-btn': currentDate > endDate }"
           @click="addToCart(productsItem.id, quantity, productsItem.price)"
         >
           預約套裝行程
         </button>
         <button
+          class="btn btn-danger w-100 fs-5 mb-4 disabled btn-danger-rounded"
+          v-else
+          type="button"
+          >預約時間截止</button
+        >
+        <button
           class="btn-square fs-5 w-100 border-0"
           type="button"
-          :class="{ 'disabled-btn': currentDate > endDate || newCarts.length===0}"
+          :class="{ 'disabled-btn': currentDate > endDate || newCarts.length === 0 }"
           @click="saveCardId"
-          >直接結帳</button
         >
+          直接結帳
+        </button>
         <!-- <h6 class="mt-2">集合地點為{{productsItem.category}}火車站</h6>
           <h6 class="mt-2">集合時間為早上9點</h6> -->
       </div>
@@ -525,7 +531,7 @@ export default {
       userId: '',
       token: '',
       currentDate: '',
-      endDate:'',
+      endDate: '',
       isDisabled: false
     }
   },
@@ -534,6 +540,10 @@ export default {
     this.packageTitle = this.$route.params.title
   },
   methods: {
+    redirectToA(category) {
+      this.$router.push({ path: '/TouristPackage', query: { category: category } })
+      document.cookie = `category=${category}`
+    },
     checkDate() {
       //先創建一個Date實體
       var time = new Date()
@@ -548,9 +558,8 @@ export default {
       var dateString = (timeDetails.date < 10 ? '0' : '') + timeDetails.date
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
-      this.currentDate = formattedDate;
+      this.currentDate = formattedDate
       // console.log(this.currentDate)
-
     },
     getProducts() {
       // console.log(this.packageTitle)
@@ -619,7 +628,7 @@ export default {
       }))
       // console.log(this.newProductsContent)
     },
-    addToCart(productId, qty = 1, price,percent=1) {
+    addToCart(productId, qty = 1, price, percent = 1) {
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
       } else {
@@ -640,11 +649,11 @@ export default {
               price,
               total: qty * price,
               userId: this.userId,
-              final_total: qty * price* percent,
+              final_total: qty * price * percent
             })
             .then((res) => {
               // console.log(res);
-              this.$router.go(0);
+              this.$router.go(0)
               alert('已更新預約人數')
               this.getCart()
             })
@@ -661,11 +670,11 @@ export default {
               price,
               total: qty * price,
               userId: this.userId,
-              final_total: qty * price* percent,
+              final_total: qty * price * percent
             })
             .then((res) => {
               // console.log(res)
-              this.$router.go(0);
+              this.$router.go(0)
               alert(`已預約${this.packageTitle}成功`)
               this.getCart()
             })
@@ -698,7 +707,7 @@ export default {
     saveCardId() {
       if (!this.token) {
         alert('請登入會員後，才能預約套裝行程')
-      } else{
+      } else {
         // document.cookie = `cartId=${this.newCarts.id}; path=/;`
         this.$router.push('/cart')
       }
@@ -710,8 +719,8 @@ export default {
           // console.log(res);
           this.carts = res.data
           // console.log(this.carts);
-          this.carts.forEach(item=>{
-            if(this.userId === item.userId){
+          this.carts.forEach((item) => {
+            if (this.userId === item.userId) {
               this.newCarts.push(item)
             }
           })
@@ -742,7 +751,7 @@ export default {
     this.userId = cookieUserId * 1
     this.token = cookieToken
     this.checkDate()
-    window.scrollTo(0, 0);
+    window.scrollTo(0, 0)
     // console.log(this.userId,this.token)
   }
 }
