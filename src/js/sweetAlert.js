@@ -12,15 +12,16 @@ export default {
             timer: showConfirmButton === true ? '' : 1500
         })
     },
-    twoLayerCheckType() {
+    twoLayerCheckType(text) {
         return Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            // title: 'Are you sure?',
+            text: text,
             icon: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#546f89',
-            cancelButtonColor: '#224772',
-            confirmButtonText: 'Yes, delete it!'
+            position: "center",
+            // showCancelButton: true,
+            confirmButtonColor: '#dc3545',
+            // cancelButtonColor: '#43B8BD',
+            // confirmButtonText: 'Yes, delete it!'
         })
     },
     threeLayerCheckType(icon,title){
