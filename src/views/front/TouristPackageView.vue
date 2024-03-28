@@ -287,6 +287,14 @@ export default {
     $route(to, from) {
       // 當路由變化時觸發
       this.currentURL = to.fullPath
+      // 可以进一步通过条件判断是否为相同页面的不同查询参数，觸發頁首按鈕
+      if (this.$root.navigatedFromHeader && to.fullPath !== '/TouristPackage') {
+        this.selectedCategory = '全部'
+        this.status.loadingItem = true
+        this.getProducts() // 根据需要调整参数
+        // 重置标志
+        this.$root.navigatedFromHeader = false
+      }
     }
   },
   computed: {
@@ -319,22 +327,14 @@ export default {
     }
   },
   created() {
-    const cookieCategory = this.getCookie('category')
-    this.category = cookieCategory
-    // console.log(this.category);
+    this.category = this.$route.query.category
     // 根据URL中的category参数来设置selectedCategory
     this.selectedCategory = this.category
-
     // 获取相应的项目列表
     this.getProducts()
-    setTimeout(() => {
-      this.isLoading = false
-      document.cookie = `category=`
-    }, 10000) // 3000 毫秒即為 3 秒
   },
   methods: {
     getProducts(currentPage = 1) {
-      // console.log(this.selectedCategory)
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
@@ -561,21 +561,6 @@ export default {
     }
   },
   mounted() {
-    // 在這裡檢查 URL 中是否有 category 參數
-    const urlParams = new URLSearchParams(window.location.search)
-    const categoryParam = urlParams.get('category')
-
-    // 如果 URL 中沒有 category 參數，或者 category 參數為空，則嘗試從 cookie 中取得 category
-    if (!categoryParam || categoryParam.trim() === '') {
-      const cookieCategory = this.getCookie('category')
-      if (cookieCategory) {
-        this.selectedCategory = cookieCategory
-      } else {
-        this.selectedCategory = '全部'
-      }
-    } else {
-      this.selectedCategory = categoryParam
-    }
     this.isLoading = true
     this.getProducts()
     window.scrollTo(0, 0)
@@ -585,7 +570,6 @@ export default {
     this.token = cookieToken
     this.getCart()
     this.checkDate()
-    // console.log(this.$route)
     this.fullPath = this.$route.fullPath
   }
 }

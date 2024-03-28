@@ -25,19 +25,23 @@
         <ul class="navbar-nav m-auto mb-lg-0 align-items-center">
           <li class="nav-item mb-10 mb-lg-0">
             <router-link to="/TouristAttractions" class="nav-link px-5 px-xl-10 fs-5 text-dark"
+            @click="redirectToB('全部')"
               >南部旅遊景點</router-link
             >
           </li>
           <li class="nav-item mb-10 mb-lg-0">
-            <router-link to="/TouristPackage" class="nav-link px-5 px-xl-10 fs-5 text-dark"
+            <router-link
+              to="/TouristPackage"
+              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              @click="redirectToA('全部')"
               >南部旅遊方案</router-link
             >
           </li>
-          <li class="nav-item mb-10 mb-lg-0">
+          <!-- <li class="nav-item mb-10 mb-lg-0">
             <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-5 text-dark"
               >南部旅遊預算</router-link
             >
-          </li>
+          </li> -->
         </ul>
         <ul
           v-if="userIsLoggedIn2 === false"
@@ -112,7 +116,6 @@ export default {
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
     this.$emitter.on('updateCart', () => {
-      //  this.transCartNumberStatus = msg;
       this.getCarts()
     })
   },
@@ -123,8 +126,17 @@ export default {
     }
   },
   methods: {
+    // 此設置按鈕再次點選時觸發一樣'全部'
+    redirectToA(category) {
+      this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
+      this.$router.push({ path: '/TouristPackage', query: { category: category } })
+    },
+    // 此設置按鈕再次點選時觸發一樣'全部'
+    redirectToB(category) {
+      this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
+      this.$router.push({ path: '/TouristAttractions', query: { category: category } })
+    },
     checkLoggedInUser() {
-      // console.log(2)
       this.$emitter.on('loginCheck2', (msg) => {
         this.userIsLoggedIn2 = msg
       })
@@ -171,7 +183,6 @@ export default {
 
           // 更新購物車數量
           this.cartsLength = this.userCarts.length
-
         })
         .catch((err) => {
           // console.log(err)
@@ -208,6 +219,10 @@ export default {
     this.userId = cookieUserId * 1
     this.getCarts()
     // this.getCarts2()
+    this.$emitter.on('updateCart', () => {
+      //  this.transCartNumberStatus = msg;
+      this.getCarts()
+    })
   }
 }
 </script>

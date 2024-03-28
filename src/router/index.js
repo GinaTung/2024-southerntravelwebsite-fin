@@ -19,14 +19,14 @@ const router = createRouter({
         },
         {
           path: 'TouristAttractions',
-          redirect: '/TouristAttractions/all', // Redirect to '/newpage/a' by default
+          // redirect: '/TouristAttractions/all', // Redirect to '/newpage/a' by default
           name: 'TouristAttractions',
           component: () => import('../views/front/TouristAttractionsView.vue'),
           children: [
-            {
-              path: 'all',
-              component: () => import('../views/front/TouristSearchAllAreaAttractionView.vue')
-            },
+            // {
+            //   path: 'all',
+            //   component: () => import('../views/front/TouristSearchAllAreaAttractionView.vue')
+            // },
             // {
             //   path: 'searchChiayi',
             //   component: () => import('../views/front/TouristSearchChiayiAttractioniView.vue')

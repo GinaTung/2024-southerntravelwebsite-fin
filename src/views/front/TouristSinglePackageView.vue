@@ -542,7 +542,6 @@ export default {
   methods: {
     redirectToA(category) {
       this.$router.push({ path: '/TouristPackage', query: { category: category } })
-      document.cookie = `category=${category}`
     },
     checkDate() {
       //先創建一個Date實體

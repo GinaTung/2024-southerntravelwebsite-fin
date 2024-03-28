@@ -42,7 +42,11 @@
         </div>
         <div class="col-12 col-lg-9">
           <div v-if="status.loadingItem" class="text-center" style="margin: 150px">
-            <div class="spinner-border" role="status" style="width: 3rem; height: 3rem;color:#43B8BD">
+            <div
+              class="spinner-border"
+              role="status"
+              style="width: 3rem; height: 3rem; color: #43b8bd"
+            >
               <span class="visually-hidden">Loading...</span>
             </div>
           </div>
@@ -128,10 +132,28 @@
     </div>
   </div>
 </template>
-<style>
+<style lang="scss">
 .active-category {
   color: #0a58ca !important;
   background-color: #d5f3f4;
+}
+.card-att .card-att-img img {
+  border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0 ;
+}
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active{
+  background: #43B8BD;
+  border-color: #0EA0A6;
+  color: #fff !important;
 }
 </style>
 <script>
@@ -154,7 +176,8 @@ export default {
       isLoading: false,
       status: {
         loadingItem: false
-      }
+      },
+      category: '全部'
     }
   },
   computed: {
@@ -185,6 +208,13 @@ export default {
     $route(to, from) {
       // 當路由變化時觸發
       this.currentURL = to.fullPath
+      if (this.$root.navigatedFromHeader && to.fullPath !== '/TouristAttractions') {
+        this.selectedCategory = '全部'
+        this.status.loadingItem = true
+        this.getAttractions() // 根据需要调整参数
+        // 重置标志
+        this.$root.navigatedFromHeader = false
+      }
     }
   },
   created() {
@@ -197,13 +227,13 @@ export default {
   },
   methods: {
     getAttractions(currentPage = 1) {
-      setTimeout(() => {
-        this.isLoading = false
-      }, 1000)
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
           this.attractionsCategory = res.data.filter((item) => item.is_enabled === 1)
+          setTimeout(() => {
+            this.isLoading = false
+          }, 1000)
         })
         .catch((err) => {
           alert(`${err.message}`)
@@ -219,6 +249,10 @@ export default {
             this.allAttractions = res.data
             this.enabledAttractions = this.allAttractions.filter((item) => item.is_enabled === 1)
             this.status.loadingItem = false
+            this.$router.push({
+              path: '/TouristAttractions',
+              query: { category: this.selectedCategory, page: this.currentPage }
+            })
             window.scrollTo(0, 0)
           })
           .catch((err) => {
@@ -237,6 +271,10 @@ export default {
             this.allAttractions = res.data
             this.enabledAttractions = this.allAttractions.filter((item) => item.is_enabled === 1)
             this.status.loadingItem = false
+            this.$router.push({
+              path: '/TouristAttractions',
+              query: { category: this.selectedCategory, page: this.currentPage }
+            })
             window.scrollTo(0, 0)
           })
           .catch((err) => {

@@ -90,7 +90,7 @@
     </div>
   </div>
 </template>
-<style>
+<style lang="scss">
 p {
   text-align: justify; /* 將文字左右對齊 */
 }
