@@ -166,8 +166,8 @@
                   </span>
                   <span v-else class="text-success">已出遊結束</span>
                 </div>
-                <div  v-if="tempOrder.user">
-                  <div class="form-check me-4">
+                <div  v-if="tempOrder.user && tempOrder.user.status===true">
+                  <!-- <div class="form-check me-4">
                     <input
                       class="form-check-input"
                       type="checkbox"
@@ -179,7 +179,7 @@
                       <span v-if="tempOrder.user.status">已付款</span>
                       <span v-else>未付款</span>
                     </label>
-                  </div>
+                  </div> -->
                   <div class="form-check me-4">
                     <input
                       class="form-check-input"
@@ -219,6 +219,9 @@
                       <span v-else>最後確認訂單資料</span>
                     </label>
                   </div>
+                </div>
+                <div v-else>
+                  <span class="text-danger">已收到款項時，請更新付款狀態</span>
                 </div>
               </div>
             </div>
@@ -264,7 +267,11 @@ export default {
     }
   },
   methods: {
+    isCheckout(){
+      sweetAlert.twoLayerCheckType("已收到款項時，請更新付款狀態");
+    },
     openModal() {
+      this.isCheckout()
       this.orderModal.show()
     },
     closeModal() {
