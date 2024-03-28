@@ -17,11 +17,14 @@
               :alt="item.title"
             />
             <div class="card-body">
-              <a :href="item.link">
+              <router-link :to="{
+                    name: 'TouristSinglePackage',
+                    params: { category: item.category, title: item.title }
+                  }">
                 <h3 class="fs-5 fs-lg-4 card-title pb-4 fw-bold text-primary-700 stretched-link mb-0">
                   {{ item.title }}
                 </h3>
-              </a>
+              </router-link>
               <div class="col-12">
                 <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
                   預約時間：{{ item.startDate }} ~ {{ item.endDate }}

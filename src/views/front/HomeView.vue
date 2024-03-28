@@ -126,7 +126,7 @@ export default {
     this.isLoading = true
     setTimeout(() => {
       this.isLoading = false
-    }, 5000) // 3000 毫秒即為 3 秒
+    }, 3000) // 3000 毫秒即為 3 秒
   }
 }
 </script>

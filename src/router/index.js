@@ -19,28 +19,8 @@ const router = createRouter({
         },
         {
           path: 'TouristAttractions',
-          // redirect: '/TouristAttractions/all', // Redirect to '/newpage/a' by default
           name: 'TouristAttractions',
           component: () => import('../views/front/TouristAttractionsView.vue'),
-          children: [
-            // {
-            //   path: 'all',
-            //   component: () => import('../views/front/TouristSearchAllAreaAttractionView.vue')
-            // },
-            // {
-            //   path: 'searchChiayi',
-            //   component: () => import('../views/front/TouristSearchChiayiAttractioniView.vue')
-            // },
-            // // Tainan, Kaohsiung
-            // {
-            //   path: 'searchTainan',
-            //   component: () => import('../views/front/TouristSearchTainanAttractionView.vue')
-            // },
-            // {
-            //   path: 'searchKaohsiung',
-            //   component: () => import('../views/front/TouristSearchKaohsiungAttractionView.vue')
-            // }
-          ]
         },
         {
           path: 'TouristPackage/:category/:title',
@@ -49,28 +29,8 @@ const router = createRouter({
         },
         {
           path: 'TouristPackage',
-          // redirect: '/TouristPackage/all', // Redirect to '/newpage/a' by default
           name: 'TouristPackage',
           component: () => import('../views/front/TouristPackageView.vue'),
-          // children: [
-          //   {
-          //     path: 'all',
-          //     component: () => import('../views/front/TouristSearchAllAreaView.vue')
-          //   },
-          //   // {
-          //   //   path: 'searchChiayi',
-          //   //   component: () => import('../views/front/TouristSearchChiayiView.vue')
-          //   // },
-          //   // // Tainan, Kaohsiung
-          //   // {
-          //   //   path: 'searchTainan',
-          //   //   component: () => import('../views/front/TouristSearchTainanView.vue')
-          //   // },
-          //   // {
-          //   //   path: 'searchKaohsiung',
-          //   //   component: () => import('../views/front/TouristSearchKaohsiungView.vue')
-          //   // }
-          // ]
         },
         {
           path: 'TouristBudget',

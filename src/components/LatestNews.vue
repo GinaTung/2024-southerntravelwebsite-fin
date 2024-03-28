@@ -120,7 +120,7 @@ export default {
 
     },
     getProducts() {
-      this.isLoading = true
+      
       this.axios
         .get(`${api_url2}/products?id=-c35c4Q9gWLGb7p4aWAM4&id=KvBuohr&id=xoGgJIk&id=fsfguEU`)
         .then((res) => {
@@ -132,6 +132,7 @@ export default {
               // console.log(item)
               this.enabledProducts.push(item)
             }
+            this.isLoading = true
           })
           this.getNewsProductsData()
         })
