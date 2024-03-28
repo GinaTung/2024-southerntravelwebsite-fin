@@ -53,6 +53,8 @@
 
 
 ## 後台簡介
+### 訂單管理
+![image](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/1cc93c09-b6da-4665-9983-5ffd4d6fe3f3)
 
 # 2024-southerntravelwebsite-fin
 This template should help get you started developing with Vue 3 in Vite.
