@@ -70,13 +70,12 @@ export default {
           document.cookie = `userId=${userId}`
           // 將 userIsLoggedIn2 設為 true
           this.userIsLoggedIn2 = true
-
           // 將使用者ID存儲在組件中，以便日後使用
           this.userId = userId
-
           // 導向至首頁
           this.$router.push('/')
           this.$emitter.emit('loginCheck2', true)
+          this.$emitter.emit('updateCart') // 發送特定事件
         })
         .catch((err) => {
           // console.log(err)

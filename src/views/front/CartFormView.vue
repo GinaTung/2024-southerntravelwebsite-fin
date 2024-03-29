@@ -1,4 +1,5 @@
 <template>
+    <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <div class="row">
       <div class="col-md-6 mx-auto pb-5 pb-lg-15">
@@ -263,7 +264,8 @@ export default {
       productId: '',
       productTitle: '',
       cartDataId: '',
-      ordersData: []
+      ordersData: [],
+      isLoading:false
     }
   },
   watch: {
@@ -296,6 +298,7 @@ export default {
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
                   this.userCart.push(dataItem)
+                  this.isLoading = false
                 }
               })
             }
@@ -309,6 +312,7 @@ export default {
         })
         .catch((err) => {
           console.log(err)
+          this.isLoading = false
           // alert(`${err}`)
         })
     },
@@ -422,6 +426,7 @@ export default {
     this.getOderData()
     // this.getProducts()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
+    this.isLoading = true
   }
 }
 </script>
