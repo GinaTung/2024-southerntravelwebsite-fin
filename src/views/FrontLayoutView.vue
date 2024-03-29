@@ -24,8 +24,10 @@
       >
         <ul class="navbar-nav m-auto mb-lg-0 align-items-center">
           <li class="nav-item mb-10 mb-lg-0">
-            <router-link to="/TouristAttractions" class="nav-link px-5 px-xl-10 fs-5 text-dark"
-            @click="redirectToB('全部')"
+            <router-link
+              to="/TouristAttractions"
+              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              @click="redirectToB('全部')"
               >南部旅遊景點</router-link
             >
           </li>
@@ -118,11 +120,18 @@ export default {
     this.$emitter.on('updateCart', () => {
       this.getCarts()
     })
+    this.$emitter.on('updateCartNum', (msg) => {
+        this.cartsLength = msg
+        console.log(this.cartsLength);
+      })
   },
   // 路由改變時隱藏選單
   watch: {
     $route() {
       this.headerCollapse.hide()
+      this.$emitter.on('updateCart', () => {
+        this.getCarts()
+      })
     }
   },
   methods: {
@@ -164,7 +173,7 @@ export default {
         .then((res) => {
           // console.log(res)
           this.carts = res.data
-          // console.log(this.carts)
+          console.log(this.carts)
           this.carts.forEach((item) => {
             if (item.userId === this.userId) {
               this.userCarts.push(item)
@@ -180,7 +189,6 @@ export default {
             }
           })
           this.userCarts = uniqueUserCarts
-
           // 更新購物車數量
           this.cartsLength = this.userCarts.length
         })
@@ -213,16 +221,11 @@ export default {
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexTokenU\s*\=\s*([^;]*).*$)|^.*$/, '$1')
     this.axios.defaults.headers.common['Authorization'] = this.token
-    // console.log(this.token)
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
     this.getCarts()
-    // this.getCarts2()
-    this.$emitter.on('updateCart', () => {
-      //  this.transCartNumberStatus = msg;
-      this.getCarts()
-    })
+
   }
 }
 </script>

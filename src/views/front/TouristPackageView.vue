@@ -153,25 +153,24 @@
                           type="button"
                           >行程介紹</router-link
                         >
-                        <a
+                        <button
                           class="btn-square w-100 ms-2 px-2 px-md-3"
                           v-if="currentDate <= productsItem.endDate"
                           @click="addToCart(productsItem.id, quantity, productsItem.price)"
-                          :disabled="status.loadingItem === productsItem.id"
                           type="button"
                         >
                           <span
                             class="spinner-border spinner-grow-sm"
                             role="status"
-                            v-if="status.loadingItem === productsItem.id"
+                            v-if="status.loadingItem2 === productsItem.id"
                           ></span>
-                          預約套裝行程</a
+                          預約套裝行程</button
                         >
-                        <a
+                        <button
                           class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
                           v-else
                           type="button"
-                          >預約時間截止</a
+                          >預約時間截止</button
                         >
                       </div>
                     </div>
@@ -278,7 +277,8 @@ export default {
       pageTotal: 0,
       isLoading: false,
       status: {
-        loadingItem: ''
+        loadingItem: '',
+        loadingItem2: ''
       },
       category: '全部'
     }
@@ -478,12 +478,12 @@ export default {
     },
     addToCart(productId, qty = 1, price) {
       // console.log(productId, qty, price)
-      this.status.loadingItem = productId
+      this.status.loadingItem2 = productId
       if (!this.token) {
         // warning
         // alert('請登入會員後，才能預約套裝行程')
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能預約套裝行程')
-        this.status.loadingItem = ''
+        this.status.loadingItem2 = ''
       } else {
         // console.log(this.newCarts)
         let productExists = false
@@ -508,7 +508,7 @@ export default {
               final_total: qty * price * percent
             })
             .then((res) => {
-              this.status.loadingItem = ''
+              this.status.loadingItem2 = ''
               // this.isLoading = false
               // alert('已更新預約人數')
               sweetAlert.threeLayerCheckType('success', '已更新預約人數')
@@ -533,7 +533,7 @@ export default {
             })
             .then((res) => {
               // console.log(res)
-              this.status.loadingItem = ''
+              this.status.loadingItem2 = ''
               // this.isLoading = false
               // alert(`已預約成功`)
               sweetAlert.threeLayerCheckType('success', '已預約成功')

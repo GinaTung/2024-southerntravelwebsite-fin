@@ -1,4 +1,5 @@
 <template>
+  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <div class="row">
       <div class="col-md-6 mx-auto pb-5 pb-lg-15">
@@ -25,113 +26,162 @@
             <th class="text-end" style="width: 100px">小計</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-if="cartsData.length === 0">
-            <td colspan="6" class="text-center">購物車是空的</td>
-          </tr>
-          <tr v-for="item in cartsData" :key="item.id" v-else>
-            <td data-th="">
-              <button
-                type="button"
-                class="btn btn-outline-danger btn-sm"
-                @click="deleteCart(item.id, item.product.title)"
-              >
-                <i class="bi bi-x"></i>刪除
-              </button>
-            </td>
-            <td data-th="圖片" class="">
-              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid" />
-            </td>
-            <td data-th="行程名稱" class="fs-6 pb-0 pb-md-2">
-              <span class="td-p-left">
-                {{ item.product.title }}
-              </span>
-              <!-- <div class="text-success">已套用優惠券</div> -->
-            </td>
-            <td class="py-0 py-md-2">
-              <div class="td-number-direction">
-                <span class="fw-bold d-md-none fs-6">數量/單位</span>
-                <div class="input-group my-3 w-length">
-                  <button
-                    class="btn btn-outline-dark rounded-0 btn-sm"
-                    type="button"
-                    v-if="item.qty > 1"
-                    @click="decrementQuantity(item.id, item.qty, item.price)"
-                  >
-                    <i class="bi bi-dash-lg"></i>
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger rounded-0 btn-sm"
-                    v-else
-                    @click="deleteCart(item.id, item.product.title)"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <input
-                    min="1"
-                    max="10"
-                    type="number"
-                    :disabled="item.qty > 10"
-                    class="form-control rounded-0 border border-dark d-flex"
-                    v-model="item.qty"
-                    readonly
-                    style="text-align: center"
-                  />
-                  <button
-                    class="btn btn-outline-dark rounded-0 btn-sm"
-                    type="button"
-                    @click="incrementQuantity(item.id, item.qty, item.price)"
-                  >
-                    <i class="bi bi-plus-lg"></i>
-                  </button>
+        <template v-if="status.loadingItem">
+          <tbody>
+            <tr>
+              <td colspan="6" class="text-center" style="height: 150px">
+                <div
+                  class="spinner-border"
+                  role="status"
+                  style="width: 3rem; height: 3rem; color: #43b8bd"
+                >
+                  <span class="visually-hidden">Loading...</span>
                 </div>
-              </div>
-            </td>
-            <td data-th="單價" class="text-end">
-              <span class="td-p-left">{{ thousand(item.price) }}</span>
-            </td>
-            <td class="text-end" data-th="小計">
-              <span class="td-p-left">{{ thousand(item.final_total) }}</span>
-              <!-- <small class="text-success">折扣價：</small> -->
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr class="tr-border-bottom-0">
-            <td colspan="6" class="text-end text-success">
-              <span class="td-p-right">預約</span>
-              {{ cartsData.length }} 項行程
-            </td>
-            <!-- <td class="text-end text-success"></td> -->
-          </tr>
-          <tr class="tr-border-bottom-0">
-            <td colspan="6" class="text-end fs-5">
-              <span class="td-p-right">總計 </span>
-              {{ thousand(cartsData.final_total) }}
-            </td>
-            <!-- <td class="text-end fs-5"></td> -->
-          </tr>
-        </tfoot>
+              </td>
+            </tr>
+          </tbody>
+        </template>
+
+        <template v-else>
+          <tbody>
+            <tr v-if="cartsData.length === 0">
+              <td colspan="6" class="text-center">購物車是空的</td>
+            </tr>
+            <tr v-for="item in cartsData" :key="item.id" v-else>
+              <td data-th="">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger btn-sm"
+                  @click="openDelCartModal(item.productId, item.product.title, item.id, item.qty)"
+                >
+                  <i class="bi bi-x"></i>刪除
+                </button>
+              </td>
+              <td data-th="圖片" class="">
+                <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid" />
+              </td>
+              <td data-th="行程名稱" class="fs-6 pb-0 pb-md-2">
+                <span class="td-p-left">
+                  {{ item.product.title }}
+                </span>
+                <!-- <div class="text-success">已套用優惠券</div> -->
+              </td>
+              <td class="py-0 py-md-2">
+                <div class="td-number-direction">
+                  <span class="fw-bold d-md-none fs-6">數量/單位</span>
+                  <div class="input-group my-3 w-length">
+                    <button
+                      class="btn btn-outline-dark rounded-0 btn-sm"
+                      type="button"
+                      v-if="item.qty > 1"
+                      @click="decrementQuantity(item.id, item.qty, item.price)"
+                    >
+                      <span
+                        class="spinner-border spinner-grow-sm"
+                        role="status"
+                        v-if="status.loadingItem4 === item.id"
+                      ></span>
+                      <i class="bi bi-dash-lg"></i>
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-outline-danger rounded-0 btn-sm"
+                      v-else
+                      @click="
+                        openDelCartModal(item.productId, item.product.title, item.id, item.qty)
+                      "
+                    >
+                      <span
+                        class="spinner-border spinner-grow-sm"
+                        role="status"
+                        v-if="status.loadingItem3 === item.id"
+                      ></span>
+                      <i class="bi bi-trash"></i>
+                    </button>
+                    <input
+                      min="1"
+                      max="10"
+                      type="number"
+                      :disabled="item.qty > 10"
+                      class="form-control rounded-0 border border-dark d-flex"
+                      v-model="item.qty"
+                      readonly
+                      style="text-align: center"
+                    />
+                    <button
+                      class="btn btn-outline-dark rounded-0 btn-sm"
+                      type="button"
+                      @click="incrementQuantity(item.id, item.qty, item.price)"
+                    >
+                      <span
+                        class="spinner-border spinner-grow-sm"
+                        role="status"
+                        v-if="status.loadingItem2 === item.id"
+                      ></span>
+                      <i class="bi bi-plus-lg"></i>
+                    </button>
+                  </div>
+                </div>
+              </td>
+              <td data-th="單價" class="text-end">
+                <span class="td-p-left">{{ thousand(item.price) }}</span>
+              </td>
+              <td class="text-end" data-th="小計">
+                <span class="td-p-left">{{ thousand(item.final_total) }}</span>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="tr-border-bottom-0">
+              <td colspan="6" class="text-end text-success">
+                <span class="td-p-right">預約</span>
+                {{ cartsData ? cartsData.length : 0 }} 項行程
+              </td>
+            </tr>
+            <tr class="tr-border-bottom-0">
+              <td colspan="6" class="text-end fs-5">
+                <span class="td-p-right">總計 </span>
+                {{
+                  cartsData && cartsData.final_total !== undefined
+                    ? thousand(cartsData.final_total)
+                    : 0
+                }}
+                元
+              </td>
+            </tr>
+          </tfoot>
+        </template>
       </table>
     </div>
     <div class="d-flex justify-content-between">
-      <!-- <div class="w-md-50 d-none"></div> -->
-
-        <a class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1" @click="back" type="button">繼續預約</a>
-
-        <router-link
-          class="btn-square mt-4 fs-5 w-50 w-md-25"
-          type="button"
-          to="/cart/CartForm"
-          @click="saveCartData(cartsData.final_total, cartsData.total)"
-          >下一步</router-link
-        >
-
+      <router-link class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1" to="/TouristPackage"
+        >繼續預約</router-link
+      >
+      <button
+        class="btn btn-danger mt-4 fs-5 w-50 w-md-25 disabled btn-danger-rounded"
+        type="button"
+        v-if="userCarts.length === 0"
+      >
+      請預約套裝行程
+      </button>
+      <router-link v-else
+        class="btn-square mt-4 fs-5 w-50 w-md-25"
+        to="/cart/CartForm"
+        @click="saveCartData(cartsData.final_total, cartsData.total)"
+        >下一步</router-link
+      >
     </div>
   </div>
+
+  <!-- DelCartModal -->
+  <del-cart-modal
+    ref="delModal"
+    :user-carts="userCarts"
+    :delete-cart="deleteCart"
+    :save-carts-del-modal="saveCartsDelModal"
+  ></del-cart-modal>
 </template>
-<style>
+<style lang="scss">
 .form-control {
   padding: 0.375rem 0.5rem 0.375rem 1.5rem;
 }
@@ -255,15 +305,19 @@
     text-align: center;
   }
 }
+.btn-danger-rounded {
+  border-radius: 8px !important;
+}
 </style>
 
 <script>
 import CartNavbar from '@/components/CartNavbar.vue'
-
+import DelCartModal from '@/components/DelCartModal.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   components: {
-    CartNavbar
+    CartNavbar,
+    DelCartModal
   },
   data() {
     return {
@@ -272,17 +326,104 @@ export default {
       enabledProducts: [],
       carts: [],
       userCarts: [],
-      userProductId: [],
+      newCarts: [],
+      saveCartsDelModal: {},
       cartsData: [],
       isCartProductsFetched: false,
       isGetProductsTriggered: false,
       isGetCartsTriggered: false,
       quantity: '',
       cartIdData: [],
-      resData:[]
+      resData: [],
+      isLoading: false,
+      status: {
+        loadingItem: false,
+        loadingItem2: '',
+        loadingItem3: '',
+        loadingItem4: ''
+      },
+      cartsLength: 0
     }
   },
   methods: {
+    getCarts() {
+      this.axios
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          this.carts = res.data
+          // console.log(this.carts)
+          this.carts.forEach((item) => {
+            if (item.userId === this.userId) {
+              this.userCarts.push(item)
+              console.log('4')
+            }
+          })
+          this.getProducts()
+        })
+        .catch((err) => {
+          // console.log(err)
+          alert(`${err.message}`)
+        })
+    },
+    getCart() {
+      this.axios
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          this.newCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
+          if (this.newCarts.length === 0) {
+            // 如果购物车没有任何内容，则将购物车数量设置为0
+            this.$emitter.emit('updateCartNum', 0)
+          } else {
+            // 如果购物车有内容，则将购物车数量设置为购物车数据的长度
+            this.$emitter.emit('updateCartNum', this.newCarts.length)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('取得購物車資料失敗')
+        })
+    },
+    deleteCart(id, title) {
+      // console.log(id, title)
+      this.status.loadingItem3 = id
+      this.status.loadingItem = true
+      this.$refs.delModal.closeModal()
+      this.axios
+        .delete(`${api_url2}/carts/${id}`)
+        .then((res) => {
+          this.status.loadingItem3 = ''
+          //渲染資料是cartsData，非carts
+          this.cartsData = this.cartsData.filter((item) => item.id !== id)
+          // 重新计算小计值
+          let cartsTotal = 0
+          this.cartsData.forEach((item) => {
+            cartsTotal += item.final_total
+          })
+          this.cartsData.total = cartsTotal
+          // 更新其他相关的数据，比如百分比折扣等等
+          let percent = 1
+          this.cartsData.final_total = cartsTotal * percent
+          this.status.loadingItem = false
+          this.getCart()
+        })
+        .catch((err) => {
+          console.log(err)
+          this.status.loadingItem3 = ''
+          alert('刪除購物車資料失敗')
+          this.status.loadingItem = false
+        })
+    },
+    openDelCartModal(productId, productTitle, cartId, qty) {
+      // 如果 userCarts 尚未定義為陣列，則初始化為空陣列
+      if (!Array.isArray(this.userCarts)) {
+        this.userCarts = []
+      }
+      // 將新的項目添加 物件中
+      this.saveCartsDelModal = { cartId, productId, productTitle, qty }
+      console.log('5')
+      // 打開模態框
+      this.$refs.delModal.openModal()
+    },
     thousand(data) {
       if (data !== undefined) {
         data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
@@ -297,13 +438,9 @@ export default {
           this.products = res.data
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
-              // console.log(item)
               this.enabledProducts.push(item)
             }
           })
-          // console.log(this.enabledProducts)
-          // this.isGetProductsTriggered = true
-          // this.getCartProducts()
           let cartsTotal = 0
           // 遍歷每個購物車中的物品
           this.userCarts.forEach((cartItem) => {
@@ -325,41 +462,20 @@ export default {
               this.cartsData.push(cartItem)
             }
           })
+          this.isLoading = false
           this.cartsData.total = cartsTotal
           let percent = 1
           this.cartsData.final_total = cartsTotal * percent
-          // console.log(this.cartsData)
         })
         .catch((err) => {
+          this.isLoading = false
           // console.log(err)
           alert(`${err.message}`)
         })
     },
-    getCarts() {
-      this.axios
-        .get(`${api_url2}/carts`)
-        .then((res) => {
-          // console.log(res)
-          this.carts = res.data
-          // console.log(this.carts)
-          this.carts.forEach((item) => {
-            if (item.userId === this.userId) {
-              this.userCarts.push(item)
-            }
-          })
-          this.getProducts()
 
-          // console.log(this.userCarts[0]);
-          // this.isGetCartsTriggered = true
-          // this.getCartProducts()
-        })
-        .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
-        })
-    },
     incrementQuantity(id, qty, price) {
-      // console.log(this.userCarts);
+      this.status.loadingItem2 = id
       if (qty < 10) {
         qty += 1
         let percent = 1
@@ -371,18 +487,33 @@ export default {
             final_total: qty * price * percent
           })
           .then((res) => {
-            console.log(res)
-            this.$router.go(0)
+            this.status.loadingItem2 = ''
+            // 更新数量和小计值
+            const itemIndex = this.cartsData.findIndex((item) => item.id === id)
+            if (itemIndex !== -1) {
+              this.cartsData[itemIndex].qty = qty
+              this.cartsData[itemIndex].final_total = qty * price * percent
+              // 重新计算总计
+              let cartsTotal = 0
+              this.cartsData.forEach((item) => {
+                cartsTotal += item.final_total
+              })
+              this.cartsData.total = cartsTotal
+              // 更新其他相关的数据，比如百分比折扣等等
+              this.cartsData.final_total = cartsTotal * percent
+            }
           })
           .catch((err) => {
-            // console.log(err)
+            console.log(err)
             alert('取得購物車資料失敗')
           })
       } else {
+        this.status.loadingItem2 = ''
         alert('預約人數上限為10人')
       }
     },
     decrementQuantity(id, qty, price) {
+      this.status.loadingItem4 = id
       if (qty > 1) {
         qty -= 1
         let percent = 1
@@ -394,28 +525,30 @@ export default {
             final_total: qty * price * percent
           })
           .then((res) => {
-            console.log(res)
-            this.$router.go(0)
+            this.status.loadingItem4 = ''
+            // 更新数量和小计值
+            const itemIndex = this.cartsData.findIndex((item) => item.id === id)
+            if (itemIndex !== -1) {
+              this.cartsData[itemIndex].qty = qty
+              this.cartsData[itemIndex].final_total = qty * price * percent
+              // 重新计算总计
+              let cartsTotal = 0
+              this.cartsData.forEach((item) => {
+                cartsTotal += item.final_total
+              })
+              this.cartsData.total = cartsTotal
+              // 更新其他相关的数据，比如百分比折扣等等
+              this.cartsData.final_total = cartsTotal * percent
+            }
           })
           .catch((err) => {
             // console.log(err)
+            this.status.loadingItem4 = ''
             alert('更新購物車資料失敗')
           })
       }
     },
-    deleteCart(id, title) {
-      this.axios
-        .delete(`${api_url2}/carts/${id}`)
-        .then((res) => {
-          console.log(res)
-          alert(`已刪除${title}`)
-          this.$router.go(0)
-        })
-        .catch((err) => {
-          // console.log(err)
-          alert('刪除購物車資料失敗')
-        })
-    },
+
     back() {
       this.$router.back()
     },
@@ -431,25 +564,22 @@ export default {
     },
     getCartSData() {
       this.axios.get(`${api_url2}/cartsData`).then((res) => {
-        // console.log(res.data)
         this.cartIdData = res.data
-        // console.log(this.cartIdData);
       })
     },
     saveCartData(final_total, total) {
-      // console.log(final_total,total);
       // 判斷 cartsData 中是否存在該使用者的資料
       const userExists = this.cartIdData.some(
         (item) => item.userId === this.userId && item.status === false
       )
-      console.log(userExists);
+      console.log(userExists)
       let cartDataId = 0
       this.cartIdData.forEach((item) => {
         if (item.userId === this.userId && item.status === false) {
           cartDataId = item.id
         }
       })
-      console.log(cartDataId);
+      // console.log(cartDataId)
 
       if (userExists && cartDataId !== 0) {
         // 如果使用者資料已存在，執行 PUT 請求
@@ -463,9 +593,7 @@ export default {
             orderStatus: false
           })
           .then((res) => {
-            // console.log(res)
             document.cookie = `cartDataId=${cartDataId}`
-            // console.log("s");
             this.getCartSData()
           })
           .catch((err) => {
@@ -484,14 +612,6 @@ export default {
             orderStatus: false
           })
           .then((res) => {
-            // console.log(res.data.id);
-            // console.log("sss")
-            // this.resData = res.data;
-            // resData.forEach(item=>{
-            //   cartDataId = item.id
-            //   console.log(item.id);
-            // })
-            // console.log(cartDataId);
             document.cookie = `cartDataId=${res.data.id}`
             this.getCartSData()
           })
@@ -503,12 +623,13 @@ export default {
     }
   },
   mounted() {
-    // console.log(document.cookie)
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
-    // console.log(this.userId)
+    this.isLoading = true
     this.getCarts()
     this.getCartSData()
+    window.scrollTo(0, 0)
+    console.log('length', this.userCarts.length)
   }
 }
 </script>

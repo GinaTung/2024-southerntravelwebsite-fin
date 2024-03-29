@@ -2,6 +2,7 @@
     padding: 8px 24px;
     background: $primary-400;
     border-radius: 40px;
+    border: 1px solid $primary-400;
     color: $white;
     &:hover {
       background: $white;
@@ -46,11 +47,11 @@
     background: $primary-400;
     border-radius: 8px;
     color: $white !important;
+    border: 1px solid $primary-400;
     text-align: center;
     &:hover {
       background: $white !important;
       color: $primary-400 !important;
-      outline: 1px solid $primary-400 !important;
     }
   }
   .btn-outline-square{

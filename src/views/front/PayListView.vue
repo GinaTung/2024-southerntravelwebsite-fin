@@ -171,13 +171,13 @@
       </div>
     </div>
     <div class="d-flex justify-content-between">
-        <a class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</a>
-        <a
+        <button class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</button>
+        <button
           class="btn-square mt-4 fs-5 w-50 w-md-25"
           type="button"
           href="#/cart/orderDone"
           @click="updateOderData"
-          >下一步</a
+          >下一步</button
         >
     </div>
   </div>
@@ -287,7 +287,6 @@ export default {
       this.isOrderOpen = !this.isOrderOpen
     },
     forId(id, title) {
-      // console.log(id,title);
       this.productId = id
       this.productTitle = title
       this.$refs.userProductModal.openModal()
@@ -296,7 +295,6 @@ export default {
       this.axios
         .get(`${api_url2}/cartsData`)
         .then((res) => {
-          // console.log(res.data)
           this.cartsData = res.data
           this.cartsData.forEach((item) => {
             if (item.status === false) {
@@ -307,16 +305,12 @@ export default {
               })
             }
           })
-
-          // console.log(this.userCart)
           this.userCart.forEach((item) => {
             this.total += item.final_total
           })
-          // console.log(this.total);
         })
         .catch((err) => {
           console.log(err)
-          // alert(`${err}`)
         })
     },
     getCookie(cookieName) {
@@ -330,21 +324,15 @@ export default {
       return null
     },
     deleteCartsUSerData() {
-      // 使用者的 userId
-      // const userId = 4
-      // console.log(`Successfully deleted cart with ID: ${this.userId}`)
-      // 取得符合 userId 的購物車 ID 列表
       this.axios
         .get(`${api_url2}/carts?userId=${this.userId}`)
         .then((res) => {
           const cartIds = res.data.map((cart) => cart.id)
-          // console.log(cartIds)
           // 逐一刪除每個購物車
           cartIds.forEach((cartId) => {
             this.axios
               .delete(`${api_url2}/carts/${cartId}`)
               .then((res) => {
-                // console.log(`Successfully deleted cart with ID: ${cartId}`)
               })
               .catch((err) => {
                 console.error(`Failed to delete cart with ID: ${cartId}`, err)
@@ -356,7 +344,6 @@ export default {
         })
     },
     changeCartsDataStatus() {
-      // console.log(this.orderId)
       this.axios
         .patch(`${api_url2}/cartsData/${this.cartDataId}`, {
           status: true,
@@ -375,7 +362,6 @@ export default {
         .get(`${api_url2}/orders`)
         .then((res) => {
           this.orderData = res.data
-          // console.log(this.orderData)
           this.orderData.forEach((item) => {
             if (item.user.userId === this.userId && item.user.status === false) {
               this.userOrderData = item
@@ -383,18 +369,14 @@ export default {
             }
           })
 
-          // console.log(this.orderId)
           this.userOrderData_user = this.userOrderData.user
-          // this.updateOderData()
           this.changeCartsDataStatus()
         })
         .catch((err) => {
           console.log(err)
-          // alert(`${err.message}`)
         })
     },
     updateOderData() {
-      // console.log(this.shoppingData)
       this.getOrderData()
       this.deleteCartsUSerData()
       this.changeCartsDataStatus()
@@ -426,14 +408,12 @@ export default {
               checkDataStatus: false
             })
             .then((res) => {
-              // console.log('ss')
               document.cookie = `orderId=${item.id}`
-              this.$router.go(0)
+              this.$router.push({ path: '/cart/orderDone' });
               document.cookie = 'cartDataId=; expires='
             })
             .catch((err) => {
               console.log(err)
-              // alert(`${err.message}`)
             })
         }
       })
@@ -446,16 +426,13 @@ export default {
     }
   },
   mounted() {
-    // console.log(document.cookie)
     const cookieUserId = this.getCookie('userId')
     const cookieCartDataId = this.getCookie('cartDataId')
     this.userId = cookieUserId * 1
     this.cartDataId = cookieCartDataId * 1
     this.getCart()
     this.getOrderData()
-    // this.changeCartsDataStatus()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
-    // this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
   }
 }
 </script>

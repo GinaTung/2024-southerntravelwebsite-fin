@@ -297,7 +297,7 @@ export default {
     this.getCart()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
-    // console.log(this.$route);
+    console.log(this.$route);
   }
 }
 </script>
