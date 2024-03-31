@@ -75,7 +75,7 @@ export default {
           // 導向至首頁
           this.$router.push('/')
           this.$emitter.emit('loginCheck2', true)
-          this.$emitter.emit('updateCart') // 發送特定事件
+          this.$emitter.emit('adminUpdateCart') // 發送特定事件
         })
         .catch((err) => {
           // console.log(err)
