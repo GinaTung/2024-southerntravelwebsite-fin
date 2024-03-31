@@ -1,4 +1,5 @@
 <template>
+  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <div class="row">
       <div class="col-md-6 mx-auto pb-5 pb-lg-15">
@@ -59,7 +60,7 @@
           aria-controls="collapseOrder"
           @click="toggleOpenOrder"
         >
-        訂單資料及收件方式
+          訂單資料及收件方式
           <i class="bi bi-chevron-down" v-if="isOrderOpen === false"></i>
           <i class="bi bi-chevron-up" v-else></i>
         </button>
@@ -73,7 +74,6 @@
               <h5>主要聯繫人電話：{{ userOrderData_user.tel }}</h5>
               <h5>主要聯繫人身分證字號：{{ userOrderData_user.memberId }}</h5>
               <h5>主要聯繫人護照號碼：{{ userOrderData_user.passport }}</h5>
-             
             </div>
             <div class="col-12 col-md-6 col-lg-6">
               <h5>主要聯繫人地址：{{ userOrderData_user.address }}</h5>
@@ -84,10 +84,11 @@
         </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 col-md-6 mb-4">
-        <h3 class="mb-4">付款方式</h3>
-        <div class="mb-4 d-flex">
+    <VeeForm id="form" ref="form" v-slot="{ errors }">
+      <div class="row">
+        <div class="col-12 col-md-6 mb-4">
+          <h3 class="mb-4">付款方式</h3>
+          <!-- <div class="mb-4 d-flex">
           <div class="form-check me-4">
             <input
               class="form-check-input"
@@ -109,76 +110,121 @@
               v-model="user.payMethod"
               checked
             />
+
             <label class="form-check-label" for="flexRadioDefault2">信用卡付款</label>
           </div>
-        </div>
-        <div v-if="user.payMethod === '信用卡付款'">
-          <label for="floatingAddress" class="fs-5 mb-4">信用卡卡號</label>
-          <div class="row g-3 d-flex mb-4">
-            <div class="col-3 d-flex">
+        </div> -->
+          <div class="form-check mb-4 ps-0">
+            <label class="radio is-inline" v-for="activity in activities" :key="activity">
               <input
-                type="text"
-                class="form-control rounded-1"
-                placeholder="4622"
-                id="floatingAddress"
-                aria-label="First name"
+                type="radio"
+                :value="activity"
+                class="radio-input me-1"
+                rules="required"
+                name="activity"
+                v-model="user.payMethod"
               />
-            </div>
-            <div class="col-3 d-flex">
-              <input
-                type="text"
-                class="form-control rounded-1"
-                placeholder="2223"
-                aria-label="Last name"
-              />
-            </div>
-            <div class="col-3 d-flex">
-              <input
-                type="text"
-                class="form-control rounded-1"
-                placeholder="3323"
-                aria-label="Last name"
-              />
-            </div>
-            <div class="col-3">
-              <input
-                type="text"
-                class="form-control rounded-1"
-                placeholder="3231"
-                aria-label="Last name"
-              />
-            </div>
+              <span class="radio-label pe-5 fs-5">{{ activity }}</span>
+            </label>
           </div>
-          <div class="mb-4">
-            <label for="floatingDate" class="fs-5 mb-4">信用卡有效月年</label>
-            <input
-              type="month"
-              class="form-control rounded-1"
-              id="floatingDate"
-              placeholder="03/2024"
-            />
-          </div>
-          <div class="mb-4">
-            <label for="floatingDate" class="fs-5 mb-4">信用卡背後末三碼</label>
-            <input
-              type="number"
-              class="form-control rounded-1"
-              id="floatingDate"
-              placeholder="123"
-            />
+          <div v-if="user.payMethod === '信用卡付款'">
+            <label for="floatingAddress" class="fs-5 mb-4">信用卡卡號</label>
+            <div class="row g-3 d-flex mb-4 ">
+              <div class="col-3 d-flex flex-column">
+                <VeeField
+                  name="first"
+                  type="text"
+                  class="form-control rounded-1"
+                  placeholder="4622"
+                  :class="{ 'is-invalid': errors['first'] }"
+                  id="first"
+                  v-model="user.firstNum"
+                  aria-label="First"
+                  rules="numeric:true|length:4"
+                />
+                <ErrorMessage name="first" class="invalid-feedback mt-4" />
+              </div>
+              <div class="col-3 d-flex flex-column">
+                <VeeField
+                  name="second"
+                  type="text"
+                  class="form-control rounded-1"
+                  :class="{ 'is-invalid': errors['second'] }"
+                  placeholder="2223"
+                  aria-label="second"
+                  v-model="user.secondNum"
+                  id="second"
+                  rules="numeric:true|length:4"
+                />
+                <ErrorMessage name="second" class="invalid-feedback mt-4" />
+              </div>
+              <div class="col-3 d-flex flex-column">
+                <VeeField
+                  name="third"
+                  type="text"
+                  class="form-control rounded-1"
+                  :class="{ 'is-invalid': errors['third'] }"
+                  placeholder="2223"
+                  v-model="user.thirdNum"
+                  aria-label="third"
+                  id="third"
+                  rules="numeric:true|length:4"
+                />
+                <ErrorMessage name="third" class="invalid-feedback mt-4" />
+              </div>
+              <div class="col-3 d-flex flex-column">
+                <VeeField
+                  name="fourth"
+                  type="text"
+                  class="form-control rounded-1"
+                  :class="{ 'is-invalid': errors['fourth'] }"
+                  placeholder="2223"
+                  v-model="user.fourthNum"
+                  aria-label="fourth"
+                  id="fourth"
+                  rules="numeric:true|length:4"
+                />
+                <ErrorMessage name="fourth" class="invalid-feedback mt-4" />
+              </div>
+            </div>
+            <div class="mb-4">
+              <label for="floatingDate" class="fs-5 mb-4">信用卡有效月年</label>
+              <VeeField
+                type="month"
+                name="floatingDate"
+                class="form-control rounded-1"
+                id="floatingDate"
+                :class="{ 'is-invalid': errors['floatingDate'] }"
+                placeholder="03/2024"
+                v-model="user.cardDate"
+                :rules="isOver18"
+              />
+              <ErrorMessage name="floatingDate" class="invalid-feedback" />
+            </div>
+            <div class="mb-4">
+              <label for="floatingDate" class="fs-5 mb-4">信用卡背後末三碼</label>
+              <VeeField
+                type="number"
+                name="信用卡背後末三碼"
+                class="form-control rounded-1"
+                id="floatingNum"
+                :class="{ 'is-invalid': errors['信用卡背後末三碼'] }"
+                placeholder="123"
+                rules="numeric:true|length:3"
+              />
+              <ErrorMessage name="信用卡背後末三碼" class="invalid-feedback" />
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </VeeForm>
     <div class="d-flex justify-content-between">
-        <button class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">上一步</button>
-        <button
-          class="btn-square mt-4 fs-5 w-50 w-md-25"
-          type="button"
-          href="#/cart/orderDone"
-          @click="updateOderData"
-          >下一步</button
-        >
+      <button class="btn-cerulean w-50 w-md-25 fs-5 mt-4 me-1" @click="backPage" type="button">
+        上一步
+      </button>
+      <button class="btn-square mt-4 fs-5 w-50 w-md-25" type="button" @click="updateOderData">
+        下一步
+      </button>
     </div>
   </div>
   <UserProductModal
@@ -247,6 +293,7 @@ export default {
   },
   data() {
     return {
+      activities: ['帳號匯款', '信用卡付款'],
       cartsData: [],
       isOpen: false,
       isOrderOpen: false,
@@ -258,7 +305,13 @@ export default {
       userOrderData: [],
       userOrderData_user: '',
       user: {
-        payMethod: '信用卡付款'
+        payMethod: '',
+        cardDate: '',
+        cardNum:'',
+        firstNum:'',
+        secondNum:'',
+        thirdNum:'',
+        fourthNum:''
       },
       product_id: '',
       userId: '',
@@ -267,7 +320,11 @@ export default {
       total: 0,
       productId: '',
       productTitle: '',
-      orderId: 0
+      orderId: 0,
+      isLoading: false,
+      userCarts: [],
+      cartsLength: 0,
+      isStatus: false
     }
   },
   watch: {
@@ -279,6 +336,7 @@ export default {
   methods: {
     backPage() {
       this.$router.go(-1)
+      this.getCartsData()
     },
     toggleOpen() {
       this.isOpen = !this.isOpen
@@ -286,12 +344,46 @@ export default {
     toggleOpenOrder() {
       this.isOrderOpen = !this.isOrderOpen
     },
+    isOver18(cardDate) {
+      if (cardDate.length === 0) {
+        return '信用卡有效月年 為必填'
+      }
+      // 将生日字符串转换为日期对象
+      const birthDate = new Date(cardDate)
+
+      // 获取当前日期
+      const currentDate = new Date()
+
+      // 计算年龄差
+      const ageDifference = currentDate.getFullYear() - birthDate.getFullYear()
+
+      // 如果当前日期在生日之前，年龄减1
+      if (
+        currentDate.getMonth() < birthDate.getMonth() ||
+        (currentDate.getMonth() === birthDate.getMonth())
+      ) {
+        // 如果年龄小于18岁，返回错误提示
+        if (ageDifference - 1 < 18) {
+          return '主要聯繫人需滿18歲'
+        }
+        // 否则返回 true
+        return true
+      }
+
+      // 如果当前日期在生日之后或是同一天
+      // 如果年龄小于18岁，返回错误提示
+      if (ageDifference < 18) {
+        return '主要聯繫人需滿18歲'
+      }
+      // 否则返回 true
+      return true
+    },
     forId(id, title) {
       this.productId = id
       this.productTitle = title
       this.$refs.userProductModal.openModal()
     },
-    getCart() {
+    getCartsData() {
       this.axios
         .get(`${api_url2}/cartsData`)
         .then((res) => {
@@ -301,6 +393,7 @@ export default {
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
                   this.userCart.push(dataItem)
+                  this.isLoading = false
                 }
               })
             }
@@ -310,6 +403,7 @@ export default {
           })
         })
         .catch((err) => {
+          this.isLoading = false
           console.log(err)
         })
     },
@@ -332,8 +426,7 @@ export default {
           cartIds.forEach((cartId) => {
             this.axios
               .delete(`${api_url2}/carts/${cartId}`)
-              .then((res) => {
-              })
+              .then((res) => {})
               .catch((err) => {
                 console.error(`Failed to delete cart with ID: ${cartId}`, err)
               })
@@ -347,7 +440,7 @@ export default {
       this.axios
         .patch(`${api_url2}/cartsData/${this.cartDataId}`, {
           status: true,
-          orderId:this.orderId
+          orderId: this.orderId
         })
         .then((res) => {
           // console.log('修改ok')
@@ -370,13 +463,34 @@ export default {
           })
 
           this.userOrderData_user = this.userOrderData.user
-          this.changeCartsDataStatus()
+          if (this.isStatus === true) {
+            this.changeCartsDataStatus()
+            this.status = false
+          }
         })
         .catch((err) => {
           console.log(err)
         })
     },
     updateOderData() {
+      console.log(this.user.payMethod)
+      if (!this.user.payMethod) {
+        alert('請填寫所有必填欄位')
+        return // 如果有空值，停止執行下一步
+      }
+      if(this.user.payMethod ==="信用卡付款"){
+        if(!this.user.cardDate && !this.user.cardNum){
+          alert('請填寫所有必填欄位')
+        return // 如果有空值，停止執行下一步
+        }
+      }
+      if(this.user.payMethod ==="信用卡付款"){
+        if(!this.user.firstNum && !this.user.secondNum && !this.user.thirdNum && !this.user.fourthNum){
+          alert('請填寫所有必填欄位')
+        return // 如果有空值，停止執行下一步
+        }
+      }
+      this.status = true
       this.getOrderData()
       this.deleteCartsUSerData()
       this.changeCartsDataStatus()
@@ -384,7 +498,7 @@ export default {
       this.orderData.forEach((item) => {
         if (item.user.userId === this.userId && item.user.cartDataId === this.cartDataId) {
           const updatedUser = {
-            create_at:new Date(),
+            create_at: new Date(),
             name: item.user.name,
             email: item.user.email,
             tel: item.user.tel,
@@ -395,8 +509,8 @@ export default {
             userId: item.user.userId,
             cartDataId: item.user.cartDataId,
             passport: item.user.passport,
-          memberId: item.user.memberId,
-          appellation:item.user.appellation,
+            memberId: item.user.memberId,
+            appellation: item.user.appellation,
             status: false,
             payMethod: this.user.payMethod
           }
@@ -408,8 +522,9 @@ export default {
               checkDataStatus: false
             })
             .then((res) => {
-              document.cookie = `orderId=${item.id}`
-              this.$router.push({ path: '/cart/orderDone' });
+              console.log(res);
+              // document.cookie = `orderId=${item.id}`
+              this.$router.push({ path: '/cart/orderDone' })
               document.cookie = 'cartDataId=; expires='
             })
             .catch((err) => {
@@ -430,7 +545,8 @@ export default {
     const cookieCartDataId = this.getCookie('cartDataId')
     this.userId = cookieUserId * 1
     this.cartDataId = cookieCartDataId * 1
-    this.getCart()
+    this.isLoading = true
+    this.getCartsData()
     this.getOrderData()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
   }

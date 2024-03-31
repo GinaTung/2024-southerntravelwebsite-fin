@@ -164,14 +164,15 @@
                             role="status"
                             v-if="status.loadingItem2 === productsItem.id"
                           ></span>
-                          預約套裝行程</button
-                        >
+                          預約套裝行程
+                        </button>
                         <button
                           class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
                           v-else
                           type="button"
-                          >預約時間截止</button
                         >
+                          預約時間截止
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -280,7 +281,8 @@ export default {
         loadingItem: '',
         loadingItem2: ''
       },
-      category: '全部'
+      category: '全部',
+      cartsLength: 0
     }
   },
   watch: {
@@ -470,6 +472,19 @@ export default {
             }
           })
           // console.log(this.newCarts)
+          // 移除重複的產品
+          const uniqueUserCarts = []
+          const productIdSet = new Set()
+          this.newCarts.forEach((item) => {
+            if (!productIdSet.has(item.productId)) {
+              productIdSet.add(item.productId)
+              uniqueUserCarts.push(item)
+            }
+          })
+          this.newCarts = uniqueUserCarts
+          this.cartsLength = this.newCarts.length
+          console.log(this.cartsLength)
+          this.$emitter.emit('updateCart', this.cartsLength) // 發送特定事件
         })
         .catch((err) => {
           // console.log(err)
@@ -537,8 +552,9 @@ export default {
               // this.isLoading = false
               // alert(`已預約成功`)
               sweetAlert.threeLayerCheckType('success', '已預約成功')
+
               this.getCart()
-              this.$emitter.emit('updateCart') // 發送特定事件
+
               // this.$router.go(0)
             })
             .catch((err) => {

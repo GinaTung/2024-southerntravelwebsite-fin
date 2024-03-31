@@ -442,3 +442,12 @@ upload() {
               alert(`${err.message}`)
             })
           }
+
+
+          // if (this.userCarts.length === 0) {
+          //   // 如果购物车没有任何内容，则将购物车数量设置为0
+          //   this.$emitter.emit('updateCartNum', 0)
+          // } else {
+          //   // 如果购物车有内容，则将购物车数量设置为购物车数据的长度
+          //   this.$emitter.emit('updateCartNum', this.userCarts.length)
+          // }

@@ -246,7 +246,7 @@ export default {
           // alert(`${err.message}`)
         })
     },
-    getCart() {
+    getCartsData() {
       this.axios
         .get(`${api_url2}/cartsData`)
         .then((res) => {
@@ -279,6 +279,26 @@ export default {
       const parts = value.split(`; ${name}=`)
       if (parts.length === 2) return parts.pop().split(';').shift()
     },
+    getCart() {
+      this.axios
+        .get(`${api_url2}/carts`)
+        .then((res) => {
+          this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
+          this.cartsLength = this.userCarts.length
+          console.log(this.cartsLength, this.userCarts)
+          if (this.userCarts.length === 0) {
+            // 如果购物车没有任何内容，则将购物车数量设置为0
+            this.$emitter.emit('updateCartNum', 0)
+          } else {
+            // 如果购物车有内容，则将购物车数量设置为购物车数据的长度
+            this.$emitter.emit('updateCartNum', this.userCarts.length)
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          alert('取得購物車資料失敗')
+        })
+    },
     thousand(data) {
       if (data !== undefined) {
         data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
@@ -293,11 +313,15 @@ export default {
     const cookieOrderId = this.getCookie('orderId')
     this.orderId = cookieOrderId * 1
     // this.getProducts()
+    setTimeout(() => {
+      document.cookie = 'orderId=; expires='
+    }, 3000) // 3000 毫秒即為 3 秒
     this.getOderData()
-    this.getCart()
+    this.getCartsData()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
     console.log(this.$route);
+    this.getCart()
   }
 }
 </script>

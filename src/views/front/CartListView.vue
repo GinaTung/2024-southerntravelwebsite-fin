@@ -160,11 +160,12 @@
       <button
         class="btn btn-danger mt-4 fs-5 w-50 w-md-25 disabled btn-danger-rounded"
         type="button"
-        v-if="userCarts.length === 0"
+        v-if="cartsLength === 0"
       >
-      請預約套裝行程
+        請預約套裝行程
       </button>
-      <router-link v-else
+      <router-link
+        v-else
         class="btn-square mt-4 fs-5 w-50 w-md-25"
         to="/cart/CartForm"
         @click="saveCartData(cartsData.final_total, cartsData.total)"
@@ -340,7 +341,8 @@ export default {
         loadingItem: false,
         loadingItem2: '',
         loadingItem3: '',
-        loadingItem4: ''
+        loadingItem4: '',
+        loadingItem5: ''
       },
       cartsLength: 0
     }
@@ -355,9 +357,10 @@ export default {
           this.carts.forEach((item) => {
             if (item.userId === this.userId) {
               this.userCarts.push(item)
-              console.log('4')
+              // console.log('4')
             }
           })
+          this.cartsLength = this.userCarts.length
           this.getProducts()
         })
         .catch((err) => {
@@ -369,13 +372,15 @@ export default {
       this.axios
         .get(`${api_url2}/carts`)
         .then((res) => {
-          this.newCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
-          if (this.newCarts.length === 0) {
+          this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
+          this.cartsLength = this.userCarts.length
+          console.log(this.cartsLength, this.userCarts)
+          if (this.userCarts.length === 0) {
             // 如果购物车没有任何内容，则将购物车数量设置为0
             this.$emitter.emit('updateCartNum', 0)
           } else {
             // 如果购物车有内容，则将购物车数量设置为购物车数据的长度
-            this.$emitter.emit('updateCartNum', this.newCarts.length)
+            this.$emitter.emit('updateCartNum', this.userCarts.length)
           }
         })
         .catch((err) => {
@@ -473,7 +478,6 @@ export default {
           alert(`${err.message}`)
         })
     },
-
     incrementQuantity(id, qty, price) {
       this.status.loadingItem2 = id
       if (qty < 10) {
@@ -548,7 +552,6 @@ export default {
           })
       }
     },
-
     back() {
       this.$router.back()
     },
@@ -629,7 +632,7 @@ export default {
     this.getCarts()
     this.getCartSData()
     window.scrollTo(0, 0)
-    console.log('length', this.userCarts.length)
+    // console.log('length', this.userCarts.length)
   }
 }
 </script>

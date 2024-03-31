@@ -117,24 +117,30 @@ export default {
     }
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
-    this.$emitter.on('updateCart', () => {
-      this.getCarts()
-    })
-    this.$emitter.on('updateCartNum', (msg) => {
-        this.cartsLength = msg
-        console.log(this.cartsLength);
-      })
+    this.updateCart()
+    this.getCarts()
   },
   // 路由改變時隱藏選單
   watch: {
     $route() {
       this.headerCollapse.hide()
-      this.$emitter.on('updateCart', () => {
-        this.getCarts()
-      })
+      // this.$emitter.on('updateCart', () => {
+      //   this.getCarts()
+      // })
     }
   },
   methods: {
+    updateCart() {
+      this.$emitter.on('adminUpdateCart',this.getCarts)
+      this.$emitter.on('updateCart', (msg) => {
+        this.cartsLength = msg
+        // console.log(this.cartsLength,'updateCart')
+      })
+      this.$emitter.on('updateCartNum', (msg) => {
+        this.cartsLength = msg
+        // console.log(this.cartsLength,'updateCartNum')
+      })
+    },
     // 此設置按鈕再次點選時觸發一樣'全部'
     redirectToA(category) {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
@@ -173,7 +179,7 @@ export default {
         .then((res) => {
           // console.log(res)
           this.carts = res.data
-          console.log(this.carts)
+          // console.log(this.carts)
           this.carts.forEach((item) => {
             if (item.userId === this.userId) {
               this.userCarts.push(item)
@@ -190,10 +196,12 @@ export default {
           })
           this.userCarts = uniqueUserCarts
           // 更新購物車數量
+          // console.log(this.userCarts, 'usercart')
           this.cartsLength = this.userCarts.length
+          // console.log(this.cartsLength, 'cartsLength')
         })
         .catch((err) => {
-          // console.log(err)
+          console.log(err)
           alert(`${err.message}`)
         })
     },
@@ -224,8 +232,7 @@ export default {
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
-    this.getCarts()
-
+    // this.getCarts()
   }
 }
 </script>
