@@ -101,6 +101,22 @@ const router = createRouter({
         }
       ]
     },
+    {
+      path: '/TouristPackage/:pathMatch(.*)*',
+      redirect: '/'
+    },
+    {
+      path: '/cart/:pathMatch(.*)*',
+      redirect: '/'
+    },
+    {
+      path: '/TouristAttractions/:pathMatch(.*)*',
+      redirect: '/'
+    },
+    {
+      path: '*',
+      redirect: '/'
+    },
     //重新導向
     {
       path: '/TouristPackage/:pathMatch(.*)*',
