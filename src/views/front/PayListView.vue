@@ -88,32 +88,6 @@
       <div class="row">
         <div class="col-12 col-md-6 mb-4">
           <h3 class="mb-4">付款方式</h3>
-          <!-- <div class="mb-4 d-flex">
-          <div class="form-check me-4">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault1"
-              value="帳號匯款"
-              v-model="user.payMethod"
-            />
-            <label class="form-check-label" for="flexRadioDefault1"> 帳號匯款</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault2"
-              value="信用卡付款"
-              v-model="user.payMethod"
-              checked
-            />
-
-            <label class="form-check-label" for="flexRadioDefault2">信用卡付款</label>
-          </div>
-        </div> -->
           <div class="form-check mb-4 ps-0">
             <label class="radio is-inline" v-for="activity in activities" :key="activity">
               <input
@@ -129,7 +103,7 @@
           </div>
           <div v-if="user.payMethod === '信用卡付款'">
             <label for="floatingAddress" class="fs-5 mb-4">信用卡卡號</label>
-            <div class="row g-3 d-flex mb-4 ">
+            <div class="row g-3 d-flex mb-4">
               <div class="col-3 d-flex flex-column">
                 <VeeField
                   name="first"
@@ -197,7 +171,7 @@
                 :class="{ 'is-invalid': errors['floatingDate'] }"
                 placeholder="03/2024"
                 v-model="user.cardDate"
-                :rules="isOver18"
+                :rules="isOver"
               />
               <ErrorMessage name="floatingDate" class="invalid-feedback" />
             </div>
@@ -285,6 +259,8 @@
 import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
+import sweetAlert from '../../js/sweetAlert.js'
+
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   components: {
@@ -307,11 +283,11 @@ export default {
       user: {
         payMethod: '',
         cardDate: '',
-        cardNum:'',
-        firstNum:'',
-        secondNum:'',
-        thirdNum:'',
-        fourthNum:''
+        cardNum: '',
+        firstNum: '',
+        secondNum: '',
+        thirdNum: '',
+        fourthNum: ''
       },
       product_id: '',
       userId: '',
@@ -344,39 +320,26 @@ export default {
     toggleOpenOrder() {
       this.isOrderOpen = !this.isOrderOpen
     },
-    isOver18(cardDate) {
+    isOver(cardDate) {
       if (cardDate.length === 0) {
-        return '信用卡有效月年 為必填'
+        return '信用卡有效月年為必填'
       }
-      // 将生日字符串转换为日期对象
-      const birthDate = new Date(cardDate)
+      // 将输入的年月转换为日期对象，假设cardDate格式为"YYYY-MM"
+      const year = parseInt(cardDate.split('-')[0], 10)
+      const month = parseInt(cardDate.split('-')[1], 10) - 1 // JavaScript中月份是从0开始的
+      const cardDateValue = new Date(year, month)
 
-      // 获取当前日期
+      // 获取当前日期，并设置日期为当前月份的第一天（这样只比较年月）
       const currentDate = new Date()
+      currentDate.setDate(1) // 将当前日期设置为本月第一天
+      currentDate.setHours(0, 0, 0, 0) // 清除时分秒毫秒
 
-      // 计算年龄差
-      const ageDifference = currentDate.getFullYear() - birthDate.getFullYear()
-
-      // 如果当前日期在生日之前，年龄减1
-      if (
-        currentDate.getMonth() < birthDate.getMonth() ||
-        (currentDate.getMonth() === birthDate.getMonth())
-      ) {
-        // 如果年龄小于18岁，返回错误提示
-        if (ageDifference - 1 < 18) {
-          return '主要聯繫人需滿18歲'
-        }
-        // 否则返回 true
+      // 如果cardDateValue在当前日期之前或相等，表示卡已过期或者是当前月份，都不符合要求
+      if (cardDateValue >= currentDate) {
         return true
+      } else {
+        return '信用卡有效月年要有效狀態'
       }
-
-      // 如果当前日期在生日之后或是同一天
-      // 如果年龄小于18岁，返回错误提示
-      if (ageDifference < 18) {
-        return '主要聯繫人需滿18歲'
-      }
-      // 否则返回 true
-      return true
     },
     forId(id, title) {
       this.productId = id
@@ -404,7 +367,7 @@ export default {
         })
         .catch((err) => {
           this.isLoading = false
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得購買資料失敗`);
         })
     },
     getCookie(cookieName) {
@@ -428,12 +391,12 @@ export default {
               .delete(`${api_url2}/carts/${cartId}`)
               .then((res) => {})
               .catch((err) => {
-                console.error(`Failed to delete cart with ID: ${cartId}`, err)
+                sweetAlert.threeLayerCheckType('error', `刪除已購買資料失敗`);
               })
           })
         })
         .catch((err) => {
-          console.error('Error fetching cart IDs:', err)
+          sweetAlert.threeLayerCheckType('error', `刪除已購買資料失敗`);
         })
     },
     changeCartsDataStatus() {
@@ -442,12 +405,10 @@ export default {
           status: true,
           orderId: this.orderId
         })
-        .then((res) => {
-          // console.log('修改ok')
+        .then(() => {
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err}`)
+          sweetAlert.threeLayerCheckType('error', `更新已購買資料失敗`);
         })
     },
     getOrderData() {
@@ -456,6 +417,8 @@ export default {
         .then((res) => {
           this.orderData = res.data
           this.orderData.forEach((item) => {
+            console.log(item.user.userId === this.userId);
+            console.log(item.user.status === false);
             if (item.user.userId === this.userId && item.user.status === false) {
               this.userOrderData = item
               this.orderId = item.id
@@ -469,32 +432,34 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `更新訂單資料失敗`);
         })
     },
     updateOderData() {
-      console.log(this.user.payMethod)
       if (!this.user.payMethod) {
-        alert('請填寫所有必填欄位')
+        sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
         return // 如果有空值，停止執行下一步
       }
-      if(this.user.payMethod ==="信用卡付款"){
-        if(!this.user.cardDate && !this.user.cardNum){
-          alert('請填寫所有必填欄位')
-        return // 如果有空值，停止執行下一步
+      // 当支付方式为“信用卡付款”时，检查所有相关信用卡信息是否已填写
+      if (this.user.payMethod === '信用卡付款') {
+        if (!this.user.cardDate && !this.user.cardNum) {
+          sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
+          return
         }
-      }
-      if(this.user.payMethod ==="信用卡付款"){
-        if(!this.user.firstNum && !this.user.secondNum && !this.user.thirdNum && !this.user.fourthNum){
-          alert('請填寫所有必填欄位')
-        return // 如果有空值，停止執行下一步
+        if (
+          !this.user.firstNum &&
+          !this.user.secondNum &&
+          !this.user.thirdNum &&
+          !this.user.fourthNum
+        ) {
+          sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
+          return
         }
       }
       this.status = true
       this.getOrderData()
       this.deleteCartsUSerData()
       this.changeCartsDataStatus()
-
       this.orderData.forEach((item) => {
         if (item.user.userId === this.userId && item.user.cartDataId === this.cartDataId) {
           const updatedUser = {
@@ -522,13 +487,11 @@ export default {
               checkDataStatus: false
             })
             .then((res) => {
-              console.log(res);
-              // document.cookie = `orderId=${item.id}`
               this.$router.push({ path: '/cart/orderDone' })
               document.cookie = 'cartDataId=; expires='
             })
             .catch((err) => {
-              console.log(err)
+              sweetAlert.threeLayerCheckType('error', `更新訂單資料失敗`);
             })
         }
       })
@@ -541,6 +504,7 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     const cookieUserId = this.getCookie('userId')
     const cookieCartDataId = this.getCookie('cartDataId')
     this.userId = cookieUserId * 1

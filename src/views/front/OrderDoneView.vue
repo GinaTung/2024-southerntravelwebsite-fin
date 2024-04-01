@@ -1,4 +1,5 @@
 <template>
+  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <div class="row">
       <div class="col-md-6 mx-auto pb-5 pb-lg-15">
@@ -7,8 +8,8 @@
     </div>
     <div class="text-center mb-10">
       <div class="text-center">
-        <i class="bi bi-check-circle-fill text-success fs-3"></i>
-        <p class="fs-4">感謝您！您的訂單已建立完成</p>
+        <i class="bi bi-check-circle-fill text-success fs-3 text-center"></i>
+        <p class="fs-4 text-center">感謝您！您的訂單已建立完成</p>
       </div>
     </div>
     <div class="row">
@@ -76,11 +77,12 @@
           </button>
         </p>
         <div class="collapse show" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
-          <div class="card card-body rounded-0" style="height: 350px">
+          <div class="card card-body rounded-0">
             <div class="row p-4 p-md-10">
               <div class="col-12 col-md-6 col-lg-6">
                 <h5 class="mb-4">
-                  主要聯繫人名字：{{ userOrder.name }} {{ userOrder.appellation ==="female" ? "女士" : "男士"}}
+                  主要聯繫人名字：{{ userOrder.name }}
+                  {{ userOrder.appellation === 'female' ? '女士' : '男士' }}
                 </h5>
                 <h5 class="mb-4">主要聯繫人電話：{{ userOrder.tel }}</h5>
                 <h5 class="mb-4">主要聯繫人身分證字號：{{ userOrder.memberId }}</h5>
@@ -181,6 +183,8 @@ import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '../../js/sweetAlert.js'
+
 export default {
   components: {
     CartNavbar,
@@ -203,7 +207,8 @@ export default {
       product_id: '',
       productId: '',
       productTitle: '',
-      orderId: 0
+      orderId: 0,
+      isLoading: false
     }
   },
   watch: {
@@ -232,46 +237,40 @@ export default {
       this.axios
         .get(`${api_url2}/orders`)
         .then((res) => {
-          // console.log(res)
           this.orderData = res.data
           this.orderData.forEach((item) => {
             if (item.user.userId === this.userId && item.status === false) {
               this.userOrder = item.user
             }
           })
-          // console.log(this.userCart);
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得訂單資料失敗`)
         })
     },
     getCartsData() {
       this.axios
         .get(`${api_url2}/cartsData`)
         .then((res) => {
-          //  console.log(res.data)
           this.cartsData = res.data
           this.cartsData.forEach((item) => {
             if (item.orderStatus === false && item.orderId === this.orderId) {
               item.data.forEach((dataItem) => {
                 if (dataItem.userId === this.userId) {
                   this.userCart.push(dataItem)
-                  // console.log(item.orderId);
+                  this.isLoading = false
                 }
               })
             }
           })
 
-          // console.log(this.userCart)
           this.userCart.forEach((item) => {
             this.total += item.final_total
           })
-          // console.log(this.total);
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err}`)
+          sweetAlert.threeLayerCheckType('error', `取得填寫資料內容失敗`)
+          this.isLoading = false
         })
     },
     getCookie(name) {
@@ -285,7 +284,6 @@ export default {
         .then((res) => {
           this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
           this.cartsLength = this.userCarts.length
-          console.log(this.cartsLength, this.userCarts)
           if (this.userCarts.length === 0) {
             // 如果购物车没有任何内容，则将购物车数量设置为0
             this.$emitter.emit('updateCartNum', 0)
@@ -295,8 +293,7 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err)
-          alert('取得購物車資料失敗')
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     thousand(data) {
@@ -307,7 +304,8 @@ export default {
     }
   },
   mounted() {
-    // console.log(document.cookie)
+    this.isLoading = true
+    window.scrollTo(0, 0)
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
     const cookieOrderId = this.getCookie('orderId')
@@ -320,8 +318,13 @@ export default {
     this.getCartsData()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     this.orderCollapse = new Collapse(this.$refs.orderCollapse, { toggle: false })
-    console.log(this.$route);
     this.getCart()
+    setTimeout(() => {
+      if (!this.orderId) {
+        sweetAlert.threeLayerCheckType('warning', `網頁停留過久，為您轉至首頁`);
+        this.$router.push({ path: '/' })
+      }
+    }, 20000) // 3000 毫秒即為 20 秒
   }
 }
 </script>
