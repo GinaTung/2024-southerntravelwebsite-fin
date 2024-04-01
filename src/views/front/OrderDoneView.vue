@@ -324,7 +324,7 @@ export default {
         sweetAlert.threeLayerCheckType('warning', `網頁停留過久，為您轉至首頁`);
         this.$router.push({ path: '/' })
       }
-    }, 20000) // 3000 毫秒即為 20 秒
+    }, 10000) // 3000 毫秒即為 20 秒
   }
 }
 </script>

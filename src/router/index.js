@@ -114,15 +114,8 @@ const router = createRouter({
       redirect: '/'
     },
     {
-      path: '*',
+      path: '/:pathMatch(.*)*',
       redirect: '/'
-    },
-    //重新導向
-    {
-      path: '/TouristPackage/:pathMatch(.*)*',
-      redirect: {
-        name: 'home'
-      }
     }
   ],
   // 點選某頁連結時，按鈕會顯示顏色

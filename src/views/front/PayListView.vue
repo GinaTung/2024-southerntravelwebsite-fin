@@ -417,8 +417,6 @@ export default {
         .then((res) => {
           this.orderData = res.data
           this.orderData.forEach((item) => {
-            console.log(item.user.userId === this.userId);
-            console.log(item.user.status === false);
             if (item.user.userId === this.userId && item.user.status === false) {
               this.userOrderData = item
               this.orderId = item.id
