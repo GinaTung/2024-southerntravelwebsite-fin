@@ -1,13 +1,12 @@
 // Border-radius
 .border-left-bottom {
-    border-radius: 0 0 0 200px;
-    @include pc-lg {
-      border-radius: 0 0 0 80px;
-    }
+  border-radius: 0 0 0 200px;
+  @include pc-lg {
+    border-radius: 0 0 0 80px;
   }
-  
-  .rounded-navbar {
-    border-bottom-left-radius: 30px;
-    border-bottom-right-radius: 30px;
-  }
-  
+}
+
+.rounded-navbar {
+  border-bottom-left-radius: 30px;
+  border-bottom-right-radius: 30px;
+}
