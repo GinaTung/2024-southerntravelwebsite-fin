@@ -111,7 +111,7 @@
                     <button
                       class="btn btn-outline-dark rounded-0 btn-sm"
                       type="button"
-                      @click="incrementQuantity(item.id, item.qty, item.price)"
+                      @click="incrementQuantity(item.id, item.qty, item.price,item.product.max_travelers)"
                     >
                       <span
                         class="spinner-border spinner-grow-sm"
@@ -315,6 +315,8 @@
 import CartNavbar from '@/components/CartNavbar.vue'
 import DelCartModal from '@/components/DelCartModal.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '../../js/sweetAlert.js'
+
 export default {
   components: {
     CartNavbar,
@@ -353,19 +355,16 @@ export default {
         .get(`${api_url2}/carts`)
         .then((res) => {
           this.carts = res.data
-          // console.log(this.carts)
           this.carts.forEach((item) => {
             if (item.userId === this.userId) {
               this.userCarts.push(item)
-              // console.log('4')
             }
           })
           this.cartsLength = this.userCarts.length
           this.getProducts()
         })
         .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`);
         })
     },
     getCart() {
@@ -374,7 +373,6 @@ export default {
         .then((res) => {
           this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
           this.cartsLength = this.userCarts.length
-          console.log(this.cartsLength, this.userCarts)
           if (this.userCarts.length === 0) {
             // 如果购物车没有任何内容，则将购物车数量设置为0
             this.$emitter.emit('updateCartNum', 0)
@@ -384,12 +382,10 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err)
-          alert('取得購物車資料失敗')
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`);
         })
     },
     deleteCart(id, title) {
-      // console.log(id, title)
       this.status.loadingItem3 = id
       this.status.loadingItem = true
       this.$refs.delModal.closeModal()
@@ -412,9 +408,8 @@ export default {
           this.getCart()
         })
         .catch((err) => {
-          console.log(err)
           this.status.loadingItem3 = ''
-          alert('刪除購物車資料失敗')
+          sweetAlert.threeLayerCheckType('error', `刪除購物車資料失敗`);
           this.status.loadingItem = false
         })
     },
@@ -425,7 +420,6 @@ export default {
       }
       // 將新的項目添加 物件中
       this.saveCartsDelModal = { cartId, productId, productTitle, qty }
-      console.log('5')
       // 打開模態框
       this.$refs.delModal.openModal()
     },
@@ -439,7 +433,6 @@ export default {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          // console.log(res)
           this.products = res.data
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
@@ -475,12 +468,12 @@ export default {
         .catch((err) => {
           this.isLoading = false
           // console.log(err)
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`);
         })
     },
-    incrementQuantity(id, qty, price) {
+    incrementQuantity(id, qty, price,maxNum) {
       this.status.loadingItem2 = id
-      if (qty < 10) {
+      if (qty < maxNum) {
         qty += 1
         let percent = 1
         this.axios
@@ -508,12 +501,12 @@ export default {
             }
           })
           .catch((err) => {
-            console.log(err)
-            alert('取得購物車資料失敗')
+            sweetAlert.threeLayerCheckType('error', `增加購物車預約數量失敗`);
           })
       } else {
         this.status.loadingItem2 = ''
-        alert('預約人數上限為10人')
+        // alert(`預約人數上限為${maxNum}人`)
+        sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`);
       }
     },
     decrementQuantity(id, qty, price) {
@@ -575,14 +568,12 @@ export default {
       const userExists = this.cartIdData.some(
         (item) => item.userId === this.userId && item.status === false
       )
-      console.log(userExists)
       let cartDataId = 0
       this.cartIdData.forEach((item) => {
         if (item.userId === this.userId && item.status === false) {
           cartDataId = item.id
         }
       })
-      // console.log(cartDataId)
 
       if (userExists && cartDataId !== 0) {
         // 如果使用者資料已存在，執行 PUT 請求
@@ -600,8 +591,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            // console.log(err)
-            alert(`更新購物車資料失敗`)
+            sweetAlert.threeLayerCheckType('error', `更新購物車資料失敗`);
           })
       } else {
         // 如果使用者資料不存在，執行 POST 請求
@@ -619,8 +609,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            // console.log(err);
-            alert(`儲存購物車資料失敗`)
+            sweetAlert.threeLayerCheckType('error', `儲存購物車資料失敗`);
           })
       }
     }
@@ -632,7 +621,6 @@ export default {
     this.getCarts()
     this.getCartSData()
     window.scrollTo(0, 0)
-    // console.log('length', this.userCarts.length)
   }
 }
 </script>

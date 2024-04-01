@@ -88,32 +88,6 @@
       <div class="row">
         <div class="col-12 col-md-6 mb-4">
           <h3 class="mb-4">付款方式</h3>
-          <!-- <div class="mb-4 d-flex">
-          <div class="form-check me-4">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault1"
-              value="帳號匯款"
-              v-model="user.payMethod"
-            />
-            <label class="form-check-label" for="flexRadioDefault1"> 帳號匯款</label>
-          </div>
-          <div class="form-check">
-            <input
-              class="form-check-input"
-              type="radio"
-              name="flexRadioDefault"
-              id="flexRadioDefault2"
-              value="信用卡付款"
-              v-model="user.payMethod"
-              checked
-            />
-
-            <label class="form-check-label" for="flexRadioDefault2">信用卡付款</label>
-          </div>
-        </div> -->
           <div class="form-check mb-4 ps-0">
             <label class="radio is-inline" v-for="activity in activities" :key="activity">
               <input
@@ -285,6 +259,8 @@
 import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
+import sweetAlert from '../../js/sweetAlert.js'
+
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
   components: {
@@ -391,7 +367,7 @@ export default {
         })
         .catch((err) => {
           this.isLoading = false
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得購買資料失敗`);
         })
     },
     getCookie(cookieName) {
@@ -415,12 +391,12 @@ export default {
               .delete(`${api_url2}/carts/${cartId}`)
               .then((res) => {})
               .catch((err) => {
-                console.error(`Failed to delete cart with ID: ${cartId}`, err)
+                sweetAlert.threeLayerCheckType('error', `刪除已購買資料失敗`);
               })
           })
         })
         .catch((err) => {
-          console.error('Error fetching cart IDs:', err)
+          sweetAlert.threeLayerCheckType('error', `刪除已購買資料失敗`);
         })
     },
     changeCartsDataStatus() {
@@ -429,12 +405,10 @@ export default {
           status: true,
           orderId: this.orderId
         })
-        .then((res) => {
-          // console.log('修改ok')
+        .then(() => {
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err}`)
+          sweetAlert.threeLayerCheckType('error', `更新已購買資料失敗`);
         })
     },
     getOrderData() {
@@ -443,6 +417,8 @@ export default {
         .then((res) => {
           this.orderData = res.data
           this.orderData.forEach((item) => {
+            console.log(item.user.userId === this.userId);
+            console.log(item.user.status === false);
             if (item.user.userId === this.userId && item.user.status === false) {
               this.userOrderData = item
               this.orderId = item.id
@@ -456,20 +432,19 @@ export default {
           }
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `更新訂單資料失敗`);
         })
     },
     updateOderData() {
-      console.log(this.user.payMethod)
       if (!this.user.payMethod) {
-        alert('請填寫所有必填欄位')
+        sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
         return // 如果有空值，停止執行下一步
       }
       // 当支付方式为“信用卡付款”时，检查所有相关信用卡信息是否已填写
       if (this.user.payMethod === '信用卡付款') {
         if (!this.user.cardDate && !this.user.cardNum) {
-          alert('請填寫所有必填欄位')
-          return // 如果有空值，停止執行下一步
+          sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
+          return
         }
         if (
           !this.user.firstNum &&
@@ -477,17 +452,14 @@ export default {
           !this.user.thirdNum &&
           !this.user.fourthNum
         ) {
-          alert('請填寫所有必填欄位')
-          return // 如果有空值，停止執行下一步
+          sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
+          return
         }
       }
-      // 添加“帳號匯款”逻辑，可以直接允许用户进行下一步，因为不需要额外验证信息
-      // 如果将来“帳號匯款”方式需要额外信息，可以在此处添加逻辑
       this.status = true
       this.getOrderData()
       this.deleteCartsUSerData()
       this.changeCartsDataStatus()
-
       this.orderData.forEach((item) => {
         if (item.user.userId === this.userId && item.user.cartDataId === this.cartDataId) {
           const updatedUser = {
@@ -515,13 +487,11 @@ export default {
               checkDataStatus: false
             })
             .then((res) => {
-              console.log(res)
-              // document.cookie = `orderId=${item.id}`
               this.$router.push({ path: '/cart/orderDone' })
               document.cookie = 'cartDataId=; expires='
             })
             .catch((err) => {
-              console.log(err)
+              sweetAlert.threeLayerCheckType('error', `更新訂單資料失敗`);
             })
         }
       })
@@ -534,6 +504,7 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     const cookieUserId = this.getCookie('userId')
     const cookieCartDataId = this.getCookie('cartDataId')
     this.userId = cookieUserId * 1

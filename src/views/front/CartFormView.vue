@@ -51,7 +51,6 @@
       </div>
     </div>
     <div v-if="orderId === ordersData.id">
-      <!-- {{  ordersData.user }} -->
        <VeeForm id="form" ref="form" v-slot="{ errors }">
         <div class="row">
           <div class="col-12 col-md-6 mb-4">
@@ -291,7 +290,7 @@
               <VeeField
                 id="floatingTel"
                 name="手機號碼"
-                type="text"
+                type="tel"
                 class="form-control rounded-1"
                 :class="{ 'is-invalid': errors['手機號碼'] }"
                 placeholder="請輸入手機號碼"
@@ -433,6 +432,8 @@ import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '../../js/sweetAlert.js'
+
 export default {
   components: {
     CartNavbar,
@@ -565,7 +566,6 @@ export default {
     },
     backPage() {
       this.$router.go(-1)
-      // this.getCartsData()
     },
     toggleOpen() {
       this.isOpen = !this.isOpen
@@ -589,15 +589,13 @@ export default {
               })
             }
           })
-          console.log(this.userCart)
           this.userCart.forEach((item) => {
             this.total += item.final_total
           })
         })
         .catch((err) => {
-          console.log(err)
           this.isLoading = false
-          // alert(`${err}`)
+          sweetAlert.threeLayerCheckType('error', `取得購買資料失敗`);
         })
     },
     getCookie(cookieName) {
@@ -627,8 +625,9 @@ export default {
           !this.ordersData.user.birthday ||
           !this.ordersData.user.shippingMethod
         ) {
-          alert('請填寫所有必填欄位')
-          return // 如果有空值，停止執行下一步
+          // alert('請填寫所有必填欄位')
+          sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
+          return
         }
       }else{
         if (
@@ -639,14 +638,11 @@ export default {
           !this.user.birthday ||
           !this.user.shippingMethod
         ) {
-          alert('請填寫所有必填欄位')
-          return // 如果有空值，停止執行下一步
+          sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
+          return
         }
       }
 
-      console.log(this.cartDataId, 'cartDataId')
-
-      console.log(this.orderId, 'orderId')
       if (this.orderId) {
         
       const user = {
@@ -669,10 +665,9 @@ export default {
           .put(`${api_url2}/orders/${this.orderId}`, { user })
           .then((res) => {
             this.ordersData = res.data
-            console.log(this.ordersData)
           })
           .catch((err) => {
-            console.log(err)
+            sweetAlert.threeLayerCheckType('error', `更新填寫資料內容失敗`);
           })
       } else {
         const user = {
@@ -695,11 +690,10 @@ export default {
           .post(`${api_url2}/orders`, { user })
           .then((res) => {
             this.ordersData = res.data
-            console.log(this.ordersData)
             document.cookie = `orderId=${res.data.id}`
           })
           .catch((err) => {
-            console.log(err)
+            sweetAlert.threeLayerCheckType('error', `新增填寫資料內容失敗`);
           })
       }
       this.$router.push('/cart/payList')
@@ -709,24 +703,22 @@ export default {
         .get(`${api_url2}/orders/${this.orderId}`)
         .then((res) => {
           this.ordersData = res.data
-          console.log(this.ordersData)
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得填寫資料內容失敗`);
         })
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
-
     this.isLoading = true
     this.getCartsData()
     this.headerCollapse = new Collapse(this.$refs.headerCollapse, { toggle: false })
     setTimeout(() => {
       const cookieCartDataId = this.getCookie('cartDataId')
       this.cartDataId = cookieCartDataId * 1
-      console.log(this.cartDataId, 'cartDataId')
     }, 3000) // 3000 毫秒即為 3 秒
     const cookieOrderId = this.getCookie('orderId')
     this.orderId = cookieOrderId * 1
