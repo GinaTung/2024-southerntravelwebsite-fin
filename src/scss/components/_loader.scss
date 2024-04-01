@@ -1,44 +1,43 @@
 .loader {
-    min-width: 150px;
-    font-size: 60px;
-    color: $secondary-200;
-    display: inline-block;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 400;
-    position: relative;
-  }
-  
-  .loader:after {
-    content: 'Loading';
-    position: relative;
-    z-index: 5;
-  }
-  
-  .loader:before {
-    content: '';
-    height: 6px;
-    border: 1px solid;
-    border-radius: 10px;
-    width: 100%; 
-    position: absolute;
-    bottom: 0px;
-    background: linear-gradient(#FABC73 0%, #F5EEB3 50%, #A89916 100%, transparent 0) no-repeat;
+  min-width: 150px;
+  font-size: 60px;
+  color: $secondary-200;
+  display: inline-block;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  position: relative;
+}
+
+.loader:after {
+  content: 'Loading';
+  position: relative;
+  z-index: 5;
+}
+
+.loader:before {
+  content: '';
+  height: 6px;
+  border: 1px solid;
+  border-radius: 10px;
+  width: 100%;
+  position: absolute;
+  bottom: 0px;
+  background: linear-gradient(#fabc73 0%, #f5eeb3 50%, #a89916 100%, transparent 0) no-repeat;
+  background-size: 0% auto;
+  animation: 10s lineGrow linear infinite;
+}
+
+@keyframes lineGrow {
+  0% {
     background-size: 0% auto;
-    animation: 10s lineGrow linear infinite;
   }
-  
-  @keyframes lineGrow {
-    0% {
-      background-size: 0% auto;
-    }
-    50% {
-      background-size: 50% auto;
-    }
-    100% {
-      background-size: 100% auto;
-    }
-    
+  50% {
+    background-size: 50% auto;
   }
-  .hidden {
-    display: none;
+  100% {
+    background-size: 100% auto;
   }
+}
+.hidden {
+  display: none;
+}

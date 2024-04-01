@@ -1,33 +1,33 @@
-.active{
-    color: $blue-600 !important;
-    // font-weight: bold;
+.active {
+  color: $blue-600 !important;
+  // font-weight: bold;
 }
-.z-index-1{
-    z-index: 1 !important;
-  }
-  .z-index-2{
-    z-index: 2 !important;
-  }
-  .z-index-3{
-    z-index: 3 !important;
-  }
-  .z-index-99{
-    z-index:1021 !important;
-  }
-  .font-robo {
-    font-family: "Roboto", sans-serif !important;
-  }
-  .font-hero {
-    font-size: 64px;
+.z-index-1 {
+  z-index: 1 !important;
+}
+.z-index-2 {
+  z-index: 2 !important;
+}
+.z-index-3 {
+  z-index: 3 !important;
+}
+.z-index-99 {
+  z-index: 1021 !important;
+}
+.font-robo {
+  font-family: "Roboto", sans-serif !important;
+}
+.font-hero {
+  font-size: 64px;
+  font-weight: bold;
+  line-height: 1.2;
+  @include pc-lg {
+    font-size: 36px;
+    line-height: 1.5;
     font-weight: bold;
-    line-height: 1.2;
-    @include pc-lg{
-      font-size: 36px;
-      line-height: 1.5;
-      font-weight: bold;
-    }
-    @include pad-md {
-      font-size: 24px;
-      font-weight: normal;
-    }
   }
+  @include pad-md {
+    font-size: 24px;
+    font-weight: normal;
+  }
+}
