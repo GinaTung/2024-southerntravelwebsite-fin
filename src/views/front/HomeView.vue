@@ -45,32 +45,7 @@
   <AdBlock></AdBlock>
   <TouristPackage></TouristPackage>
 </template>
-<style lang="scss">
-.input-wrapper {
-  position: relative;
-}
-.search-btn-cerulean-blue-position {
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 2;
 
-  @media (max-width: 768px) {
-    .search-btn-cerulean-blue-position {
-      top: auto;
-      bottom: 0;
-      right: 0;
-      transform: translateY(0);
-      margin-top: 0;
-      margin-right: 10px; /* 調整距離 input 的距離 */
-      height: inherit; /* 繼承父元素高度 */
-      display: flex;
-      align-items: center; /* 垂直置中 */
-      padding: 0 10px; /* 調整左右 padding */
-    }
-  }
-}
-</style>
 <script>
 import BannerSwiper from '../../components/swiper/BannerSwiper.vue'
 import LatestNews from '../../components/LatestNews.vue'
@@ -130,3 +105,29 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.input-wrapper {
+  position: relative;
+}
+.search-btn-cerulean-blue-position {
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 2;
+
+  @media (max-width: 768px) {
+    .search-btn-cerulean-blue-position {
+      top: auto;
+      bottom: 0;
+      right: 0;
+      transform: translateY(0);
+      margin-top: 0;
+      margin-right: 10px; /* 調整距離 input 的距離 */
+      height: inherit; /* 繼承父元素高度 */
+      display: flex;
+      align-items: center; /* 垂直置中 */
+      padding: 0 10px; /* 調整左右 padding */
+    }
+  }
+}
+</style>

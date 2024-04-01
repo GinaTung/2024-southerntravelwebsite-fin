@@ -132,30 +132,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
-.active-category {
-  color: #0a58ca !important;
-  background-color: #d5f3f4;
-}
-.card-att .card-att-img img {
-  border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0 ;
-}
-.page-link-radius {
-  border-radius: 0 4px 4px 0 !important;
-}
 
-.page-link-radius-2 {
-  border-radius: 4px 0 0 4px !important;
-}
-.page-link:focus {
-  box-shadow: 0px;
-}
-.page-link.active{
-  background: #43B8BD;
-  border-color: #0EA0A6;
-  color: #fff !important;
-}
-</style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {
@@ -305,4 +282,27 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.active-category {
+  color: #0a58ca !important;
+  background-color: #d5f3f4;
+}
+.card-att .card-att-img img {
+  border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0 ;
+}
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active{
+  background: #43B8BD;
+  border-color: #0EA0A6;
+  color: #fff !important;
+}
+</style>

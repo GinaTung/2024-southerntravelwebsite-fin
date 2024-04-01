@@ -90,22 +90,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
-p {
-  text-align: justify; /* 將文字左右對齊 */
-}
-.img-size-height {
-  height: 560px;
-}
-@media (max-width: 768px) {
-  .img-size-height {
-    height: 240px;
-  }
-}
-.navbar-brand:hover {
-    color: #43B8BD;
-}
-</style>
+
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 import singleAttraction from '@/components/swiper/singleAttraction.vue'
@@ -215,3 +200,19 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+p {
+  text-align: justify; /* 將文字左右對齊 */
+}
+.img-size-height {
+  height: 560px;
+}
+@media (max-width: 768px) {
+  .img-size-height {
+    height: 240px;
+  }
+}
+.navbar-brand:hover {
+    color: #43B8BD;
+}
+</style>

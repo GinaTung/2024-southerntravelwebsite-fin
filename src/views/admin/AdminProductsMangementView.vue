@@ -745,23 +745,7 @@
   </div>
   <!-- Modal -->
 </template>
-<style>
-.page-link-radius {
-  border-radius: 0 4px 4px 0 !important;
-}
 
-.page-link-radius-2 {
-  border-radius: 4px 0 0 4px !important;
-}
-.page-link:focus {
-  box-shadow: 0px;
-}
-.page-link.active {
-  background: #43b8bd;
-  border-color: #0ea0a6;
-  color: #fff !important;
-}
-</style>
 <script>
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
 import AdminSidebar from '../../components/AdminSidebar.vue'
@@ -1061,3 +1045,20 @@ export default {
   }
 }
 </script>
+<style>
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active {
+  background: #43b8bd;
+  border-color: #0ea0a6;
+  color: #fff !important;
+}
+</style>

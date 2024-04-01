@@ -477,40 +477,6 @@
     </div>
   </div>
 </template>
-<style lang="scss">
-.line {
-  height: 95%;
-  // padding: 50px 15px;
-  // margin-bottom: 20px;
-  display: block;
-  position: absolute;
-  top: 30px;
-  left: 7px;
-}
-
-.line:last-of-type {
-  border-left: 6px dotted #34405c;
-}
-
-.nav-underline .nav-link {
-  padding-right: 0;
-  padding-left: 0;
-  border-bottom: var(--bs-nav-underline-border-width) solid #34405c;
-}
-.arrow {
-  position: absolute;
-  left: 0px;
-  bottom: -40px;
-}
-p {
-  text-align: justify; /* 將文字左右對齊 */
-}
-.disabled-btn {
-  pointer-events: none;
-  opacity: 0.5;
-}
-</style>
-
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 
@@ -755,3 +721,36 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.line {
+  height: 95%;
+  // padding: 50px 15px;
+  // margin-bottom: 20px;
+  display: block;
+  position: absolute;
+  top: 30px;
+  left: 7px;
+}
+
+.line:last-of-type {
+  border-left: 6px dotted #34405c;
+}
+
+.nav-underline .nav-link {
+  padding-right: 0;
+  padding-left: 0;
+  border-bottom: var(--bs-nav-underline-border-width) solid #34405c;
+}
+.arrow {
+  position: absolute;
+  left: 0px;
+  bottom: -40px;
+}
+p {
+  text-align: justify; /* 將文字左右對齊 */
+}
+.disabled-btn {
+  pointer-events: none;
+  opacity: 0.5;
+}
+</style>

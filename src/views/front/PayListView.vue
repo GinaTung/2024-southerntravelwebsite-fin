@@ -208,53 +208,7 @@
     :productTitle="productTitle"
   />
 </template>
-<style>
-.number {
-  border: 1px solid #43b8bd;
-  width: 32px;
-  height: 32px;
-  background-color: #d5f3f4;
-  z-index: 1;
-}
-@media (min-width: 768px) {
-  .number {
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-  }
-}
-.number-active {
-  background-color: #43b8bd;
-  color: #fff;
-}
-.pay-list::before {
-  content: '';
-  width: 83%;
-  height: 1px;
-  background-color: black;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  top: 30%;
-  position: absolute;
-  z-index: 1;
-}
 
-.text-position {
-  text-align: center;
-  @media (max-width: 576px) {
-    text-align: left;
-  }
-}
-.border-top-size {
-  border-top: 2px solid blue;
-}
-.arrow-rotated {
-  transform: rotate(-180deg);
-}
-.border-top {
-  border-radius: 12px 12px 0 0;
-}
-</style>
 <script>
 import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
@@ -514,3 +468,50 @@ export default {
   }
 }
 </script>
+<style>
+.number {
+  border: 1px solid #43b8bd;
+  width: 32px;
+  height: 32px;
+  background-color: #d5f3f4;
+  z-index: 1;
+}
+@media (min-width: 768px) {
+  .number {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+}
+.number-active {
+  background-color: #43b8bd;
+  color: #fff;
+}
+.pay-list::before {
+  content: '';
+  width: 83%;
+  height: 1px;
+  background-color: black;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 30%;
+  position: absolute;
+  z-index: 1;
+}
+
+.text-position {
+  text-align: center;
+  @media (max-width: 576px) {
+    text-align: left;
+  }
+}
+.border-top-size {
+  border-top: 2px solid blue;
+}
+.arrow-rotated {
+  transform: rotate(-180deg);
+}
+.border-top {
+  border-radius: 12px 12px 0 0;
+}
+</style>

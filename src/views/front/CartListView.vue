@@ -182,134 +182,6 @@
     :save-carts-del-modal="saveCartsDelModal"
   ></del-cart-modal>
 </template>
-<style lang="scss">
-.form-control {
-  padding: 0.375rem 0.5rem 0.375rem 1.5rem;
-}
-.number {
-  border: 1px solid #43b8bd;
-  width: 32px;
-  height: 32px;
-  background-color: #d5f3f4;
-  z-index: 1;
-}
-@media (min-width: 768px) {
-  .number {
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-  }
-}
-.number-active {
-  background-color: #43b8bd;
-  color: #fff;
-}
-.pay-list::before {
-  content: '';
-  width: 83%;
-  height: 1px;
-  background-color: black;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  top: 30%;
-  position: absolute;
-  z-index: 1;
-}
-
-.text-position {
-  text-align: center;
-  @media (max-width: 576px) {
-    text-align: left;
-  }
-}
-.border-top-size {
-  border-top: 2px solid blue;
-}
-.input-group
-  > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(
-    .invalid-tooltip
-  ):not(.invalid-feedback) {
-  margin-right: calc(1px * -0);
-}
-@media (min-width: 768px) {
-  .d-lg-none-thead {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .table-rwd {
-    min-width: 100%;
-  }
-  .table > :not(caption) > * > * {
-    border-bottom-width: 0px;
-  }
-  /*針對tr去做隱藏*/
-  tr.tr-only-hide {
-    display: none !important;
-  }
-  /*讓tr變成區塊主要讓他有個區塊*/
-  .table-rwd tr {
-    display: block;
-    /* border: 1px solid #ddd; */
-    margin-top: 5px;
-  }
-  .table-rwd td {
-    text-align: left;
-    font-size: 15px;
-    overflow: hidden;
-    width: 100%;
-    display: block;
-  }
-  .td-only-hide {
-    display: none !important;
-  }
-  .table-rwd td:before {
-    /*最重要的就是這串*/
-    content: attr(data-th) ' ';
-    /*最重要的就是這串*/
-    display: inline-block;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 16px;
-    /* margin-right: 10px; */
-    /* color: #D20B2A; */
-  }
-  .table-rwd td .td-p-left {
-    padding-left: 8px;
-  }
-  .table-rwd td .td-p-right {
-    padding-right: 8px;
-  }
-
-  /*當RWD縮小的時候.table-bordered 會有兩條線，所以針對.table-bordered去做修正*/
-  .table-rwd.table-bordered td,
-  .table-rwd.table-bordered th,
-  .table-rwd.table-bordered {
-    border: 0;
-  }
-
-  .table-rwd tr {
-    border: 1px solid #ddd;
-    padding: 5px;
-  }
-  .tr-border-bottom-0 {
-    border: 0px solid #ddd !important;
-  }
-  .td-number-direction {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .w-length {
-    width: 50%;
-    text-align: center;
-  }
-}
-.btn-danger-rounded {
-  border-radius: 8px !important;
-}
-</style>
 
 <script>
 import CartNavbar from '@/components/CartNavbar.vue'
@@ -624,3 +496,131 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.form-control {
+  padding: 0.375rem 0.5rem 0.375rem 1.5rem;
+}
+.number {
+  border: 1px solid #43b8bd;
+  width: 32px;
+  height: 32px;
+  background-color: #d5f3f4;
+  z-index: 1;
+}
+@media (min-width: 768px) {
+  .number {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+}
+.number-active {
+  background-color: #43b8bd;
+  color: #fff;
+}
+.pay-list::before {
+  content: '';
+  width: 83%;
+  height: 1px;
+  background-color: black;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  top: 30%;
+  position: absolute;
+  z-index: 1;
+}
+
+.text-position {
+  text-align: center;
+  @media (max-width: 576px) {
+    text-align: left;
+  }
+}
+.border-top-size {
+  border-top: 2px solid blue;
+}
+.input-group
+  > :not(:first-child):not(.dropdown-menu):not(.valid-tooltip):not(.valid-feedback):not(
+    .invalid-tooltip
+  ):not(.invalid-feedback) {
+  margin-right: calc(1px * -0);
+}
+@media (min-width: 768px) {
+  .d-lg-none-thead {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .table-rwd {
+    min-width: 100%;
+  }
+  .table > :not(caption) > * > * {
+    border-bottom-width: 0px;
+  }
+  /*針對tr去做隱藏*/
+  tr.tr-only-hide {
+    display: none !important;
+  }
+  /*讓tr變成區塊主要讓他有個區塊*/
+  .table-rwd tr {
+    display: block;
+    /* border: 1px solid #ddd; */
+    margin-top: 5px;
+  }
+  .table-rwd td {
+    text-align: left;
+    font-size: 15px;
+    overflow: hidden;
+    width: 100%;
+    display: block;
+  }
+  .td-only-hide {
+    display: none !important;
+  }
+  .table-rwd td:before {
+    /*最重要的就是這串*/
+    content: attr(data-th) ' ';
+    /*最重要的就是這串*/
+    display: inline-block;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 16px;
+    /* margin-right: 10px; */
+    /* color: #D20B2A; */
+  }
+  .table-rwd td .td-p-left {
+    padding-left: 8px;
+  }
+  .table-rwd td .td-p-right {
+    padding-right: 8px;
+  }
+
+  /*當RWD縮小的時候.table-bordered 會有兩條線，所以針對.table-bordered去做修正*/
+  .table-rwd.table-bordered td,
+  .table-rwd.table-bordered th,
+  .table-rwd.table-bordered {
+    border: 0;
+  }
+
+  .table-rwd tr {
+    border: 1px solid #ddd;
+    padding: 5px;
+  }
+  .tr-border-bottom-0 {
+    border: 0px solid #ddd !important;
+  }
+  .td-number-direction {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .w-length {
+    width: 50%;
+    text-align: center;
+  }
+}
+.btn-danger-rounded {
+  border-radius: 8px !important;
+}
+</style>

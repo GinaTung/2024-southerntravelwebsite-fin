@@ -216,43 +216,7 @@
     </div>
   </div>
 </template>
-<style lang="scss">
-.rounded-top {
-  border-radius: 4px 0 !important;
-}
-p {
-  text-align: justify; /* 將文字左右對齊 */
-}
-.active-category {
-  color: #0a58ca !important;
-  background-color: #d5f3f4;
-}
-.page-item {
-  .page-link-0 {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-  }
-}
 
-.page-link-radius {
-  border-radius: 0 4px 4px 0 !important;
-}
-
-.page-link-radius-2 {
-  border-radius: 4px 0 0 4px !important;
-}
-.page-link:focus {
-  box-shadow: 0px;
-}
-.page-link.active {
-  background: #43b8bd;
-  border-color: #0ea0a6;
-  color: #fff !important;
-}
-.btn-danger-rounded {
-  border-radius: 8px;
-}
-</style>
 <script>
 import sweetAlert from '../../js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
@@ -590,3 +554,40 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.rounded-top {
+  border-radius: 4px 0 !important;
+}
+p {
+  text-align: justify; /* 將文字左右對齊 */
+}
+.active-category {
+  color: #0a58ca !important;
+  background-color: #d5f3f4;
+}
+.page-item {
+  .page-link-0 {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+  }
+}
+
+.page-link-radius {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.page-link-radius-2 {
+  border-radius: 4px 0 0 4px !important;
+}
+.page-link:focus {
+  box-shadow: 0px;
+}
+.page-link.active {
+  background: #43b8bd;
+  border-color: #0ea0a6;
+  color: #fff !important;
+}
+.btn-danger-rounded {
+  border-radius: 8px;
+}
+</style>
