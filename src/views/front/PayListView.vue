@@ -129,7 +129,7 @@
           </div>
           <div v-if="user.payMethod === '信用卡付款'">
             <label for="floatingAddress" class="fs-5 mb-4">信用卡卡號</label>
-            <div class="row g-3 d-flex mb-4 ">
+            <div class="row g-3 d-flex mb-4">
               <div class="col-3 d-flex flex-column">
                 <VeeField
                   name="first"
@@ -197,7 +197,7 @@
                 :class="{ 'is-invalid': errors['floatingDate'] }"
                 placeholder="03/2024"
                 v-model="user.cardDate"
-                :rules="isOver18"
+                :rules="isOver"
               />
               <ErrorMessage name="floatingDate" class="invalid-feedback" />
             </div>
@@ -307,11 +307,11 @@ export default {
       user: {
         payMethod: '',
         cardDate: '',
-        cardNum:'',
-        firstNum:'',
-        secondNum:'',
-        thirdNum:'',
-        fourthNum:''
+        cardNum: '',
+        firstNum: '',
+        secondNum: '',
+        thirdNum: '',
+        fourthNum: ''
       },
       product_id: '',
       userId: '',
@@ -344,39 +344,26 @@ export default {
     toggleOpenOrder() {
       this.isOrderOpen = !this.isOrderOpen
     },
-    isOver18(cardDate) {
+    isOver(cardDate) {
       if (cardDate.length === 0) {
-        return '信用卡有效月年 為必填'
+        return '信用卡有效月年為必填'
       }
-      // 将生日字符串转换为日期对象
-      const birthDate = new Date(cardDate)
+      // 将输入的年月转换为日期对象，假设cardDate格式为"YYYY-MM"
+      const year = parseInt(cardDate.split('-')[0], 10)
+      const month = parseInt(cardDate.split('-')[1], 10) - 1 // JavaScript中月份是从0开始的
+      const cardDateValue = new Date(year, month)
 
-      // 获取当前日期
+      // 获取当前日期，并设置日期为当前月份的第一天（这样只比较年月）
       const currentDate = new Date()
+      currentDate.setDate(1) // 将当前日期设置为本月第一天
+      currentDate.setHours(0, 0, 0, 0) // 清除时分秒毫秒
 
-      // 计算年龄差
-      const ageDifference = currentDate.getFullYear() - birthDate.getFullYear()
-
-      // 如果当前日期在生日之前，年龄减1
-      if (
-        currentDate.getMonth() < birthDate.getMonth() ||
-        (currentDate.getMonth() === birthDate.getMonth())
-      ) {
-        // 如果年龄小于18岁，返回错误提示
-        if (ageDifference - 1 < 18) {
-          return '主要聯繫人需滿18歲'
-        }
-        // 否则返回 true
+      // 如果cardDateValue在当前日期之前或相等，表示卡已过期或者是当前月份，都不符合要求
+      if (cardDateValue >= currentDate) {
         return true
+      } else {
+        return '信用卡有效月年要有效狀態'
       }
-
-      // 如果当前日期在生日之后或是同一天
-      // 如果年龄小于18岁，返回错误提示
-      if (ageDifference < 18) {
-        return '主要聯繫人需滿18歲'
-      }
-      // 否则返回 true
-      return true
     },
     forId(id, title) {
       this.productId = id
@@ -478,18 +465,24 @@ export default {
         alert('請填寫所有必填欄位')
         return // 如果有空值，停止執行下一步
       }
-      if(this.user.payMethod ==="信用卡付款"){
-        if(!this.user.cardDate && !this.user.cardNum){
+      // 当支付方式为“信用卡付款”时，检查所有相关信用卡信息是否已填写
+      if (this.user.payMethod === '信用卡付款') {
+        if (!this.user.cardDate && !this.user.cardNum) {
           alert('請填寫所有必填欄位')
-        return // 如果有空值，停止執行下一步
+          return // 如果有空值，停止執行下一步
+        }
+        if (
+          !this.user.firstNum &&
+          !this.user.secondNum &&
+          !this.user.thirdNum &&
+          !this.user.fourthNum
+        ) {
+          alert('請填寫所有必填欄位')
+          return // 如果有空值，停止執行下一步
         }
       }
-      if(this.user.payMethod ==="信用卡付款"){
-        if(!this.user.firstNum && !this.user.secondNum && !this.user.thirdNum && !this.user.fourthNum){
-          alert('請填寫所有必填欄位')
-        return // 如果有空值，停止執行下一步
-        }
-      }
+      // 添加“帳號匯款”逻辑，可以直接允许用户进行下一步，因为不需要额外验证信息
+      // 如果将来“帳號匯款”方式需要额外信息，可以在此处添加逻辑
       this.status = true
       this.getOrderData()
       this.deleteCartsUSerData()
@@ -522,7 +515,7 @@ export default {
               checkDataStatus: false
             })
             .then((res) => {
-              console.log(res);
+              console.log(res)
               // document.cookie = `orderId=${item.id}`
               this.$router.push({ path: '/cart/orderDone' })
               document.cookie = 'cartDataId=; expires='
