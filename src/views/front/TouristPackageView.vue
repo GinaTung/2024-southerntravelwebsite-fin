@@ -25,8 +25,8 @@
     <div class="tourist-list">
       <div class="row">
         <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
-          <div class="border-info2 border-1 border w-100 rounded-1 h-100">
-            <p class="fs-4 p-5 bg-primary-500 text-white rounded-top">地區篩選</p>
+          <div class="border-1 border w-100 rounded-1 h-100">
+            <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
             <ul class="nav flex-column">
               <li class="nav-item" v-for="(item, index) in filterCategory" :key="index">
                 <a
@@ -529,9 +529,6 @@ export default {
 }
 </script>
 <style lang="scss">
-.rounded-top {
-  border-radius: 4px 0 !important;
-}
 p {
   text-align: justify; /* 將文字左右對齊 */
 }

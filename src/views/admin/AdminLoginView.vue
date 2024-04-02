@@ -34,10 +34,10 @@
             <label for="userpassword">請輸入Password</label>
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
-          <button class="btn-turquoise w-100 mt-3" @click="login">登入</button>
+          <button class="btn-turquoise w-100 mt-3 btn-rounded" @click="login">登入</button>
 
           <div class="mt-3">
-            <router-link to="/" class="btn-outline-turquoise w-100 mt-3">回前台</router-link>
+            <button class="btn-outline-turquoise mt-3 w-100 btn-rounded" type="button" @click="goHome()">回前台</button>
           </div>
         </VeeForm>
       </div>
@@ -61,6 +61,9 @@ export default {
     }
   },
   methods: {
+    goHome() {
+      this.$router.push('/') 
+    },
     checkAdmin(){
       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
       this.axios.defaults.headers.common['Authorization'] = this.token
@@ -92,3 +95,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.btn-rounded{
+  border-radius: 20px !important;
+}
+</style>

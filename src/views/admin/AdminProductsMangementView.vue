@@ -9,7 +9,7 @@
         <div class="text-end mt-4">
           <button
             type="button"
-            class="btn-turquoise border-0"
+            class="btn-turquoise"
             id="addModalBtn"
             @click="openModal('new', product)"
           >
@@ -943,39 +943,39 @@ export default {
         !this.tempProduct.startDate ||
         !this.tempProduct.endDate ||
         !this.tempProduct.goStartDate ||
-        !this.tempProduct.goEndDat
+        !this.tempProduct.goEndDate
       ){
         sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
-      }else{
-        const filteredProduct = this.filterProduct(this.tempProduct)
-        this.tempProduct = filteredProduct
-        if (this.isNew) {
-          this.axios
-            .post(`${api_url2}/products`, this.tempProduct)
-            .then(() => {
-              sweetAlert.threeLayerCheckType('success', '已建立產品成功')
-              this.getProducts()
-              this.tempProduct = {}
-              this.modalProduct.hide()
-            })
-            .catch((err) => {
-              sweetAlert.threeLayerCheckType('error', `建立產品失敗`)
-            })
-        } else if (!this.isNew) {
-          //更新
-          this.axios
-            .put(`${api_url2}/products/${this.tempProduct.id}`, this.tempProduct)
-            .then((res) => {
-              sweetAlert.threeLayerCheckType('success', '已更新產品成功')
-              this.getProducts()
-  
-              this.tempProduct = {}
-              this.modalProduct.hide()
-            })
-            .catch((err) => {
-              sweetAlert.threeLayerCheckType('error', `更新產品失敗`)
-            })
-        }
+        return; // 如果有空值，直接返回，不執行更新操作
+      }
+      const filteredProduct = this.filterProduct(this.tempProduct)
+      this.tempProduct = filteredProduct
+      if (this.isNew) {
+        this.axios
+          .post(`${api_url2}/products`, this.tempProduct)
+          .then(() => {
+            sweetAlert.threeLayerCheckType('success', '已建立產品成功')
+            this.getProducts()
+            this.tempProduct = {}
+            this.modalProduct.hide()
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `建立產品失敗`)
+          })
+      } else if (!this.isNew) {
+        //更新
+        this.axios
+          .put(`${api_url2}/products/${this.tempProduct.id}`, this.tempProduct)
+          .then((res) => {
+            sweetAlert.threeLayerCheckType('success', '已更新產品成功')
+            this.getProducts()
+
+            this.tempProduct = {}
+            this.modalProduct.hide()
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `更新產品失敗`)
+          })
       }
     },
     filterProduct(product) {

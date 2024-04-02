@@ -90,7 +90,7 @@
             <label for="floatingDate">生日(加入會員需滿18歲)</label>
             <ErrorMessage name="生日" class="invalid-feedback" />
           </div>
-          <button class="btn-turquoise w-100 mt-3 border-0" type="submit" id="signup">註冊</button>
+          <button class="btn-turquoise w-100 mt-3" type="submit" id="signup">註冊</button>
         </VeeForm>
       </div>
     </div>
@@ -98,6 +98,7 @@
 </template>
 <script>
 import sweetAlert from '@/js/sweetAlert.js'
+
 export default {
   data() {
     return {

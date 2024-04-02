@@ -9,7 +9,7 @@
         <div class="text-end mt-4">
           <button
             type="button"
-            class="btn-turquoise border-0"
+            class="btn-turquoise"
             id="addModalBtn"
             @click="openModal('new', product)"
           >
@@ -416,6 +416,7 @@ export default {
         !this.tempProduct.content
       ){
         sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
+        return; // 如果有空值，直接返回，不執行更新操作
       }
       if (this.isNew) {
         this.axios

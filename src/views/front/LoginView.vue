@@ -34,7 +34,7 @@
             <label for="userpassword">請輸入Password</label>
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
-          <button class="btn-turquoise w-100 mt-4 border-0" type="submit" id="login">登入</button>
+          <button class="btn-turquoise w-100 mt-4 btn-rounded" type="submit" id="login">登入</button>
         </VeeForm>
       </div>
     </div>
@@ -82,3 +82,8 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.btn-rounded{
+  border-radius: 20px !important;
+}
+</style>
