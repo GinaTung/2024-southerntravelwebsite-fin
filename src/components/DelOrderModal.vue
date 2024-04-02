@@ -42,7 +42,7 @@ import { Modal } from 'bootstrap'
 export default {
   props: {
     item: Object,
-    delOrder: Function // 声明 delOrder 为一个函数类型的 prop
+    delOrder: Function 
   },
   data() {
     return {

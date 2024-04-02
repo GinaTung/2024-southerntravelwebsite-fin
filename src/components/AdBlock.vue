@@ -8,8 +8,8 @@
         <p class="fs-6 text-center text-lg-start fs-lg-4">Your Custom Journey Awaits.</p>
       </div>
       <div class="ad-r-side d-flex flex-column align-items-lg-end justify-content-lg-center align-items-center ">
-        <a href="#/TouristBudget" class="btn-cerulean-blue btn-cerulean-blue-spacer mb-2 mb-lg-4 d-inline-block fs-5" type="button">立即開始</a>
-        <p class="fs-7 fs-lg-6 fw-bold text-center text-lg-start">根據天數與人數，推薦合適行程</p>
+        <!-- <a href="#/TouristBudget" class="btn-cerulean-blue btn-cerulean-blue-spacer mb-2 mb-lg-4 d-inline-block fs-5">立即開始</a> -->
+        <!-- <p class="fs-7 fs-lg-6 fw-bold text-center text-lg-start">根據天數與人數，推薦合適行程</p> -->
       </div>
     </div>
     

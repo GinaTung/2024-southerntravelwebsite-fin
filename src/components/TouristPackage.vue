@@ -58,6 +58,7 @@
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
   data() {
@@ -84,26 +85,20 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate
-      // console.log(this.currentDate)
     },
     getProducts() {
-      // console.log(this.packageTitle)
       this.axios
         .get(`${api_url2}/products?id=GDwTM-i&id=ymbfYtq&id=vjHdmEx`)
         .then((res) => {
-          // console.log(res)
           this.products = res.data
-
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
               this.enabledProducts.push(item)
             }
           })
-          // console.log(this.enabledProducts)
         })
         .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
     thousand(data) {
@@ -115,7 +110,6 @@ export default {
   },
   mounted() {
     this.getProducts()
-    // console.log(this.$route);
   }
 }
 </script>

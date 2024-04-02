@@ -22,16 +22,18 @@
             <router-link v-if="userIsLoggedIn === false" to="/admin/adminlogin" class="nav-link"
               >管理者登入</router-link
             >
-            <a v-else class="nav-link" type="button" @click="logout()">登出</a>
+            <a v-else class="nav-link" @click="logout()">登出</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
-  <RouterView></RouterView>
+  <RouterView/>
 </template>
 <script>
 const api_url = import.meta.env.VITE_API_URL
+import sweetAlert from '@/js/sweetAlert.js'
+
 export default {
   data() {
     return {
@@ -39,7 +41,7 @@ export default {
         username: '',
         password: ''
       },
-      userIsLoggedIn: false,// 添加用户登录状态变量
+      userIsLoggedIn: false,
       token:'' 
     }
   },
@@ -57,10 +59,10 @@ export default {
           // 登入成功
           this.userIsLoggedIn = true;
         })
-        .catch((err) => {
+        .catch(() => {
           // 登入失敗或驗證失敗
           this.userIsLoggedIn = false;
-          alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+          sweetAlert.threeLayerCheckType('error', `管理者身分驗證失敗，自動跳轉至登入頁面`)
           this.$router.push({ path: '/admin/AdminHome' })
         });
     }
@@ -68,14 +70,13 @@ export default {
     logout() {
       this.axios
         .post(`${api_url}/logout`)
-        .then((res) => {
-
+        .then(() => {
           document.cookie = 'hexToken=; expires='
           this.$router.push({ path: '/' })
-          this.userIsLoggedIn = false // 用户登出
+          this.userIsLoggedIn = false 
         })
-        .catch((err) => {
-          alert(`管理者身分登出失敗，請稍後再點選登出按鈕`)
+        .catch(() => {
+          sweetAlert.threeLayerCheckType('error', `管理者身分登出失敗，請稍後再點選登出按鈕`)
         })
     }
   },
@@ -86,3 +87,8 @@ export default {
   }
 }
 </script>
+<style>
+a.nav-link {
+    cursor: pointer;
+}
+</style>

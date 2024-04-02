@@ -187,7 +187,7 @@
 import CartNavbar from '@/components/CartNavbar.vue'
 import DelCartModal from '@/components/DelCartModal.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
-import sweetAlert from '../../js/sweetAlert.js'
+import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
   components: {
@@ -339,7 +339,6 @@ export default {
         })
         .catch((err) => {
           this.isLoading = false
-          // console.log(err)
           sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`);
         })
     },
@@ -377,7 +376,6 @@ export default {
           })
       } else {
         this.status.loadingItem2 = ''
-        // alert(`預約人數上限為${maxNum}人`)
         sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`);
       }
     },
@@ -411,7 +409,6 @@ export default {
             }
           })
           .catch((err) => {
-            // console.log(err)
             this.status.loadingItem4 = ''
             alert('更新購物車資料失敗')
           })
@@ -581,13 +578,10 @@ export default {
   .table-rwd td:before {
     /*最重要的就是這串*/
     content: attr(data-th) ' ';
-    /*最重要的就是這串*/
     display: inline-block;
     text-transform: uppercase;
     font-weight: bold;
     font-size: 16px;
-    /* margin-right: 10px; */
-    /* color: #D20B2A; */
   }
   .table-rwd td .td-p-left {
     padding-left: 8px;

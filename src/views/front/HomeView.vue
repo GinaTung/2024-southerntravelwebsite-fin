@@ -21,11 +21,11 @@
               class="form-control rounded-pill px-6 px-md-10 py-4 z-index-2 border-0 my-3 w-100 d-md-none"
               placeholder="輸入遊玩南部縣市"
             />
-            <a
-              class="btn-cerulean-blue position-absolute search-btn-cerulean-blue-position h-70"
+            <button
+              class="btn-cerulean-blue position-absolute search-btn-cerulean-blue-position h-70 border-0"
               type="button"
               @click="search"
-              >搜尋</a
+              >搜尋</button
             >
           </div>
         </div>
@@ -47,10 +47,10 @@
 </template>
 
 <script>
-import BannerSwiper from '../../components/swiper/BannerSwiper.vue'
-import LatestNews from '../../components/LatestNews.vue'
+import BannerSwiper from '@/components/swiper/BannerSwiper.vue'
+import LatestNews from '@/components/LatestNews.vue'
 import TouristAttractions from '@/components/TouristAttractions.vue'
-import AdBlock from '../../components/AdBlock.vue'
+import AdBlock from '@/components/AdBlock.vue'
 import TouristPackage from '@/components/TouristPackage.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
 
@@ -77,7 +77,6 @@ export default {
         .get(`${api_url2}/search`)
         .then((res) => {
           this.searchData = res.data
-          // console.log(this.searchData)
         })
         .catch((err) => {
           alert(`${err.message}`)
@@ -89,8 +88,7 @@ export default {
       const regex = new RegExp(this.searchText, 'i')
       // 先筛选出搜索结果
       const filteredResults = this.searchData.filter((product) => {
-        // console.log(product.title)
-        return regex.test(product.title) // 这里假设产品名称在 product.title 中
+        return regex.test(product.title) 
       })
       // 对搜索结果进行切片操作，只显示前三条记录
       this.searchResults = filteredResults.slice(0, 3)
@@ -101,7 +99,7 @@ export default {
     this.isLoading = true
     setTimeout(() => {
       this.isLoading = false
-    }, 3000) // 3000 毫秒即為 3 秒
+    }, 3000) 
   }
 }
 </script>
@@ -122,11 +120,11 @@ export default {
       right: 0;
       transform: translateY(0);
       margin-top: 0;
-      margin-right: 10px; /* 調整距離 input 的距離 */
+      margin-right: 10px;
       height: inherit; /* 繼承父元素高度 */
       display: flex;
-      align-items: center; /* 垂直置中 */
-      padding: 0 10px; /* 調整左右 padding */
+      align-items: center;
+      padding: 0 10px; 
     }
   }
 }

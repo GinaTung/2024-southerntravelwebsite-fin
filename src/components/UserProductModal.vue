@@ -41,6 +41,7 @@
 
 <script>
 import Modal from 'bootstrap/js/dist/modal'
+
 export default {
   props: {
     userCart: {
@@ -51,7 +52,7 @@ export default {
     },
     productId: {
       type: String,
-      required: true // 如果这个数据是必须的，可以添加 required: true
+      required: true 
     },
     productTitle: {
       type: String,
@@ -71,14 +72,8 @@ export default {
       keyboard: false,
       backdrop: 'static'
     })
-    this.addToCart();
   },
   methods: {
-    addToCart() {
-      // 在此处编写添加商品到购物车的逻辑
-      // console.log('Adding product to cart:', this.userCart);
-      // console.log(this.productId,this.productTitle);
-    },
     getCookie(cookieName) {
       const cookies = document.cookie.split(';')
       for (let cookie of cookies) {

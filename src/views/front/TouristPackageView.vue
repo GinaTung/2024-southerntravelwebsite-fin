@@ -28,15 +28,15 @@
           <div class="border-info2 border-1 border w-100 rounded-1 h-100">
             <p class="fs-4 p-5 bg-primary-500 text-white rounded-top">地區篩選</p>
             <ul class="nav flex-column">
-              <li class="nav-item" v-for="(item, i) in filterCategory" :key="i">
+              <li class="nav-item" v-for="(item, index) in filterCategory" :key="index">
                 <a
                   class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  data-name="item"
+                  href="#"
                   aria-current="page"
-                  :value="item"
                   :class="{ 'active-category': selectedCategory === item }"
                   @click.prevent="filterProducts(item)"
-                  >{{ item }}
+                >
+                  {{ item }}
                   <span>{{ filterCateNum[item] }}</span>
                 </a>
               </li>
@@ -44,7 +44,6 @@
           </div>
         </div>
         <div class="col-12 col-lg-9">
-          <!-- <router-view></router-view> -->
           <div v-if="status.loadingItem" class="text-center" style="margin: 150px">
             <div
               class="spinner-border"
@@ -150,9 +149,9 @@
                             params: { category: productsItem.category, title: productsItem.title }
                           }"
                           class="btn-outline-square w-100 me-2 px-2 px-md-3"
-                          type="button"
                           >行程介紹</router-link
                         >
+
                         <button
                           class="btn-square w-100 ms-2 px-2 px-md-3"
                           v-if="currentDate <= productsItem.endDate"
@@ -166,6 +165,7 @@
                           ></span>
                           預約套裝行程
                         </button>
+
                         <button
                           class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
                           v-else
@@ -182,31 +182,32 @@
             <nav aria-label="Page navigation example" class="my-10">
               <ul class="pagination justify-content-center">
                 <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-                  <a
+                  <button
                     class="page-link page-link-radius-2"
-                    href=""
-                    @click.prevent="getProducts(currentPage - 1)"
-                    >上一頁</a
+                    @click.prevent="currentPage > 1 && getProducts(currentPage - 1)"
                   >
+                    上一頁
+                  </button>
                 </li>
-                <li class="page-item" v-for="i in pageTotal" :key="i + 123">
-                  <a
+                <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+                  <button
                     class="page-link page-link-0 rounded-0"
-                    href=""
-                    :value="i"
                     :class="{ active: i === currentPage }"
                     @click.prevent="getProducts(i)"
-                    >{{ i }}</a
                   >
+                    {{ i }}
+                  </button>
                 </li>
-                <li class="page-item">
-                  <a
+                <li
+                  class="page-item"
+                  :class="{ disabled: !currentPage || currentPage === pageTotal }"
+                >
+                  <button
                     class="page-link page-link-radius"
-                    href=""
-                    @click.prevent="getProducts(currentPage + 1)"
-                    :class="{ disabled: !currentPage || currentPage === pageTotal }"
-                    >下一頁</a
+                    @click.prevent="currentPage < pageTotal && getProducts(currentPage + 1)"
                   >
+                    下一頁
+                  </button>
                 </li>
               </ul>
             </nav>
@@ -218,8 +219,9 @@
 </template>
 
 <script>
-import sweetAlert from '../../js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert.js'
+
 export default {
   data() {
     return {
@@ -310,7 +312,7 @@ export default {
           }, 1000)
         })
         .catch((err) => {
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
       // !this.selectedCategory 这个判断语句用于检查是否有从 B 页面传递过来的区域值。
       if (this.selectedCategory === '全部' || !this.selectedCategory) {
@@ -320,11 +322,9 @@ export default {
             var totalCount = parseInt(res.headers['x-total-count'])
             this.pageTotal = Math.ceil(totalCount / this.limitPage)
             this.currentPage = currentPage
-            // console.log(this.pageTotal, this.currentPage, totalCount)
             this.products = res.data
             this.getNewText()
             this.enabledProducts = this.products.filter((item) => item.is_enabled === 1)
-            // console.log(this.enabledProducts, 'A')
             this.status.loadingItem = false
             this.$router.push({
               path: '/TouristPackage',
@@ -333,7 +333,7 @@ export default {
             window.scrollTo(0, 0)
           })
           .catch((err) => {
-            alert(`${err.message}`)
+            sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
           })
       } else {
         // 否则，根据selectedCategory进行过滤
@@ -345,7 +345,6 @@ export default {
             var totalCount = parseInt(res.headers['x-total-count'])
             this.pageTotal = Math.ceil(totalCount / this.limitPage)
             this.currentPage = currentPage
-            // console.log(this.pageTotal, this.currentPage, totalCount)
             this.products = res.data
             this.getNewText()
             this.enabledProducts = this.products.filter((item) => item.is_enabled === 1)
@@ -354,18 +353,16 @@ export default {
               path: '/TouristPackage',
               query: { category: this.selectedCategory, page: this.currentPage }
             })
-            // console.log(this.enabledProducts, 'B')
             window.scrollTo(0, 0)
           })
           .catch((err) => {
-            alert(`${err.message}`)
+            sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
           })
       }
     },
     filterProducts(category) {
       // 點擊篩選列時觸發，更新選擇的類別
       this.selectedCategory = category
-      // console.log(category)
       this.status.loadingItem = true
       this.getProducts()
     },
@@ -384,7 +381,6 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate
-      // console.log(this.currentDate)
     },
     thousand(data) {
       if (data !== undefined) {
@@ -421,21 +417,17 @@ export default {
         id,
         descriptions
       }))
-      // console.log(this.newProductsDes)
     },
     getCart() {
       this.axios
         .get(`${api_url2}/carts`)
         .then((res) => {
-          // console.log(res);
           this.carts = res.data
-          // console.log(this.carts);
           this.carts.forEach((item) => {
             if (item.userId === this.userId) {
               this.newCarts.push(item)
             }
           })
-          // console.log(this.newCarts)
           // 移除重複的產品
           const uniqueUserCarts = []
           const productIdSet = new Set()
@@ -447,24 +439,18 @@ export default {
           })
           this.newCarts = uniqueUserCarts
           this.cartsLength = this.newCarts.length
-          console.log(this.cartsLength)
           this.$emitter.emit('updateCart', this.cartsLength) // 發送特定事件
         })
         .catch((err) => {
-          // console.log(err)
-          alert('取得購物車資料失敗')
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     addToCart(productId, qty = 1, price) {
-      // console.log(productId, qty, price)
       this.status.loadingItem2 = productId
       if (!this.token) {
-        // warning
-        // alert('請登入會員後，才能預約套裝行程')
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能預約套裝行程')
         this.status.loadingItem2 = ''
       } else {
-        // console.log(this.newCarts)
         let productExists = false
         let percent = 1
         //檢查是否有重複產品，如果有則標記為存在
@@ -474,7 +460,6 @@ export default {
             this.cartId = item.id
           }
         })
-
         // 如果產品已經存在於購物車中，則執行 put 操作
         if (productExists) {
           this.axios
@@ -488,15 +473,11 @@ export default {
             })
             .then((res) => {
               this.status.loadingItem2 = ''
-              // this.isLoading = false
-              // alert('已更新預約人數')
               sweetAlert.threeLayerCheckType('success', '已更新預約人數')
               this.getCart()
-              // this.$router.go(0)
             })
             .catch((err) => {
-              // console.error('更新預約人數失敗:', err)
-              // alert('更新預約人數失敗')
+              this.status.loadingItem2 = ''
               sweetAlert.threeLayerCheckType('error', `更新預約人數失敗`)
             })
         } else {
@@ -511,19 +492,12 @@ export default {
               final_total: qty * price * percent
             })
             .then((res) => {
-              // console.log(res)
               this.status.loadingItem2 = ''
-              // this.isLoading = false
-              // alert(`已預約成功`)
               sweetAlert.threeLayerCheckType('success', '已預約成功')
-
               this.getCart()
-
-              // this.$router.go(0)
             })
             .catch((err) => {
-              // console.log(err)
-              // alert('預約失敗，再重新登入預約')
+              this.status.loadingItem2 = ''
               sweetAlert.threeLayerCheckType('error', `預約失敗，再重新登入預約`)
             })
         }

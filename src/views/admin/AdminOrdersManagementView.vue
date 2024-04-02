@@ -137,34 +137,32 @@
             </tbody>
           </table>
         </div>
-        <nav aria-label="Page navigation example " class="my-10">
+        <nav aria-label="Page navigation example" class="my-10">
           <ul class="pagination justify-content-center">
             <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-              <a
+              <button
                 class="page-link page-link-radius-2"
-                href=""
-                @click.prevent="getOrders(currentPage - 1)"
-                >上一頁</a
+                @click.prevent="currentPage > 1 && getOrders(currentPage - 1)"
               >
+                上一頁
+              </button>
             </li>
-            <li class="page-item" v-for="i in pageTotal" :key="i + 123">
-              <a
+            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+              <button
                 class="page-link page-link-0 rounded-0"
-                href=""
-                :value="i"
                 :class="{ active: i === currentPage }"
                 @click.prevent="getOrders(i)"
-                >{{ i }}</a
               >
+                {{ i }}
+              </button>
             </li>
-            <li class="page-item">
-              <a
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+              <button
                 class="page-link page-link-radius"
-                href=""
-                @click.prevent="getOrders(currentPage + 1)"
-                :class="{ disabled: !currentPage || currentPage === pageTotal }"
-                >下一頁</a
+                @click.prevent="currentPage < pageTotal && getOrders(currentPage + 1)"
               >
+                下一頁
+              </button>
             </li>
           </ul>
         </nav>
@@ -184,10 +182,10 @@
 </template>
 
 <script>
-import sweetAlert from '../../js/sweetAlert.js'
 import OrderModal from '@/components/OrderModal.vue'
 import DelOrderModal from '@/components/DelOrderModal.vue'
-import AdminSidebar from '../../components/AdminSidebar.vue'
+import AdminSidebar from '@/components/AdminSidebar.vue'
+import sweetAlert from '@/js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
@@ -221,7 +219,6 @@ export default {
       this.axios
         .get(`${api_url2}/orders?_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
-          // console.log(res)
           var totalCount = parseInt(res.headers['x-total-count'])
           this.pageTotal = Math.ceil(totalCount / this.limitPage)
           this.currentPage = currentPage
@@ -238,12 +235,7 @@ export default {
         })
         .catch((err) => {
           this.isLoading = false
-          console.log(err)
-          this.pushMessage({
-            style: 'danger',
-            title: '錯誤訊息',
-            content: err.message
-          })
+          sweetAlert.threeLayerCheckType('error', `取得訂單資料失敗`)
         })
     },
     getOrderProducts() {
@@ -277,11 +269,7 @@ export default {
 
           // 將 orderProducts 轉換為陣列
           const ordersArray = Object.values(orderProducts)
-
-          // console.log(ordersArray)
-          // this.orders.push(ordersArray)
           this.orders.forEach((orderItem) => {
-            // console.log(orderItem.user.cartDataId);
             ordersArray.forEach((item) => {
               if (orderItem.user.cartDataId === item.cartDataId) {
                 orderItem.product = []
@@ -289,10 +277,9 @@ export default {
               }
             })
           })
-          // console.log(this.orders)
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得訂單的產品資料失敗`)
         })
     },
     openModal(item) {
@@ -308,27 +295,23 @@ export default {
       this.isLoading = true
       // 切换 status 的值
       const updatedStatus = status.user.status
-      // console.log(updatedStatus);
       const updatedUser = {
         ...status.user, // 保留原来的用户数据
         status: updatedStatus // 切换 status 的值
       }
-      // console.log(updatedUser);
       this.axios
         .patch(`${api_url2}/orders/${status.id}`, {
           user: updatedUser
         })
         .then((res) => {
-          // console.log(res)
           this.getOrders()
           this.isLoading = false
           this.$refs.orderModal.closeModal()
-          sweetAlert.threeLayerCheckType('success','更新付款狀態')
+          sweetAlert.threeLayerCheckType('success', '更新付款狀態')
         })
         .catch((err) => {
           this.isLoading = false
-          sweetAlert.threeLayerCheckType('error', `${err.message}`);
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `更新付款狀態失敗`)
         })
     },
     delOrder() {
@@ -336,27 +319,19 @@ export default {
       this.axios
         .delete(`${api_url2}/orders/${this.tempOrder.id}`, this.tempOrder)
         .then((res) => {
-          // console.log(res)
-          // alert(`已刪除成功`)
           this.getOrders()
           this.isLoading = false
-          // this.tempOrder = {}
           this.$refs.delModal.closeModal()
-          sweetAlert.threeLayerCheckType('success','已刪除成功')
+          sweetAlert.threeLayerCheckType('success', '已刪除訂單成功')
         })
         .catch((err) => {
           this.isLoading = false
-          // console.log(err);
-          sweetAlert.threeLayerCheckType('error', `${err.message}`);
-
-          // alert(`${err}`)
+          sweetAlert.threeLayerCheckType('error', `${err.message}`)
         })
     }
   },
   mounted() {
     this.getOrders()
-
-    // this.updatePaid()
   }
 }
 </script>

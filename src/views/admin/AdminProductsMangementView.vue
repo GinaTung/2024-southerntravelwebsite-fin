@@ -3,11 +3,16 @@
     <div class="row flex-column flex-md-row">
       <div class="col-12 col-md-3">
         <h1 class="my-4 fs-4 fs-md-1">產品管理</h1>
-        <AdminSidebar></AdminSidebar>
+        <AdminSidebar />
       </div>
       <div class="col-12 col-md-9">
         <div class="text-end mt-4">
-          <button type="button" class="btn-turquoise border-0" id="addModalBtn" @click="openModal('new', product)">
+          <button
+            type="button"
+            class="btn-turquoise border-0"
+            id="addModalBtn"
+            @click="openModal('new', product)"
+          >
             建立新的產品
           </button>
         </div>
@@ -28,7 +33,6 @@
               <td>
                 <span class="text-success" v-if="productItem.is_enabled">啟用</span>
                 <span v-else>未啟用</span>
-                <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
               </td>
               <td>{{ productItem.category }}</td>
               <td>{{ productItem.title }}</td>
@@ -57,28 +61,35 @@
             </tr>
           </tbody>
         </table>
-        <nav aria-label="Page navigation example " class="my-10">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
-            <a class="page-link page-link-radius-2" href="" @click.prevent="getProducts(currentPage - 1)"
-              >上一頁</a
-            >
-          </li>
-          <li class="page-item" v-for="i in pageTotal" :key="i+123">
-            <a
-              class="page-link page-link-0 rounded-0"
-              href=""
-              :value="i"
-              :class="{'active': i === currentPage}"
-              @click.prevent="getProducts(i)"
-              >{{ i }}</a
-            >
-          </li>
-          <li class="page-item">
-            <a class="page-link page-link-radius" href="" @click.prevent="getProducts(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
-          </li>
-        </ul>
-      </nav>
+        <nav aria-label="Page navigation example" class="my-10">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+              <button
+                class="page-link page-link-radius-2"
+                @click.prevent="currentPage > 1 && getProducts(currentPage - 1)"
+              >
+                上一頁
+              </button>
+            </li>
+            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+              <button
+                class="page-link page-link-0 rounded-0"
+                :class="{ active: i === currentPage }"
+                @click.prevent="getProducts(i)"
+              >
+                {{ i }}
+              </button>
+            </li>
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+              <button
+                class="page-link page-link-radius"
+                @click.prevent="currentPage < pageTotal && getProducts(currentPage + 1)"
+              >
+                下一頁
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
@@ -159,7 +170,7 @@
             </div>
             <div class="col-sm-8">
               <div class="mb-3">
-                <label for="title" class="form-label">標題</label>
+                <label for="title" class="form-label">標題<span class="required">*</span></label>
                 <input
                   id="title"
                   type="text"
@@ -170,7 +181,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="day_num" class="form-label">旅遊天數</label>
+                  <label for="day_num" class="form-label">旅遊天數<span class="required">*</span></label>
                   <input
                     id="day_num"
                     type="number"
@@ -180,7 +191,7 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="creation_date" class="form-label">建立日期</label>
+                  <label for="creation_date" class="form-label">建立日期<span class="required">*</span></label>
                   <input
                     id="creation_date"
                     type="date"
@@ -191,7 +202,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label">分類</label>
+                  <label for="category" class="form-label">分類<span class="required">*</span></label>
                   <input
                     id="category"
                     type="text"
@@ -201,7 +212,7 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">單位</label>
+                  <label for="price" class="form-label">單位<span class="required">*</span></label>
                   <input
                     id="unit"
                     type="text"
@@ -213,7 +224,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="tag_1" class="form-label">標籤1</label>
+                  <label for="tag_1" class="form-label">標籤1<span class="required">*</span></label>
                   <input
                     id="tag_1"
                     type="text"
@@ -245,7 +256,7 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="max_travelers" class="form-label">出遊上限人數</label>
+                  <label for="max_travelers" class="form-label">出遊上限人數<span class="required">*</span></label>
                   <input
                     id="max_travelers"
                     type="number"
@@ -259,7 +270,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="origin_price" class="form-label">原價</label>
+                  <label for="origin_price" class="form-label">原價<span class="required">*</span></label>
                   <input
                     id="origin_price"
                     type="number"
@@ -270,7 +281,7 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">售價</label>
+                  <label for="price" class="form-label">售價<span class="required">*</span></label>
                   <input
                     id="price"
                     type="number"
@@ -310,7 +321,7 @@
                               :key="index + 1213"
                             >
                               <div class="mb-3 col-md-6" v-if="index === 0">
-                                <label for="first_day_title" class="form-label">行程天數</label>
+                                <label for="first_day_title" class="form-label">行程天數<span class="required">*</span></label>
                                 <input
                                   id="first_day_title"
                                   type="text"
@@ -321,7 +332,7 @@
                               </div>
                               <div class="mb-3 col-md-6" v-if="index === 0">
                                 <label for="itinerary_first_day_am_title" class="form-label"
-                                  >景點名稱-早上</label
+                                  >景點名稱-早上<span class="required">*</span></label
                                 >
                                 <input
                                   id="itinerary_first_day_am_title"
@@ -333,7 +344,7 @@
                               </div>
                               <div class="mb-3" v-if="index === 0">
                                 <label for="itinerary_first_day_am_content" class="form-label"
-                                  >景點介紹-早上</label
+                                  >景點介紹-早上<span class="required">*</span></label
                                 >
                                 <textarea
                                   id="itinerary_first_day_am_content"
@@ -346,7 +357,7 @@
                               </div>
                               <div class="col-md-6 mb-3" v-if="index === 0">
                                 <label for="itinerary_first_day_pm_title" class="form-label"
-                                  >景點名稱-下午</label
+                                  >景點名稱-下午<span class="required">*</span></label
                                 >
                                 <input
                                   id="itinerary_first_day_pm_title"
@@ -358,7 +369,7 @@
                               </div>
                               <div class="mb-3" v-if="index === 0">
                                 <label for="itinerary_first_day_pm_content" class="form-label"
-                                  >景點介紹-下午</label
+                                  >景點介紹-下午<span class="required">*</span></label
                                 >
                                 <textarea
                                   id="itinerary_first_day_pm_content"
@@ -568,24 +579,26 @@
 
               <hr />
               <div class="mb-3">
-                <label for="description" class="form-label">產品描述</label>
+                <label for="description" class="form-label">產品描述<span class="required">*</span></label>
                 <textarea
                   id="description"
                   type="text"
                   v-model="tempProduct.description"
                   class="form-control"
                   placeholder="請輸入產品描述"
+                  required
                 >
                 </textarea>
               </div>
               <div class="mb-3">
-                <label for="content" class="form-label">說明內容</label>
+                <label for="content" class="form-label">說明內容<span class="required">*</span></label>
                 <textarea
                   id="description"
                   type="text"
                   v-model="tempProduct.content"
                   class="form-control"
                   placeholder="請輸入說明內容"
+                  required
                 >
                 </textarea>
               </div>
@@ -637,7 +650,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="start_date" class="form-label">預約起始日</label>
+                  <label for="start_date" class="form-label">預約起始日<span class="required">*</span></label>
                   <input
                     id="start_date"
                     type="date"
@@ -645,10 +658,11 @@
                     class="form-control"
                     :min="minDate"
                     :max="maxDate"
+                    required
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="end_date" class="form-label">預約結束日</label>
+                  <label for="end_date" class="form-label">預約結束日<span class="required">*</span></label>
                   <input
                     id="start_date"
                     type="date"
@@ -656,12 +670,13 @@
                     class="form-control"
                     :min="minDate"
                     :max="maxDate"
+                    required
                   />
                 </div>
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="go_start_date" class="form-label">出發起始日</label>
+                  <label for="go_start_date" class="form-label">出發起始日<span class="required">*</span></label>
                   <input
                     id="go_start_date"
                     type="date"
@@ -669,10 +684,11 @@
                     class="form-control"
                     :min="minDate"
                     :max="maxDate"
+                    required
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="go_end_date" class="form-label">出發結束日</label>
+                  <label for="go_end_date" class="form-label">出發結束日<span class="required">*</span></label>
                   <input
                     id="go_start_date"
                     type="date"
@@ -680,6 +696,7 @@
                     class="form-control"
                     :min="minDate"
                     :max="maxDate"
+                    required
                   />
                 </div>
               </div>
@@ -748,11 +765,10 @@
 
 <script>
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
-import AdminSidebar from '../../components/AdminSidebar.vue'
-
-const api_url = import.meta.env.VITE_API_URL
-const api_path = import.meta.env.VITE_API_PATH
+import AdminSidebar from '@/components/AdminSidebar.vue'
+import sweetAlert from '@/js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
+
 export default {
   components: {
     AdminSidebar
@@ -796,7 +812,6 @@ export default {
       formData: {
         productName: '',
         productDescription: ''
-        // 其他表單欄位的初始化
       },
       pageTotal: 0,
       currentPage: 1,
@@ -809,16 +824,13 @@ export default {
       this.axios
         .get(`${api_url2}/products?_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
-          // console.log(res)
           var totalCount = parseInt(res.headers['x-total-count'])
-          // console.log(totalCount);
           this.pageTotal = Math.ceil(totalCount / this.limitPage)
-          // console.log(this.pageTotal);
           this.currentPage = currentPage
           this.products = res.data
         })
-        .catch((err) => {
-          alert(`${err.data.message}`)
+        .catch(() => {
+          sweetAlert.threeLayerCheckType('error', `取得產品資料錯誤`)
         })
     },
     openModal(status, product) {
@@ -916,39 +928,54 @@ export default {
       }
     },
     updateProduct() {
-      const filteredProduct = this.filterProduct(this.tempProduct);
-      this.tempProduct = filteredProduct
-      // console.log(this.tempProduct)
-      if (this.isNew) {
-        this.axios
-          .post(`${api_url2}/products`, this.tempProduct)
-          .then((res) => {
-            // console.log(res)
-            alert(`已建立產品`)
-            this.getProducts()
-            this.tempProduct = {}
-            this.modalProduct.hide()
-          })
-          .catch((err) => {
-            // console.log(err);
-            alert(`${err.data.message}`)
-          })
-      } else if (!this.isNew) {
-        //更新
-        this.axios
-          .put(`${api_url2}/products/${this.tempProduct.id}`, this.tempProduct)
-          .then((res) => {
-            // console.log(res);
-            alert(`已更新產品`)
-            this.getProducts()
-
-            this.tempProduct = {}
-            this.modalProduct.hide()
-          })
-          .catch((err) => {
-            // console.log(err);
-            alert(`${err.data.message}`)
-          })
+      if(
+        !this.tempProduct.title ||
+        !this.tempProduct.day_num ||
+        !this.tempProduct.creationDate ||
+        !this.tempProduct.category ||
+        !this.tempProduct.unit ||
+        !this.tempProduct.tag_1 ||
+        !this.tempProduct.max_travelers ||
+        !this.tempProduct.origin_price ||
+        !this.tempProduct.price ||
+        !this.tempProduct.description ||
+        !this.tempProduct.content ||
+        !this.tempProduct.startDate ||
+        !this.tempProduct.endDate ||
+        !this.tempProduct.goStartDate ||
+        !this.tempProduct.goEndDat
+      ){
+        sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
+      }else{
+        const filteredProduct = this.filterProduct(this.tempProduct)
+        this.tempProduct = filteredProduct
+        if (this.isNew) {
+          this.axios
+            .post(`${api_url2}/products`, this.tempProduct)
+            .then(() => {
+              sweetAlert.threeLayerCheckType('success', '已建立產品成功')
+              this.getProducts()
+              this.tempProduct = {}
+              this.modalProduct.hide()
+            })
+            .catch((err) => {
+              sweetAlert.threeLayerCheckType('error', `建立產品失敗`)
+            })
+        } else if (!this.isNew) {
+          //更新
+          this.axios
+            .put(`${api_url2}/products/${this.tempProduct.id}`, this.tempProduct)
+            .then((res) => {
+              sweetAlert.threeLayerCheckType('success', '已更新產品成功')
+              this.getProducts()
+  
+              this.tempProduct = {}
+              this.modalProduct.hide()
+            })
+            .catch((err) => {
+              sweetAlert.threeLayerCheckType('error', `更新產品失敗`)
+            })
+        }
       }
     },
     filterProduct(product) {
@@ -989,14 +1016,12 @@ export default {
       this.axios
         .delete(`${api_url2}/products/${this.tempProduct.id}`, this.tempProduct)
         .then((res) => {
-          console.log(res)
           this.getProducts()
           this.tempProduct = {}
           this.modalDel.hide()
         })
         .catch((err) => {
-          // console.log(err);
-          alert(`${err.data.message}`)
+          sweetAlert.threeLayerCheckType('error', `刪除產品資料失敗`)
         })
     },
     upload() {
@@ -1009,15 +1034,11 @@ export default {
       this.axios
         .post(`${api_url2}/products`, formData)
         .then((res) => {
-          console.log(res.data)
           const confirmationMessage = `
         網址產生中，請稍後...
         關閉提示視窗後，等待顯示圖片網址，再點確認按鈕
       `
-          alert(`${confirmationMessage}`)
-
-          // 使用 setTimeout 等待一段時間（這裡是3秒，根據需求調整）
-
+      sweetAlert.threeLayerCheckType('warning', `${confirmationMessage}`)
           // 執行後續的代碼
           const blobUrl = URL.createObjectURL(fileInput.files[0])
           this.tempProduct.imagesUrl.push(blobUrl)
@@ -1025,17 +1046,8 @@ export default {
           fileInput.value = null
         })
         .catch((err) => {
-          // console.log(err)
-          // console.dir(err);
-          alert(`${err.data.message}`)
+          sweetAlert.threeLayerCheckType('error', `上傳產品圖片失敗`)
         })
-    },
-    getNewItineraryData() {
-      // console.log(this.products);
-      this.tempProduct.forEach((item, i) => {
-        console.log(item.itinerary_data)
-      })
-      console.log(this.newAllItineraryData)
     }
   },
   mounted() {
@@ -1060,5 +1072,9 @@ export default {
   background: #43b8bd;
   border-color: #0ea0a6;
   color: #fff !important;
+}
+.required {
+    color: red;
+    margin-left: 5px; /* 根据需要调整距离 */
 }
 </style>

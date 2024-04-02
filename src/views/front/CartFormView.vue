@@ -25,7 +25,6 @@
       <div class="collapse" id="collapseExample" ref="headerCollapse" v-show="isOpen">
         <div class="card card-body rounded-0">
           <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
-            <!-- {{ item }} -->
             <div class="col-12 col-md-5 col-lg-4">
               <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid h-100" />
             </div>
@@ -471,9 +470,7 @@ export default {
 
       let verification = checkSum % 10 == 0
 
-      if (verification) {
-        // console.log('Pass')
-      } else {
+      if (!verification) {
         return '身份證字號 檢核碼錯誤'
       }
 
@@ -579,7 +576,6 @@ export default {
           !this.ordersData.user.birthday ||
           !this.ordersData.user.shippingMethod
         ) {
-          // alert('請填寫所有必填欄位')
           sweetAlert.threeLayerCheckType('warning', '請填寫所有必填欄位')
           return
         }

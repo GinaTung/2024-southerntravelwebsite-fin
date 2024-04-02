@@ -62,7 +62,6 @@
         >
           <li class="nav-item">
             <a
-              type="button"
               class="btn-outline-turquoise position-relative"
               href="#/cart"
               style="padding-top: 5px; padding-bottom: 5px"
@@ -76,13 +75,12 @@
               </span>
             </a>
           </li>
-          <li
+          <!-- <li
             class="nav-item btn-outline-turquoise ms-3"
             style="padding-top: 5px; padding-bottom: 5px"
           >
-            <!-- <a href="#" class="btn-outline-turquoise ms-3">會員資料</a> -->
             <i class="bi bi-person-fill fs-5"></i>
-          </li>
+          </li> -->
           <li class="nav-item ms-3">
             <a href="#" @click="logout()" class="btn-outline-turquoise">登出</a>
           </li>
@@ -96,9 +94,10 @@
 
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
-import sweetAlert from '../js/sweetAlert'
+import sweetAlert from '@/js/sweetAlert'
 import Collapse from 'bootstrap/js/dist/collapse'
-import FrontLayoutFooter from '../components/FrontLayoutFooter.vue'
+import FrontLayoutFooter from '@/components/FrontLayoutFooter.vue'
+
 export default {
   components: {
     FrontLayoutFooter
@@ -124,9 +123,6 @@ export default {
   watch: {
     $route() {
       this.headerCollapse.hide()
-      // this.$emitter.on('updateCart', () => {
-      //   this.getCarts()
-      // })
     }
   },
   methods: {
@@ -134,11 +130,9 @@ export default {
       this.$emitter.on('adminUpdateCart',this.getCarts)
       this.$emitter.on('updateCart', (msg) => {
         this.cartsLength = msg
-        // console.log(this.cartsLength,'updateCart')
       })
       this.$emitter.on('updateCartNum', (msg) => {
         this.cartsLength = msg
-        // console.log(this.cartsLength,'updateCartNum')
       })
     },
     // 此設置按鈕再次點選時觸發一樣'全部'
@@ -170,16 +164,13 @@ export default {
       this.deleteAllCookies()
       this.userIsLoggedIn2 = false
       sweetAlert.threeLayerCheckType('success', '會員登出成功')
-      // 导向至登录页面或首页
-      this.$router.push('/') // 或者你想导向的其他路径
+      this.$router.push('/')
     },
     getCarts() {
       this.axios
         .get(`${api_url2}/carts`)
         .then((res) => {
-          // console.log(res)
           this.carts = res.data
-          // console.log(this.carts)
           this.carts.forEach((item) => {
             if (item.userId === this.userId) {
               this.userCarts.push(item)
@@ -196,13 +187,10 @@ export default {
           })
           this.userCarts = uniqueUserCarts
           // 更新購物車數量
-          // console.log(this.userCarts, 'usercart')
           this.cartsLength = this.userCarts.length
-          // console.log(this.cartsLength, 'cartsLength')
         })
-        .catch((err) => {
-          console.log(err)
-          alert(`${err.message}`)
+        .catch(() => {
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     deleteAllCookies() {
@@ -232,7 +220,6 @@ export default {
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
-    // this.getCarts()
   }
 }
 </script>

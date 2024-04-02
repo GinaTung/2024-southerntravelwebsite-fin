@@ -112,7 +112,7 @@
     </div>
     <div class="d-flex justify-content-center">
       <div class="w-100 w-md-25">
-        <a class="btn-square mt-4 fs-5 w-100" type="button" href="#">回首頁</a>
+        <button class="btn-square mt-4 fs-5 w-100" type="button" @click="goHome()">回首頁</button>
       </div>
     </div>
   </div>
@@ -129,7 +129,7 @@ import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
-import sweetAlert from '../../js/sweetAlert.js'
+import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
   components: {
@@ -164,6 +164,9 @@ export default {
     }
   },
   methods: {
+    goHome() {
+      this.$router.push('/') 
+    },
     backPage() {
       this.$router.go(-1)
     },
@@ -174,7 +177,6 @@ export default {
       this.isOrderOpen = !this.isOrderOpen
     },
     forId(id, title) {
-      // console.log(id,title);
       this.productId = id
       this.productTitle = title
       this.$refs.userProductModal.openModal()
@@ -256,7 +258,6 @@ export default {
     this.userId = cookieUserId * 1
     const cookieOrderId = this.getCookie('orderId')
     this.orderId = cookieOrderId * 1
-    // this.getProducts()
     setTimeout(() => {
       document.cookie = 'orderId=; expires='
     }, 3000) // 3000 毫秒即為 3 秒
@@ -267,10 +268,10 @@ export default {
     this.getCart()
     setTimeout(() => {
       if (!this.orderId) {
-        sweetAlert.threeLayerCheckType('warning', `網頁停留過久，為您轉至首頁`);
+        sweetAlert.threeLayerCheckType('warning', `網頁停留過久，為您轉至首頁`)
         this.$router.push({ path: '/' })
       }
-    }, 10000) // 3000 毫秒即為 20 秒
+    }, 10000)
   }
 }
 </script>

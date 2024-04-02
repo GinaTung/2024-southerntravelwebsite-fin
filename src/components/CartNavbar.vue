@@ -27,7 +27,7 @@
 export default {
     data() {
         return {
-            path:'' // 初始状态设为false
+            path:''
         }
     },
     mounted(){

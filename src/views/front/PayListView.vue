@@ -68,7 +68,6 @@
       <div class="collapse" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
         <div class="card card-body rounded-0">
           <div class="row p-4 p-md-5">
-            <!-- {{ userOrderData_user }} -->
             <div class="col-12 col-md-6 col-lg-6">
               <h5>主要聯繫人名字：{{ userOrderData_user.name }}</h5>
               <h5>主要聯繫人電話：{{ userOrderData_user.tel }}</h5>
@@ -213,7 +212,7 @@
 import UserProductModal from '@/components/UserProductModal.vue'
 import CartNavbar from '@/components/CartNavbar.vue'
 import Collapse from 'bootstrap/js/dist/collapse'
-import sweetAlert from '../../js/sweetAlert.js'
+import sweetAlert from '@/js/sweetAlert.js'
 
 const api_url2 = import.meta.env.VITE_API_URL2
 export default {

@@ -167,19 +167,6 @@
                   <span v-else class="text-success">已出遊結束</span>
                 </div>
                 <div  v-if="tempOrder.user && tempOrder.user.status===true">
-                  <!-- <div class="form-check me-4">
-                    <input
-                      class="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id="flexCheckDefault"
-                      v-model="tempOrder.user.status"
-                    />
-                    <label class="form-check-label" for="flexCheckDefault">
-                      <span v-if="tempOrder.user.status">已付款</span>
-                      <span v-else>未付款</span>
-                    </label>
-                  </div> -->
                   <div class="form-check me-4">
                     <input
                       class="form-check-input"
@@ -253,7 +240,7 @@ export default {
       type: Array
     },
     updatePaid: {
-      type: Function // Assuming updatePaid is a function
+      type: Function 
     },
     getOrders:{
       type: Function
@@ -287,12 +274,10 @@ export default {
       this.isLoading = true;
       // 切换 status 的值
       const updatedStatus = status.user.status
-      // console.log(updatedStatus)
       const updatedUser = {
         status: updatedStatus,
         ...status.user // 保留原来的用户数据
       }
-      // console.log(updatedUser)
       this.axios
         .patch(`${api_url2}/orders/${status.id}`, {
           user: updatedUser,
@@ -301,14 +286,12 @@ export default {
           status: status.status
         })
         .then((res) => {
-          // console.log(res)
           this.getOrders()
           this.isLoading = false;
           this.orderModal.hide()
           sweetAlert.threeLayerCheckType('success','更新訂單狀態')
         })
         .catch((err) => {
-          console.log(err)
           sweetAlert.threeLayerCheckType('error', `${err.message}`);
         })
     }

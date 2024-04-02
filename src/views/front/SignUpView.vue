@@ -70,7 +70,7 @@
               class="form-control"
               :class="{ 'is-invalid': errors['手機號碼'] }"
               placeholder="請輸入手機號碼"
-              :rules="isPhone"
+              :rules="{ required: true, regex: /^(0\d{7,9})$/ }"
               v-model="user.phone"
             />
             <label for="phone">請輸入手機號碼</label>
@@ -97,7 +97,7 @@
   </div>
 </template>
 <script>
-import sweetAlert from '../../js/sweetAlert.js'
+import sweetAlert from '@/js/sweetAlert.js'
 export default {
   data() {
     return {
@@ -114,10 +114,6 @@ export default {
     }
   },
   methods: {
-    isPhone(value) {
-      const phoneNumber = /^(09)[0-9]{8}$/
-      return phoneNumber.test(value) ? true : '需要正確的電話號碼'
-    },
     isOver18(birthday) {
       if(birthday.length === 0){
         return '生日 為必填'
@@ -164,15 +160,11 @@ export default {
           tel: this.user.tel,
           role: 'user'
         })
-        .then((response) => {
-          // console.log(response)
-          // alert(`會員註冊完成`)
+        .then(() => {
           this.$router.push('/login')
           sweetAlert.threeLayerCheckType('success', '會員註冊完成')
         })
-        .catch((err) => {
-          console.log(err)
-          // alert(`會員註冊失敗，請再次填寫註冊資料`)
+        .catch(() => {
           sweetAlert.threeLayerCheckType('error', `會員註冊失敗，請再次填寫註冊資料`)
         })
     }

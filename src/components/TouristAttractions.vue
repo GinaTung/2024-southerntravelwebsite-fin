@@ -114,6 +114,8 @@
 </style>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert.js'
+
 export default {
   data() {
     return {
@@ -126,19 +128,15 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          // console.log(res)
           this.attractions = res.data
           this.attractions.forEach((item) => {
             if (item.is_enabled === 1) {
-              // console.log(item)
               this.enabledAttractions.push(item)
             }
           })
-          // console.log(this.enabledAttractions);
         })
         .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
     },
 

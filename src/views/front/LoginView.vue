@@ -42,8 +42,9 @@
 </template>
 
 <script>
-import sweetAlert from '../../js/sweetAlert.js'
+import sweetAlert from '@/js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
+
 export default {
   data() {
     return {
@@ -59,27 +60,19 @@ export default {
       this.axios
         .post(`${api_url2}/login`, this.user)
         .then((res) => {
-          // console.log(res)
-          // alert(`會員登入成功`)
           sweetAlert.threeLayerCheckType('success', '會員登入成功')
           // 解構資料中的 accessToken, expired 和 userId
           const { accessToken, expired } = res.data
           const userId = res.data.user.id;
-          // 將資訊存入 cookie
           document.cookie = `hexTokenU=${accessToken}; expires=${new Date(expired).toUTCString()}`
           document.cookie = `userId=${userId}`
-          // 將 userIsLoggedIn2 設為 true
           this.userIsLoggedIn2 = true
-          // 將使用者ID存儲在組件中，以便日後使用
           this.userId = userId
-          // 導向至首頁
           this.$router.push('/')
           this.$emitter.emit('loginCheck2', true)
           this.$emitter.emit('adminUpdateCart') // 發送特定事件
         })
-        .catch((err) => {
-          // console.log(err)
-          // alert(`會員登入失敗，請再次填寫會員登入資料`)
+        .catch(() => {
           sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`);
         })
     }

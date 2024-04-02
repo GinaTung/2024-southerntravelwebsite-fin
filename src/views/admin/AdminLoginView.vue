@@ -34,11 +34,10 @@
             <label for="userpassword">請輸入Password</label>
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
-          <a class="btn-turquoise w-100 mt-3 text-center" type="button" @click="login"> 登入 </a>
+          <button class="btn-turquoise w-100 mt-3" @click="login">登入</button>
+
           <div class="mt-3">
-            <router-link to="/" class="btn-outline-turquoise w-100 text-center" type="button"
-              >回前台</router-link
-            >
+            <router-link to="/" class="btn-outline-turquoise w-100 mt-3">回前台</router-link>
           </div>
         </VeeForm>
       </div>
@@ -48,6 +47,8 @@
 
 <script>
 const api_url = import.meta.env.VITE_API_URL
+import sweetAlert from '@/js/sweetAlert'
+
 export default {
   data() {
     return {
@@ -64,7 +65,7 @@ export default {
       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
       this.axios.defaults.headers.common['Authorization'] = this.token
     if(this.token){
-      alert("目前已為管理者身分登入，無需再次登入")
+      sweetAlert.threeLayerCheckType('warning', '目前已為管理者身分登入，無需再次登入')
       this.$router.push({ path: '/admin/AdminHome' })
     }
     },
@@ -72,17 +73,14 @@ export default {
       this.axios
         .post(`${api_url}/admin/signin`, this.user)
         .then((res) => {
-          console.log(res);
-          alert(`管理者登入成功`)
+          sweetAlert.threeLayerCheckType('success', '管理者登入成功')
           const { expired, token } = res.data
           document.cookie = `hexToken=${token}; expires=${new Date(expired)}`
           this.$router.push({ name: 'AdminHome' })
           this.$emitter.emit('loginCheck', true)
         })
         .catch((err) => {
-          console.log(err);
-          //   console.dir(err);
-          alert(`管理者登入失敗`)
+          sweetAlert.threeLayerCheckType('error', `管理者登入失敗`)
         })
     },
   },

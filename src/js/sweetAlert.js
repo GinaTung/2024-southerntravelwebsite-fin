@@ -24,8 +24,9 @@ export default {
             // confirmButtonText: 'Yes, delete it!'
         })
     },
-    // sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`);
+    // sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`)
     // sweetAlert.threeLayerCheckType('success', '會員登入成功')
+    // sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能預約套裝行程')
     threeLayerCheckType(icon,title){
         const Toast = Swal.mixin({
             toast: true,

@@ -17,6 +17,9 @@
           </router-link>
           <span v-else> 南部旅遊景點 </span>
         </li>
+        <li class="breadcrumb-item" aria-current="page" v-if="selectedCategory !== '全部'">
+          <span> {{ selectedCategory }} </span>
+        </li>
       </ol>
     </nav>
     <div class="tourist-list">
@@ -25,15 +28,15 @@
           <div class="border-info2 border-1 border w-100 rounded-1 h-100">
             <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
             <ul class="nav flex-column">
-              <li class="nav-item" v-for="(item, i) in filterCategory" :key="i">
+              <li class="nav-item" v-for="(item, index) in filterCategory" :key="index">
                 <a
                   class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
-                  data-name="item"
+                  href="#"
                   aria-current="page"
-                  :value="item"
                   :class="{ 'active-category': selectedCategory === item }"
                   @click.prevent="filterProducts(item)"
-                  >{{ item }}
+                >
+                  {{ item }}
                   <span>{{ filterCateNum[item] }}</span>
                 </a>
               </li>
@@ -85,48 +88,46 @@
                           params: { category: attractionItem.category, title: attractionItem.title }
                         }"
                         class="fs-5 stretched-link"
-                        type="button"
                         >more</router-link
                       >
-                      <!-- <a href="#" class="fs-5 stretched-link"></a> -->
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <nav aria-label="Page navigation example " class="my-10">
+            <nav aria-label="Page navigation example" class="my-10">
               <ul class="pagination justify-content-center">
                 <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-                  <a
+                  <button
                     class="page-link page-link-radius-2"
-                    href=""
-                    @click.prevent="getAttractions(currentPage - 1)"
-                    >上一頁</a
+                    @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
                   >
+                    上一頁
+                  </button>
                 </li>
-                <li class="page-item" v-for="i in pageTotal" :key="i + 123">
-                  <a
+                <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+                  <button
                     class="page-link page-link-0 rounded-0"
-                    href=""
-                    :value="i"
                     :class="{ active: i === currentPage }"
                     @click.prevent="getAttractions(i)"
-                    >{{ i }}</a
                   >
+                    {{ i }}
+                  </button>
                 </li>
-                <li class="page-item">
-                  <a
+                <li
+                  class="page-item"
+                  :class="{ disabled: !currentPage || currentPage === pageTotal }"
+                >
+                  <button
                     class="page-link page-link-radius"
-                    href=""
-                    @click.prevent="getAttractions(currentPage + 1)"
-                    :class="{ disabled: !currentPage || currentPage === pageTotal }"
-                    >下一頁</a
+                    @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
                   >
+                    下一頁
+                  </button>
                 </li>
               </ul>
             </nav>
           </div>
-          <!-- <router-view></router-view> -->
         </div>
       </div>
     </div>
@@ -288,7 +289,7 @@ export default {
   background-color: #d5f3f4;
 }
 .card-att .card-att-img img {
-  border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0 ;
+  border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0;
 }
 .page-link-radius {
   border-radius: 0 4px 4px 0 !important;
@@ -300,9 +301,9 @@ export default {
 .page-link:focus {
   box-shadow: 0px;
 }
-.page-link.active{
-  background: #43B8BD;
-  border-color: #0EA0A6;
+.page-link.active {
+  background: #43b8bd;
+  border-color: #0ea0a6;
   color: #fff !important;
 }
 </style>

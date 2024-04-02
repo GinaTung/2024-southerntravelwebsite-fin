@@ -1,4 +1,5 @@
 <template>
+  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
@@ -11,34 +12,15 @@
           </router-link>
         </li>
         <li class="breadcrumb-item">
-          <a
-            v-if="category === '台南'"
-            type="button"
-            @click="redirectToA('台南')"
-            class="navbar-brand"
-            >台南</a
-          >
-          <a
-            v-else-if="category === '嘉義'"
-            type="button"
-            @click="redirectToA('嘉義')"
-            class="navbar-brand"
-            >嘉義</a
-          >
-          <a
-            v-else-if="category === '高雄'"
-            type="button"
-            @click="redirectToA('高雄')"
-            class="navbar-brand"
-            >高雄</a
-          >
+          <a v-show="category === '台南'" @click="redirectToA('台南')" class="navbar-brand">台南</a>
+          <a v-show="category === '嘉義'" @click="redirectToA('嘉義')" class="navbar-brand">嘉義</a>
+          <a v-show="category === '高雄'" @click="redirectToA('高雄')" class="navbar-brand">高雄</a>
         </li>
         <li class="breadcrumb-item">
           {{ packageTitle }}
         </li>
       </ol>
     </nav>
-    <!-- {{ enabledProducts }} -->
 
     <div
       class="row h-100 flex-wrap-reverse flex-md-nowrap"
@@ -416,20 +398,34 @@
             class="btn btn-outline-dark rounded-0"
             type="button"
             :disabled="quantity === 1"
-            @click="decrementQuantity"
+            @click="decrementQuantity(productsItem.id)"
           >
+            <span
+              class="spinner-border spinner-grow-sm"
+              role="status"
+              v-if="status.loadingItem4 === productsItem.id"
+            ></span>
             <i class="bi bi-dash-lg"></i>
           </button>
           <input
             min="1"
             max="10"
             type="number"
-            :disabled="quantity > 10"
+            :disabled="quantity > productsItem.max_travelers"
             class="form-control text-center rounded-0 border border-dark"
             v-model="quantity"
             readonly
           />
-          <button class="btn btn-outline-dark rounded-0" type="button" @click="incrementQuantity">
+          <button
+            class="btn btn-outline-dark rounded-0"
+            type="button"
+            @click="incrementQuantity(productsItem.id, productsItem.max_travelers)"
+          >
+            <span
+              class="spinner-border spinner-grow-sm"
+              role="status"
+              v-if="status.loadingItem2 === productsItem.id"
+            ></span>
             <i class="bi bi-plus-lg"></i>
           </button>
           <button type="button" class="btn btn-outline-dark rounded-0 ms-2">
@@ -449,22 +445,28 @@
           位可預約
         </h6>
         <button
-          class="btn-square w-100 fs-5 mb-4 border-0"
+          class="btn-square w-100 fs-5 mb-4"
           type="button"
           v-if="currentDate <= endDate"
           :class="{ 'disabled-btn': currentDate > endDate }"
           @click="addToCart(productsItem.id, quantity, productsItem.price)"
         >
+          <span
+            class="spinner-border spinner-grow-sm"
+            role="status"
+            v-if="status.loadingItem3 === productsItem.id"
+          ></span>
           預約套裝行程
         </button>
         <button
           class="btn btn-danger w-100 fs-5 mb-4 disabled btn-danger-rounded"
           v-else
           type="button"
-          >預約時間截止</button
         >
+          預約時間截止
+        </button>
         <button
-          class="btn-square fs-5 w-100 border-0"
+          class="btn-square fs-5 w-100"
           type="button"
           :class="{ 'disabled-btn': currentDate > endDate || newCarts.length === 0 }"
           @click="saveCardId"
@@ -479,6 +481,7 @@
 </template>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert'
 
 export default {
   data() {
@@ -498,7 +501,16 @@ export default {
       token: '',
       currentDate: '',
       endDate: '',
-      isDisabled: false
+      isDisabled: false,
+      cartsLength: 0,
+      isLoading: false,
+      status: {
+        loadingItem: false,
+        loadingItem2: '',
+        loadingItem3: '',
+        loadingItem4: '',
+        loadingItem5: ''
+      }
     }
   },
   created() {
@@ -524,29 +536,24 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate
-      // console.log(this.currentDate)
     },
     getProducts() {
-      // console.log(this.packageTitle)
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          // console.log(res)
           this.products = res.data
-
           this.products.forEach((item) => {
             if (item.is_enabled === 1 && item.title === this.packageTitle) {
-              // console.log(item)
               this.enabledProducts.push(item)
+              this.isLoading = false
             }
           })
-          // console.log(this.enabledProducts)
           this.endDate = this.enabledProducts[0].endDate
           this.getNewText()
         })
-        .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
+        .catch(() => {
+          this.isLoading = false
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
     thousand(data) {
@@ -556,14 +563,11 @@ export default {
       return `$ ${data}`
     },
     getNewText() {
-      // console.log(this.products)
       const idDescriptionsMap = {}
       this.enabledProducts.forEach((item) => {
         // 檢查 item.description 是否存在
-        // console.log(item.content)
         if (item.content) {
           const splitText = item.content.split(';')
-
           splitText.forEach((text) => {
             const trimmedText = text.trim()
 
@@ -577,25 +581,22 @@ export default {
           })
         }
       })
-
       // 刪除陣列為空的項目
       for (const id in idDescriptionsMap) {
         if (idDescriptionsMap[id].length === 0) {
           delete idDescriptionsMap[id]
         }
       }
-
-      // console.log(idDescriptionsMap)
       // 將 id 與描述合併成物件
       this.newProductsContent = Object.entries(idDescriptionsMap).map(([id, content]) => ({
         id,
         content
       }))
-      // console.log(this.newProductsContent)
     },
     addToCart(productId, qty = 1, price, percent = 1) {
+      this.status.loadingItem3 = productId
       if (!this.token) {
-        alert('請登入會員後，才能預約套裝行程')
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能預約套裝行程')
       } else {
         let productExists = false
         // 檢查是否有重複產品，如果有則標記為存在
@@ -616,15 +617,14 @@ export default {
               userId: this.userId,
               final_total: qty * price * percent
             })
-            .then((res) => {
-              // console.log(res);
-              this.$router.go(0)
-              alert('已更新預約人數')
+            .then(() => {
+              this.status.loadingItem3 = ''
+              sweetAlert.threeLayerCheckType('success', '已更新預約人數')
               this.getCart()
             })
-            .catch((err) => {
-              // console.error('更新預約人數失敗:', err)
-              alert('更新預約人數失敗')
+            .catch(() => {
+              this.status.loadingItem3 = ''
+              sweetAlert.threeLayerCheckType('error', `已更新預約人數失敗`)
             })
         } else {
           // 如果產品不在購物車中，則執行 post 操作
@@ -637,33 +637,38 @@ export default {
               userId: this.userId,
               final_total: qty * price * percent
             })
-            .then((res) => {
-              // console.log(res)
-              this.$router.go(0)
-              alert(`已預約${this.packageTitle}成功`)
+            .then(() => {
+              this.status.loadingItem3 = ''
+              sweetAlert.threeLayerCheckType('success', `已預約${this.packageTitle}成功`)
               this.getCart()
             })
-            .catch((err) => {
-              // console.log(err);
-              alert('預約失敗，再重新登入預約')
+            .catch(() => {
+              this.status.loadingItem3 = ''
+              sweetAlert.threeLayerCheckType('error', `預約失敗，再重新登入預約`)
             })
         }
       }
     },
-    incrementQuantity() {
-      if (this.quantity < 10) {
+    incrementQuantity(id, maxNum) {
+      this.status.loadingItem2 = id
+      if (this.quantity < maxNum) {
+        this.status.loadingItem2 = ''
         this.quantity += 1
+      } else {
+        this.status.loadingItem2 = ''
+        sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`)
       }
     },
-    decrementQuantity() {
+    decrementQuantity(id) {
+      this.status.loadingItem4 = id
       if (this.quantity > 1) {
+        this.status.loadingItem4 = ''
         this.quantity -= 1
       }
     },
-    checkMaxValue() {
-      // 檢查輸入值是否超過最大值
-      if (this.quantity > 10) {
-        this.quantity = 10
+    checkMaxValue(maxNum) {
+      if (this.quantity > maxNum) {
+        this.quantity = maxNum
       }
     },
     handlePlus(item) {
@@ -671,9 +676,8 @@ export default {
     },
     saveCardId() {
       if (!this.token) {
-        alert('請登入會員後，才能預約套裝行程')
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能預約套裝行程')
       } else {
-        // document.cookie = `cartId=${this.newCarts.id}; path=/;`
         this.$router.push('/cart')
       }
     },
@@ -681,19 +685,27 @@ export default {
       this.axios
         .get(`${api_url2}/carts`)
         .then((res) => {
-          // console.log(res);
           this.carts = res.data
-          // console.log(this.carts);
           this.carts.forEach((item) => {
             if (this.userId === item.userId) {
               this.newCarts.push(item)
             }
           })
-          // console.log(this.newCarts);
+          // 移除重複的產品
+          const uniqueUserCarts = []
+          const productIdSet = new Set()
+          this.newCarts.forEach((item) => {
+            if (!productIdSet.has(item.productId)) {
+              productIdSet.add(item.productId)
+              uniqueUserCarts.push(item)
+            }
+          })
+          this.newCarts = uniqueUserCarts
+          this.cartsLength = this.newCarts.length
+          this.$emitter.emit('updateCart', this.cartsLength) // 發送特定事件
         })
-        .catch((err) => {
-          // console.log(err)
-          alert('取得購物車資料失敗')
+        .catch(() => {
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     getCookie(cookieName) {
@@ -708,24 +720,21 @@ export default {
     }
   },
   mounted() {
+    this.isLoading = true
     this.getProducts()
     this.getCart()
-    // console.log(document.cookie)
     const cookieUserId = this.getCookie('userId')
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1
     this.token = cookieToken
     this.checkDate()
     window.scrollTo(0, 0)
-    // console.log(this.userId,this.token)
   }
 }
 </script>
 <style lang="scss">
 .line {
   height: 95%;
-  // padding: 50px 15px;
-  // margin-bottom: 20px;
   display: block;
   position: absolute;
   top: 30px;
@@ -752,5 +761,8 @@ p {
 .disabled-btn {
   pointer-events: none;
   opacity: 0.5;
+}
+a.navbar-brand {
+    cursor: pointer;
 }
 </style>

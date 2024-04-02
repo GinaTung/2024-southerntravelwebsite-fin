@@ -9,10 +9,6 @@ export default defineConfig({
   base: '/2024-southerntravelwebsite-fin/',
   plugins: [
     vue(),
-    inject({   // => that should be first under plugins array
-      $: 'jquery',
-      jQuery: 'jquery',
-     }),
   ],
   resolve: {
     alias: {

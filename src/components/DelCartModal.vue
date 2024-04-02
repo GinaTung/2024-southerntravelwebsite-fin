@@ -42,13 +42,12 @@
   export default {
     props: {
         userCarts: Array,
-        deleteCart: Function, // 声明 delOrder 为一个函数类型的 prop
+        deleteCart: Function, 
         saveCartsDelModal:Object
     },
     data() {
       return {
         delModal: null,
-        // userCarts: []
       }
     },
     methods: {

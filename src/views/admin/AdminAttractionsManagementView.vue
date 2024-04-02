@@ -7,7 +7,12 @@
       </div>
       <div class="col-12 col-md-9">
         <div class="text-end mt-4">
-          <button type="button" class="btn-turquoise border-0" id="addModalBtn" @click="openModal('new', product)">
+          <button
+            type="button"
+            class="btn-turquoise border-0"
+            id="addModalBtn"
+            @click="openModal('new', product)"
+          >
             建立新的景點
           </button>
         </div>
@@ -55,28 +60,35 @@
             </tr>
           </tbody>
         </table>
-        <nav aria-label="Page navigation example " class="my-10">
-        <ul class="pagination justify-content-center">
-          <li class="page-item" :class="{disabled : !currentPage || currentPage ===1}">
-            <a class="page-link page-link-radius-2" href="" @click.prevent="getAttractions(currentPage - 1)"
-              >上一頁</a
-            >
-          </li>
-          <li class="page-item" v-for="i in pageTotal" :key="i+123">
-            <a
-              class="page-link page-link-0 rounded-0"
-              href=""
-              :value="i"
-              :class="{'active': i === currentPage}"
-              @click.prevent="getAttractions(i)"
-              >{{ i }}</a
-            >
-          </li>
-          <li class="page-item">
-            <a class="page-link page-link-radius" href="" @click.prevent="getAttractions(currentPage + 1)" :class="{disabled : !currentPage || currentPage === pageTotal}">下一頁</a>
-          </li>
-        </ul>
-      </nav>
+        <nav aria-label="Page navigation example" class="my-10">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+              <button
+                class="page-link page-link-radius-2"
+                @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
+              >
+                上一頁
+              </button>
+            </li>
+            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+              <button
+                class="page-link page-link-0 rounded-0"
+                :class="{ active: i === currentPage }"
+                @click.prevent="getAttractions(i)"
+              >
+                {{ i }}
+              </button>
+            </li>
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+              <button
+                class="page-link page-link-radius"
+                @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
+              >
+                下一頁
+              </button>
+            </li>
+          </ul>
+        </nav>
       </div>
     </div>
   </div>
@@ -157,7 +169,7 @@
             </div>
             <div class="col-sm-8">
               <div class="mb-3">
-                <label for="title" class="form-label">標題</label>
+                <label for="title" class="form-label">標題<span class="required">*</span></label>
                 <input
                   id="title"
                   type="text"
@@ -169,7 +181,7 @@
 
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label">分類</label>
+                  <label for="category" class="form-label">分類<span class="required">*</span></label>
                   <input
                     id="category"
                     type="text"
@@ -179,7 +191,7 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="price" class="form-label">單位</label>
+                  <label for="price" class="form-label">單位<span class="required">*</span></label>
                   <input
                     id="unit"
                     type="text"
@@ -191,7 +203,7 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="tag_1" class="form-label">標籤1</label>
+                  <label for="tag_1" class="form-label">標籤1<span class="required">*</span></label>
                   <input
                     id="tag_1"
                     type="text"
@@ -228,7 +240,7 @@
               <hr />
               <div class="row">
                 <div class="mb-3">
-                  <label for="imgMap" class="form-label">位置</label>
+                  <label for="imgMap" class="form-label">位置<span class="required">*</span></label>
                   <input
                     id="imgMap"
                     type="text"
@@ -240,7 +252,7 @@
                 </div>
               </div>
               <div class="mb-3 col">
-                <label for="timeOpen" class="form-label">開放時間</label>
+                <label for="timeOpen" class="form-label">開放時間<span class="required">*</span></label>
                 <textarea
                   id="timeOpen"
                   type="text"
@@ -250,7 +262,7 @@
                 ></textarea>
               </div>
               <div class="mb-3">
-                <label for="description" class="form-label">產品描述</label>
+                <label for="description" class="form-label">產品描述<span class="required">*</span></label>
                 <textarea
                   id="description"
                   type="text"
@@ -261,7 +273,7 @@
                 </textarea>
               </div>
               <div class="mb-3">
-                <label for="content" class="form-label">交通資訊</label>
+                <label for="content" class="form-label">交通資訊<span class="required">*</span></label>
                 <textarea
                   id="description"
                   type="text"
@@ -335,9 +347,10 @@
 
 <script>
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
-import AdminSidebar from '../../components/AdminSidebar.vue'
-const api_url = import.meta.env.VITE_API_URL
+import AdminSidebar from '@/components/AdminSidebar.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert.js'
+
 export default {
   components: {
     AdminSidebar
@@ -361,17 +374,13 @@ export default {
       this.axios
         .get(`${api_url2}/attractions?_limit=${this.limitPage}&_page=${currentPage}`)
         .then((res) => {
-          // console.log(res.data)
           var totalCount = parseInt(res.headers['x-total-count'])
-          // console.log(totalCount);
           this.pageTotal = Math.ceil(totalCount / this.limitPage)
-          // console.log(this.pageTotal);
           this.currentPage = currentPage
           this.attractions = res.data
         })
         .catch((err) => {
-          console.log(err)
-          alert(`${err}`)
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
     },
     openModal(status, attractionItem) {
@@ -395,40 +404,43 @@ export default {
       }
     },
     //新增
-    // const newProduct = this.tempProduct
-    // this.$data.products.push(newProduct)
     updateAttractions() {
-      // const filteredProducts = this.attractions.map((product) => this.filterProduct(product))
-      // console.log(filteredProducts)
+      if(
+        !this.tempProduct.title ||
+        !this.tempProduct.category ||
+        !this.tempProduct.unit ||
+        !this.tempProduct.tag_1 ||
+        !this.tempProduct.imgMap ||
+        !this.tempProduct.timeOpen ||
+        !this.tempProduct.description ||
+        !this.tempProduct.content
+      ){
+        sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
+      }
       if (this.isNew) {
         this.axios
           .post(`${api_url2}/attractions`, this.tempProduct)
           .then((res) => {
-            // console.log(res)
-            alert(`已建立產品`)
+            sweetAlert.threeLayerCheckType('success', '已建立景點資料成功')
             this.getAttractions()
             this.tempProduct = {}
             this.modalProduct.hide()
           })
           .catch((err) => {
-            console.log(err)
-            alert(`${err}`)
+            sweetAlert.threeLayerCheckType('error', `建立景點資料失敗`)
           })
       } else if (!this.isNew) {
         //更新
         this.axios
           .put(`${api_url2}/attractions/${this.tempProduct.id}`, this.tempProduct)
           .then((res) => {
-            // console.log(res);
-            alert(`已更新產品`)
+            sweetAlert.threeLayerCheckType('success', '已更新景點資料成功')
             this.getAttractions()
-
             this.tempProduct = {}
             this.modalProduct.hide()
           })
           .catch((err) => {
-            // console.log(err);
-            alert(`${err}`)
+            sweetAlert.threeLayerCheckType('error', `更新景點資料失敗`)
           })
       }
     },
@@ -436,15 +448,13 @@ export default {
       this.axios
         .delete(`${api_url2}/attractions/${this.tempProduct.id}`, this.tempProduct)
         .then((res) => {
-          console.log(res)
-          alert(`已刪除成功`)
+          sweetAlert.threeLayerCheckType('success', '已刪除景點資料成功')
           this.getAttractions()
           this.tempProduct = {}
           this.modalDel.hide()
         })
         .catch((err) => {
-          // console.log(err);
-          alert(`${err}`)
+          sweetAlert.threeLayerCheckType('success', '刪除景點資料失敗')
         })
     },
     upload() {
@@ -457,27 +467,19 @@ export default {
       this.axios
         .post(`${api_url2}/products`, formData)
         .then((res) => {
-          console.log(res.data)
           const confirmationMessage = `
         網址產生中，請稍後...
         關閉提示視窗後，等待顯示圖片網址，再點確認按鈕
       `
-          alert(`${confirmationMessage}`)
-
-          // 使用 setTimeout 等待一段時間（這裡是3秒，根據需求調整）
-
+      sweetAlert.threeLayerCheckType('warning', `${confirmationMessage}`)
           // 執行後續的代碼
           const blobUrl = URL.createObjectURL(fileInput.files[0])
           this.tempProduct.imagesUrl.push(blobUrl)
           // 清除檔案欄位的值
           fileInput.value = null
-          // 彈出警告
-          // 其他後續操作
         })
         .catch((err) => {
-          // console.log(err)
-          // console.dir(err);
-          alert(`${err.data.message}`)
+          sweetAlert.threeLayerCheckType('error', `上傳產品圖片失敗`)
         })
     }
   },
@@ -503,5 +505,9 @@ export default {
   background: #43b8bd;
   border-color: #0ea0a6;
   color: #fff !important;
+}
+.required {
+    color: red;
+    margin-left: 5px; /* 根据需要调整距离 */
 }
 </style>

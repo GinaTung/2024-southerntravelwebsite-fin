@@ -90,6 +90,8 @@
 
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert.js'
+
 export default {
   data() {
     return {
@@ -116,7 +118,6 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate;
-      // console.log(this.currentDate)
 
     },
     getProducts() {
@@ -124,12 +125,10 @@ export default {
       this.axios
         .get(`${api_url2}/products?id=-c35c4Q9gWLGb7p4aWAM4&id=KvBuohr&id=xoGgJIk&id=fsfguEU`)
         .then((res) => {
-          //   console.log(res)
           this.products = res.data
           this.isLoading = false
           this.products.forEach((item) => {
             if (item.is_enabled === 1) {
-              // console.log(item)
               this.enabledProducts.push(item)
             }
             this.isLoading = true
@@ -137,12 +136,10 @@ export default {
           this.getNewsProductsData()
         })
         .catch((err) => {
-          console.log(err)
-          // alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
     getNewsProductsData() {
-      // console.log(this.enabledProducts)
       this.enabledProducts.forEach((item) => {
         this.newsLatestProductData.push({
           type: '旅遊方案',
@@ -154,7 +151,6 @@ export default {
           imageUrl: item.imageUrl
         })
       })
-      // console.log(this.newsLatestProductData)
     }
   },
   mounted() {

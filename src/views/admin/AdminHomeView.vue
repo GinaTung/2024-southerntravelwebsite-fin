@@ -64,7 +64,6 @@
               <div class="accordion-body">
                 <div class="row">
                   <div class="col-12 col-md-5">
-                    <!-- {{product}} -->
                     <img :src="product.imageUrl" alt="" class="img-fluid">
                   </div>
                   <div class="col-12 col-md-7">
@@ -90,7 +89,7 @@
                 aria-expanded="false"
                 aria-controls="collapseThree"
               >
-                留言
+                最新訂單資訊
               </button>
             </h2>
             <div
@@ -109,9 +108,11 @@
   </div>
 </template>
 <script>
-import AdminSidebar from '../../components/AdminSidebar.vue'
+import AdminSidebar from '@/components/AdminSidebar.vue'
 const api_url = import.meta.env.VITE_API_URL
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert'
+
 export default {
   components: {
     AdminSidebar
@@ -133,7 +134,7 @@ export default {
       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
       this.axios.defaults.headers.common['Authorization'] = this.token
       if (!this.token) {
-        alert(`目前未登入管理者身分，請重新登入`)
+        sweetAlert.threeLayerCheckType('warning', '目前未登入管理者身分，請重新登入')
         this.$router.push({ path: '/admin/adminlogin' })
       } else {
         this.axios
@@ -145,7 +146,7 @@ export default {
           .catch((err) => {
             // 登入失敗或驗證失敗
             this.userIsLoggedIn = false
-            alert(`管理者身分驗證失敗，自動跳轉至登入頁面`)
+            sweetAlert.threeLayerCheckType('error', `管理者身分驗證失敗，自動跳轉至登入頁面`)
             this.$router.push({ path: '/admin/adminlogin' })
           })
       }
@@ -154,31 +155,27 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          // console.log(res.data)
           this.attractions = res.data;
           this.attractionsLength =this.attractions.length;
-          // console.log(this.attractionsLength);
           this.getAttraction()
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
     },
     getAttraction() {
-      // console.log(this.attractionsLength);
       this.attraction = this.attractions[this.attractionsLength-1]
     },
     getProducts() {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
-          // console.log(res)
           this.products = res.data
           this.productsLength =this.products.length;
           this.getProduct()
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
     getProduct(){
@@ -188,19 +185,17 @@ export default {
       this.axios
         .get(`${api_url2}/orders`)
         .then((res) => {
-          // console.log(res)
           this.orders = res.data
-
         })
         .catch((err) => {
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得訂單資料失敗`)
         })
     },
   },
   mounted() {
     setTimeout(() => {
       this.checkAdmin()
-    }, 500) // 3000 毫秒即為 3 秒
+    }, 500)
     this.getAttractions()
     this.getProducts()
   }

@@ -1,5 +1,5 @@
 <template>
-  <div class="container py-10 py-lg-30">
+  <div class="container py-10 py-lg-30 px-lg-20">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
@@ -11,15 +11,9 @@
           </router-link>
         </li>
         <li class="breadcrumb-item">
-          <a v-if="category === '台南'" type="button"
-          @click="redirectToA('台南')"
-          class="navbar-brand">台南</a>
-          <a v-else-if="category === '嘉義'" type="button"
-          @click="redirectToA('嘉義')"
-          class="navbar-brand">嘉義</a>
-          <a  v-else-if="category === '高雄'" type="button"
-          @click="redirectToA('高雄')"
-          class="navbar-brand">高雄</a>
+          <a v-show="category === '台南'" @click="redirectToA('台南')" class="navbar-brand">台南</a>
+          <a v-show="category === '嘉義'" @click="redirectToA('嘉義')" class="navbar-brand">嘉義</a>
+          <a v-show="category === '高雄'" @click="redirectToA('高雄')" class="navbar-brand">高雄</a>
         </li>
         <li class="breadcrumb-item">
           {{ attractionTitle }}
@@ -36,7 +30,7 @@
         <i class="bi bi-heart"></i>
       </div>
     </div>
-    <singleAttraction></singleAttraction>
+    <singleAttraction/>
     <div class="row g-3" v-for="(item, index) in enabledAttractions" :key="item.id">
       <div v-if="index === 0">
         <div class="tourist-intr-content my-lg-10 my-5">
@@ -117,36 +111,27 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          // console.log(res)
           this.attractions = res.data
           this.attractions.forEach((item) => {
             if (item.is_enabled === 1 && this.attractionTitle === item.title) {
-              // console.log(item.title)
-              // console.log(this.attractionTitle === item.title)
               this.enabledAttractions.push(item)
             }
           })
-          // console.log(this.enabledAttractions)
           this.getNewText()
           this.getnewAttractionsTimeOpen()
         })
-        .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
+        .catch(() => {
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
     },
     getNewText() {
-      // console.log(this.products)
       const idDescriptionsMap = {}
       this.attractions.forEach((item) => {
-        // 檢查 item.description 是否存在
-        // console.log(item.content)
+        // 檢查 item.content 是否存在
         if (item.content) {
           const splitText = item.content.split(';')
-
           splitText.forEach((text) => {
             const trimmedText = text.trim()
-
             if (!idDescriptionsMap[item.id]) {
               idDescriptionsMap[item.id] = []
             }
@@ -154,20 +139,16 @@ export default {
           })
         }
       })
-
       // 將 id 與描述合併成物件
       this.newProductsContent = Object.entries(idDescriptionsMap).map(([id, content]) => ({
         id,
         content
       }))
-      // console.log(this.newProductsContent)
     },
     getnewAttractionsTimeOpen() {
-      // console.log(this.products)
       const idDescriptionsMap = {}
       this.attractions.forEach((item) => {
-        // 檢查 item.description 是否存在
-        // console.log(item.content)
+        // 檢查 item.content 是否存在
         if (item.content) {
           const splitText = item.timeOpen.split(';')
 
@@ -181,7 +162,6 @@ export default {
           })
         }
       })
-
       // 將 id 與描述合併成物件
       this.newAttractionsTimeOpen = Object.entries(idDescriptionsMap).map(([id, content]) => ({
         id,
@@ -191,10 +171,8 @@ export default {
     }
   },
   mounted() {
-    // console.log(this.$route);
     this.category = this.$route.params.category
     this.attractionTitle = this.$route.params.title
-    // console.log(this.category, this.attractionTitle)
     this.getAttractions()
     window.scrollTo(0, 0)
   }
@@ -214,5 +192,8 @@ p {
 }
 .navbar-brand:hover {
     color: #43B8BD;
+}
+a.navbar-brand {
+    cursor: pointer;
 }
 </style>
