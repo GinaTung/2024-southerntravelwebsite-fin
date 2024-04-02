@@ -253,14 +253,11 @@ export default {
   },
   watch: {
     $route(to, from) {
-      // 當路由變化時觸發
       this.currentURL = to.fullPath
-      // 可以进一步通过条件判断是否为相同页面的不同查询参数，觸發頁首按鈕
       if (this.$root.navigatedFromHeader && to.fullPath !== '/TouristPackage') {
         this.selectedCategory = '全部'
         this.status.loadingItem = true
-        this.getProducts() // 根据需要调整参数
-        // 重置标志
+        this.getProducts() 
         this.$root.navigatedFromHeader = false
       }
     }
@@ -296,9 +293,7 @@ export default {
   },
   created() {
     this.category = this.$route.query.category
-    // 根据URL中的category参数来设置selectedCategory
     this.selectedCategory = this.category
-    // 获取相应的项目列表
     this.getProducts()
   },
   methods: {

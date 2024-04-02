@@ -56,7 +56,7 @@ export default {
         username: '',
         password: ''
       },
-      userIsLoggedIn: false, // 添加用户登录状态变量
+      userIsLoggedIn: false,
       token:'' 
     }
   },

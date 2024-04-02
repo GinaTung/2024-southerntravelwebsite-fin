@@ -251,7 +251,7 @@ export default {
                 userId: item.userId,
                 cartDataId: item.id,
                 total: item.total,
-                products: [] // 初始化產品陣列
+                products: [] 
               }
             }
 
@@ -293,11 +293,10 @@ export default {
     },
     updatePaid(status) {
       this.isLoading = true
-      // 切换 status 的值
       const updatedStatus = status.user.status
       const updatedUser = {
         ...status.user, // 保留原来的用户数据
-        status: updatedStatus // 切换 status 的值
+        status: updatedStatus 
       }
       this.axios
         .patch(`${api_url2}/orders/${status.id}`, {

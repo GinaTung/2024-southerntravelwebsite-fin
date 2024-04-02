@@ -267,13 +267,11 @@ export default {
           this.status.loadingItem3 = ''
           //渲染資料是cartsData，非carts
           this.cartsData = this.cartsData.filter((item) => item.id !== id)
-          // 重新计算小计值
           let cartsTotal = 0
           this.cartsData.forEach((item) => {
             cartsTotal += item.final_total
           })
           this.cartsData.total = cartsTotal
-          // 更新其他相关的数据，比如百分比折扣等等
           let percent = 1
           this.cartsData.final_total = cartsTotal * percent
           this.status.loadingItem = false
@@ -286,13 +284,10 @@ export default {
         })
     },
     openDelCartModal(productId, productTitle, cartId, qty) {
-      // 如果 userCarts 尚未定義為陣列，則初始化為空陣列
       if (!Array.isArray(this.userCarts)) {
         this.userCarts = []
       }
-      // 將新的項目添加 物件中
       this.saveCartsDelModal = { cartId, productId, productTitle, qty }
-      // 打開模態框
       this.$refs.delModal.openModal()
     },
     thousand(data) {
@@ -312,23 +307,16 @@ export default {
             }
           })
           let cartsTotal = 0
-          // 遍歷每個購物車中的物品
           this.userCarts.forEach((cartItem) => {
             // 獲取該物品的 productId
             const productId = cartItem.productId
-
             // 在 enabledProducts 中尋找與該 productId 相匹配的產品
             const matchingProduct = this.enabledProducts.find((product) => product.id === productId)
 
             // 如果找到了匹配的產品
             if (matchingProduct) {
-              // 將匹配的產品資料存入該物品的 product 屬性中
               cartItem.product = matchingProduct
-              // 將物品的 finalTotal 加到總額中
-
               cartsTotal += cartItem.final_total
-
-              // 將物品添加到 cartData 中
               this.cartsData.push(cartItem)
             }
           })
@@ -356,18 +344,15 @@ export default {
           })
           .then((res) => {
             this.status.loadingItem2 = ''
-            // 更新数量和小计值
             const itemIndex = this.cartsData.findIndex((item) => item.id === id)
             if (itemIndex !== -1) {
               this.cartsData[itemIndex].qty = qty
               this.cartsData[itemIndex].final_total = qty * price * percent
-              // 重新计算总计
               let cartsTotal = 0
               this.cartsData.forEach((item) => {
                 cartsTotal += item.final_total
               })
               this.cartsData.total = cartsTotal
-              // 更新其他相关的数据，比如百分比折扣等等
               this.cartsData.final_total = cartsTotal * percent
             }
           })
@@ -393,18 +378,15 @@ export default {
           })
           .then((res) => {
             this.status.loadingItem4 = ''
-            // 更新数量和小计值
             const itemIndex = this.cartsData.findIndex((item) => item.id === id)
             if (itemIndex !== -1) {
               this.cartsData[itemIndex].qty = qty
               this.cartsData[itemIndex].final_total = qty * price * percent
-              // 重新计算总计
               let cartsTotal = 0
               this.cartsData.forEach((item) => {
                 cartsTotal += item.final_total
               })
               this.cartsData.total = cartsTotal
-              // 更新其他相关的数据，比如百分比折扣等等
               this.cartsData.final_total = cartsTotal * percent
             }
           })

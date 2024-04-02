@@ -416,7 +416,7 @@ export default {
         !this.tempProduct.content
       ){
         sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
-        return; // 如果有空值，直接返回，不執行更新操作
+        return;
       }
       if (this.isNew) {
         this.axios
@@ -509,6 +509,6 @@ export default {
 }
 .required {
     color: red;
-    margin-left: 5px; /* 根据需要调整距离 */
+    margin-left: 5px; 
 }
 </style>

@@ -184,23 +184,18 @@ export default {
   },
   watch: {
     $route(to, from) {
-      // 當路由變化時觸發
       this.currentURL = to.fullPath
       if (this.$root.navigatedFromHeader && to.fullPath !== '/TouristAttractions') {
         this.selectedCategory = '全部'
         this.status.loadingItem = true
-        this.getAttractions() // 根据需要调整参数
-        // 重置标志
+        this.getAttractions() 
         this.$root.navigatedFromHeader = false
       }
     }
   },
   created() {
     this.category = this.$route.query.category
-    // 根据URL中的category参数来设置selectedCategory
     this.selectedCategory = this.category
-
-    // 获取相应的项目列表
     this.getAttractions()
   },
   methods: {
@@ -216,7 +211,6 @@ export default {
         .catch((err) => {
           alert(`${err.message}`)
         })
-      // !this.selectedCategory 这个判断语句用于检查是否有从 B 页面传递过来的区域值。
       if (this.selectedCategory === '全部' || !this.selectedCategory) {
         this.axios
           .get(`${api_url2}/attractions?_limit=${this.limitPage}&_page=${currentPage}`)
@@ -237,7 +231,6 @@ export default {
             alert(`${err.message}`)
           })
       } else {
-        // 否则，根据selectedCategory进行过滤
         this.axios
           .get(
             `${api_url2}/attractions?category=${this.selectedCategory}&_limit=${this.limitPage}&_page=${currentPage}`
@@ -261,9 +254,7 @@ export default {
       }
     },
     filterProducts(category) {
-      // 點擊篩選列時觸發，更新選擇的類別
       this.selectedCategory = category
-      // console.log(category)
       this.status.loadingItem = true
       this.getAttractions()
     },
