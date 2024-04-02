@@ -542,11 +542,9 @@ p {
     border-bottom-right-radius: 0 !important;
   }
 }
-
 .page-link-radius {
   border-radius: 0 4px 4px 0 !important;
 }
-
 .page-link-radius-2 {
   border-radius: 4px 0 0 4px !important;
 }
