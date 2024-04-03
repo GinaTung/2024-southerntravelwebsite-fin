@@ -253,7 +253,6 @@ export default {
             if (existingData) {
               console.log(existingData);
               // 如果已存在收藏資料，則執行刪除操作
-              this.isFavorite[productId] = false
               this.axios
                 .delete(`${api_url2}/hearts/${existingData.id}`)
                 .then((res) => {
