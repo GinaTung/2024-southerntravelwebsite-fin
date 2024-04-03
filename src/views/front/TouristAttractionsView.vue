@@ -65,7 +65,7 @@
                   <div class="card-att-img">
                     <img :src="attractionItem.imageUrl" class="img-fluid" alt="" />
                   </div>
-                  <div
+                  <button
                     class="heart"
                     @click="
                       toggleFavorite(
@@ -85,7 +85,7 @@
                       ]"
                       style="font-size: 24px"
                     ></i>
-                  </div>
+                  </button>
                   <div style="transform: rotate(0)">
                     <div class="card-body card-body-att">
                       <div
@@ -227,8 +227,10 @@ export default {
       this.axios
         .get(`${api_url2}/hearts`)
         .then((res) => {
+          console.log(res);
           res.data.forEach((item) => {
             if (item.userId === this.userId) {
+              console.log(item);
               // 設置收藏狀態
               this.isFavorite[item.productId] = true
             }
