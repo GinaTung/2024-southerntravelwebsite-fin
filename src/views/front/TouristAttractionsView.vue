@@ -65,8 +65,26 @@
                   <div class="card-att-img">
                     <img :src="attractionItem.imageUrl" class="img-fluid" alt="" />
                   </div>
-                  <div class="heart3">
-                    <i class="bi bi-heart heart-click"></i>
+                  <div
+                    class="heart"
+                    @click="
+                      toggleFavorite(
+                        attractionItem.id,
+                        attractionItem.category,
+                        attractionItem.title
+                      )
+                    "
+                  >
+                    <i
+                      :class="[
+                        'bi',
+                        {
+                          'bi-heart-fill': isFavorite[attractionItem.id],
+                          'bi-heart': !isFavorite[attractionItem.id]
+                        }
+                      ]"
+                      style="font-size: 24px"
+                    ></i>
                   </div>
                   <div style="transform: rotate(0)">
                     <div class="card-body card-body-att">
@@ -136,6 +154,8 @@
 
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert'
+
 export default {
   data() {
     return {
@@ -155,7 +175,11 @@ export default {
       status: {
         loadingItem: false
       },
-      category: '全部'
+      category: '全部',
+      heartData: [],
+      isFavorite: {},
+      userId: '',
+      token: ''
     }
   },
   computed: {
@@ -188,7 +212,7 @@ export default {
       if (this.$root.navigatedFromHeader && to.fullPath !== '/TouristAttractions') {
         this.selectedCategory = '全部'
         this.status.loadingItem = true
-        this.getAttractions() 
+        this.getAttractions()
         this.$root.navigatedFromHeader = false
       }
     }
@@ -199,6 +223,75 @@ export default {
     this.getAttractions()
   },
   methods: {
+    getHeartData() {
+      this.axios
+        .get(`${api_url2}/hearts`)
+        .then((res) => {
+          res.data.forEach((item) => {
+            if (item.userId === this.userId) {
+              // 設置收藏狀態
+              this.isFavorite[item.productId] = true
+            }
+          })
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+        })
+    },
+    toggleFavorite(productId, category, title) {
+      if (!this.token) {
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
+      } else {
+        // 取得收藏資料
+        this.axios
+          .get(`${api_url2}/hearts`)
+          .then((res) => {
+            // 檢查是否已存在收藏資料
+            const existingData = res.data.find(
+              (item) => item.productId === productId && item.userId === this.userId
+            )
+            if (existingData) {
+              console.log(existingData);
+              // 如果已存在收藏資料，則執行刪除操作
+              this.isFavorite[productId] = false
+              this.axios
+                .delete(`${api_url2}/hearts/${existingData.id}`)
+                .then((res) => {
+                  // 更新收藏狀態
+                  console.log(res);
+                  this.isFavorite[productId] = false
+                  sweetAlert.threeLayerCheckType('success', `取消收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `取消收藏資料失敗`)
+                })
+            } else {
+              // 如果不存在收藏資料，則新增收藏資料
+              this.axios
+                .post(`${api_url2}/hearts`, {
+                  productId,
+                  category,
+                  title,
+                  userId: this.userId,
+                  tag: '旅遊景點'
+                })
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = true
+                  sweetAlert.threeLayerCheckType('success', `已加入收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
+                })
+            }
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          })
+      }
+    },
     getAttractions(currentPage = 1) {
       this.axios
         .get(`${api_url2}/attractions`)
@@ -209,7 +302,7 @@ export default {
           }, 1000)
         })
         .catch((err) => {
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
       if (this.selectedCategory === '全部' || !this.selectedCategory) {
         this.axios
@@ -228,7 +321,7 @@ export default {
             window.scrollTo(0, 0)
           })
           .catch((err) => {
-            alert(`${err.message}`)
+            sweetAlert.threeLayerCheckType('error', `取得全部景點資料失敗`)
           })
       } else {
         this.axios
@@ -249,7 +342,7 @@ export default {
             window.scrollTo(0, 0)
           })
           .catch((err) => {
-            alert(`${err.message}`)
+            sweetAlert.threeLayerCheckType('error', `取得區域景點資料失敗`)
           })
       }
     },
@@ -263,11 +356,26 @@ export default {
         return content.substring(0, maxLength) + '...'
       }
       return content
+    },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
     }
   },
   mounted() {
     this.isLoading = true
+    const cookieUserId = this.getCookie('userId')
+    const cookieToken = this.getCookie('hexTokenU')
+    this.userId = cookieUserId * 1
+    this.token = cookieToken
     this.getAttractions()
+    this.getHeartData()
     window.scrollTo(0, 0)
     this.fullPath = this.$route.fullPath
   }

@@ -328,7 +328,7 @@ export default {
             window.scrollTo(0, 0)
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
+            sweetAlert.threeLayerCheckType('error', `取得全部產品資料失敗`)
           })
       } else {
         // 否则，根据selectedCategory进行过滤
@@ -351,7 +351,7 @@ export default {
             window.scrollTo(0, 0)
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
+            sweetAlert.threeLayerCheckType('error', `取得區域產品資料失敗`)
           })
       }
     },
