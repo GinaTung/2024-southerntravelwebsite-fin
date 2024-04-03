@@ -1,5 +1,4 @@
 <template>
-  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <banner-swiper></banner-swiper>
   <div class="search-bar bg-primary-400 border-left-bottom">
     <div class="container text-center pt-10 pb-10 py-md-20">
@@ -64,7 +63,6 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
       searchText: '',
       searchResults: [],
       showResults: false,
@@ -94,12 +92,6 @@ export default {
       this.searchResults = filteredResults.slice(0, 3)
       this.showResults = true
     }
-  },
-  mounted() {
-    this.isLoading = true
-    setTimeout(() => {
-      this.isLoading = false
-    }, 3000) 
   }
 }
 </script>

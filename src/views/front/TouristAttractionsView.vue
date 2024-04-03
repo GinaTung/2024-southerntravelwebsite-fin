@@ -232,7 +232,7 @@ export default {
             if (item.userId === this.userId) {
               console.log(item);
               // 設置收藏狀態
-              this.isFavorite[item.productId] = true
+              this.isFavorite[item.product] = true
             }
           })
         })
@@ -250,7 +250,7 @@ export default {
           .then((res) => {
             // 檢查是否已存在收藏資料
             const existingData = res.data.find(
-              (item) => item.productId === productId && item.userId === this.userId
+              (item) => item.product === productId && item.userId === this.userId
             )
             if (existingData) {
               console.log(existingData);
@@ -271,7 +271,7 @@ export default {
               // 如果不存在收藏資料，則新增收藏資料
               this.axios
                 .post(`${api_url2}/hearts`, {
-                  productId,
+                  product:productId,
                   category,
                   title,
                   userId: this.userId,
