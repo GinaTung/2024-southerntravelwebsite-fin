@@ -1,5 +1,4 @@
 <template>
-  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
@@ -8,10 +7,10 @@
         </li>
         <li class="breadcrumb-item" aria-current="page">
           <router-link
-            v-if="fullPath !== '/TouristAttractions'"
-            :to="{ path: '/TouristAttractions' }"
-            exact
-            active-class="active-link"
+            v-if="selectedCategory !== '全部'"
+            exact active-class="active-link"
+            :to="{ path: '/TouristAttractions', query: { category: '全部', page: '1' } }"
+            @click.prevent="filterProducts('全部')"
           >
             南部旅遊景點
           </router-link>
@@ -63,10 +62,10 @@
                 <div class="card card-att h-100">
                   <span class="tag text-white">{{ attractionItem.category }}</span>
                   <div class="card-att-img">
-                    <img :src="attractionItem.imageUrl" class="img-fluid" alt="" />
+                    <img :src="attractionItem.imageUrl" class="img-fluid" alt="attractionItem.title" />
                   </div>
                   <button
-                    class="heart"
+                    class="heart border-0"
                     @click="
                       toggleFavorite(
                         attractionItem.id,
@@ -74,6 +73,7 @@
                         attractionItem.title
                       )
                     "
+                    type="button"
                   >
                     <i
                       :class="[
@@ -171,7 +171,6 @@ export default {
       limitPage: 6,
       pageTotal: 0,
       attractionsCategory: [],
-      isLoading: false,
       status: {
         loadingItem: false
       },
@@ -227,10 +226,8 @@ export default {
       this.axios
         .get(`${api_url2}/hearts`)
         .then((res) => {
-          console.log(res);
           res.data.forEach((item) => {
-            if (item.userId === this.userId) {
-              console.log(item);
+            if (item.userId === this.userId && item.tag === '旅遊景點') {
               // 設置收藏狀態
               this.isFavorite[item.product] = true
             }
@@ -250,16 +247,14 @@ export default {
           .then((res) => {
             // 檢查是否已存在收藏資料
             const existingData = res.data.find(
-              (item) => item.product === productId && item.userId === this.userId
+              (item) => item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
             )
             if (existingData) {
-              console.log(existingData);
               // 如果已存在收藏資料，則執行刪除操作
               this.axios
                 .delete(`${api_url2}/hearts/${existingData.id}`)
                 .then((res) => {
                   // 更新收藏狀態
-                  console.log(res);
                   this.isFavorite[productId] = false
                   sweetAlert.threeLayerCheckType('success', `取消收藏 ${title} 成功`)
                   this.getHeartData()
@@ -271,7 +266,7 @@ export default {
               // 如果不存在收藏資料，則新增收藏資料
               this.axios
                 .post(`${api_url2}/hearts`, {
-                  product:productId,
+                  product: productId,
                   category,
                   title,
                   userId: this.userId,
@@ -298,9 +293,6 @@ export default {
         .get(`${api_url2}/attractions`)
         .then((res) => {
           this.attractionsCategory = res.data.filter((item) => item.is_enabled === 1)
-          setTimeout(() => {
-            this.isLoading = false
-          }, 1000)
         })
         .catch((err) => {
           sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
@@ -370,7 +362,6 @@ export default {
     }
   },
   mounted() {
-    this.isLoading = true
     const cookieUserId = this.getCookie('userId')
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1

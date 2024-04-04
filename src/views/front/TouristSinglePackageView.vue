@@ -7,7 +7,11 @@
           <router-link to="/" exact active-class="active-link"> 首頁 </router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/TouristPackage" exact active-class="active-link">
+          <router-link
+            exact
+            active-class="active-link"
+            :to="{ path: '/TouristPackage', query: { category: '全部', page: '1' } }"
+          >
             南部旅遊方案
           </router-link>
         </li>
@@ -428,8 +432,20 @@
             ></span>
             <i class="bi bi-plus-lg"></i>
           </button>
-          <button type="button" class="btn btn-outline-dark rounded-0 ms-2">
-            <i class="bi bi-heart"></i>
+          <button
+            type="button"
+            class="btn-outline-cerulean rounded-0 ms-2 p-2"
+            @click="toggleFavorite(productsItem.id, category, packageTitle)"
+          >
+            <i
+              :class="[
+                'bi',
+                {
+                  'bi-heart-fill': isFavorite[productsItem.id],
+                  'bi-heart': !isFavorite[productsItem.id]
+                }
+              ]"
+            ></i>
           </button>
         </div>
 
@@ -510,7 +526,9 @@ export default {
         loadingItem3: '',
         loadingItem4: '',
         loadingItem5: ''
-      }
+      },
+      heartData: [],
+      isFavorite: {}
     }
   },
   created() {
@@ -536,6 +554,73 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate
+    },
+    getHeartData() {
+      this.axios
+        .get(`${api_url2}/hearts`)
+        .then((res) => {
+          res.data.forEach((item) => {
+            if (item.userId === this.userId && item.tag === '旅遊景點') {
+              // 設置收藏狀態
+              this.isFavorite[item.product] = true
+            }
+          })
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+        })
+    },
+    toggleFavorite(productId, category, title) {
+      if (!this.token) {
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
+      } else {
+        // 取得收藏資料
+        this.axios
+          .get(`${api_url2}/hearts`)
+          .then((res) => {
+            // 檢查是否已存在收藏資料
+            const existingData = res.data.find(
+              (item) =>
+                item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
+            )
+            if (existingData) {
+              // 如果已存在收藏資料，則執行刪除操作
+              this.axios
+                .delete(`${api_url2}/hearts/${existingData.id}`)
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = false
+                  sweetAlert.threeLayerCheckType('success', `取消收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `取消收藏資料失敗`)
+                })
+            } else {
+              // 如果不存在收藏資料，則新增收藏資料
+              this.axios
+                .post(`${api_url2}/hearts`, {
+                  product: productId,
+                  category,
+                  title,
+                  userId: this.userId,
+                  tag: '旅遊景點'
+                })
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = true
+                  sweetAlert.threeLayerCheckType('success', `已加入收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
+                })
+            }
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          })
+      }
     },
     getProducts() {
       this.axios
@@ -728,6 +813,7 @@ export default {
     this.userId = cookieUserId * 1
     this.token = cookieToken
     this.checkDate()
+    this.getHeartData()
     window.scrollTo(0, 0)
   }
 }
@@ -763,6 +849,6 @@ p {
   opacity: 0.5;
 }
 a.navbar-brand {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>

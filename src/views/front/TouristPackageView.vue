@@ -8,10 +8,11 @@
         </li>
         <li class="breadcrumb-item" aria-current="page">
           <router-link
-            v-if="fullPath !== '/TouristPackage'"
-            :to="{ path: '/TouristPackage' }"
+            v-if="selectedCategory !== '全部'"
             exact
             active-class="active-link"
+            :to="{ path: '/TouristPackage', query: { category: '全部', page: '1' } }"
+            @click.prevent="filterProducts('全部')"
           >
             南部旅遊方案
           </router-link>
@@ -67,15 +68,30 @@
                       :src="productsItem.imageUrl"
                       class="card-img-top img-fluid"
                       :alt="productsItem.title"
+                      style="border-radius: calc(1.25rem - 1px)"
                     />
                   </div>
                 </div>
                 <div class="col-md-8">
                   <div class="card h-100 border-0 bg-transparent">
                     <div class="card-body px-3 px-md-4">
-                      <div class="heart3">
-                        <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
-                      </div>
+                      <!-- 愛心點選 -->
+                      <button
+                        class="heart border-0"
+                        @click="toggleFavorite(productsItem.id, productsItem.category, productsItem.title)"
+                        type="button"
+                      >
+                        <i
+                          :class="[
+                            'bi',
+                            {
+                              'bi-heart-fill': isFavorite[productsItem.id],
+                              'bi-heart': !isFavorite[productsItem.id]
+                            }
+                          ]"
+                          style="font-size: 24px"
+                        ></i>
+                      </button>
                       <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-10">
                         {{ productsItem.title }}
                       </h4>
@@ -163,7 +179,7 @@
                             role="status"
                             v-if="status.loadingItem2 === productsItem.id"
                           ></span>
-                          預約套裝行程
+                          立即預約方案
                         </button>
 
                         <button
@@ -225,7 +241,6 @@ import sweetAlert from '@/js/sweetAlert.js'
 export default {
   data() {
     return {
-      text: '南部旅遊方案',
       products: [],
       user: '',
       userId: '',
@@ -248,7 +263,9 @@ export default {
         loadingItem2: ''
       },
       category: '全部',
-      cartsLength: 0
+      cartsLength: 0,
+      heartData: [],
+      isFavorite: {},
     }
   },
   watch: {
@@ -257,7 +274,7 @@ export default {
       if (this.$root.navigatedFromHeader && to.fullPath !== '/TouristPackage') {
         this.selectedCategory = '全部'
         this.status.loadingItem = true
-        this.getProducts() 
+        this.getProducts()
         this.$root.navigatedFromHeader = false
       }
     }
@@ -376,6 +393,73 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate
+    },
+    getHeartData() {
+      this.axios
+        .get(`${api_url2}/hearts`)
+        .then((res) => {
+          res.data.forEach((item) => {
+            if (item.userId === this.userId && item.tag === '旅遊方案') {
+              // 設置收藏狀態
+              this.isFavorite[item.product] = true
+            }
+          })
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+        })
+    },
+    toggleFavorite(productId, category, title) {
+      if (!this.token) {
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
+      } else {
+        // 取得收藏資料
+        this.axios
+          .get(`${api_url2}/hearts`)
+          .then((res) => {
+            // 檢查是否已存在收藏資料
+            const existingData = res.data.find(
+              (item) =>
+                item.product === productId && item.userId === this.userId && item.tag === '旅遊方案'
+            )
+            if (existingData) {
+              // 如果已存在收藏資料，則執行刪除操作
+              this.axios
+                .delete(`${api_url2}/hearts/${existingData.id}`)
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = false
+                  sweetAlert.threeLayerCheckType('success', `取消收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `取消收藏資料失敗`)
+                })
+            } else {
+              // 如果不存在收藏資料，則新增收藏資料
+              this.axios
+                .post(`${api_url2}/hearts`, {
+                  product: productId,
+                  category,
+                  title,
+                  userId: this.userId,
+                  tag: '旅遊方案'
+                })
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = true
+                  sweetAlert.threeLayerCheckType('success', `已加入收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
+                })
+            }
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          })
+      }
     },
     thousand(data) {
       if (data !== undefined) {
@@ -519,6 +603,7 @@ export default {
     this.token = cookieToken
     this.getCart()
     this.checkDate()
+    this.getHeartData()
     this.fullPath = this.$route.fullPath
   }
 }

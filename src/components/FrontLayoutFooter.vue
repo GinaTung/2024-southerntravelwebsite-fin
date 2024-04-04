@@ -6,17 +6,19 @@
           <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
         </router-link>
         <ul class="navbar-nav flex-column flex-lg-row">
-          <li class="nav-item">
+          <li class="nav-item mb-10 mb-lg-0">
             <router-link
               to="/TouristAttractions"
-              class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0"
+              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              @click="redirectToB('全部')"
               >南部旅遊景點</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item mb-10 mb-lg-0">
             <router-link
               to="/TouristPackage"
-              class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0"
+              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              @click="redirectToA('全部')"
               >南部旅遊方案</router-link
             >
           </li>
@@ -69,3 +71,20 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  methods:{
+    redirectToA(category) {
+      this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
+      this.$router.push({ path: '/TouristPackage', query: { category: category } })
+    },
+    // 此設置按鈕再次點選時觸發一樣'全部'
+    redirectToB(category) {
+      this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
+      this.$router.push({ path: '/TouristAttractions', query: { category: category } })
+    },
+  }
+}
+
+</script>

@@ -24,21 +24,20 @@
           </div>
           <div class="col-12 col-lg-5">
             <div class="list-group" id="list-tab" role="tablist">
-              <a
-                v-for="(item, index) in newsLatestProductData"
-                :key="index"
-                class="list-group-item list-group-item-action px-6 py-4 p-lg-6 mb-4 active placeholder"
+              <a v-for="index in 4" :key="index"
+                class="list-group-item list-group-item-action px-6 py-4 p-lg-6 mb-3 active placeholder"
               >
               <div class="d-flex align-items-center placeholder-glow">
-                  <span class="placeholder w-15 mb-5"></span>
-                  <span class="placeholder w-15 mb-5 ms-2"></span>
+                  <span class="placeholder w-15 mb-3"></span>
+                  <span class="placeholder w-15 mb-3 ms-2"></span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-5 placeholder-glow">
+                <div class="d-flex justify-content-between align-items-center mb-3 placeholder-glow">
                   <span class="list-tab-title placeholder w-40">
                   </span>
                   <span class="placeholder w-5"></span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center placeholder-glow">
+                <div class="d-flex flex-column placeholder-glow">
+                  <span class="placeholder w-75 mb-3"></span>
                   <span class="placeholder w-75"></span>
                 </div>
               </a>
@@ -94,16 +93,7 @@
             </div>
           </div>
           <div class="col-12 col-lg-5">
-            <div v-if="isLoading" class="text-center" style="margin: 150px">
-              <div
-                class="spinner-border"
-                role="status"
-                style="width: 3rem; height: 3rem; color: #43b8bd"
-              >
-                <span class="visually-hidden">Loading...</span>
-              </div>
-            </div>
-            <div class="list-group" id="list-tab" role="tablist" v-else>
+            <div class="list-group" id="list-tab" role="tablist">
               <a
                 v-for="(item, index) in newsLatestProductData"
                 :key="index"
@@ -121,6 +111,7 @@
                 :data-bs-target="'#list-' + index"
                 role="tab"
                 :aria-controls="'list-' + index"
+                style="cursor: pointer"
               >
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="list-tab-title">

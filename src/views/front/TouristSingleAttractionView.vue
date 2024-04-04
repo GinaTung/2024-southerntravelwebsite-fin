@@ -6,7 +6,11 @@
           <router-link to="/" exact active-class="active-link">首頁</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/TouristAttractions" exact active-class="active-link">
+          <router-link
+            exact
+            active-class="active-link"
+            :to="{ path: '/TouristAttractions', query: { category: '全部', page: '1' } }"
+          >
             南部旅遊景點
           </router-link>
         </li>
@@ -26,11 +30,23 @@
     >
       <span class="fs-3 me-2 fw-bold ps-3">{{ category }}</span>
       <p class="fs-3 me-4 fw-bold">{{ attractionTitle }}</p>
-      <div class="heart4">
-        <i class="bi bi-heart"></i>
-      </div>
+      <button
+        class="border-0 heart4 fs-3"
+        @click="toggleFavorite(attractionId, category, attractionTitle)"
+        type="button"
+      >
+        <i
+          :class="[
+            'bi',
+            {
+              'bi-heart-fill': isFavorite[attractionId],
+              'bi-heart': !isFavorite[attractionId]
+            }
+          ]"
+        ></i>
+      </button>
     </div>
-    <singleAttraction/>
+    <singleAttraction />
     <div class="row g-3" v-for="(item, index) in enabledAttractions" :key="item.id">
       <div v-if="index === 0">
         <div class="tourist-intr-content my-lg-10 my-5">
@@ -88,6 +104,7 @@
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 import singleAttraction from '@/components/swiper/singleAttraction.vue'
+import sweetAlert from '@/js/sweetAlert'
 
 export default {
   components: {
@@ -100,12 +117,83 @@ export default {
       attractions: [],
       enabledAttractions: [],
       newAttractionsContent: '',
-      newAttractionsTimeOpen: ''
+      newAttractionsTimeOpen: '',
+      attractionId: '',
+      heartData: [],
+      isFavorite: {},
+      userId: '',
+      token: ''
     }
   },
   methods: {
     redirectToA(category) {
       this.$router.push({ path: '/TouristAttractions', query: { category: category } })
+    },
+    getHeartData() {
+      this.axios
+        .get(`${api_url2}/hearts`)
+        .then((res) => {
+          res.data.forEach((item) => {
+            if (item.userId === this.userId && item.tag === '旅遊景點') {
+              // 設置收藏狀態
+              this.isFavorite[item.product] = true
+            }
+          })
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+        })
+    },
+    toggleFavorite(productId, category, title) {
+      if (!this.token) {
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
+      } else {
+        // 取得收藏資料
+        this.axios
+          .get(`${api_url2}/hearts`)
+          .then((res) => {
+            // 檢查是否已存在收藏資料
+            const existingData = res.data.find(
+              (item) => item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
+            )
+            if (existingData) {
+              // 如果已存在收藏資料，則執行刪除操作
+              this.axios
+                .delete(`${api_url2}/hearts/${existingData.id}`)
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = false
+                  sweetAlert.threeLayerCheckType('success', `取消收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `取消收藏資料失敗`)
+                })
+            } else {
+              // 如果不存在收藏資料，則新增收藏資料
+              this.axios
+                .post(`${api_url2}/hearts`, {
+                  product: productId,
+                  category,
+                  title,
+                  userId: this.userId,
+                  tag: '旅遊景點'
+                })
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = true
+                  sweetAlert.threeLayerCheckType('success', `已加入收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
+                })
+            }
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          })
+      }
     },
     getAttractions() {
       this.axios
@@ -115,6 +203,7 @@ export default {
           this.attractions.forEach((item) => {
             if (item.is_enabled === 1 && this.attractionTitle === item.title) {
               this.enabledAttractions.push(item)
+              this.attractionId = item.id
             }
           })
           this.getNewText()
@@ -168,12 +257,27 @@ export default {
         content
       }))
       // console.log(this.newAttractionsTimeOpen)
+    },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
     }
   },
   mounted() {
     this.category = this.$route.params.category
     this.attractionTitle = this.$route.params.title
+    const cookieUserId = this.getCookie('userId')
+    const cookieToken = this.getCookie('hexTokenU')
+    this.userId = cookieUserId * 1
+    this.token = cookieToken
     this.getAttractions()
+    this.getHeartData()
     window.scrollTo(0, 0)
   }
 }
@@ -191,9 +295,9 @@ p {
   }
 }
 .navbar-brand:hover {
-    color: #43B8BD;
+  color: #43b8bd;
 }
 a.navbar-brand {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>

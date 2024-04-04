@@ -37,43 +37,64 @@
           <div class="col" v-for="item in enabledProducts" :key="item.id">
             <div class="card card-att h-100">
               <span class="tag text-white">{{ item.category }}</span>
+              <div class="card-att-img">
+                <img
+                  :src="item.imageUrl"
+                  class="card-img-top-2 img-fluid h-100"
+                  :alt="item.title"
+                />
+              </div>
               <!-- 愛心點選 -->
-              <div class="heart3">
-                <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
-              </div>
-              <img :src="item.imageUrl" class="card-img-top-2 img-fluid h-100" :alt="item.title" />
-              <div class="card-body">
-                <router-link
-                  :to="{
-                    name: 'TouristSinglePackage',
-                    params: { category: item.category, title: item.title }
-                  }"
-                >
-                  <h3
-                    class="fs-5 fs-lg-4 card-title pb-4 fw-bold text-primary-700 stretched-link mb-0"
+              <button
+                class="heart border-0"
+                @click="toggleFavorite(item.id, item.category, item.title)"
+                type="button"
+              >
+                <i
+                  :class="[
+                    'bi',
+                    {
+                      'bi-heart-fill': isFavorite[item.id],
+                      'bi-heart': !isFavorite[item.id]
+                    }
+                  ]"
+                  style="font-size: 24px"
+                ></i>
+              </button>
+              <div style="transform: rotate(0)">
+                <div class="card-body">
+                  <router-link
+                    :to="{
+                      name: 'TouristSinglePackage',
+                      params: { category: item.category, title: item.title }
+                    }"
                   >
-                    {{ item.title }}
-                  </h3>
-                </router-link>
-                <div class="col-12">
-                  <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
-                    預約時間：{{ item.startDate }} ~ {{ item.endDate }}
-                  </p>
-                  <p class="fs-6 text-danger" v-else>預約時間已截止</p>
-                  <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
-                    出遊時間：{{ item.goStartDate }} ~ {{ item.goEndDate }}
-                  </p>
-                  <p class="fs-6 text-danger" v-else>已出遊完成</p>
-                </div>
-              </div>
-              <div class="card-footer text-end border-0 pt-0 pb-3">
-                <div class="d-flex justify-content-between align-items-end">
-                  <div class="d-flex align-items-center">
-                    <span class="fs-6 fs-lg-5"
-                      ><i class="bi bi-calendar-week me-2"></i>{{ item.tag_1 }}</span
+                    <h3
+                      class="fs-5 fs-lg-4 card-title pb-4 fw-bold text-primary-700 stretched-link mb-0"
                     >
+                      {{ item.title }}
+                    </h3>
+                  </router-link>
+                  <div class="col-12">
+                    <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
+                      預約時間：{{ item.startDate }} ~ {{ item.endDate }}
+                    </p>
+                    <p class="fs-6 text-danger" v-else>預約時間已截止</p>
+                    <p class="fs-6 text-dark2" v-if="currentDate <= item.endDate">
+                      出遊時間：{{ item.goStartDate }} ~ {{ item.goEndDate }}
+                    </p>
+                    <p class="fs-6 text-danger" v-else>已出遊完成</p>
                   </div>
-                  <p class="fs-5 fs-lg-4 text-primary-500">{{ thousand(item.price) }}</p>
+                </div>
+                <div class="card-footer text-end border-0 pt-0 pb-3">
+                  <div class="d-flex justify-content-between align-items-end">
+                    <div class="d-flex align-items-center">
+                      <span class="fs-6 fs-lg-5"
+                        ><i class="bi bi-calendar-week me-2"></i>{{ item.tag_1 }}</span
+                      >
+                    </div>
+                    <p class="fs-5 fs-lg-4 text-primary-500">{{ thousand(item.price) }}</p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -100,7 +121,11 @@ export default {
       newProductsContent: '',
       enabledProducts: [],
       currentDate: '',
-      isLoading: false
+      isLoading: false,
+      heartData: [],
+      isFavorite: {},
+      userId: '',
+      token: ''
     }
   },
   methods: {
@@ -119,6 +144,73 @@ export default {
 
       var formattedDate = timeDetails.year + '-' + monthString + '-' + dateString
       this.currentDate = formattedDate
+    },
+    getHeartData() {
+      this.axios
+        .get(`${api_url2}/hearts`)
+        .then((res) => {
+          res.data.forEach((item) => {
+            if (item.userId === this.userId && item.tag === '旅遊方案') {
+              // 設置收藏狀態
+              this.isFavorite[item.product] = true
+            }
+          })
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+        })
+    },
+    toggleFavorite(productId, category, title) {
+      if (!this.token) {
+        sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
+      } else {
+        // 取得收藏資料
+        this.axios
+          .get(`${api_url2}/hearts`)
+          .then((res) => {
+            // 檢查是否已存在收藏資料
+            const existingData = res.data.find(
+              (item) =>
+                item.product === productId && item.userId === this.userId && item.tag === '旅遊方案'
+            )
+            if (existingData) {
+              // 如果已存在收藏資料，則執行刪除操作
+              this.axios
+                .delete(`${api_url2}/hearts/${existingData.id}`)
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = false
+                  sweetAlert.threeLayerCheckType('success', `取消收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `取消收藏資料失敗`)
+                })
+            } else {
+              // 如果不存在收藏資料，則新增收藏資料
+              this.axios
+                .post(`${api_url2}/hearts`, {
+                  product: productId,
+                  category,
+                  title,
+                  userId: this.userId,
+                  tag: '旅遊方案'
+                })
+                .then((res) => {
+                  // 更新收藏狀態
+                  this.isFavorite[productId] = true
+                  sweetAlert.threeLayerCheckType('success', `已加入收藏 ${title} 成功`)
+                  this.getHeartData()
+                })
+                .catch((err) => {
+                  sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
+                })
+            }
+          })
+          .catch((err) => {
+            sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          })
+      }
     },
     getProducts() {
       this.axios
@@ -141,11 +233,26 @@ export default {
         data = data.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',')
       }
       return `$ ${data}`
+    },
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
     }
   },
   mounted() {
     this.getProducts()
     this.isLoading = true
+    const cookieUserId = this.getCookie('userId')
+    const cookieToken = this.getCookie('hexTokenU')
+    this.userId = cookieUserId * 1
+    this.token = cookieToken
+    this.getHeartData()
   }
 }
 </script>
