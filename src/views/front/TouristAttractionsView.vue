@@ -8,7 +8,8 @@
         <li class="breadcrumb-item" aria-current="page">
           <router-link
             v-if="selectedCategory !== '全部'"
-            exact active-class="active-link"
+            exact
+            active-class="active-link"
             :to="{ path: '/TouristAttractions', query: { category: '全部', page: '1' } }"
             @click.prevent="filterProducts('全部')"
           >
@@ -42,110 +43,151 @@
             </ul>
           </div>
         </div>
+
         <div class="col-12 col-lg-9">
-          <div v-if="status.loadingItem" class="text-center" style="margin: 150px">
-            <div
-              class="spinner-border"
-              role="status"
-              style="width: 3rem; height: 3rem; color: #43b8bd"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-          <div v-else>
+          <template v-if="isLoading">
             <div class="row g-3">
-              <div
-                class="col-12 col-md-6 col-lg-4"
-                v-for="(attractionItem, index) in filteredProducts"
-                :key="index + 123"
-              >
+              <div v-for="index in 3" :key="index" class="col-12 col-md-6 col-lg-4">
                 <div class="card card-att h-100">
-                  <span class="tag text-white">{{ attractionItem.category }}</span>
-                  <div class="card-att-img">
-                    <img :src="attractionItem.imageUrl" class="img-fluid" alt="attractionItem.title" />
-                  </div>
-                  <button
-                    class="heart border-0"
-                    @click="
-                      toggleFavorite(
-                        attractionItem.id,
-                        attractionItem.category,
-                        attractionItem.title
-                      )
-                    "
-                    type="button"
-                  >
-                    <i
-                      :class="[
-                        'bi',
-                        {
-                          'bi-heart-fill': isFavorite[attractionItem.id],
-                          'bi-heart': !isFavorite[attractionItem.id]
-                        }
-                      ]"
-                      style="font-size: 24px"
-                    ></i>
+                  <span class="tag text-white  placeholder-glow"></span>
+                  <button class="heart border-0">
+                    <i class="bi bi-heart"></i>
                   </button>
-                  <div style="transform: rotate(0)">
-                    <div class="card-body card-body-att">
-                      <div
-                        class="card-title d-flex justify-content-between align-items-center card-title-att"
-                      >
-                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att">
-                          {{ attractionItem.title }}
-                        </h4>
-                      </div>
-                      <p class="card-text card-font-truncate">
-                        {{ truncateContent(attractionItem.description, 65) }}
-                      </p>
+                  <img
+                    src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                    class="img-fluid opacity-25"
+                    alt="Placeholder Image"
+                  />
+                  <div class="card-body">
+                    <span class="placeholder w-60"></span>
+                    <div class="col-12 placeholder-glow">
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
                     </div>
-                    <div class="card-footer text-end border-0">
-                      <router-link
-                        :to="{
-                          name: 'TouristSingleAttraction',
-                          params: { category: attractionItem.category, title: attractionItem.title }
-                        }"
-                        class="fs-5 stretched-link"
-                        >more</router-link
-                      >
+                  </div>
+                  <div class="card-footer text-end border-0 pt-0 pb-3 placeholder-glow">
+                    <div class="d-flex justify-content-end">
+                      <span class="placeholder w-25"></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <nav aria-label="Page navigation example" class="my-10">
-              <ul class="pagination justify-content-center">
-                <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-                  <button
-                    class="page-link page-link-radius-2"
-                    @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
-                  >
-                    上一頁
-                  </button>
-                </li>
-                <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
-                  <button
-                    class="page-link page-link-0 rounded-0"
-                    :class="{ active: i === currentPage }"
-                    @click.prevent="getAttractions(i)"
-                  >
-                    {{ i }}
-                  </button>
-                </li>
-                <li
-                  class="page-item"
-                  :class="{ disabled: !currentPage || currentPage === pageTotal }"
+          </template>
+          <template v-else>
+            <div v-if="status.loadingItem" class="text-center" style="margin: 150px">
+              <div
+                class="spinner-border"
+                role="status"
+                style="width: 3rem; height: 3rem; color: #43b8bd"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div v-else>
+              <div class="row g-3">
+                <div
+                  class="col-12 col-md-6 col-lg-4"
+                  v-for="(attractionItem, index) in filteredProducts"
+                  :key="index + 123"
                 >
-                  <button
-                    class="page-link page-link-radius"
-                    @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
-                  >
-                    下一頁
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                  <div class="card card-att h-100">
+                    <span class="tag text-white">{{ attractionItem.category }}</span>
+                    <div class="card-att-img">
+                      <img
+                        :src="attractionItem.imageUrl"
+                        class="img-fluid"
+                        alt="attractionItem.title"
+                      />
+                    </div>
+                    <button
+                      class="heart border-0"
+                      @click="
+                        toggleFavorite(
+                          attractionItem.id,
+                          attractionItem.category,
+                          attractionItem.title
+                        )
+                      "
+                      type="button"
+                    >
+                      <i
+                        :class="[
+                          'bi',
+                          {
+                            'bi-heart-fill': isFavorite[attractionItem.id],
+                            'bi-heart': !isFavorite[attractionItem.id]
+                          }
+                        ]"
+                        style="font-size: 24px"
+                      ></i>
+                    </button>
+                    <div style="transform: rotate(0)">
+                      <div class="card-body card-body-att">
+                        <div
+                          class="card-title d-flex justify-content-between align-items-center card-title-att"
+                        >
+                          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att">
+                            {{ attractionItem.title }}
+                          </h4>
+                        </div>
+                        <p class="card-text card-font-truncate">
+                          {{ truncateContent(attractionItem.description, 65) }}
+                        </p>
+                      </div>
+                      <div class="card-footer text-end border-0">
+                        <router-link
+                          :to="{
+                            name: 'TouristSingleAttraction',
+                            params: {
+                              category: attractionItem.category,
+                              title: attractionItem.title
+                            }
+                          }"
+                          class="fs-5 stretched-link"
+                          >more</router-link
+                        >
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <nav aria-label="Page navigation example" class="my-10">
+                  <ul class="pagination justify-content-center">
+                    <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+                      <button
+                        class="page-link page-link-radius-2"
+                        @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
+                      >
+                        上一頁
+                      </button>
+                    </li>
+                    <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+                      <button
+                        class="page-link page-link-0 rounded-0"
+                        :class="{ active: i === currentPage }"
+                        @click.prevent="getAttractions(i)"
+                      >
+                        {{ i }}
+                      </button>
+                    </li>
+                    <li
+                      class="page-item"
+                      :class="{ disabled: !currentPage || currentPage === pageTotal }"
+                    >
+                      <button
+                        class="page-link page-link-radius"
+                        @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
+                      >
+                        下一頁
+                      </button>
+                    </li>
+                  </ul>
+                </nav>
+              </div>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -178,7 +220,8 @@ export default {
       heartData: [],
       isFavorite: {},
       userId: '',
-      token: ''
+      token: '',
+      isLoading: false
     }
   },
   computed: {
@@ -247,7 +290,8 @@ export default {
           .then((res) => {
             // 檢查是否已存在收藏資料
             const existingData = res.data.find(
-              (item) => item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
+              (item) =>
+                item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
             )
             if (existingData) {
               // 如果已存在收藏資料，則執行刪除操作
@@ -306,6 +350,7 @@ export default {
             this.currentPage = currentPage
             this.allAttractions = res.data
             this.enabledAttractions = this.allAttractions.filter((item) => item.is_enabled === 1)
+            this.isLoading = false
             this.status.loadingItem = false
             this.$router.push({
               path: '/TouristAttractions',
@@ -327,6 +372,7 @@ export default {
             this.currentPage = currentPage
             this.allAttractions = res.data
             this.enabledAttractions = this.allAttractions.filter((item) => item.is_enabled === 1)
+            this.isLoading = false
             this.status.loadingItem = false
             this.$router.push({
               path: '/TouristAttractions',
@@ -369,6 +415,7 @@ export default {
     this.getAttractions()
     this.getHeartData()
     window.scrollTo(0, 0)
+    this.isLoading = true
     this.fullPath = this.$route.fullPath
   }
 }

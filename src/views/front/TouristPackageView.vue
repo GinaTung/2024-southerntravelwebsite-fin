@@ -1,5 +1,4 @@
 <template>
-  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
@@ -45,30 +44,16 @@
           </div>
         </div>
         <div class="col-12 col-lg-9">
-          <div v-if="status.loadingItem" class="text-center" style="margin: 150px">
-            <div
-              class="spinner-border"
-              role="status"
-              style="width: 3rem; height: 3rem; color: #43b8bd"
-            >
-              <span class="visually-hidden">Loading...</span>
-            </div>
-          </div>
-          <div v-else>
-            <div
-              class="card mb-4 card-att"
-              v-for="(productsItem, index) in filteredProducts"
-              :key="index + 123"
-            >
+          <template v-if="isLoading">
+            <div class="card mb-4 card-att"  v-for="index in 3" :key="index">
               <div class="row g-0">
                 <div class="col-md-4">
-                  <span class="tag text-white">{{ productsItem.category }}</span>
+                  <span class="tag text-white placeholder-glow"></span>
                   <div class="card-att-img h-100">
                     <img
-                      :src="productsItem.imageUrl"
-                      class="card-img-top img-fluid"
-                      :alt="productsItem.title"
-                      style="border-radius: calc(1.25rem - 1px)"
+                      src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                      class="img-fluid opacity-25"
+                      alt="Placeholder Image"
                     />
                   </div>
                 </div>
@@ -76,158 +61,233 @@
                   <div class="card h-100 border-0 bg-transparent">
                     <div class="card-body px-3 px-md-4">
                       <!-- 愛心點選 -->
-                      <button
-                        class="heart border-0"
-                        @click="toggleFavorite(productsItem.id, productsItem.category, productsItem.title)"
-                        type="button"
-                      >
-                        <i
-                          :class="[
-                            'bi',
-                            {
-                              'bi-heart-fill': isFavorite[productsItem.id],
-                              'bi-heart': !isFavorite[productsItem.id]
-                            }
-                          ]"
-                          style="font-size: 24px"
-                        ></i>
+                      <button class="heart border-0">
+                        <i class="bi bi-heart"></i>
                       </button>
-                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-10">
-                        {{ productsItem.title }}
-                      </h4>
-                      <div class="d-flex mb-4">
-                        <span
-                          class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
-                          >{{ productsItem.tag_2 }}</span
-                        >
+                      <h4
+                        class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-10 placeholder w-60"
+                      ></h4>
+                      <div class="d-flex flex-column">
+                        <span class="placeholder w-25"></span>
                       </div>
-
                       <div class="row">
-                        <div class="col-12 col-md-8 my-2">
-                          <div v-for="item in newProductsDes" :key="item.id">
-                            <div v-if="item.id === productsItem.id">
-                              <p v-for="description in item.descriptions" :key="description">
-                                {{ truncateContent(description, 85) }}
-                              </p>
-                            </div>
-                          </div>
+                        <div class="col-12 col-md-8 my-2  placeholder-glow">
+                          <span class="placeholder w-100"></span>
+                          <span class="placeholder w-100"></span>
+                          <span class="placeholder w-100"></span>
+                          <span class="placeholder w-75 mt-3"></span>
+                          <span class="placeholder w-75 mt-3"></span>
                         </div>
-                        <div class="col-12 col-md-4">
-                          <div class="d-flex flex-column">
-                            <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">
-                              NT{{ thousand(productsItem.origin_price) }}
-                            </p>
-                            <div
-                              class="d-flex flex-md-column align-items-end justify-content-end justify-content-sm-between justify-content-md-end"
-                            >
-                              <p class="text-danger fw-bold d-none d-md-block">促銷價</p>
-
-                              <div class="d-sm-flex flex-sm-column d-none d-md-none">
-                                <p
-                                  class="fs-7 fs-sm-6 text-dark2"
-                                  v-if="currentDate <= productsItem.endDate"
-                                >
-                                  預約：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
-                                </p>
-                                <p class="fs-7 fs-sm-6 text-danger" v-else>預約時間已截止</p>
-                                <p
-                                  class="fs-7 fs-sm-6 text-dark2"
-                                  v-if="currentDate <= productsItem.endDate"
-                                >
-                                  出遊：{{ productsItem.goStartDate }} ~
-                                  {{ productsItem.goEndDate }}
-                                </p>
-                                <p class="fs-6 text-danger" v-else>已出遊完成</p>
-                              </div>
-                              <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
-                                NT{{ thousand(productsItem.price) }}
-                              </p>
-                            </div>
-                          </div>
+                        <div class="col-12 col-md-4 my-2 text-end  placeholder-glow">
+                            <span class="placeholder w-100"></span>
+                            <span class="placeholder w-75"></span>
+                            <span class="placeholder w-100"></span>
                         </div>
-                      </div>
-                      <div class="col-12 d-none d-md-flex flex-md-column">
-                        <p class="fs-6 text-dark2" v-if="currentDate <= productsItem.endDate">
-                          預約時間：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
-                        </p>
-                        <p class="fs-6 text-danger" v-else>預約時間已截止</p>
-                        <p class="fs-6 text-dark2" v-if="currentDate <= productsItem.endDate">
-                          出遊時間：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
-                        </p>
-                        <p class="fs-6 text-danger" v-else>已出遊完成</p>
                       </div>
                     </div>
-                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
-                      <div class="d-flex align-items-end">
-                        <router-link
-                          :to="{
-                            name: 'TouristSinglePackage',
-                            params: { category: productsItem.category, title: productsItem.title }
-                          }"
-                          class="btn-outline-square w-100 me-2 px-2 px-md-3"
-                          >行程介紹</router-link
-                        >
 
-                        <button
-                          class="btn-square w-100 ms-2 px-2 px-md-3"
-                          v-if="currentDate <= productsItem.endDate"
-                          @click="addToCart(productsItem.id, quantity, productsItem.price)"
-                          type="button"
-                        >
-                          <span
-                            class="spinner-border spinner-grow-sm"
-                            role="status"
-                            v-if="status.loadingItem2 === productsItem.id"
-                          ></span>
-                          立即預約方案
-                        </button>
-
-                        <button
-                          class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
-                          v-else
-                          type="button"
-                        >
-                          預約時間截止
-                        </button>
+                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4  placeholder-glow">
+                      <div class="d-flex">
+                        <span class="placeholder w-50 me-2"></span>
+                        <span class="placeholder w-50 ms-2"></span>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <nav aria-label="Page navigation example" class="my-10">
-              <ul class="pagination justify-content-center">
-                <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-                  <button
-                    class="page-link page-link-radius-2"
-                    @click.prevent="currentPage > 1 && getProducts(currentPage - 1)"
+          </template>
+          <template v-else>
+            <div v-if="status.loadingItem" class="text-center" style="margin: 150px">
+              <div
+                class="spinner-border"
+                role="status"
+                style="width: 3rem; height: 3rem; color: #43b8bd"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+            <div v-else>
+              <div
+                class="card mb-4 card-att"
+                v-for="(productsItem, index) in filteredProducts"
+                :key="index + 123"
+              >
+                <div class="row g-0">
+                  <div class="col-md-4">
+                    <span class="tag text-white">{{ productsItem.category }}</span>
+                    <div class="card-att-img h-100">
+                      <img
+                        :src="productsItem.imageUrl"
+                        class="card-img-top img-fluid"
+                        :alt="productsItem.title"
+                        style="border-radius: calc(1.25rem - 1px)"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-8">
+                    <div class="card h-100 border-0 bg-transparent">
+                      <div class="card-body px-3 px-md-4">
+                        <!-- 愛心點選 -->
+                        <button
+                          class="heart border-0"
+                          @click="
+                            toggleFavorite(
+                              productsItem.id,
+                              productsItem.category,
+                              productsItem.title
+                            )
+                          "
+                          type="button"
+                        >
+                          <i
+                            :class="[
+                              'bi',
+                              {
+                                'bi-heart-fill': isFavorite[productsItem.id],
+                                'bi-heart': !isFavorite[productsItem.id]
+                              }
+                            ]"
+                            style="font-size: 24px"
+                          ></i>
+                        </button>
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4 pe-10">
+                          {{ productsItem.title }}
+                        </h4>
+                        <div class="d-flex mb-4">
+                          <span
+                            class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
+                            >{{ productsItem.tag_2 }}</span
+                          >
+                        </div>
+
+                        <div class="row">
+                          <div class="col-12 col-md-8 my-2">
+                            <div v-for="item in newProductsDes" :key="item.id">
+                              <div v-if="item.id === productsItem.id">
+                                <p v-for="description in item.descriptions" :key="description">
+                                  {{ truncateContent(description, 85) }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-12 col-md-4">
+                            <div class="d-flex flex-column">
+                              <p class="fs-4 fs-lg-5 fs-xl-4 text-decoration-line-through text-end">
+                                NT{{ thousand(productsItem.origin_price) }}
+                              </p>
+                              <div
+                                class="d-flex flex-md-column align-items-end justify-content-end justify-content-sm-between justify-content-md-end"
+                              >
+                                <p class="text-danger fw-bold d-none d-md-block">促銷價</p>
+
+                                <div class="d-sm-flex flex-sm-column d-none d-md-none">
+                                  <p
+                                    class="fs-7 fs-sm-6 text-dark2"
+                                    v-if="currentDate <= productsItem.endDate"
+                                  >
+                                    預約：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
+                                  </p>
+                                  <p class="fs-7 fs-sm-6 text-danger" v-else>預約時間已截止</p>
+                                  <p
+                                    class="fs-7 fs-sm-6 text-dark2"
+                                    v-if="currentDate <= productsItem.endDate"
+                                  >
+                                    出遊：{{ productsItem.goStartDate }} ~
+                                    {{ productsItem.goEndDate }}
+                                  </p>
+                                  <p class="fs-6 text-danger" v-else>已出遊完成</p>
+                                </div>
+                                <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                                  NT{{ thousand(productsItem.price) }}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-12 d-none d-md-flex flex-md-column">
+                          <p class="fs-6 text-dark2" v-if="currentDate <= productsItem.endDate">
+                            預約時間：{{ productsItem.startDate }} ~ {{ productsItem.endDate }}
+                          </p>
+                          <p class="fs-6 text-danger" v-else>預約時間已截止</p>
+                          <p class="fs-6 text-dark2" v-if="currentDate <= productsItem.endDate">
+                            出遊時間：{{ productsItem.goStartDate }} ~ {{ productsItem.goEndDate }}
+                          </p>
+                          <p class="fs-6 text-danger" v-else>已出遊完成</p>
+                        </div>
+                      </div>
+                      <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4">
+                        <div class="d-flex align-items-end">
+                          <router-link
+                            :to="{
+                              name: 'TouristSinglePackage',
+                              params: { category: productsItem.category, title: productsItem.title }
+                            }"
+                            class="btn-outline-square w-100 me-2 px-2 px-md-3"
+                            >行程介紹</router-link
+                          >
+
+                          <button
+                            class="btn-square w-100 ms-2 px-2 px-md-3"
+                            v-if="currentDate <= productsItem.endDate"
+                            @click="addToCart(productsItem.id, quantity, productsItem.price)"
+                            type="button"
+                          >
+                            <span
+                              class="spinner-border spinner-grow-sm"
+                              role="status"
+                              v-if="status.loadingItem2 === productsItem.id"
+                            ></span>
+                            立即預約方案
+                          </button>
+
+                          <button
+                            class="btn btn-danger w-100 ms-2 px-2 px-md-3 py-2 disabled btn-danger-rounded"
+                            v-else
+                            type="button"
+                          >
+                            預約時間截止
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <nav aria-label="Page navigation example" class="my-10">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+                    <button
+                      class="page-link page-link-radius-2"
+                      @click.prevent="currentPage > 1 && getProducts(currentPage - 1)"
+                    >
+                      上一頁
+                    </button>
+                  </li>
+                  <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+                    <button
+                      class="page-link page-link-0 rounded-0"
+                      :class="{ active: i === currentPage }"
+                      @click.prevent="getProducts(i)"
+                    >
+                      {{ i }}
+                    </button>
+                  </li>
+                  <li
+                    class="page-item"
+                    :class="{ disabled: !currentPage || currentPage === pageTotal }"
                   >
-                    上一頁
-                  </button>
-                </li>
-                <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
-                  <button
-                    class="page-link page-link-0 rounded-0"
-                    :class="{ active: i === currentPage }"
-                    @click.prevent="getProducts(i)"
-                  >
-                    {{ i }}
-                  </button>
-                </li>
-                <li
-                  class="page-item"
-                  :class="{ disabled: !currentPage || currentPage === pageTotal }"
-                >
-                  <button
-                    class="page-link page-link-radius"
-                    @click.prevent="currentPage < pageTotal && getProducts(currentPage + 1)"
-                  >
-                    下一頁
-                  </button>
-                </li>
-              </ul>
-            </nav>
-          </div>
+                    <button
+                      class="page-link page-link-radius"
+                      @click.prevent="currentPage < pageTotal && getProducts(currentPage + 1)"
+                    >
+                      下一頁
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </template>
         </div>
       </div>
     </div>
@@ -265,7 +325,7 @@ export default {
       category: '全部',
       cartsLength: 0,
       heartData: [],
-      isFavorite: {},
+      isFavorite: {}
     }
   },
   watch: {

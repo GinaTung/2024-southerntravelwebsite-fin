@@ -242,7 +242,6 @@ export default {
       this.axios
         .get(`${api_url2}/hearts`)
         .then((res) => {
-          console.log(res);
           res.data.forEach((item) => {
             if (item.userId === this.userId && item.tag === '旅遊景點') {
               // 設置收藏狀態
@@ -344,7 +343,7 @@ export default {
       this.isLoading = false
       this.getAttractions()
       this.getHeartData()
-    }, 1000)
+    }, 3000)
   }
 }
 </script>

@@ -112,7 +112,8 @@ export default {
       userCarts: [],
       cartsLength: 0,
       userCartsNum: [],
-      transCartNumberStatus: false
+      transCartNumberStatus: false,
+      userIsLogOut: false
     }
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
@@ -127,7 +128,7 @@ export default {
   },
   methods: {
     updateCart() {
-      this.$emitter.on('adminUpdateCart',this.getCarts)
+      this.$emitter.on('adminUpdateCart', this.getCarts)
       this.$emitter.on('updateCart', (msg) => {
         this.cartsLength = msg
       })
@@ -135,12 +136,10 @@ export default {
         this.cartsLength = msg
       })
     },
-    // 此設置按鈕再次點選時觸發一樣'全部'
     redirectToA(category) {
-      this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
+      this.$root.navigatedFromHeader = true 
       this.$router.push({ path: '/TouristPackage', query: { category: category } })
     },
-    // 此設置按鈕再次點選時觸發一樣'全部'
     redirectToB(category) {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
       this.$router.push({ path: '/TouristAttractions', query: { category: category } })
@@ -165,6 +164,22 @@ export default {
       this.userIsLoggedIn2 = false
       sweetAlert.threeLayerCheckType('success', '會員登出成功')
       this.$router.push('/')
+    },
+    getHeartData() {
+      this.axios
+        .get(`${api_url2}/hearts`)
+        .then((res) => {
+          console.log('p');
+          res.data.forEach((item) => {
+            if (item.userId === this.userId && item.tag === '旅遊景點') {
+              // 設置收藏狀態
+              this.isFavorite[item.product] = true
+            }
+          })
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+        })
     },
     getCarts() {
       this.axios
@@ -220,6 +235,7 @@ export default {
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
+    this.getHeartData()
   }
 }
 </script>
