@@ -5,9 +5,11 @@
   border: 1px solid $primary-400;
   color: $white;
   &:hover {
-    background: $white;
-    color: $primary-400;
-    // outline: 1px solid $primary-400;
+    background: $primary-600;
+    border: 1px solid $primary-600;
+  }
+  &:focus{
+    border: 3px solid $secondary-400;
   }
 }
 .btn-outline-turquoise {
@@ -19,6 +21,9 @@
   &:hover {
     background: $primary-400;
     color: $white !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400;
   }
 }
 
@@ -34,6 +39,9 @@
     background: $dark;
     color: $white !important;
   }
+  &:focus{
+    border: 3px solid $secondary-400;
+  }
 }
 
 .btn-outline-cerulean {
@@ -45,6 +53,9 @@
   &:hover {
     background: $primary-600;
     color: $white !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400;
   }
 }
 
@@ -62,8 +73,11 @@
   border: 1px solid $primary-400;
   text-align: center;
   &:hover {
-    background: $white !important;
-    color: $primary-400 !important;
+    background: $primary-600;
+    border: 1px solid $primary-600;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
   }
 }
 .btn-outline-square {
@@ -77,6 +91,9 @@
     background: $primary-400 !important;
     color: $white !important;
   }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
+  }
 }
 .btn-cerulean {
   padding: 8px 24px;
@@ -86,8 +103,10 @@
   border: 1px solid $primary-600 !important;
   text-align: center;
   &:hover {
-    background: $white;
-    color: $primary-600;
+    background: $dark;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
   }
 }
 .btn-golden-yellow {
@@ -97,7 +116,10 @@
   color: #09484a;
   border-radius: 40px;
   &:hover {
-    background: #09484a; /* 調整為深色金黃色 */
+    background: #09484a; 
     color: $secondary-200 !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
   }
 }

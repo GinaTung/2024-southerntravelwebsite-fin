@@ -49,7 +49,7 @@
             <div class="row g-3">
               <div v-for="index in 3" :key="index" class="col-12 col-md-6 col-lg-4">
                 <div class="card card-att h-100">
-                  <span class="tag text-white  placeholder-glow"></span>
+                  <span class="tag text-white placeholder-glow"></span>
                   <button class="heart border-0">
                     <i class="bi bi-heart"></i>
                   </button>
@@ -125,15 +125,22 @@
                       ></i>
                     </button>
                     <div style="transform: rotate(0)">
-                      <div class="card-body card-body-att">
-                        <div
-                          class="card-title d-flex justify-content-between align-items-center card-title-att"
+                      <div class="card-body">
+                        <router-link
+                          :to="{
+                            name: 'TouristSingleAttraction',
+                            params: {
+                              category: attractionItem.category,
+                              title: attractionItem.title
+                            }
+                          }"
+                          >
+                          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title stretched-link">
+                          {{ attractionItem.title }}
+                        </h4>
+                          </router-link
                         >
-                          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att">
-                            {{ attractionItem.title }}
-                          </h4>
-                        </div>
-                        <p class="card-text card-font-truncate">
+                        <p class="card-text card-font-truncate  card-body-att">
                           {{ truncateContent(attractionItem.description, 65) }}
                         </p>
                       </div>
@@ -146,7 +153,7 @@
                               title: attractionItem.title
                             }
                           }"
-                          class="fs-5 stretched-link"
+                          class="fs-5 text-primary-500"
                           >more</router-link
                         >
                       </div>

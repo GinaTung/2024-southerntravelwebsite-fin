@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light py-0 sticky-top">
+  <nav class="navbar navbar-expand-lg bg-white py-0 sticky-top bg-opacity-90">
     <div class="container">
       <router-link to="/" class="navbar-brand py-6">
         <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
@@ -113,12 +113,14 @@ export default {
       cartsLength: 0,
       userCartsNum: [],
       transCartNumberStatus: false,
-      userIsLogOut: false
+      userIsLogOut: false,
+      isloading:false
     }
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
     this.updateCart()
     this.getCarts()
+    this.getHeartData()
   },
   // 路由改變時隱藏選單
   watch: {
@@ -163,13 +165,19 @@ export default {
       this.deleteAllCookies()
       this.userIsLoggedIn2 = false
       sweetAlert.threeLayerCheckType('success', '會員登出成功')
-      this.$router.push('/')
+      this.isloading = true
+      if(this.$route.path === '/'){
+        this.isloading = false
+        this.$router.go(0)
+      }else{
+        this.isloading = false
+        this.$router.push('/')
+      }
     },
     getHeartData() {
       this.axios
         .get(`${api_url2}/hearts`)
         .then((res) => {
-          console.log('p');
           res.data.forEach((item) => {
             if (item.userId === this.userId && item.tag === '旅遊景點') {
               // 設置收藏狀態
@@ -178,7 +186,7 @@ export default {
           })
         })
         .catch((err) => {
-          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          // sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
     getCarts() {
@@ -235,7 +243,6 @@ export default {
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
-    this.getHeartData()
   }
 }
 </script>

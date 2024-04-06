@@ -104,12 +104,7 @@
     </div>
   </div>
 </template>
-<style>
-.card-img-top-2 {
-  border-top-right-radius: calc(1.25rem - 1px) !important;
-  border-top-left-radius: calc(1.25rem - 1px) !important;
-}
-</style>
+
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 import sweetAlert from '@/js/sweetAlert.js'
@@ -256,3 +251,12 @@ export default {
   }
 }
 </script>
+<style>
+.card-img-top-2 {
+  border-top-right-radius: calc(1.25rem - 1px) !important;
+  border-top-left-radius: calc(1.25rem - 1px) !important;
+}
+.card-title:hover{
+  color: #0ea0a6 !important;
+}
+</style>

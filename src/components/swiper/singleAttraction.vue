@@ -6,12 +6,9 @@
     :modules="modules"
     class="mySwiper2"
   >
-    <swiper-slide v-for="(item,key) in imagesUrl" :key="key+123">
-      <img
-        :src="item" class="img-fluid"
-      />
+    <swiper-slide v-for="(item, key) in imagesUrl" :key="key + 123">
+      <img :src="item" class="img-fluid" />
     </swiper-slide>
-
   </swiper>
   <swiper
     @swiper="setThumbsSwiper"
@@ -22,10 +19,8 @@
     :modules="modules"
     class="mySwiper3"
   >
-  <swiper-slide v-for="(item,key) in imagesUrl" :key="key+123">
-      <img
-        :src="item" class="img-fluid"
-      />
+    <swiper-slide v-for="(item, key) in imagesUrl" :key="key + 123">
+      <img :src="item" class="img-fluid" />
     </swiper-slide>
   </swiper>
 </template>
@@ -46,6 +41,7 @@ import '@/scss/components/_singleAttraction.scss'
 // import required modules
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules'
 const api_url2 = import.meta.env.VITE_API_URL2
+import sweetAlert from '@/js/sweetAlert'
 
 export default {
   components: {
@@ -57,7 +53,7 @@ export default {
       attractionTitle: '',
       attractions: [],
       enabledAttractions: [],
-      imagesUrl:''
+      imagesUrl: ''
     }
   },
   methods: {
@@ -65,23 +61,18 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          // console.log(res)
           this.attractions = res.data
           this.attractions.forEach((item) => {
             if (item.is_enabled === 1 && this.attractionTitle === item.title) {
-              // console.log(item.title)
-              // console.log(this.attractionTitle === item.title)
               this.enabledAttractions.push(item)
             }
           })
-          // console.log(this.enabledAttractions[0].imagesUrl)
-          this.imagesUrl = this.enabledAttractions[0].imagesUrl;
+          this.imagesUrl = this.enabledAttractions[0].imagesUrl
         })
         .catch((err) => {
-          // console.log(err)
-          alert(`${err.message}`)
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
-    },
+    }
   },
   setup() {
     const thumbsSwiper = ref(null)
@@ -96,8 +87,8 @@ export default {
       modules: [FreeMode, Navigation, Thumbs]
     }
   },
-  mounted(){
-        this.attractionTitle = this.$route.params.title
+  mounted() {
+    this.attractionTitle = this.$route.params.title
     this.getAttractions()
   }
 }

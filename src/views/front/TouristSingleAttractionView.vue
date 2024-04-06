@@ -1,4 +1,5 @@
 <template>
+    <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <div class="container py-10 py-lg-30 px-lg-20">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
@@ -122,7 +123,8 @@ export default {
       heartData: [],
       isFavorite: {},
       userId: '',
-      token: ''
+      token: '',
+      isLoading:false
     }
   },
   methods: {
@@ -154,7 +156,8 @@ export default {
           .then((res) => {
             // 檢查是否已存在收藏資料
             const existingData = res.data.find(
-              (item) => item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
+              (item) =>
+                item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
             )
             if (existingData) {
               // 如果已存在收藏資料，則執行刪除操作
@@ -204,6 +207,7 @@ export default {
             if (item.is_enabled === 1 && this.attractionTitle === item.title) {
               this.enabledAttractions.push(item)
               this.attractionId = item.id
+              this.isLoading = false
             }
           })
           this.getNewText()
@@ -276,6 +280,7 @@ export default {
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1
     this.token = cookieToken
+    this.isLoading = true
     this.getAttractions()
     this.getHeartData()
     window.scrollTo(0, 0)
