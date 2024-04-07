@@ -139,7 +139,7 @@
                 </div>
                 <!-- v-if 判斷沒有圖片時顯示或有點選新增圖片未填寫完成網址時 -->
                 <button
-                  class="btn btn-outline-primary btn-sm d-block w-100"
+                  class="btn btn-outline-primary btn-sm d-block w-100 btn-sm-radius"
                   v-if="
                     tempProduct.imagesUrl.length === 0 ||
                     tempProduct.imagesUrl[tempProduct.imagesUrl.length - 1]
@@ -150,7 +150,7 @@
                 </button>
                 <button
                   v-else
-                  class="btn btn-outline-danger btn-sm d-block w-100"
+                  class="btn btn-outline-danger btn-sm d-block w-100 btn-sm-radius"
                   @click="tempProduct.imagesUrl.pop()"
                 >
                   刪除圖片
@@ -803,10 +803,10 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-outline-secondary px-6 py-2" data-bs-dismiss="modal">
             取消
           </button>
-          <button type="button" class="btn btn-primary" @click="updateProduct">確認</button>
+          <button type="button" class="btn-turquoise" @click="updateProduct">確認</button>
         </div>
       </div>
     </div>
@@ -1207,7 +1207,7 @@ export default {
 .btn:hover{
   color:white !important;
 }
-.btn-sm{
+.btn-sm-radius{
   border-radius: 20px !important;
 }
 </style>
