@@ -238,7 +238,7 @@
                               role="status"
                               v-if="status.loadingItem2 === productsItem.id"
                             ></span>
-                            立即預約方案
+                            立即預約旅遊方案
                           </button>
 
                           <button

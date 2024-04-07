@@ -135,7 +135,7 @@
             <tr class="tr-border-bottom-0">
               <td colspan="6" class="text-end text-success">
                 <span class="td-p-right">預約</span>
-                {{ cartsData ? cartsData.length : 0 }} 項行程
+                {{ cartsData ? cartsData.length : 0 }} 項旅遊方案
               </td>
             </tr>
             <tr class="tr-border-bottom-0">
@@ -162,7 +162,7 @@
         type="button"
         v-if="cartsLength === 0"
       >
-        請預約套裝行程
+        請預約旅遊方案
       </button>
       <router-link
         v-else

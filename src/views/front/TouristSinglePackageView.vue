@@ -499,7 +499,7 @@
           </h6>
           <h5 class="mt-2 text-danger" v-else>預約時間已截止</h5>
         </div>
-        <div class="d-flex mb-4 flex-column">
+        <div class="d-flex mb-6 flex-column">
           <h5 class="mb-2">
             <span
               class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
@@ -514,12 +514,13 @@
             <span
               class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
             >
-              <i class="bi bi-car-front-fill me-2"></i>預約方案
+            <i class="bi bi-card-list me-2"></i>旅遊方案概覽
             </span>
           </h5>
-          <h6 class="mt-2">{{ productsItem.goStartDate }} 至 {{ productsItem.goEndDate }}</h6>
-          <!-- <h6 class="mt-2">集合地點為{{productsItem.category}}火車站</h6>
-          <h6 class="mt-2">集合時間為早上9點</h6> -->
+          <h6 class="mt-2">出遊年齡：6-80歲</h6>
+          <h6 class="mt-2">集合地點為 {{productsItem.category}} 火車站</h6>
+          <h6 class="mt-2">集合時間： 早上8點</h6>
+          <h6 class="mt-2">所需時間： 10-12 小時</h6>
         </div>
         <div class="d-flex justify-content-between mb-4 align-items-end">
           <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">
@@ -607,7 +608,7 @@
             role="status"
             v-if="status.loadingItem3 === productsItem.id"
           ></span>
-          預約方案
+          預約旅遊方案
         </button>
         <button
           class="btn btn-danger w-100 fs-5 mb-4 disabled btn-danger-rounded"
