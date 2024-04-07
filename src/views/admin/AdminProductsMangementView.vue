@@ -135,7 +135,7 @@
               <div v-if="Array.isArray(tempProduct.imagesUrl)">
                 <div v-for="(item, key) in tempProduct.imagesUrl" :key="key + 1213">
                   <img :src="item" alt="" class="img-fluid my-2" />
-                  <input type="text" class="form-control" v-model="tempProduct.imagesUrl[key]" />
+                  <input type="text" class="form-control my-2" v-model="tempProduct.imagesUrl[key]" />
                 </div>
                 <!-- v-if 判斷沒有圖片時顯示或有點選新增圖片未填寫完成網址時 -->
                 <button
@@ -157,7 +157,7 @@
                 </button>
               </div>
 
-              <div class="pt-3">
+              <div class="pt-4">
                 <input
                   type="file"
                   class="form-control"
@@ -305,6 +305,8 @@
                           data-bs-target="#collapseFirstDay"
                           aria-expanded="true"
                           aria-controls="collapseFirstDay"
+                          @click="toggleOpenProduct"
+                          :class="{ 'collapsed': !isCollapseFirstOpen }"
                         >
                           行程資料-第一天
                         </button>
@@ -313,6 +315,7 @@
                         id="collapseFirstDay"
                         class="accordion-collapse collapse"
                         data-bs-parent="#accordionFirstdDay"
+                        ref="collapseFirstDay" v-show="isCollapseFirstOpen"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -380,6 +383,31 @@
                                 >
                                 </textarea>
                               </div>
+                              <div class="col-md-6 mb-3" v-if="index === 0">
+                                <label for="itinerary_first_day_pm_title2" class="form-label"
+                                  >景點名稱-下午2<span class="required">*</span></label
+                                >
+                                <input
+                                  id="itinerary_first_day_pm_title2"
+                                  type="text"
+                                  v-model="item.itinerary_first_day_pm_title2"
+                                  class="form-control"
+                                  placeholder="請輸入景點名稱"
+                                />
+                              </div>
+                              <div class="mb-3" v-if="index === 0">
+                                <label for="itinerary_first_day_pm_content2" class="form-label"
+                                  >景點介紹-下午2<span class="required">*</span></label
+                                >
+                                <textarea
+                                  id="itinerary_first_day_pm_content2"
+                                  type="text"
+                                  v-model="item.itinerary_first_day_pm_content2"
+                                  class="form-control"
+                                  placeholder="請輸入景點介紹"
+                                >
+                                </textarea>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -400,6 +428,8 @@
                           data-bs-target="#collapseTwo"
                           aria-expanded="false"
                           aria-controls="collapseTwo"
+                          @click="toggleOpenSecond"
+                          :class="{ 'collapsed': !isCollapseSecondOpen }"
                         >
                           行程資料-第二天
                         </button>
@@ -408,6 +438,8 @@
                         id="collapseTwo"
                         class="accordion-collapse collapse"
                         data-bs-parent="#accordionSecondDay"
+                        ref="accordionSecondDay"
+                        v-show="isCollapseSecondOpen"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -473,6 +505,31 @@
                                 >
                                 </textarea>
                               </div>
+                              <div class="col-md-6 mb-3" v-if="index === 1">
+                                <label for="itinerary_second_day_pm_title2" class="form-label"
+                                  >景點名稱-下午2</label
+                                >
+                                <input
+                                  id="itinerary_second_day_pm_title2"
+                                  v-model="item.itinerary_second_day_pm_title2"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="請輸入景點名稱"
+                                />
+                              </div>
+                              <div class="mb-3" v-if="index === 1">
+                                <label for="itinerary_second_day_pm_content2" class="form-label"
+                                  >景點介紹-下午2</label
+                                >
+                                <textarea
+                                  v-model="item.itinerary_second_day_pm_content2"
+                                  id="itinerary_second_day_pm_content2"
+                                  type="text"
+                                  class="form-control"
+                                  placeholder="請輸入景點介紹"
+                                >
+                                </textarea>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -493,6 +550,8 @@
                           data-bs-target="#collapseThree"
                           aria-expanded="false"
                           aria-controls="collapseThree"
+                          @click="toggleOpenThird"
+                          :class="{ 'collapsed': !isCollapseThirdOpen }"
                         >
                           行程資料-第三天
                         </button>
@@ -501,6 +560,8 @@
                         id="collapseThree"
                         class="accordion-collapse collapse"
                         data-bs-parent="#accordionThirdDay"
+                        ref="accordionThirdDay"
+                        v-show="isCollapseThirdOpen"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -563,6 +624,31 @@
                                   id="itinerary_third_day_pm_content"
                                   type="text"
                                   v-model="item.itinerary_third_day_pm_content"
+                                  class="form-control"
+                                  placeholder="請輸入景點介紹"
+                                >
+                                </textarea>
+                              </div>
+                              <div class="col-md-6 mb-3" v-if="index === 2">
+                                <label for="itinerary_third_day_pm_title2" class="form-label"
+                                  >景點名稱-下午2</label
+                                >
+                                <input
+                                  id="itinerary_third_day_pm_title2"
+                                  type="text"
+                                  v-model="item.itinerary_third_day_pm_title2"
+                                  class="form-control"
+                                  placeholder="請輸入景點名稱"
+                                />
+                              </div>
+                              <div class="mb-3" v-if="index === 2">
+                                <label for="itinerary_third_day_pm_content2" class="form-label"
+                                  >景點介紹-下午2</label
+                                >
+                                <textarea
+                                  id="itinerary_third_day_pm_content2"
+                                  type="text"
+                                  v-model="item.itinerary_third_day_pm_content2"
                                   class="form-control"
                                   placeholder="請輸入景點介紹"
                                 >
@@ -767,6 +853,7 @@
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
 import AdminSidebar from '@/components/AdminSidebar.vue'
 import sweetAlert from '@/js/sweetAlert.js'
+import Collapse from 'bootstrap/js/dist/collapse'
 const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
@@ -788,21 +875,27 @@ export default {
             itinerary_first_day_am_title: '',
             itinerary_first_day_am_content: '',
             itinerary_first_day_pm_title: '',
-            itinerary_first_day_pm_content: ''
+            itinerary_first_day_pm_content: '',
+            itinerary_first_day_pm_title2: '',
+            itinerary_first_day_pm_content2: ''
           },
           {
             second_day_title: '',
             itinerary_second_day_am_title: '',
             itinerary_second_day_am_content: '',
             itinerary_second_day_pm_title: '',
-            itinerary_second_day_pm_content: ''
+            itinerary_second_day_pm_content: '',
+            itinerary_second_day_pm_title2: '',
+            itinerary_second_day_pm_content2: ''
           },
           {
             third_day_title: '',
             itinerary_third_day_am_title: '',
             itinerary_third_day_am_content: '',
             itinerary_third_day_pm_title: '',
-            itinerary_third_day_pm_content: ''
+            itinerary_third_day_pm_content: '',
+            itinerary_third_day_pm_title2: '',
+            itinerary_third_day_pm_content2: ''
           }
         ]
       },
@@ -816,10 +909,29 @@ export default {
       pageTotal: 0,
       currentPage: 1,
       limitPage: 10,
-      parsedLinks: ''
+      parsedLinks: '',
+      isCollapseFirstOpen: false,
+      isCollapseSecondOpen: false,
+      isCollapseThirdOpen:false
+    }
+  },
+  watch: {
+    $route() {
+      this.collapseFirstDay.hide()
+      this.accordionSecondDay.hide()
+      this.accordionThirdDay.hide()
     }
   },
   methods: {
+    toggleOpenProduct() {
+      this.isCollapseFirstOpen = !this.isCollapseFirstOpen
+    },
+    toggleOpenSecond() {
+      this.isCollapseSecondOpen = !this.isCollapseSecondOpen
+    },
+    toggleOpenThird() {
+      this.isCollapseThirdOpen = !this.isCollapseThirdOpen
+    },
     getProducts(currentPage = 1) {
       this.axios
         .get(`${api_url2}/products?_limit=${this.limitPage}&_page=${currentPage}`)
@@ -873,21 +985,27 @@ export default {
                 itinerary_first_day_am_title: '',
                 itinerary_first_day_am_content: '',
                 itinerary_first_day_pm_title: '',
-                itinerary_first_day_pm_content: ''
+                itinerary_first_day_pm_content: '',
+                itinerary_first_day_pm_title2: '',
+                itinerary_first_day_pm_content2: ''
               },
               {
                 second_day_title: '',
                 itinerary_second_day_am_title: '',
                 itinerary_second_day_am_content: '',
                 itinerary_second_day_pm_title: '',
-                itinerary_second_day_pm_content: ''
+                itinerary_second_day_pm_content: '',
+                itinerary_second_day_pm_title2: '',
+                itinerary_second_day_pm_content2: ''
               },
               {
                 third_day_title: '',
                 itinerary_third_day_am_title: '',
                 itinerary_third_day_am_content: '',
                 itinerary_third_day_pm_title: '',
-                itinerary_third_day_pm_content: ''
+                itinerary_third_day_pm_content: '',
+                itinerary_third_day_pm_title2: '',
+                itinerary_third_day_pm_content2: ''
               }
             ]
           }
@@ -898,14 +1016,18 @@ export default {
               itinerary_second_day_am_title: '',
               itinerary_second_day_am_content: '',
               itinerary_second_day_pm_title: '',
-              itinerary_second_day_pm_content: ''
+              itinerary_second_day_pm_content: '',
+              itinerary_second_day_pm_title2: '',
+              itinerary_second_day_pm_content2: ''
             },
             {
               third_day_title: '',
               itinerary_third_day_am_title: '',
               itinerary_third_day_am_content: '',
               itinerary_third_day_pm_title: '',
-              itinerary_third_day_pm_content: ''
+              itinerary_third_day_pm_content: '',
+              itinerary_third_day_pm_title2: '',
+              itinerary_third_day_pm_content2: ''
             }
           )
         } else if (this.tempProduct.itinerary_data.length === 2) {
@@ -914,7 +1036,9 @@ export default {
             itinerary_third_day_am_title: '',
             itinerary_third_day_am_content: '',
             itinerary_third_day_pm_title: '',
-            itinerary_third_day_pm_content: ''
+            itinerary_third_day_pm_content: '',
+            itinerary_third_day_pm_title2: '',
+            itinerary_third_day_pm_content2: ''
           })
         }
         if (!Array.isArray(this.tempProduct.imagesUrl)) {
@@ -1054,6 +1178,9 @@ export default {
     this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
+    this.collapseFirstDay = new Collapse(this.$refs.collapseFirstDay, { toggle: false })
+    this.accordionSecondDay = new Collapse(this.$refs.accordionSecondDay, { toggle: false })
+    this.accordionThirdDay = new Collapse(this.$refs.accordionSecondDay, { toggle: false })
   }
 }
 </script>
@@ -1076,5 +1203,11 @@ export default {
 .required {
     color: red;
     margin-left: 5px; /* 根据需要调整距离 */
+}
+.btn:hover{
+  color:white !important;
+}
+.btn-sm{
+  border-radius: 20px !important;
 }
 </style>
