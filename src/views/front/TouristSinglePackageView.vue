@@ -983,6 +983,9 @@ p {
   pointer-events: none;
   opacity: 0.5;
 }
+.btn-danger-rounded{
+  border-radius: 8px !important;
+}
 a.navbar-brand {
   cursor: pointer;
 }
