@@ -31,7 +31,7 @@
       v-for="productsItem in enabledProducts"
       :key="productsItem.id"
     >
-      <div class="col-12 col-md-7 col-lg-9 my-8 my-md-0">
+      <div class="col-12 col-md-7 col-lg-8 my-8 my-md-0">
         <div class="d-flex">
           <div class="w-5 d-none d-xl-flex">
             <i class="bi bi-geo-alt-fill position-relative fs-5">
@@ -73,19 +73,19 @@
                 </button>
               </li>
               <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="pills-contact-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-contact"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-contact"
-                    aria-selected="false"
-                  >
-                    下午2
-                  </button>
-                </li>
+                <button
+                  class="nav-link"
+                  id="pills-contact-tab"
+                  data-bs-toggle="pill"
+                  data-bs-target="#pills-contact"
+                  type="button"
+                  role="tab"
+                  aria-controls="pills-contact"
+                  aria-selected="false"
+                >
+                  下午2
+                </button>
+              </li>
             </ul>
             <div class="tab-content card-att" id="pills-tabContent">
               <div
@@ -128,7 +128,7 @@
                       <img
                         :src="productsItem.imagesUrl[1]"
                         class="img-fluid pb-4 pb-lg-0"
-                        :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title "
+                        :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title"
                       />
                     </div>
                   </div>
@@ -155,7 +155,7 @@
                       <img
                         :src="productsItem.imagesUrl[2]"
                         class="img-fluid pb-4 pb-lg-0"
-                        :alt=" productsItem.itinerary_data[0].itinerary_first_day_pm_title2"
+                        :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title2"
                       />
                     </div>
                   </div>
@@ -191,13 +191,13 @@
               >
                 <li class="nav-item" role="presentation">
                   <button
-                    class="nav-link"
-                    id="pills-home-tab2"
+                    class="nav-link active"
+                    id="pills-home-tab-two"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-home2"
+                    data-bs-target="#pills-home-two"
                     type="button"
                     role="tab"
-                    aria-controls="pills-home2"
+                    aria-controls="pills-home-two"
                     aria-selected="true"
                   >
                     早上
@@ -206,12 +206,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab3"
+                    id="pills-profile-tab-two"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile3"
+                    data-bs-target="#pills-profile-two"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile3"
+                    aria-controls="pills-profile-two"
                     aria-selected="false"
                   >
                     下午1
@@ -220,12 +220,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab4"
+                    id="pills-contact-tab-two"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile4"
+                    data-bs-target="#pills-contact-two"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile4"
+                    aria-controls="pills-contact-two"
                     aria-selected="false"
                   >
                     下午2
@@ -235,9 +235,9 @@
               <div class="tab-content card-att" id="pills-tabContent">
                 <div
                   class="tab-pane fade show active"
-                  id="pills-home2"
+                  id="pills-home-two"
                   role="tabpanel"
-                  aria-labelledby="pills-home-tab2"
+                  aria-labelledby="pills-home-tab-two"
                   tabindex="0"
                 >
                   <div class="row">
@@ -262,9 +262,9 @@
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-profile3"
+                  id="pills-profile-two"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab3"
+                  aria-labelledby="pills-profile-tab-two"
                   tabindex="0"
                 >
                   <div class="row">
@@ -289,9 +289,9 @@
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-profile4"
+                  id="pills-contact-two"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab4"
+                  aria-labelledby="pills-contact-tab-two"
                   tabindex="0"
                 >
                   <div class="row">
@@ -337,13 +337,13 @@
               >
                 <li class="nav-item" role="presentation">
                   <button
-                    class="nav-link"
-                    id="pills-home-tab3"
+                    class="nav-link active"
+                    id="pills-home-tab-third"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-home3"
+                    data-bs-target="#pills-home-third"
                     type="button"
                     role="tab"
-                    aria-controls="pills-home3"
+                    aria-controls="pills-home-third"
                     aria-selected="true"
                   >
                     早上
@@ -352,12 +352,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab5"
+                    id="pills-profile-tab-third"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile5"
+                    data-bs-target="#pills-profile-third"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile5"
+                    aria-controls="pills-profile-third"
                     aria-selected="false"
                   >
                     下午1
@@ -366,12 +366,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab6"
+                    id="pills-contact-tab-third"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile6"
+                    data-bs-target="#pills-contact-third"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile6"
+                    aria-controls="pills-contact-third"
                     aria-selected="false"
                   >
                     下午2
@@ -381,9 +381,9 @@
               <div class="tab-content card-att" id="pills-tabContent">
                 <div
                   class="tab-pane fade"
-                  id="pills-home3"
+                  id="pills-home-third"
                   role="tabpanel"
-                  aria-labelledby="pills-home-tab3"
+                  aria-labelledby="pills-home-tab-third"
                   tabindex="0"
                 >
                   <div class="row">
@@ -408,9 +408,9 @@
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-profile5"
+                  id="pills-profile-third"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab5"
+                  aria-labelledby="pills-profile-tab-third"
                   tabindex="0"
                 >
                   <div class="row">
@@ -435,9 +435,9 @@
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-profile6"
+                  id="pills-contact-third"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab6"
+                  aria-labelledby="pills-contact-tab-third"
                   tabindex="0"
                 >
                   <div class="row">
@@ -466,7 +466,7 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-5 col-lg-3">
+      <div class="col-12 col-md-5 col-lg-4">
         <div class="d-flex mb-4">
           <span
             class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
@@ -481,7 +481,11 @@
         </span>
         <div class="mt-2 mb-6">
           <div v-for="(item, index) in newProductsContent" :key="index + 123">
-            <p v-for="(description,i) in item.content" :key="i" :class="{'mb-3':i === 2,'ps-10':i!==0 && i !==3}">
+            <p
+              v-for="(description, i) in item.content"
+              :key="i"
+              :class="{ 'mb-3': i === 2, 'ps-10': i !== 0 && i !== 3 }"
+            >
               {{ description }}
             </p>
           </div>
@@ -514,13 +518,16 @@
             <span
               class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
             >
-            <i class="bi bi-card-list me-2"></i>旅遊方案概覽
+              <i class="bi bi-card-list me-2"></i>旅遊方案概覽
             </span>
           </h5>
-          <h6 class="mt-2">出遊年齡：6-80歲</h6>
-          <h6 class="mt-2">集合地點為 {{productsItem.category}} 火車站</h6>
-          <h6 class="mt-2">集合時間： 早上8點</h6>
-          <h6 class="mt-2">所需時間： 10-12 小時</h6>
+          <h6 class="mt-2">適合年齡：6-80歲</h6>
+          <h6 class="mt-2">集合地點與時間：{{ productsItem.category }}火車站，早上8點</h6>
+          <h6 class="mt-4">所需時間：約10-12小時</h6>
+          <h6 class="mt-2">交通：當地公車/客運，或渡輪/麵包車(依情況調整)</h6>
+          <h6 class="mt-4">
+            特色：深度體驗當地文化與生活，享受悠閒旅行節奏，包含足夠自由時間用於探索、拍照和休息
+          </h6>
         </div>
         <div class="d-flex justify-content-between mb-4 align-items-end">
           <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">
@@ -783,7 +790,7 @@ export default {
     },
     getNewText() {
       const idDescriptionsMap = {}
-      this.enabledProducts.forEach((item,index) => {
+      this.enabledProducts.forEach((item, index) => {
         // 檢查 item.description 是否存在
         if (item.content) {
           const splitText = item.content.split(';')
@@ -983,7 +990,7 @@ p {
   pointer-events: none;
   opacity: 0.5;
 }
-.btn-danger-rounded{
+.btn-danger-rounded {
   border-radius: 8px !important;
 }
 a.navbar-brand {
