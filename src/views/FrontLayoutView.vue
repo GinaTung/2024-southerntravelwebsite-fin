@@ -120,7 +120,9 @@ export default {
   created() {
     this.updateCart()
     this.getCarts()
-    this.getHeartData()
+    if(this.token){
+      this.getHeartData()
+    }
   },
   // 路由改變時隱藏選單
   watch: {
@@ -186,7 +188,7 @@ export default {
           })
         })
         .catch((err) => {
-          // sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
+          sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
     getCarts() {

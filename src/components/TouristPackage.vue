@@ -247,7 +247,9 @@ export default {
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1
     this.token = cookieToken
-    this.getHeartData()
+    if(this.token){
+        this.getHeartData()
+      }
   }
 }
 </script>

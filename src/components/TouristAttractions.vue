@@ -342,7 +342,9 @@ export default {
     setTimeout(() => {
       this.isLoading = false
       this.getAttractions()
-      this.getHeartData()
+      if(this.token){
+        this.getHeartData()
+      }
     }, 3000)
   }
 }
