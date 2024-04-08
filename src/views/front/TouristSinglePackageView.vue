@@ -46,7 +46,7 @@
             <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60" id="pills-tab" role="tablist">
               <li class="nav-item" role="presentation">
                 <button
-                  class="nav-link"
+                  class="nav-link active"
                   id="pills-home-tab"
                   data-bs-toggle="pill"
                   data-bs-target="#pills-home"
@@ -75,12 +75,12 @@
               <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab2"
+                    id="pills-contact-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile2"
+                    data-bs-target="#pills-contact"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile2"
+                    aria-controls="pills-contact"
                     aria-selected="false"
                   >
                     下午2
@@ -144,9 +144,9 @@
               </div>
               <div
                 class="tab-pane fade"
-                id="pills-profile2"
+                id="pills-contact"
                 role="tabpanel"
-                aria-labelledby="pills-profile-tab2"
+                aria-labelledby="pills-contact-tab"
                 tabindex="0"
               >
                 <div class="row">
@@ -380,7 +380,7 @@
               </ul>
               <div class="tab-content card-att" id="pills-tabContent">
                 <div
-                  class="tab-pane fade show active"
+                  class="tab-pane fade"
                   id="pills-home3"
                   role="tabpanel"
                   aria-labelledby="pills-home-tab3"
