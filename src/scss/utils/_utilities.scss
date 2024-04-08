@@ -585,7 +585,7 @@ $utilities: map-merge(
       property: background-color,
       class: bg,
       local-vars: (
-        "bg-opacity": 1
+        "bg-opacity": 1,
       ),
       values: map-merge(
         $utilities-bg-colors,
@@ -610,6 +610,7 @@ $utilities: map-merge(
         25: .25,
         50: .5,
         75: .75,
+        90: .90,//*custom
         100: 1
       )
     ),

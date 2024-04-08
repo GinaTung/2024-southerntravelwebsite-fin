@@ -1,5 +1,6 @@
 <template>
     <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
+    <BannerBlock />
   <div class="container py-10 py-lg-30 px-lg-20">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
@@ -105,11 +106,13 @@
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 import singleAttraction from '@/components/swiper/singleAttraction.vue'
+import BannerBlock from '@/components/BannerBlock.vue'
 import sweetAlert from '@/js/sweetAlert'
 
 export default {
   components: {
-    singleAttraction
+    singleAttraction,
+    BannerBlock
   },
   data() {
     return {

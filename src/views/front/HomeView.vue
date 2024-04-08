@@ -39,10 +39,10 @@
       </div>
     </div>
   </div>
-  <LatestNews></LatestNews>
-  <TouristAttractions></TouristAttractions>
-  <AdBlock></AdBlock>
-  <TouristPackage></TouristPackage>
+  <LatestNews />
+  <TouristAttractions />
+  <AdBlock />
+  <TouristPackage />
 </template>
 
 <script>
