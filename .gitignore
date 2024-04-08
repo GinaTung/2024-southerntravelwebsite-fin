@@ -30,6 +30,9 @@ coverage
 *.tsbuildinfo
 
 # Ignore environment files
-.env
+#.env
 # .env.development
 # .env.production
+
+a.json
+a.text

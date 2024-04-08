@@ -1,79 +1,81 @@
-@import '../utils/mixins';
+@import "../utils/mixins";
 .swiper {
+  width: 100%;
+  height: 100%;
+  .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .banner-bg {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    // max-width: 100%;
     width: 100%;
-    height: 100%;
-    .swiper-slide {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-    .banner-bg {
-      background-repeat: no-repeat;
-      background-position: center;
-      background-size: cover;
-      // max-width: 100%;
-      width: 100%;
-      max-height: auto;
-      margin-top: -96px; /* 往上 */
-      .banner-box {
-        max-width: 100%;
-        width: 784px;
-        color: #fff;
-        margin-top: 367.5px;
-        margin-bottom: 367.5px;
-        background-color: rgba(0, 0, 0, 0.6);
-        border-radius: 60px 0 60px 0;
-        @include pc-lg {
-          margin-top: 216px;
-          margin-bottom: 216px;
-          width: 75%;
-        }
-        @include pad-md {
-          margin-bottom: 0px;
-        }
-        @include mobile-L {
-          width: 312px;
-        }
-      }
-    }
-    .banner-img2 {
-        background-image: url("@/assets/img/pic-cijin shells.jpg");
-      position: relative;
-      object-fit: cover;
-    }
-    .banner-img1 {
-        background-image: url("@/assets/img/banner-bg.png");
-        position: relative;
-        object-fit: cover;
-      }
-    .swiper-button-next {
+    max-height: auto;
+    margin-top: -96px; /* 往上 */
+    .banner-box {
+      max-width: 100%;
+      width: 784px;
       color: #fff;
-      width: 80px;
-      height: 80px;
-      right: 3%;
-      @include pad-sm {
-        display: none;
+      margin-top: 367.5px;
+      margin-bottom: 367.5px;
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 60px 0 60px 0;
+      @include pc-lg {
+        margin-top: 216px;
+        margin-bottom: 216px;
+        width: 75%;
       }
-    }
-    .swiper-button-prev {
-      color: #fff;
-      width: 80px;
-      height: 80px;
-      left: 3%;
-      @include pad-sm {
-        display: none;
-      }
-    }
-    .swiper-pagination {
-      bottom: 3%;
-    }
-    .icon-map {
-      font-size: 32px;
       @include pad-md {
-        font-size: 16px;
+        margin-bottom: 0px;
+      }
+      @include mobile-L {
+        width: 312px;
       }
     }
   }
-  
-
-  
+  .banner-img3 {
+    background-image: url("@/assets/img/pic-5-2.jpg");
+    position: relative;
+    object-fit: cover;
+  }
+  .banner-img2 {
+    background-image: url("@/assets/img/pic-cijin shells.jpg");
+    position: relative;
+    object-fit: cover;
+  }
+  .banner-img1 {
+    background-image: url("@/assets/img/banner-bg.png");
+    position: relative;
+    object-fit: cover;
+  }
+  .swiper-button-next {
+    color: #fff;
+    width: 80px;
+    height: 80px;
+    right: 3%;
+    @include pad-sm {
+      display: none;
+    }
+  }
+  .swiper-button-prev {
+    color: #fff;
+    width: 80px;
+    height: 80px;
+    left: 3%;
+    @include pad-sm {
+      display: none;
+    }
+  }
+  .swiper-pagination {
+    bottom: 3%;
+  }
+  .icon-map {
+    font-size: 32px;
+    @include pad-md {
+      font-size: 16px;
+    }
+  }
+}

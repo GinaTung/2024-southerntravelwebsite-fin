@@ -28,9 +28,11 @@ $utilities: map-merge(
       property: opacity,
       values: (
         0: 0,
+        10:.10,
         25: .25,
         50: .5,
         75: .75,
+        95:.95,
         100: 1,
       )
     ),
@@ -163,17 +165,25 @@ $utilities: map-merge(
     // scss-docs-start utils-sizing
     "width": (
       property: width,
+      responsive: true,
       class: w,
       values: (
+        5: 5%,
+        15:15%,
         25: 25%,
+        40:40%,
         50: 50%,
+        60:60%,
         75: 75%,
+        85: 85%,
+        95: 95%,
         100: 100%,
         auto: auto
       )
     ),
     "max-width": (
       property: max-width,
+      responsive: true,
       class: mw,
       values: (100: 100%)
     ),
@@ -189,17 +199,25 @@ $utilities: map-merge(
     ),
     "height": (
       property: height,
+      responsive: true,
       class: h,
       values: (
+        5: 5%,
         25: 25%,
+        40:40%,
         50: 50%,
+        60:60%,
+        70:71%,
         75: 75%,
+        85: 85%,
+        95: 95%,
         100: 100%,
         auto: auto
       )
     ),
     "max-height": (
       property: max-height,
+      responsive: true,
       class: mh,
       values: (100: 100%)
     ),
@@ -211,7 +229,7 @@ $utilities: map-merge(
     "min-viewport-height": (
       property: min-height,
       class: min-vh,
-      values: (100: 100vh,75: 75vh,50: 50vh)
+      values: (100: 100vh,75: 75vh,50: 50vh,25:25vh)
     ),
     // scss-docs-end utils-sizing
     // Flex utilities
@@ -460,6 +478,7 @@ $utilities: map-merge(
     ),
     "font-size": (
       rfs: true,
+      responsive: true,//*custom
       property: font-size,
       class: fs,
       values: $font-sizes
@@ -566,7 +585,7 @@ $utilities: map-merge(
       property: background-color,
       class: bg,
       local-vars: (
-        "bg-opacity": 1
+        "bg-opacity": 1,
       ),
       values: map-merge(
         $utilities-bg-colors,
@@ -591,6 +610,7 @@ $utilities: map-merge(
         25: .25,
         50: .5,
         75: .75,
+        90: .90,//*custom
         100: 1
       )
     ),

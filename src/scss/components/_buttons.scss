@@ -1,22 +1,125 @@
 .btn-turquoise {
-    padding: 8px 24px;
+  padding: 8px 24px;
+  background: $primary-400;
+  border-radius: 40px;
+  border: 1px solid $primary-400;
+  color: $white;
+  &:hover {
+    background: $primary-600;
+    border: 1px solid $primary-600;
+  }
+  &:focus{
+    border: 3px solid $secondary-400;
+  }
+}
+.btn-outline-turquoise {
+  padding: 8px 24px;
+  background: $white;
+  border-radius: 40px;
+  color: $primary-400;
+  border: 1px solid $primary-400;
+  &:hover {
     background: $primary-400;
-    border-radius: 40px;
-    color: $white;
-    &:hover {
-      background: $white;
-      color: $primary-400;
-      outline: 1px solid $primary-400;
-    }
+    color: $white !important;
   }
-  .btn-outline-turquoise {
-    padding: 8px 24px;
-    background: $white;
-    border-radius: 40px;
-    color: $primary-400;
-    border: 1px solid $primary-400;
-    &:hover {
-      background: $primary-400;
-      color: $white;
-    }
+  &:focus{
+    border: 3px solid $secondary-400;
   }
+}
+
+.btn-cerulean-blue {
+  padding: 16px 69px;
+  background: $primary-600;
+  border-radius: 40px !important;
+  color: $white;
+  @include pad-md {
+    padding: 16px 40px;
+  }
+  &:hover {
+    background: $dark;
+    color: $white !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400;
+  }
+}
+
+.btn-outline-cerulean {
+  padding: 8px 24px;
+  background: $white;
+  border-radius: 40px;
+  color: $primary-600;
+  border: 1px solid $primary-600;
+  &:hover {
+    background: $primary-600;
+    color: $white !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400;
+  }
+}
+
+.btn-cerulean-blue-spacer {
+  @include pc-lg {
+    padding: 8px 21px;
+  }
+}
+
+.btn-square {
+  padding: 8px 12px;
+  background: $primary-400;
+  border-radius: 8px;
+  color: $white !important;
+  border: 1px solid $primary-400;
+  text-align: center;
+  &:hover {
+    background: $primary-600;
+    border: 1px solid $primary-600;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
+  }
+}
+.btn-outline-square {
+  padding: 8px 12px;
+  background: $white;
+  border-radius: 8px;
+  color: $primary-400;
+  border: 1px solid $primary-400;
+  text-align: center;
+  &:hover {
+    background: $primary-400 !important;
+    color: $white !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
+  }
+}
+.btn-cerulean {
+  padding: 8px 24px;
+  background: $primary-600;
+  border-radius: 8px;
+  color: $white;
+  border: 1px solid $primary-600 !important;
+  text-align: center;
+  &:hover {
+    background: $dark;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
+  }
+}
+.btn-golden-yellow {
+  text-align: center;
+  padding: 8px 24px;
+  background: $secondary-200;
+  color: #09484a;
+  border-radius: 40px;
+  &:hover {
+    background: #09484a; 
+    color: $secondary-200 !important;
+  }
+  &:focus{
+    border: 3px solid $secondary-400 !important;
+  }
+}

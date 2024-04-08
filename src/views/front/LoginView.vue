@@ -1,74 +1,89 @@
 <template>
-  <div class="container d-flex justify-content-center flex-column vh-85">
+  <div class="container py-10 py-lg-30">
     <div class="row justify-content-center align-items-cneter">
-      <div class="col-6">
-        <h1 class="h3 mb-3">會員登入</h1>
-        <form id="form" class="form-signin" @submit.prevent="login">
-          <div class="form-floating mb-3">
-            <input
+      <div class="col-md-6">
+        <h1 class="h3 mb-4 text-center">會員登入</h1>
+        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit="login">
+          <div class="form-floating mb-4">
+            <VeeField
               type="email"
+              name="email"
               class="form-control"
-              v-model="user.username"
-              id="username"
-              placeholder="name@example.com"
-              required autofocus autocomplete="username" disabled
+              v-model="user.email"
+              id="email"
+              :class="{ 'is-invalid': errors['email'] }"
+              placeholder="請輸入 Email"
+              rules="email|required"
+              autocomplete="useremail"
             />
-            <label for="username">Email address</label>
+            <label for="email">請輸入 Email</label>
+            <ErrorMessage name="email" class="invalid-feedback" />
           </div>
-          <div class="form-floating">
-            <input
+          <div class="form-floating mb-4">
+            <VeeField
               type="password"
               class="form-control"
+              name="password"
+              id="userpassword"
+              :class="{ 'is-invalid': errors['password'] }"
+              placeholder="請輸入Password"
+              rules="min:8|alpha_dash|required"
+              autocomplete="current-password"
               v-model="user.password"
-              id="password"
-              placeholder="Password"
-              required autocomplete="current-password" disabled
             />
-            <label for="password">Password</label>
+            <label for="userpassword">請輸入Password</label>
+            <ErrorMessage name="password" class="invalid-feedback" />
           </div>
-          <button
-            class="btn-turquoise w-100 mt-3 border-0"
-            type="submit"
-            id="login"
-          >
-            登入
-          </button>
-        </form>
+          <button class="btn-turquoise w-100 mt-4 btn-rounded" type="submit" id="login">登入</button>
+        </VeeForm>
       </div>
     </div>
   </div>
-  </template>
+</template>
 
 <script>
-const api_url = import.meta.env.VITE_USER_API_URL;
-// console.log(api_url);
-export default{
+import sweetAlert from '@/js/sweetAlert.js'
+const api_url2 = import.meta.env.VITE_API_URL2
+
+export default {
   data() {
     return {
       user: {
-        username: "",
-        password: "",
-      },
-    };
+        email: '',
+        password: ''
+      }
+    }
   },
   methods: {
     login() {
-      this.axios.post(`${api_url}/login`,this.user).then((res) => {
-          // console.log(res);
-          alert(`${res.data}`);
-          this.$router.push('/');
-      })
+      event.preventDefault();
+      this.axios
+        .post(`${api_url2}/login`, this.user)
+        .then((res) => {
+          sweetAlert.threeLayerCheckType('success', '會員登入成功')
+          // 解構資料中的 accessToken, expired 和 userId
+          const { accessToken, expired } = res.data
+          const userId = res.data.user.id;
+          document.cookie = `hexTokenU=${accessToken}; expires=${new Date(expired).toUTCString()}`
+          document.cookie = `userId=${userId}`
+          this.userIsLoggedIn2 = true
+          this.userId = userId
+          this.$router.push('/')
+          this.$emitter.emit('loginCheck2', true)
+          this.$emitter.emit('adminUpdateCart') // 發送特定事件
+        })
         .catch(() => {
-          // console.log(err);
-          //   console.dir(err);
-          alert(`維護中`);
-          this.$router.push('/');
-        });
+          sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`);
+        })
     }
+  },
+  mounted(){
+    window.scrollTo(0, 0);
   }
 }
 </script>
-
 <style lang="scss">
-
+.btn-rounded{
+  border-radius: 20px !important;
+}
 </style>
