@@ -102,7 +102,7 @@
     </div>
 
     <LikeBlock adCategoryTitle="sweet" />
-    <LikeBlock adCategoryTitle="taste" />
+    <!-- <LikeBlock adCategoryTitle="taste" /> -->
   </div>
 </template>
 

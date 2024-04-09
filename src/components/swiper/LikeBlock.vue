@@ -1,9 +1,19 @@
 <template>
   <div class="mt-10">
-    <h2>{{ adTitle[adCategoryTitle] }}</h2>
+    <!-- <h2>{{ adTitle[adCategoryTitle] }}</h2> -->
     <swiper
-      :slidesPerView="3"
-      :spaceBetween="15"
+      :slidesPerView="1"
+      :spaceBetween="10"
+      :breakpoints="{
+        '576': {
+          slidesPerView: 2,
+          spaceBetween: 20
+        },
+        '768': {
+          slidesPerView: 3,
+          spaceBetween: 30
+        }
+      }"
       :navigation="true"
       :pagination="{
         clickable: true
@@ -12,20 +22,14 @@
       class="mySwiper4"
     >
       <swiper-slide v-for="(attractionItem, key) in enabledAttractions" :key="key + 123">
-        <div class="card">
+        <div class="card h-100 flex-grow-1">
           <span class="tag text-white">{{ attractionItem.category }}</span>
-
-            <img :src="attractionItem.imageUrl" class="" alt="attractionItem.title" />
-
-          <div>
-            <div>
-              <div class="card-body">
-                <h5 class="fs-5 fs-xl-4 fw-bold text-primary-700 text-center">
-                  {{ attractionItem.title }}
-                </h5>
-                <div class="tag-yellow2">123</div>
-              </div>
-            </div>
+          <img :src="attractionItem.imageUrl" class="img-fluid" alt="attractionItem.title" />
+          <div class="card-body">
+            <h5 class="fs-5 fs-xl-4 fw-bold text-primary-700 text-center flex-grow-1 h-50">
+              {{ attractionItem.title }}
+            </h5>
+            <p class="h-100 p-5 flex-grow-1 h-50 text-center">加入收藏</p>
           </div>
         </div>
       </swiper-slide>
@@ -62,30 +66,26 @@ export default {
       attractions: [],
       enabledAttractions: [],
       adTitle: {
-        sweet: '猜你喜歡吃甜甜',
-        taste: '邀請你來嚐口感',
-        spices: '美味氣氛隨你加'
+        sweet: '猜你喜歡吃甜甜'
       }
     }
   },
   methods: {
     getAttractions() {
-      if (this.adCategoryTitle === 'sweet') {
-        this.axios
-          .get(`${api_url2}/attractions`)
-          .then((res) => {
-            this.attractions = res.data
-            this.attractions.forEach((item) => {
-              if (item.is_enabled === 1) {
-                this.enabledAttractions.push(item)
-              }
-            })
-            console.log(this.enabledAttractions)
+      this.axios
+        .get(`${api_url2}/attractions`)
+        .then((res) => {
+          this.attractions = res.data
+          this.attractions.forEach((item) => {
+            if (item.is_enabled === 1) {
+              this.enabledAttractions.push(item)
+            }
           })
-          .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
-          })
-      }
+          console.log(this.enabledAttractions)
+        })
+        .catch((err) => {
+          sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
+        })
     }
   },
   setup() {
