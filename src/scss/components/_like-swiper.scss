@@ -1,0 +1,59 @@
+// .mySwiper4 {
+//   width: 100%;
+//   height: 100%;
+//   @media (min-width: 768px) {
+//     padding: 60px 40px !important;
+//   }
+//   .swiper-wrapper {
+//     .swiper-slide {
+//       min-height: 300px;
+//       height: auto; /* 修改高度為自動 */
+//       display: flex;
+//       justify-content: center;
+//       align-items: center;
+//       .card {
+//         width: 100%;
+//         height: 100%;
+//         img {
+//           display: block;
+//           width: 100%;
+//           height: 100%;
+//           object-fit: cover;
+//         }
+//       }
+//     }
+//   }
+//   .swiper-button-next {
+//     color: #0ea0a6 !important;
+//     top: 45%;
+//     right: -20px;
+//   }
+//   .swiper-button-prev {
+//     color: #0ea0a6 !important;
+//     top: 45%;
+//     left: -20px;
+//   }
+  
+// }
+.mySwiper4 {
+  width: 100%;
+  height: 100%;
+  padding: 50px 0;
+  .swiper-slide {
+    text-align: center;
+    font-size: 18px;
+    background: #fff;
+    border: 1px solid #000;
+    min-height: 300px;
+    height: auto; /* 修改高度為自動 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img {
+      display: block;
+      object-fit: cover;
+    }
+  }
+}
+
+

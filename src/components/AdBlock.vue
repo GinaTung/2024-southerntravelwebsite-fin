@@ -15,7 +15,7 @@
     
   </div>
 </template>
-<style>
+<style lang="scss" scoped>
 .ad {
     background-image: url("../assets/img/banner-lg.png");
     background-repeat: no-repeat;

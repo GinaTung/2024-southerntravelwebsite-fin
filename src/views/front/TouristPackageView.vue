@@ -673,7 +673,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 p {
   text-align: justify; /* 將文字左右對齊 */
 }

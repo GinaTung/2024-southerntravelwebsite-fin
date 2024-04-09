@@ -87,7 +87,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 a.nav-link {
     cursor: pointer;
 }

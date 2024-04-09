@@ -100,6 +100,9 @@
         </div>
       </div>
     </div>
+
+    <LikeBlock adCategoryTitle="sweet" />
+    <LikeBlock adCategoryTitle="taste" />
   </div>
 </template>
 
@@ -107,12 +110,14 @@
 const api_url2 = import.meta.env.VITE_API_URL2
 import singleAttraction from '@/components/swiper/singleAttraction.vue'
 import BannerBlock from '@/components/BannerBlock.vue'
+import LikeBlock from '@/components/swiper/LikeBlock.vue'
 import sweetAlert from '@/js/sweetAlert'
 
 export default {
   components: {
     singleAttraction,
-    BannerBlock
+    BannerBlock,
+    LikeBlock
   },
   data() {
     return {
@@ -290,7 +295,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 p {
   text-align: justify; /* 將文字左右對齊 */
 }

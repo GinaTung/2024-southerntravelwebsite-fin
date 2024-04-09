@@ -475,7 +475,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .form-control {
   padding: 0.375rem 0.5rem 0.375rem 1.5rem;
 }

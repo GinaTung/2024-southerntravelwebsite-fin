@@ -433,7 +433,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .active-category {
   color: #0a58ca !important;
   background-color: #d5f3f4;

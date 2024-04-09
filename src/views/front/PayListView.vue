@@ -467,7 +467,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .number {
   border: 1px solid #43b8bd;
   width: 32px;

@@ -1184,7 +1184,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .page-link-radius {
   border-radius: 0 4px 4px 0 !important;
 }

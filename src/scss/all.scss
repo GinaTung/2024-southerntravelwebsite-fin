@@ -1,8 +1,8 @@
 // src/scss/styles.scss
 @import "bootstrap/scss/functions";
-@import "./utils/variables";
-@import "./utils/custom-color";
-@import "./utils/mixins";
+@import "./utils/_variables";
+@import "./utils/_custom-color";
+@import "./utils/_mixins";
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
@@ -18,17 +18,18 @@
 @import "bootstrap/scss/utilities/api";
 @import "./utils/mixins";
 
-@import "./base/base";
-@import "./base/border";
-@import "./base/link-color";
-@import "./components/buttons";
-@import "./components/banner-swiper";
-@import "./components/singleAttraction";
-@import "./components/heart";
-@import "./components/tag";
-@import "./components//card";
-@import "./components//tab";
-@import "./components/mask";
+@import "./base/_base";
+@import "./base/_border";
+@import "./base/_link-color";
+@import "./components/_buttons";
+@import "./components/_banner-swiper";
+@import "./components/_singleAttraction";
+@import "./components/_heart";
+@import "./components/_tag";
+@import "./components/_like-swiper";
+@import "./components/_card";
+@import "./components/_tab";
+@import "./components/_mask";
 @import "./components/_loader.scss";
 @import "bootstrap/scss/bootstrap.scss";
 

@@ -253,7 +253,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .card-img-top-2 {
   border-top-right-radius: calc(1.25rem - 1px) !important;
   border-top-left-radius: calc(1.25rem - 1px) !important;
