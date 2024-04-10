@@ -1,7 +1,10 @@
 <template>
   <swiper
     :spaceBetween="10"
-    :navigation="true"
+    :navigation="{
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    }"
     :thumbs="{ swiper: thumbsSwiper }"
     :modules="modules"
     class="mySwiper2"
@@ -9,6 +12,8 @@
     <swiper-slide v-for="(item, key) in imagesUrl" :key="key + 123">
       <img :src="item" class="img-fluid" />
     </swiper-slide>
+    <button class="swiper-button-next border-0 bg-transparent"></button>
+    <button class="swiper-button-prev border-0 bg-transparent"></button>
   </swiper>
   <swiper
     @swiper="setThumbsSwiper"

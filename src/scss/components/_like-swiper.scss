@@ -1,13 +1,15 @@
+@import "../utils/custom-color";
 .mySwiper4 {
   height: 100%;
-  padding: 50px 40px 50px 30px;
+  width: 100%;
+  padding: 50px 50px;
   @media (max-width: 768px) {
     padding: 30px 0;
+    margin: auto;
   }
   .swiper-slide {
-    min-width: 350px;
-    min-height: 300px;
-    height: auto; /* 修改高度為自動 */
+    min-height: 400px;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,13 +21,24 @@
     }
   }
   .swiper-button-next {
-    color: #0ea0a6 !important;
     top: 45%;
-    right: -20px;
+    right: 0%;
+    &::after {
+      content: "\F134";
+      font-family: "Bootstrap-icons";
+      color: $secondary-400;
+    }
   }
   .swiper-button-prev {
-    color: #0ea0a6 !important;
     top: 45%;
-    left: -20px;
+    left: 0%;
+    &::after {
+      content: "\F12A";
+      font-family: "Bootstrap-icons";
+      color: $secondary-400;
+    }
+  }
+  :root{
+    --swiper-navigation-size:45px;
   }
 }

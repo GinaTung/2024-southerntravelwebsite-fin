@@ -1,6 +1,27 @@
+@import "../utils/custom-color";
 .mySwiper2 {
   height: 100%;
   width: 100%;
+  .swiper-button-next {
+    top: 50%;
+    right: 0%;
+    &::after {
+      content: "\F134";
+      font-family: "Bootstrap-icons";
+      color: $secondary-400;
+      font-size: 50px;
+    }
+  }
+  .swiper-button-prev {
+    top: 50%;
+    left: 0%;
+    &::after {
+      content: "\F12A";
+      font-family: "Bootstrap-icons";
+      color: $secondary-400;
+      font-size: 50px;
+    }
+  }
 }
 
 .mySwiper3 {
