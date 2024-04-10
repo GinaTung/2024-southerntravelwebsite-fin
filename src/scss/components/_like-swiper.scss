@@ -1,4 +1,3 @@
-@import "../utils/custom-color";
 .mySwiper4 {
   height: 100%;
   width: 100%;
@@ -15,30 +14,49 @@
     align-items: center;
     img {
       height: 210px;
+      width: 100%;
       display: block;
       object-fit: cover;
       border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0;
     }
   }
   .swiper-button-next {
-    top: 45%;
+    top: 50%;
     right: 0%;
     &::after {
-      content: "\F134";
-      font-family: "Bootstrap-icons";
-      color: $secondary-400;
+      content: '\F133';
+      font-family: 'Bootstrap-icons';
+      color: #fabc73;
+      font-size: 50px;
+      @media (max-width: 768px){
+        font-size: 30px;
+      }
     }
   }
   .swiper-button-prev {
-    top: 45%;
+    top: 50%;
     left: 0%;
     &::after {
-      content: "\F12A";
-      font-family: "Bootstrap-icons";
-      color: $secondary-400;
+      content: '\F129';
+      font-family: 'Bootstrap-icons';
+      color: #fabc73;
+      font-size: 50px;
+      @media (max-width: 768px){
+        font-size: 30px;
+      }
     }
   }
-  :root{
-    --swiper-navigation-size:45px;
+  .swiper-pagination-bullet {
+    background: #fabc73;
+    opacity: 1 !important;
+    transition: 0.5s;
   }
+  .swiper-pagination-bullet-active {
+    padding: 0 8px;
+    border-radius: 6px;
+    transition: 0.5s;
+  }
+}
+.swiper-button-prev.swiper-button-disabled, .swiper-button-next.swiper-button-disabled {
+  opacity: 0.4;
 }

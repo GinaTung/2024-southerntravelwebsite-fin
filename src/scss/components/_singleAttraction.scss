@@ -1,14 +1,22 @@
-@import "../utils/custom-color";
 .mySwiper2 {
   height: 100%;
   width: 100%;
+  .swiper-slide {
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
   .swiper-button-next {
     top: 50%;
     right: 0%;
     &::after {
-      content: "\F134";
-      font-family: "Bootstrap-icons";
-      color: $secondary-400;
+      content: '\F285';
+      font-family: 'Bootstrap-icons';
+      color: #43b8bd;
+      font-weight: bold;
       font-size: 50px;
     }
   }
@@ -16,9 +24,10 @@
     top: 50%;
     left: 0%;
     &::after {
-      content: "\F12A";
-      font-family: "Bootstrap-icons";
-      color: $secondary-400;
+      content: '\F284';
+      font-weight: bold;
+      font-family: 'Bootstrap-icons';
+      color: #43b8bd;
       font-size: 50px;
     }
   }
@@ -32,15 +41,14 @@
     width: 25%;
     height: 100%;
     opacity: 0.4;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   .swiper-slide-thumb-active {
     opacity: 1;
   }
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }

@@ -22,4 +22,4 @@ $custom-colors: (
 );
 
 // 合併到色彩設定
-// $theme-colors: map-merge($theme-colors, $custom-colors);
+$theme-colors: map-merge($theme-colors, $custom-colors);

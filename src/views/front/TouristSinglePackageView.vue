@@ -635,16 +635,19 @@
         </button>
       </div>
     </div>
+    <LikeBlock adCategoryTitle="packages" :token="token" :user-id="userId" :current-date="currentDate"/>
   </div>
 </template>
 <script>
 const api_url2 = import.meta.env.VITE_API_URL2
 import BannerBlock from '@/components/BannerBlock.vue'
+import LikeBlock from '@/components/swiper/LikeBlock.vue'
 import sweetAlert from '@/js/sweetAlert'
 
 export default {
   components: {
-    BannerBlock
+    BannerBlock,
+    LikeBlock
   },
   data() {
     return {

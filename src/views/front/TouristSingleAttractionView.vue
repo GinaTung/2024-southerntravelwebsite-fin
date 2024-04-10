@@ -101,7 +101,7 @@
       </div>
     </div>
 
-    <LikeBlock adCategoryTitle="sweet" :token="token" :user-id="userId"/>
+    <LikeBlock adCategoryTitle="attractions" :token="token" :user-id="userId"/>
     <!-- <LikeBlock adCategoryTitle="taste" /> -->
   </div>
 </template>
@@ -292,7 +292,6 @@ export default {
     this.getAttractions()
     this.getHeartData()
     window.scrollTo(0, 0)
-    console.log(this.token,this.userId);
   }
 }
 </script>
