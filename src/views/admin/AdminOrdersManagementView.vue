@@ -350,4 +350,7 @@ export default {
   border-color: #0ea0a6;
   color: #fff !important;
 }
+.btn:hover{
+  color:white !important;
+}
 </style>

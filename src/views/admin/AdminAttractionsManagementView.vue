@@ -105,7 +105,7 @@
       <div class="modal-content border-0">
         <div class="modal-header bg-dark text-white">
           <h5 id="productModalLabel" class="modal-title">
-            <span>{{ isNew ? '新增產品' : '編輯產品' }}</span>
+            <span>{{ isNew ? '新增景點' : '編輯景點' }}</span>
           </h5>
           <button
             type="button"
@@ -134,11 +134,11 @@
               <div v-if="Array.isArray(tempProduct.imagesUrl)">
                 <div v-for="(item, key) in tempProduct.imagesUrl" :key="key + 1213">
                   <img :src="item" alt="" class="img-fluid my-2" />
-                  <input type="text" class="form-control" v-model="tempProduct.imagesUrl[key]" />
+                  <input type="text" class="form-control my-2" v-model="tempProduct.imagesUrl[key]" />
                 </div>
                 <!-- v-if 判斷沒有圖片時顯示或有點選新增圖片未填寫完成網址時 -->
                 <button
-                  class="btn btn-outline-primary btn-sm d-block w-100"
+                  class="btn btn-outline-primary btn-sm d-block w-100 btn-sm-radius"
                   v-if="
                     tempProduct.imagesUrl.length === 0 ||
                     tempProduct.imagesUrl[tempProduct.imagesUrl.length - 1]
@@ -149,14 +149,14 @@
                 </button>
                 <button
                   v-else
-                  class="btn btn-outline-danger btn-sm d-block w-100"
+                  class="btn btn-outline-danger btn-sm d-block w-100 btn-sm-radius"
                   @click="tempProduct.imagesUrl.pop()"
                 >
                   刪除圖片
                 </button>
               </div>
 
-              <div class="pt-3">
+              <!-- <div class="pt-3">
                 <input
                   type="file"
                   class="form-control"
@@ -165,7 +165,7 @@
                   placeholder="請輸入圖片連結"
                   @change="upload"
                 />
-              </div>
+              </div> -->
             </div>
             <div class="col-sm-8">
               <div class="mb-3">
@@ -510,5 +510,11 @@ export default {
 .required {
     color: red;
     margin-left: 5px; 
+}
+.btn:hover{
+  color:white !important;
+}
+.btn-sm-radius{
+  border-radius: 20px !important;
 }
 </style>

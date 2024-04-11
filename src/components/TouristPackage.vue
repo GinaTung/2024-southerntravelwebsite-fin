@@ -40,14 +40,14 @@
               <div class="card-att-img">
                 <img
                   :src="item.imageUrl"
-                  class="card-img-top-2 img-fluid h-100"
+                  class="card-radius img-fluid h-100"
                   :alt="item.title"
                 />
               </div>
               <!-- 愛心點選 -->
               <button
                 class="heart border-0"
-                @click="toggleFavorite(item.id, item.category, item.title)"
+                @click="toggleFavorite(item.id, item.category, item.title,item.imageUrl)"
                 type="button"
               >
                 <i
@@ -155,7 +155,7 @@ export default {
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -189,7 +189,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊方案'
+                  tag: '旅遊方案',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態
@@ -254,7 +255,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.card-img-top-2 {
+.card-radius {
   border-top-right-radius: calc(1.25rem - 1px) !important;
   border-top-left-radius: calc(1.25rem - 1px) !important;
 }

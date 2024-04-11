@@ -32,7 +32,7 @@
       v-for="productsItem in enabledProducts"
       :key="productsItem.id"
     >
-      <div class="col-12 col-md-7 col-lg-8 my-8 my-md-0">
+      <div class="col-12 col-md-7 col-lg-8 mb-8 mb-md-10 mb-lg-12">
         <div class="d-flex">
           <div class="w-5 d-none d-xl-flex">
             <i class="bi bi-geo-alt-fill position-relative fs-5">
@@ -467,7 +467,7 @@
         </div>
       </div>
 
-      <div class="col-12 col-md-5 col-lg-4">
+      <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
         <div class="d-flex mb-4">
           <span
             class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
@@ -579,7 +579,7 @@
           <button
             type="button"
             class="btn-outline-cerulean rounded-0 ms-2 p-2"
-            @click="toggleFavorite(productsItem.id, category, packageTitle)"
+            @click="toggleFavorite(productsItem.id, category, packageTitle, productsItem.imageUrl)"
           >
             <i
               :class="[
@@ -709,7 +709,7 @@ export default {
         .get(`${api_url2}/hearts`)
         .then((res) => {
           res.data.forEach((item) => {
-            if (item.userId === this.userId && item.tag === '旅遊景點') {
+            if (item.userId === this.userId && item.tag === '旅遊方案') {
               // 設置收藏狀態
               this.isFavorite[item.product] = true
             }
@@ -719,7 +719,7 @@ export default {
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -730,7 +730,7 @@ export default {
             // 檢查是否已存在收藏資料
             const existingData = res.data.find(
               (item) =>
-                item.product === productId && item.userId === this.userId && item.tag === '旅遊景點'
+                item.product === productId && item.userId === this.userId && item.tag === '旅遊方案'
             )
             if (existingData) {
               // 如果已存在收藏資料，則執行刪除操作
@@ -753,7 +753,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊景點'
+                  tag: '旅遊方案',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態
@@ -970,7 +971,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .line {
-  height: 97%;
+  height: 98%;
   display: block;
   position: absolute;
   top: 30px;

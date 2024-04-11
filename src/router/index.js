@@ -70,6 +70,18 @@ const router = createRouter({
               component: () => import('../views/front/OrderDoneView.vue')
             }
           ]
+        },
+        {
+          path: '/profile',
+          redirect: '/profile/favorites',
+          component: () => import('../views/front/ProfileHomeView.vue'),
+          children: [
+            {
+              path: 'favorites',
+              name: 'favorites',
+              component: () => import('../views/front/ProfileFavoritesView.vue')
+            },
+          ]
         }
       ]
     },
@@ -111,6 +123,10 @@ const router = createRouter({
     },
     {
       path: '/TouristAttractions/:pathMatch(.*)*',
+      redirect: '/'
+    },
+    {
+      path: '/profile/:pathMatch(.*)*',
       redirect: '/'
     },
     {

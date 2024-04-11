@@ -109,7 +109,8 @@
                         toggleFavorite(
                           attractionItem.id,
                           attractionItem.category,
-                          attractionItem.title
+                          attractionItem.title,
+                          attractionItem.imageUrl
                         )
                       "
                       type="button"
@@ -292,7 +293,7 @@ export default {
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -326,7 +327,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊景點'
+                  tag: '旅遊景點',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態

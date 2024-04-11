@@ -28,13 +28,13 @@
     </nav>
 
     <div
-      class="intr-title d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-3"
+      class="d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-5"
     >
       <span class="fs-3 me-2 fw-bold ps-3">{{ category }}</span>
       <p class="fs-3 me-4 fw-bold">{{ attractionTitle }}</p>
       <button
-        class="border-0 heart4 fs-3"
-        @click="toggleFavorite(attractionId, category, attractionTitle)"
+        class="border-0 heart-position-none fs-3 bg-transparent"
+        @click="toggleFavorite(attractionId, category, attractionTitle, attractionImageUrl)"
         type="button"
       >
         <i
@@ -131,7 +131,8 @@ export default {
       isFavorite: {},
       userId: '',
       token: '',
-      isLoading:false
+      isLoading:false,
+      attractionImageUrl:''
     }
   },
   methods: {
@@ -153,7 +154,7 @@ export default {
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -187,7 +188,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊景點'
+                  tag: '旅遊景點',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態
@@ -215,6 +217,7 @@ export default {
               this.enabledAttractions.push(item)
               this.attractionId = item.id
               this.isLoading = false
+              this.attractionImageUrl = item.imageUrl
             }
           })
           this.getNewText()

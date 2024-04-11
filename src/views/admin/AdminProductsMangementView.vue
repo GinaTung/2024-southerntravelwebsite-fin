@@ -157,7 +157,7 @@
                 </button>
               </div>
 
-              <div class="pt-4">
+              <!-- <div class="pt-4">
                 <input
                   type="file"
                   class="form-control"
@@ -166,7 +166,7 @@
                   placeholder="請輸入圖片連結"
                   @change="upload"
                 />
-              </div>
+              </div> -->
             </div>
             <div class="col-sm-8">
               <div class="mb-3">

@@ -75,12 +75,11 @@
               </span>
             </a>
           </li>
-          <!-- <li
-            class="nav-item btn-outline-turquoise ms-3"
-            style="padding-top: 5px; padding-bottom: 5px"
-          >
-            <i class="bi bi-person-fill fs-5"></i>
-          </li> -->
+          <li class="nav-item" style="padding-top: 5px; padding-bottom: 5px">
+            <a class="btn-outline-turquoise ms-3" href="#/profile">
+              <i class="bi bi-person-fill fs-5"></i>
+            </a>
+          </li>
           <li class="nav-item ms-3">
             <a href="#" @click="logout()" class="btn-outline-turquoise">登出</a>
           </li>
@@ -114,13 +113,13 @@ export default {
       userCartsNum: [],
       transCartNumberStatus: false,
       userIsLogOut: false,
-      isloading:false
+      isloading: false
     }
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
     this.updateCart()
     this.getCarts()
-    if(this.token){
+    if (this.token) {
       this.getHeartData()
     }
   },
@@ -141,7 +140,7 @@ export default {
       })
     },
     redirectToA(category) {
-      this.$root.navigatedFromHeader = true 
+      this.$root.navigatedFromHeader = true
       this.$router.push({ path: '/TouristPackage', query: { category: category } })
     },
     redirectToB(category) {
@@ -168,10 +167,10 @@ export default {
       this.userIsLoggedIn2 = false
       sweetAlert.threeLayerCheckType('success', '會員登出成功')
       this.isloading = true
-      if(this.$route.path === '/'){
+      if (this.$route.path === '/') {
         this.isloading = false
         this.$router.go(0)
-      }else{
+      } else {
         this.isloading = false
         this.$router.push('/')
       }

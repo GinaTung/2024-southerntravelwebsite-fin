@@ -1,4 +1,4 @@
-.heart3 {
+.heart3-old {
   padding: 7px 6px 6px 6px;
   color: $primary-400;
   position: absolute;
@@ -7,15 +7,14 @@
   background: white;
   border-radius: 48px;
   line-height: 1 !important;
-  z-index: 3;
+  z-index: 30;
 }
-.heart4 {
+.heart-position-none {
   padding: 7px 6px 6px 6px;
   color: $primary-400;
-  background: white;
   border-radius: 48px;
   line-height: 1 !important;
-  z-index: 3;
+  z-index: 30;
 }
 .heart {
   padding: 7px 6px 6px 6px;
@@ -26,5 +25,5 @@
   background: white;
   border-radius: 48px;
   line-height: 1 !important;
-  z-index: 3;
+  z-index: 30;
 }
