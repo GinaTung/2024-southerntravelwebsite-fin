@@ -13,9 +13,11 @@
     top: 50%;
     right: 0%;
     &::after {
-      content: '\F285';
+      border-radius: 50% !important;
+      background-color: #fabc73;
+      content: '\F135';
       font-family: 'Bootstrap-icons';
-      color: #43b8bd;
+      color: white;
       font-weight: bold;
       font-size: 50px;
     }
@@ -24,10 +26,12 @@
     top: 50%;
     left: 0%;
     &::after {
-      content: '\F284';
+      border-radius: 50% !important;
+      background-color: #fabc73;
+      content: '\F12C';
       font-weight: bold;
       font-family: 'Bootstrap-icons';
-      color: #43b8bd;
+      color: white;
       font-size: 50px;
     }
   }

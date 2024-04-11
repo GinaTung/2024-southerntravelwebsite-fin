@@ -21,31 +21,45 @@
     }
   }
   .swiper-button-next {
-    top: 50%;
+    top: 49%;
     right: 0%;
     &::after {
-      content: '\F133';
+      border-radius: 50% !important;
+      background-color: #fabc73;
+      content: '\F135';
       font-family: 'Bootstrap-icons';
-      color: #fabc73;
+      color: white;
       font-size: 50px;
-      @media (max-width: 768px){
+      @media (max-width: 768px) {
         font-size: 30px;
       }
     }
   }
   .swiper-button-prev {
-    top: 50%;
+    top: 49%;
     left: 0%;
     &::after {
-      content: '\F129';
+      border-radius: 50% !important;
+      background-color: #fabc73;
+      content: '\F12C';
       font-family: 'Bootstrap-icons';
-      color: #fabc73;
+      color: white;
       font-size: 50px;
-      @media (max-width: 768px){
+      @media (max-width: 768px) {
         font-size: 30px;
       }
     }
   }
+  @media (max-width: 576px) {
+  .swiper-button-next {
+      display: block;
+    }
+  }
+  @media (max-width: 576px) {
+    .swiper-button-prev {
+        display: block;
+      }
+    }
   .swiper-pagination-bullet {
     background: #fabc73;
     opacity: 1 !important;
@@ -57,6 +71,16 @@
     transition: 0.5s;
   }
 }
-.swiper-button-prev.swiper-button-disabled, .swiper-button-next.swiper-button-disabled {
+// 全域swiper
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
   opacity: 0.4;
 }
+.swiper{
+  .swiper-button-next {
+    width: 65px;
+  }
+  .swiper-button-prev {
+    width: 65px;
+  }
+} 

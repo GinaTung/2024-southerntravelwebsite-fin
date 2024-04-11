@@ -15,7 +15,7 @@
         class="position-absolute text-white end-5 bottom-5 fs-4 bg-transparent border-0"
         @click="openModal(item, key)"
       >
-        <i class="bi bi-zoom-in"></i>
+        <i class="bi bi-zoom-in fs-2"></i>
       </button>
     </swiper-slide>
     <button class="swiper-button-next border-0 bg-transparent"></button>
@@ -34,11 +34,6 @@
       <img :src="item" class="img-fluid" />
     </swiper-slide>
   </swiper>
-  <!-- 放大图片的模态框 -->
-  <!-- <div v-if="showModal" class="modal" @click="closeModal()">
-    <img :src="modalImageFilePath" class="modal-content" />
-  </div> -->
-  <!-- bigModal -->
   <div
     class="modal fade"
     id="bigModal"
@@ -48,12 +43,12 @@
     ref="bigModal"
   >
     <div class="modal-dialog modal-dialog-centered modal-xl">
-      <div class="modal-content">
-        <div class="modal-body">
-          <img :src="modalImageFilePath" class="modal-content" />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      <div class="modal-content bg-transparent">
+        <div class="modal-body p-0">
+          <img :src="modalImageFilePath" class="modal-content position-relative" />
+          <button type="button" class="border-0 bg-transparent position-absolute top-3 end-3 p-3" data-bs-dismiss="modal" aria-label="Close">
+            <i class="bi bi-x-lg text-secondary-400 fs-3"></i>
+          </button>
         </div>
       </div>
     </div>

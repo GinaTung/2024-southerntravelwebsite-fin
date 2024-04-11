@@ -51,7 +51,7 @@
     <singleAttraction />
     <div class="row g-3" v-for="(item, index) in enabledAttractions" :key="item.id">
       <div v-if="index === 0">
-        <div class="tourist-intr-content my-lg-10 my-5">
+        <div class="tourist-intr-content my-lg-10 my-8">
           <div class="mb-8">
             <p class="fs-5 fs-md-4 fw-bold mb-4">景點介紹</p>
             <p class="fs-6 fs-md-5">
@@ -102,7 +102,6 @@
     </div>
 
     <LikeBlock adCategoryTitle="attractions" :token="token" :user-id="userId"/>
-    <!-- <LikeBlock adCategoryTitle="taste" /> -->
   </div>
 </template>
 

@@ -174,7 +174,7 @@
           </div>
         </div>
         <div v-if="productsItem.itinerary_data.length > 1">
-          <div class="d-flex my-12">
+          <div class="d-flex mt-12">
             <div class="w-5 d-none d-xl-flex">
               <i class="bi bi-geo-alt-fill position-relative fs-5">
                 <div class="line"></div>
