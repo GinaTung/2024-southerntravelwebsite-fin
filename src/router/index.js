@@ -72,7 +72,7 @@ const router = createRouter({
           ]
         },
         {
-          path: '/profile',
+          path: 'profile',
           redirect: '/profile/favorites',
           component: () => import('../views/front/ProfileHomeView.vue'),
           children: [

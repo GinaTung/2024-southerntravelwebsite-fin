@@ -12,7 +12,8 @@
 }
 
 .nav-link.active {
-  color: $blue-600 !important;
+  color: $primary-500 !important;
+    font-weight: 600;
 }
 
 .link-color2:active {
@@ -33,5 +34,5 @@
   color: $primary-500 !important;
 }
 .nav-link2:focus {
-  color: $secondary-600 !important;
+  color: $secondary-400 !important;
 }

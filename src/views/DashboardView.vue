@@ -5,20 +5,19 @@
       <button
         class="navbar-toggler"
         type="button"
-        data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
+        @click="toggleNavbar"
       >
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="navbar">
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item" @click="toggleNavbar">
             <router-link to="/" class="nav-link">回前台</router-link>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" @click="toggleNavbar">
             <router-link v-if="userIsLoggedIn === false" to="/admin/adminlogin" class="nav-link"
               >管理者登入</router-link
             >
@@ -32,6 +31,7 @@
 </template>
 <script>
 const api_url = import.meta.env.VITE_API_URL
+import { Collapse } from 'bootstrap'
 import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
@@ -42,10 +42,18 @@ export default {
         password: ''
       },
       userIsLoggedIn: false,
-      token:'' 
+      token:'' ,
+      navCollapse: null
     }
   },
   methods: {
+    toggleNavbar () {
+      if (this.$refs.navbar.classList.contains('show')) {
+        this.navCollapse.hide()
+      } else {
+        this.navCollapse.show()
+      }
+    },
     checkAdmin() {
     // 訂閱登入事件
     this.$emitter.on('loginCheck', (msg) => {
@@ -84,6 +92,7 @@ export default {
        this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
       this.axios.defaults.headers.common['Authorization'] = this.token
       this.checkAdmin();
+      this.navCollapse = new Collapse(this.$refs.navbar, { toggle: false })
   }
 }
 </script>

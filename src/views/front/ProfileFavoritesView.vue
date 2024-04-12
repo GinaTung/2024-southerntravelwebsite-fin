@@ -209,6 +209,7 @@ export default {
     }
   },
   mounted() {
+    window.scrollTo(0, 0)
     const cookieUserId = this.getCookie('userId')
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1

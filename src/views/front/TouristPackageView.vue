@@ -680,7 +680,8 @@ p {
   text-align: justify; /* 將文字左右對齊 */
 }
 .active-category {
-  color: #0a58ca !important;
+  color: #43b8bd !important;
+  font-weight: 600;
   background-color: #d5f3f4;
 }
 .page-item {

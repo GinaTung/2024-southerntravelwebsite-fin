@@ -250,7 +250,6 @@ export default {
           })
         })
         .catch((err) => {
-          console.log(err);
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
@@ -298,7 +297,6 @@ export default {
                   this.getHeartData()
                 })
                 .catch((err) => {
-                  console.log(err);
                   sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
                 })
             }

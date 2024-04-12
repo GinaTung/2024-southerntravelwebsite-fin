@@ -1,5 +1,5 @@
 <template>
-  <banner-swiper></banner-swiper>
+  <banner-swiper />
   <div class="search-bar bg-primary-400 border-left-bottom">
     <div class="container text-center pt-10 pb-10 py-md-20">
       <p class="fs-3 text-white mb-10 fw-bold text-center">開始你的南部輕旅遊！</p>

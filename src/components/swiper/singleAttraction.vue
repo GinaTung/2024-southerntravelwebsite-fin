@@ -97,7 +97,6 @@ export default {
       this.modalImageFilePath = filePath
       this.modalImageIndex = index
       this.showModal = true
-      console.log(filePath, index)
     },
     getAttractions() {
       this.axios
