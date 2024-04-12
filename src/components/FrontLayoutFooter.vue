@@ -26,7 +26,7 @@
             <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0">南部旅遊預算</router-link>
           </li> -->
         </ul>
-        <ul class="navbar-nav flex-row ps-lg">
+        <ul class="navbar-nav flex-row">
           <li class="nav-item">
             <a class="nav-link py-0 ps-1" href="#">
               <i class="bi bi-youtube img-lg"></i>
@@ -83,10 +83,9 @@ export default {
     redirectToB(category) {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
       this.$router.push({ path: '/TouristAttractions', query: { category: category } })
-    },
+    }
   }
 }
-
 </script>
 <style lang="scss" scoped>
 @import '@/scss/all.scss';
@@ -95,8 +94,5 @@ export default {
     @include pc-lg{
         font-size: 32px;
     }
-}
-.ps-lg{
-  padding-left: 90px;
 }
 </style>

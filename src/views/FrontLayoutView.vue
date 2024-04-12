@@ -22,8 +22,34 @@
         ref="headerCollapse"
         v-show="isNavbarOpen"
       >
-        <ul class="navbar-nav m-auto mb-lg-0 align-items-center">
+        <ul class="navbar-nav m-auto mb-lg-0 align-items-center" v-if="userIsLoggedIn2 === false">
           <li class="nav-item mb-10 mb-lg-0">
+            <router-link
+              to="/TouristAttractions"
+              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              @click="redirectToB('全部')"
+              >南部旅遊景點</router-link
+            >
+          </li>
+          <li class="nav-item mb-10 mb-lg-0">
+            <router-link
+              to="/TouristPackage"
+              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              @click="redirectToA('全部')"
+              >南部旅遊方案</router-link
+            >
+          </li>
+          <!-- <li class="nav-item mb-10 mb-lg-0">
+            <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              >南部旅遊預算</router-link
+            >
+          </li> -->
+        </ul>
+        <ul
+          class="navbar-nav m-auto mb-lg-0 align-items-center"
+          v-else
+        >
+          <li class="nav-item mb-10 mb-lg-0 ps-xl-15">
             <router-link
               to="/TouristAttractions"
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
@@ -61,11 +87,7 @@
           class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center"
         >
           <li class="nav-item py-0">
-            <a
-              class="btn-outline-turquoise position-relative px-7"
-              href="#/cart"
-            
-            >
+            <a class="btn-outline-turquoise position-relative px-6" href="#/cart">
               <i class="bi bi-cart-fill"></i>
               <span
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -76,12 +98,12 @@
             </a>
           </li>
           <li class="nav-item py-0">
-            <a class="btn-outline-turquoise ms-3 px-7" href="#/profile">
+            <a class="btn-outline-turquoise ms-3 px-6" href="#/profile">
               <i class="bi bi-person-fill"></i>
             </a>
           </li>
-          <li class="nav-item ms-3">
-            <a href="#" @click="logout()" class="btn-outline-turquoise">登出</a>
+          <li class="nav-item">
+            <a href="#" @click="logout()" class=" ms-3 btn-outline-turquoise px-5">登出</a>
           </li>
         </ul>
       </div>
