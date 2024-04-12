@@ -24,7 +24,7 @@
             高雄港是台灣港務與海運核心，近年來亞太地區郵輪旅遊產業日益興盛
           </p>
           <p class="fs-6 fs-lg-5 d-none d-md-block text-center">
-            ，作為台灣第一大港的高雄，在港市合作、水岸開發的方針下
+            作為台灣第一大港的高雄，在港市合作、水岸開發的方針下
           </p>
         </div>
         <div class="d-block d-md-none mt-8 text-center text-white mb-8">
