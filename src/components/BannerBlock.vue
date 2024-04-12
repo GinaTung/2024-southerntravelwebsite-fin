@@ -49,6 +49,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/scss/all.scss';
 .ad {
   background-image: url('../assets/img/banner-lg.png');
   background-repeat: no-repeat;
@@ -57,5 +58,8 @@ export default {
   color: #fff;
   max-height: 250px;
   height: 250px;
+  @include pc-lg {
+    height: 150px;
+  }
 }
 </style>

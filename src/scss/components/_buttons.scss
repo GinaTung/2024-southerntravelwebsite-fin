@@ -9,7 +9,8 @@
     border: 1px solid $primary-600;
   }
   &:focus{
-    border: 3px solid $secondary-400;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 .btn-outline-turquoise {
@@ -23,13 +24,15 @@
     color: $white !important;
   }
   &:focus{
-    border: 3px solid $secondary-400;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 
 .btn-cerulean-blue {
   padding: 16px 69px;
   background: $primary-600;
+  border: 1px solid $primary-600;
   border-radius: 40px !important;
   color: $white;
   @include pad-md {
@@ -40,7 +43,8 @@
     color: $white !important;
   }
   &:focus{
-    border: 3px solid $secondary-400;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 
@@ -55,7 +59,8 @@
     color: $white !important;
   }
   &:focus{
-    border: 3px solid $secondary-400;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 
@@ -77,7 +82,8 @@
     border: 1px solid $primary-600;
   }
   &:focus{
-    border: 3px solid $secondary-400 !important;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 .btn-outline-square {
@@ -92,7 +98,8 @@
     color: $white !important;
   }
   &:focus{
-    border: 3px solid $secondary-400 !important;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 .btn-cerulean {
@@ -106,13 +113,15 @@
     background: $dark;
   }
   &:focus{
-    border: 3px solid $secondary-400 !important;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }
 .btn-golden-yellow {
   text-align: center;
   padding: 8px 24px;
   background: $secondary-200;
+  border: 1px solid $secondary-200 !important;
   color: #09484a;
   border-radius: 40px;
   &:hover {
@@ -120,6 +129,7 @@
     color: $secondary-200 !important;
   }
   &:focus{
-    border: 3px solid $secondary-400 !important;
+    border-color: $secondary-400;
+    box-shadow: 0 0 0 0.25rem rgba(250, 188, 115, 0.25);
   }
 }

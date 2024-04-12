@@ -60,13 +60,13 @@
           v-else
           class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center"
         >
-          <li class="nav-item">
+          <li class="nav-item py-0">
             <a
-              class="btn-outline-turquoise position-relative"
+              class="btn-outline-turquoise position-relative px-7"
               href="#/cart"
-              style="padding-top: 5px; padding-bottom: 5px"
+            
             >
-              <i class="bi bi-cart-fill fs-5"></i>
+              <i class="bi bi-cart-fill"></i>
               <span
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
               >
@@ -75,9 +75,9 @@
               </span>
             </a>
           </li>
-          <li class="nav-item" style="padding-top: 5px; padding-bottom: 5px">
-            <a class="btn-outline-turquoise ms-3" href="#/profile">
-              <i class="bi bi-person-fill fs-5"></i>
+          <li class="nav-item py-0">
+            <a class="btn-outline-turquoise ms-3 px-7" href="#/profile">
+              <i class="bi bi-person-fill"></i>
             </a>
           </li>
           <li class="nav-item ms-3">
@@ -247,3 +247,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.nav-item .bi::before {
+  font-size: 24px;
+}
+</style>

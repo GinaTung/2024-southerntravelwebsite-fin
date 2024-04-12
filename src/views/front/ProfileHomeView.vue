@@ -38,9 +38,38 @@
 
 <script>
 import BannerBlock from '@/components/BannerBlock.vue'
+import sweetAlert from '@/js/sweetAlert'
+
 export default {
   components: {
     BannerBlock
+  },
+  data() {
+    return {
+      token:''
+    }
+  },
+  methods:{
+    getCookie(cookieName) {
+      const cookies = document.cookie.split(';')
+      for (let cookie of cookies) {
+        const [name, value] = cookie.trim().split('=')
+        if (name === cookieName) {
+          return value
+        }
+      }
+      return null
+    }
+  },
+  mounted() {
+    const cookieToken = this.getCookie('hexTokenU')
+    this.token = cookieToken
+    if(!this.token){
+      sweetAlert.threeLayerCheckType('warning', `請登入會員後，才能查閱收藏列表`)
+      setTimeout(() => {
+        this.$router.push({ path: '/login' })
+      }, 1000)
+    }
   }
 }
 </script>

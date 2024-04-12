@@ -8,7 +8,7 @@
           <div v-for="index in 3" :key="index" class="col">
             <div class="card card-att h-100">
               <span class="tag text-white  placeholder-glow"></span>
-              <div class="heart3">
+              <div class="heart">
                 <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
               </div>
               <img

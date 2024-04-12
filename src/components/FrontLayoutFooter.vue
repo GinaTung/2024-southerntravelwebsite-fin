@@ -2,22 +2,22 @@
   <div class="bg-light">
     <div class="container py-10 justify-content-between">
       <nav class="navbar mb-10 flex-column flex-lg-row py-0">
-        <router-link to="/" class="navbar-brand mb-10 mb-lg-0 py-0 mx-0">
+        <router-link to="/" class="navbar-brand mb-3 mb-lg-0 py-0 mx-0">
           <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
         </router-link>
         <ul class="navbar-nav flex-column flex-lg-row">
-          <li class="nav-item mb-10 mb-lg-0">
+          <li class="nav-item">
             <router-link
               to="/TouristAttractions"
-              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0"
               @click="redirectToB('全部')"
               >南部旅遊景點</router-link
             >
           </li>
-          <li class="nav-item mb-10 mb-lg-0">
+          <li class="nav-item">
             <router-link
               to="/TouristPackage"
-              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0"
               @click="redirectToA('全部')"
               >南部旅遊方案</router-link
             >
@@ -26,7 +26,7 @@
             <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0">南部旅遊預算</router-link>
           </li> -->
         </ul>
-        <ul class="navbar-nav flex-row fs-add-2">
+        <ul class="navbar-nav flex-row ps-lg">
           <li class="nav-item">
             <a class="nav-link py-0 ps-1" href="#">
               <i class="bi bi-youtube img-lg"></i>
@@ -88,3 +88,15 @@ export default {
 }
 
 </script>
+<style lang="scss" scoped>
+@import '@/scss/all.scss';
+.img-lg{
+    font-size: 36px;
+    @include pc-lg{
+        font-size: 32px;
+    }
+}
+.ps-lg{
+  padding-left: 90px;
+}
+</style>

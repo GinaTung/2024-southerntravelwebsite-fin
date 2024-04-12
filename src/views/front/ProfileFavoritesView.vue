@@ -38,96 +38,128 @@
       高雄
     </button>
   </div>
-  <div class="row g-3 py-8">
-    <template v-if="heartData.length === 0">
-      <div
-        class="col-12 w-100 bg-primary-200 d-flex align-items-center justify-content-center rounded-1"
-        style="height: 260px"
-      >
-        <h3 class="text-center">無收藏資料</h3>
-      </div>
-    </template>
-    <template v-else>
-      <div class="col-12 col-md-6 col-lg-4" v-for="item in heartData" :key="item.id">
-        <div class="card h-100">
-          <img :src="item.imageUrl" class="img-fluid h-100 card-radius" alt="item.title" />
-          <span class="tag text-white">{{ item.category }}</span>
-          <button
-            class="heart border-0"
-            @click="toggleFavorite(item.product, item.category, item.title, item.imageUrl)"
-            type="button"
-          >
-            <i
-              :class="[
-                'bi',
-                {
-                  'bi-heart-fill': isFavorite[item.product],
-                  'bi-heart': !isFavorite[item.product]
-                }
-              ]"
-              style="font-size: 24px"
-            ></i>
-          </button>
-          <div class="card-body">
-            <router-link
-              :to="{
-                name: 'TouristSingleAttraction',
-                params: {
-                  category: item.category,
-                  title: item.title
-                }
-              }"
-            >
-              <h4
-                class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title stretched-link text-center"
-              >
-                {{ item.title }}
-              </h4>
-            </router-link>
+  <template v-if="isLoading">
+    <div class="row g-3 py-8">
+      <div v-for="index in 3" :key="index" class="col-12 col-md-6 col-lg-4">
+        <div class="card card-att h-100">
+          <span class="tag text-white"></span>
+          <div class="heart">
+            <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+          </div>
+          <img
+            src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+            class="img-fluid opacity-25 first-img z-index-1"
+            alt="Placeholder Image"
+          />
+          <div class="card-body placeholder-glow">
+            <span class="placeholder w-50 text-center"></span>
           </div>
         </div>
       </div>
-    </template>
-  </div>
+    </div>
+  </template>
+  <template v-else>
+    <div class="row g-3 py-8">
+      <template v-if="heartData.length === 0">
+        <div
+          class="col-12 w-100 bg-primary-200 d-flex align-items-center justify-content-center rounded-1"
+          style="height: 260px"
+        >
+          <h3 class="text-center">無收藏資料</h3>
+        </div>
+      </template>
+      <template v-else>
+        <div class="col-12 col-md-6 col-lg-4" v-for="item in heartData" :key="item.id">
+          <div class="card h-100">
+            <img :src="item.imageUrl" class="img-fluid h-100 card-radius" alt="item.title" />
+            <span class="tag text-white">{{ item.category }}</span>
+            <button
+              class="heart border-0"
+              @click="toggleFavorite(item.product, item.category, item.title, item.imageUrl)"
+              type="button"
+            >
+              <i
+                :class="[
+                  'bi',
+                  {
+                    'bi-heart-fill': isFavorite[item.product],
+                    'bi-heart': !isFavorite[item.product]
+                  }
+                ]"
+                style="font-size: 24px"
+              ></i>
+            </button>
+            <div class="card-body">
+              <router-link
+                :to="{
+                  name: 'TouristSingleAttraction',
+                  params: {
+                    category: item.category,
+                    title: item.title
+                  }
+                }"
+              >
+                <h4
+                  class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title stretched-link text-center"
+                >
+                  {{ item.title }}
+                </h4>
+              </router-link>
+            </div>
+          </div>
+        </div>
+      </template>
+    </div>
+  </template>
   <div class="d-flex justify-content-center align-items-center w-100">
     <span class="line"></span>
     <h5 class="flex-grow-1 fs-6 fs-lg-5 text-center">南部旅遊方案</h5>
     <span class="line"></span>
   </div>
   <div class="d-flex justify-content-center align-items-center my-5">
-    <button
-      type="button"
-      class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1"
-    >
+    <button type="button" class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1">
       全部
     </button>
-    <button
-      type="button"
-      class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1"
-    >
+    <button type="button" class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1">
       嘉義
     </button>
-    <button
-      type="button"
-      class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1"
-    >
+    <button type="button" class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1">
       台南
     </button>
-    <button
-      type="button"
-      class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1"
-    >
+    <button type="button" class="btn-outline-turquoise px-lg-10 mx-2 mx-lg-4 rounded-1">
       高雄
     </button>
   </div>
-  <div class="row g-3 py-8">
-    <div
-      class="col-12 w-100 bg-primary-200 d-flex align-items-center justify-content-center rounded-1"
-      style="height: 260px"
-    >
-      <h3 class="text-center">無收藏資料</h3>
+  <template v-if="isLoading">
+    <div class="row g-3 py-8">
+      <div v-for="index in 3" :key="index" class="col-12 col-md-6 col-lg-4">
+        <div class="card card-att h-100">
+          <span class="tag text-white"></span>
+          <div class="heart">
+            <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+          </div>
+          <img
+            src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+            class="img-fluid opacity-25 first-img z-index-1"
+            alt="Placeholder Image"
+          />
+          <div class="card-body placeholder-glow">
+            <span class="placeholder w-50 text-center"></span>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
+  </template>
+  <template v-else>
+    <div class="row g-3 py-8">
+      <div
+        class="col-12 w-100 bg-primary-200 d-flex align-items-center justify-content-center rounded-1"
+        style="height: 260px"
+      >
+        <h3 class="text-center">無收藏資料</h3>
+      </div>
+    </div>
+  </template>
 </template>
 
 <script>
@@ -141,7 +173,8 @@ export default {
       token: '',
       heartData: [],
       heartCategory: '全部',
-      isFavorite: {}
+      isFavorite: {},
+      isLoading: false
     }
   },
   methods: {
@@ -154,6 +187,7 @@ export default {
             this.heartData = res.data
             res.data.forEach((item) => {
               this.isFavorite[item.product] = true
+              this.isLoading =false
             })
           })
           .catch((err) => {
@@ -210,6 +244,7 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0)
+    this.isLoading = true
     const cookieUserId = this.getCookie('userId')
     const cookieToken = this.getCookie('hexTokenU')
     this.userId = cookieUserId * 1

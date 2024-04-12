@@ -7,7 +7,7 @@
         <div class="col-12 mb-5 mb-lg-0">
           <div class="card-attractions">
             <!-- 愛心點選 -->
-            <div class="heart3">
+            <div class="heart">
               <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
             </div>
             <img
