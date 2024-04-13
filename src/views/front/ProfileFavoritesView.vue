@@ -185,9 +185,9 @@ export default {
           .get(`${api_url2}/hearts?userId=${this.userId}&tag=旅遊景點`)
           .then((res) => {
             this.heartData = res.data
+            this.isLoading =false
             res.data.forEach((item) => {
               this.isFavorite[item.product] = true
-              this.isLoading =false
             })
           })
           .catch((err) => {

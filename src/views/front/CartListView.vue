@@ -73,7 +73,7 @@
                     <button
                       class="btn btn-outline-dark rounded-0 btn-sm"
                       type="button"
-                      v-if="item.qty > 1"
+                      :disabled="item.qty ===1"
                       @click="decrementQuantity(item.id, item.qty, item.price)"
                     >
                       <span
@@ -83,7 +83,7 @@
                       ></span>
                       <i class="bi bi-dash-lg"></i>
                     </button>
-                    <button
+                    <!-- <button
                       type="button"
                       class="btn btn-outline-danger rounded-0 btn-sm"
                       v-else
@@ -97,7 +97,7 @@
                         v-if="status.loadingItem3 === item.id"
                       ></span>
                       <i class="bi bi-trash"></i>
-                    </button>
+                    </button> -->
                     <input
                       min="1"
                       max="10"
@@ -111,7 +111,9 @@
                     <button
                       class="btn btn-outline-dark rounded-0 btn-sm"
                       type="button"
-                      @click="incrementQuantity(item.id, item.qty, item.price,item.product.max_travelers)"
+                      @click="
+                        incrementQuantity(item.id, item.qty, item.price, item.product.max_travelers)
+                      "
                     >
                       <span
                         class="spinner-border spinner-grow-sm"
@@ -154,8 +156,10 @@
       </table>
     </div>
     <div class="d-flex justify-content-between">
-      <router-link class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1" to="/TouristPackage"
-      @click="redirectToA('全部')"
+      <router-link
+        class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1"
+        to="/TouristPackage"
+        @click="redirectToA('全部')"
         >繼續預約</router-link
       >
       <button
@@ -238,10 +242,24 @@ export default {
             }
           })
           this.cartsLength = this.userCarts.length
+          if (this.cartsLength === 0) {
+            // 顯示提示訊息
+            sweetAlert.fourLayerCheckType(
+              'warning',
+              '目前無購物車資料',
+              '將在',
+              '秒後自動跳轉至旅遊景點方案頁面',
+              '預約購買旅遊方案'
+            )
+            setTimeout(() => {
+                // 將使用者導向到旅遊景點方案頁面
+                this.$router.push({ path: '/TouristPackage' });
+            }, 11000); 
+          }
           this.getProducts()
         })
         .catch((err) => {
-          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     getCart() {
@@ -250,6 +268,20 @@ export default {
         .then((res) => {
           this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
           this.cartsLength = this.userCarts.length
+          if (this.cartsLength === 0) {
+            // 顯示提示訊息
+            sweetAlert.fourLayerCheckType(
+              'warning',
+              '目前無購物車資料',
+              '將在',
+              '秒後自動跳轉至旅遊景點方案頁面',
+              '預約購買旅遊方案'
+            )
+            setTimeout(() => {
+                // 將使用者導向到旅遊景點方案頁面
+                this.$router.push({ path: '/TouristPackage' });
+            }, 11000); 
+          }
           if (this.userCarts.length === 0) {
             // 如果购物车没有任何内容，则将购物车数量设置为0
             this.$emitter.emit('updateCartNum', 0)
@@ -259,7 +291,7 @@ export default {
           }
         })
         .catch((err) => {
-          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     deleteCart(id, title) {
@@ -284,7 +316,7 @@ export default {
         })
         .catch((err) => {
           this.status.loadingItem3 = ''
-          sweetAlert.threeLayerCheckType('error', `刪除購物車資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `刪除購物車資料失敗`)
           this.status.loadingItem = false
         })
     },
@@ -332,10 +364,10 @@ export default {
         })
         .catch((err) => {
           this.isLoading = false
-          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
-    incrementQuantity(id, qty, price,maxNum) {
+    incrementQuantity(id, qty, price, maxNum) {
       this.status.loadingItem2 = id
       if (qty < maxNum) {
         qty += 1
@@ -362,11 +394,11 @@ export default {
             }
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `增加購物車預約數量失敗`);
+            sweetAlert.threeLayerCheckType('error', `增加購物車預約數量失敗`)
           })
       } else {
         this.status.loadingItem2 = ''
-        sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`);
+        sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`)
       }
     },
     decrementQuantity(id, qty, price) {
@@ -399,6 +431,8 @@ export default {
             this.status.loadingItem4 = ''
             alert('更新購物車資料失敗')
           })
+      }else {
+        this.status.loadingItem2 = ''
       }
     },
     back() {
@@ -447,7 +481,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `更新購物車資料失敗`);
+            sweetAlert.threeLayerCheckType('error', `更新購物車資料失敗`)
           })
       } else {
         // 如果使用者資料不存在，執行 POST 請求
@@ -465,7 +499,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `儲存購物車資料失敗`);
+            sweetAlert.threeLayerCheckType('error', `儲存購物車資料失敗`)
           })
       }
     }
@@ -574,5 +608,8 @@ export default {
 }
 .btn-danger-rounded {
   border-radius: 8px !important;
+}
+.swal2-loader{
+  display: none;
 }
 </style>

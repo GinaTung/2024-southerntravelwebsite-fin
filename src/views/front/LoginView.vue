@@ -60,7 +60,6 @@ export default {
       this.axios
         .post(`${api_url2}/login`, this.user)
         .then((res) => {
-          sweetAlert.threeLayerCheckType('success', '會員登入成功')
           // 解構資料中的 accessToken, expired 和 userId
           const { accessToken, expired } = res.data
           const userId = res.data.user.id;
@@ -68,11 +67,13 @@ export default {
           document.cookie = `userId=${userId}`
           this.userIsLoggedIn2 = true
           this.userId = userId
-          this.$router.push('/')
-          this.$emitter.emit('loginCheck2', true)
-          this.$emitter.emit('adminUpdateCart') // 發送特定事件
+          sweetAlert.threeLayerCheckType('success', '會員登入成功')
+            this.$emitter.emit('loginCheck2', true)
+            this.$emitter.emit('adminUpdateCart', true) // 發送特定事件
+            this.$router.push('/')
         })
-        .catch(() => {
+        .catch((err) => {
+          console.log(err);
           sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`);
         })
     }
