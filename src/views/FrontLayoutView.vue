@@ -8,7 +8,6 @@
         class="navbar-toggler border-0"
         type="button"
         data-bs-toggle="collapse"
-        data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent"
         aria-expanded="false"
         aria-label="Toggle navigation"
@@ -17,26 +16,23 @@
         <i class="bi bi-list" style="font-size: 3rem; color: #0ea0a6"></i>
       </button>
       <div
-        class="collapse navbar-collapse py-10 py-lg-0"
+        class="collapse navbar-collapse"
         id="navbarSupportedContent"
         ref="headerCollapse"
-        v-show="isNavbarOpen"
       >
-        <ul class="navbar-nav m-auto mb-lg-0 align-items-center" v-if="userIsLoggedIn2 === false">
+        <ul class="navbar-nav m-auto mb-lg-0 align-items-center pt-10 pt-lg-0" v-if="userIsLoggedIn2 === false">
           <li class="nav-item mb-10 mb-lg-0">
-            <router-link
-              to="/TouristAttractions"
+            <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
               @click="redirectToB('全部')"
-              >南部旅遊景點</router-link
+              >南部旅遊景點</button
             >
           </li>
           <li class="nav-item mb-10 mb-lg-0">
-            <router-link
-              to="/TouristPackage"
+            <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
               @click="redirectToA('全部')"
-              >南部旅遊方案</router-link
+              >南部旅遊方案</button
             >
           </li>
           <!-- <li class="nav-item mb-10 mb-lg-0">
@@ -46,23 +42,21 @@
           </li> -->
         </ul>
         <ul
-          class="navbar-nav m-auto mb-lg-0 align-items-center"
+          class="navbar-nav m-auto mb-lg-0 align-items-center pt-10 pt-lg-0"
           v-else
         >
           <li class="nav-item mb-10 mb-lg-0 ps-xl-15">
-            <router-link
-              to="/TouristAttractions"
+            <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
               @click="redirectToB('全部')"
-              >南部旅遊景點</router-link
+              >南部旅遊景點</button
             >
           </li>
           <li class="nav-item mb-10 mb-lg-0">
-            <router-link
-              to="/TouristPackage"
+            <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
               @click="redirectToA('全部')"
-              >南部旅遊方案</router-link
+              >南部旅遊方案</button
             >
           </li>
           <!-- <li class="nav-item mb-10 mb-lg-0">
@@ -73,7 +67,7 @@
         </ul>
         <ul
           v-if="userIsLoggedIn2 === false"
-          class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center"
+          class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center py-10 pb-10 pb-lg-0"
         >
           <li class="nav-item">
             <router-link to="/login" class="btn-outline-turquoise">登入</router-link>
@@ -84,7 +78,7 @@
         </ul>
         <ul
           v-else
-          class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center"
+          class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center pb-10 pb-lg-0"
         >
           <li class="nav-item py-0">
             <a class="btn-outline-turquoise position-relative px-6" href="#/cart">
@@ -182,7 +176,12 @@ export default {
       }
     },
     toggleNavbar() {
-      this.isNavbarOpen = !this.isNavbarOpen
+      // this.isNavbarOpen = !this.isNavbarOpen
+      if (this.$refs.headerCollapse.classList.contains('show')) {
+        this.headerCollapse.hide()
+      } else {
+        this.headerCollapse.show()
+      }
     },
     logout() {
       this.deleteAllCookies()

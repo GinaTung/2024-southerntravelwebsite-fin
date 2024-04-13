@@ -155,6 +155,7 @@
     </div>
     <div class="d-flex justify-content-between">
       <router-link class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1" to="/TouristPackage"
+      @click="redirectToA('全部')"
         >繼續預約</router-link
       >
       <button
@@ -222,6 +223,10 @@ export default {
     }
   },
   methods: {
+    redirectToA(category) {
+      this.$root.navigatedFromHeader = true
+      this.$router.push({ path: '/TouristPackage', query: { category: category } })
+    },
     getCarts() {
       this.axios
         .get(`${api_url2}/carts`)
