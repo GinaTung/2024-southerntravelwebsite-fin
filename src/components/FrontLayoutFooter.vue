@@ -74,6 +74,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      path: ''
+    }
+  }, 
   methods:{
     redirectToA(category) {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
@@ -84,6 +89,9 @@ export default {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
       this.$router.push({ path: '/TouristAttractions', query: { category: category } })
     }
+  },
+  mounted(){
+    this.path = this.$route.path
   }
 }
 </script>

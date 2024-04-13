@@ -437,8 +437,7 @@ export default {
 
 <style lang="scss" scoped>
 .active-category {
-  color: #43b8bd !important;
-  font-weight: 600;
+  color: #0ea0a6 !important;
   background-color: #d5f3f4;
 }
 .card-att .card-att-img img {

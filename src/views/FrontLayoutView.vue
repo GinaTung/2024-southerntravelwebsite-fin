@@ -15,55 +15,26 @@
       >
         <i class="bi bi-list" style="font-size: 3rem; color: #0ea0a6"></i>
       </button>
-      <div
-        class="collapse navbar-collapse"
-        id="navbarSupportedContent"
-        ref="headerCollapse"
-      >
-        <ul class="navbar-nav m-auto mb-lg-0 align-items-center pt-10 pt-lg-0" v-if="userIsLoggedIn2 === false">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent" ref="headerCollapse">
+        <ul class="navbar-nav m-auto mb-lg-0 align-items-center pt-10 pt-lg-0">
           <li class="nav-item mb-10 mb-lg-0">
             <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
-              @click="redirectToB('全部')"
-              >南部旅遊景點</button
+              @click="redirectTo('TouristAttractions', '全部')"
+              :class="{ 'active': isActive('/TouristAttractions') }"
             >
-          </li>
-          <li class="nav-item mb-10 mb-lg-0">
-            <button
-              class="nav-link px-5 px-xl-10 fs-5 text-dark"
-              @click="redirectToA('全部')"
-              >南部旅遊方案</button
-            >
-          </li>
-          <!-- <li class="nav-item mb-10 mb-lg-0">
-            <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-5 text-dark"
-              >南部旅遊預算</router-link
-            >
-          </li> -->
-        </ul>
-        <ul
-          class="navbar-nav m-auto mb-lg-0 align-items-center pt-10 pt-lg-0"
-          v-else
-        >
-          <li class="nav-item mb-10 mb-lg-0 ps-xl-15">
-            <button
-              class="nav-link px-5 px-xl-10 fs-5 text-dark"
-              @click="redirectToB('全部')"
-              >南部旅遊景點</button
-            >
+              南部旅遊景點
+            </button>
           </li>
           <li class="nav-item mb-10 mb-lg-0">
             <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
-              @click="redirectToA('全部')"
-              >南部旅遊方案</button
+              @click="redirectTo('TouristPackage', '全部')"
+              :class="{ 'active': isActive('/TouristPackage') }"
             >
+              南部旅遊方案
+            </button>
           </li>
-          <!-- <li class="nav-item mb-10 mb-lg-0">
-            <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-5 text-dark"
-              >南部旅遊預算</router-link
-            >
-          </li> -->
         </ul>
         <ul
           v-if="userIsLoggedIn2 === false"
@@ -73,7 +44,12 @@
             <router-link to="/login" class="btn-outline-turquoise">登入</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/signup" class="btn-turquoise ms-3">註冊</router-link>
+            <router-link
+              to="/signup"
+              class="btn-turquoise ms-3"
+            >
+              註冊
+            </router-link>
           </li>
         </ul>
         <ul
@@ -97,7 +73,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" @click="logout()" class=" ms-3 btn-outline-turquoise px-5">登出</a>
+            <a href="#" @click="logout()" class="ms-3 btn-outline-turquoise px-5">登出</a>
           </li>
         </ul>
       </div>
@@ -129,7 +105,8 @@ export default {
       userCartsNum: [],
       transCartNumberStatus: false,
       userIsLogOut: false,
-      isloading: false
+      isloading: false,
+      path: ''
     }
   }, // 在頁首區塊中監聽事件並更新購物車數量的值
   created() {
@@ -155,13 +132,13 @@ export default {
         this.cartsLength = msg
       })
     },
-    redirectToA(category) {
+    redirectTo(page, category) {
       this.$root.navigatedFromHeader = true
-      this.$router.push({ path: '/TouristPackage', query: { category: category } })
+      let path = page === 'TouristPackage' ? '/TouristPackage' : '/TouristAttractions'
+      this.$router.push({ path: path, query: { category: category } })
     },
-    redirectToB(category) {
-      this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
-      this.$router.push({ path: '/TouristAttractions', query: { category: category } })
+    isActive(routePath) {
+      return this.path === routePath
     },
     checkLoggedInUser() {
       this.$emitter.on('loginCheck2', (msg) => {
@@ -188,7 +165,7 @@ export default {
       this.userIsLoggedIn2 = false
       sweetAlert.threeLayerCheckType('success', '會員登出成功')
       this.isloading = true
-      if (this.$route.path === '/') {
+      if (this.path === '/') {
         this.isloading = false
         this.$router.go(0)
       } else {
@@ -265,11 +242,18 @@ export default {
     this.checkLoggedInUser()
     const cookieUserId = this.getCookie('userId')
     this.userId = cookieUserId * 1
+    this.path = this.$route.path
   }
 }
 </script>
 <style lang="scss" scoped>
 .nav-item .bi::before {
   font-size: 24px;
+}
+.active {
+  color: #0ea0a6;
+}
+.btn-turquoise.active{
+  color: white;
 }
 </style>
