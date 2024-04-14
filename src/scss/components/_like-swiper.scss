@@ -25,7 +25,7 @@
     right: 0%;
     &::after {
       border-radius: 50% !important;
-      background-color: #fabc73;
+      background-color: var(--bs-secondary);
       content: '\F135';
       font-family: 'Bootstrap-icons';
       color: white;
@@ -40,7 +40,7 @@
     left: 0%;
     &::after {
       border-radius: 50% !important;
-      background-color: #fabc73;
+      background-color: var(--bs-secondary);
       content: '\F12C';
       font-family: 'Bootstrap-icons';
       color: white;
