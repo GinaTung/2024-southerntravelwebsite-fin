@@ -135,7 +135,11 @@
               <div v-if="Array.isArray(tempProduct.imagesUrl)">
                 <div v-for="(item, key) in tempProduct.imagesUrl" :key="key + 1213">
                   <img :src="item" alt="" class="img-fluid my-2" />
-                  <input type="text" class="form-control my-2" v-model="tempProduct.imagesUrl[key]" />
+                  <input
+                    type="text"
+                    class="form-control my-2"
+                    v-model="tempProduct.imagesUrl[key]"
+                  />
                 </div>
                 <!-- v-if 判斷沒有圖片時顯示或有點選新增圖片未填寫完成網址時 -->
                 <button
@@ -181,7 +185,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="day_num" class="form-label">旅遊天數<span class="required">*</span></label>
+                  <label for="day_num" class="form-label"
+                    >旅遊天數<span class="required">*</span></label
+                  >
                   <input
                     id="day_num"
                     type="number"
@@ -191,7 +197,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="creation_date" class="form-label">建立日期<span class="required">*</span></label>
+                  <label for="creation_date" class="form-label"
+                    >建立日期<span class="required">*</span></label
+                  >
                   <input
                     id="creation_date"
                     type="date"
@@ -202,7 +210,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label">分類<span class="required">*</span></label>
+                  <label for="category" class="form-label"
+                    >分類<span class="required">*</span></label
+                  >
                   <input
                     id="category"
                     type="text"
@@ -256,7 +266,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="max_travelers" class="form-label">出遊上限人數<span class="required">*</span></label>
+                  <label for="max_travelers" class="form-label"
+                    >出遊上限人數<span class="required">*</span></label
+                  >
                   <input
                     id="max_travelers"
                     type="number"
@@ -270,7 +282,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="origin_price" class="form-label">原價<span class="required">*</span></label>
+                  <label for="origin_price" class="form-label"
+                    >原價<span class="required">*</span></label
+                  >
                   <input
                     id="origin_price"
                     type="number"
@@ -299,14 +313,12 @@
                     <div class="accordion-item">
                       <h2 class="accordion-header">
                         <button
-                          class="accordion-button bg-light"
+                          class="accordion-button"
                           type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseFirstDay"
-                          aria-expanded="true"
+                          aria-expanded="false"
                           aria-controls="collapseFirstDay"
                           @click="toggleOpenProduct"
-                          :class="{ 'collapsed': !isCollapseFirstOpen }"
+                          :class="{ collapsed: !isCollapseFirstOpen }"
                         >
                           行程資料-第一天
                         </button>
@@ -315,7 +327,7 @@
                         id="collapseFirstDay"
                         class="accordion-collapse collapse"
                         data-bs-parent="#accordionFirstdDay"
-                        ref="collapseFirstDay" v-show="isCollapseFirstOpen"
+                        ref="collapseFirstDay"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -324,7 +336,9 @@
                               :key="index + 1213"
                             >
                               <div class="mb-3 col-md-6" v-if="index === 0">
-                                <label for="first_day_title" class="form-label">行程天數<span class="required">*</span></label>
+                                <label for="first_day_title" class="form-label"
+                                  >行程天數<span class="required">*</span></label
+                                >
                                 <input
                                   id="first_day_title"
                                   type="text"
@@ -424,22 +438,18 @@
                         <button
                           class="accordion-button"
                           type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseTwo"
                           aria-expanded="false"
                           aria-controls="collapseTwo"
                           @click="toggleOpenSecond"
-                          :class="{ 'collapsed': !isCollapseSecondOpen }"
+                          :class="{ collapsed: !isCollapseSecondOpen }"
                         >
                           行程資料-第二天
                         </button>
                       </h2>
                       <div
-                        id="collapseTwo"
                         class="accordion-collapse collapse"
                         data-bs-parent="#accordionSecondDay"
                         ref="accordionSecondDay"
-                        v-show="isCollapseSecondOpen"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -546,12 +556,10 @@
                         <button
                           class="accordion-button"
                           type="button"
-                          data-bs-toggle="collapse"
-                          data-bs-target="#collapseThree"
                           aria-expanded="false"
                           aria-controls="collapseThree"
                           @click="toggleOpenThird"
-                          :class="{ 'collapsed': !isCollapseThirdOpen }"
+                          :class="{ collapsed: !isCollapseThirdOpen }"
                         >
                           行程資料-第三天
                         </button>
@@ -561,7 +569,6 @@
                         class="accordion-collapse collapse"
                         data-bs-parent="#accordionThirdDay"
                         ref="accordionThirdDay"
-                        v-show="isCollapseThirdOpen"
                       >
                         <div class="accordion-body">
                           <div class="row">
@@ -665,7 +672,9 @@
 
               <hr />
               <div class="mb-3">
-                <label for="description" class="form-label">產品描述<span class="required">*</span></label>
+                <label for="description" class="form-label"
+                  >產品描述<span class="required">*</span></label
+                >
                 <textarea
                   id="description"
                   type="text"
@@ -677,7 +686,9 @@
                 </textarea>
               </div>
               <div class="mb-3">
-                <label for="content" class="form-label">說明內容<span class="required">*</span></label>
+                <label for="content" class="form-label"
+                  >說明內容<span class="required">*</span></label
+                >
                 <textarea
                   id="description"
                   type="text"
@@ -736,7 +747,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="start_date" class="form-label">預約起始日<span class="required">*</span></label>
+                  <label for="start_date" class="form-label"
+                    >預約起始日<span class="required">*</span></label
+                  >
                   <input
                     id="start_date"
                     type="date"
@@ -748,7 +761,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="end_date" class="form-label">預約結束日<span class="required">*</span></label>
+                  <label for="end_date" class="form-label"
+                    >預約結束日<span class="required">*</span></label
+                  >
                   <input
                     id="start_date"
                     type="date"
@@ -762,7 +777,9 @@
               </div>
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="go_start_date" class="form-label">出發起始日<span class="required">*</span></label>
+                  <label for="go_start_date" class="form-label"
+                    >出發起始日<span class="required">*</span></label
+                  >
                   <input
                     id="go_start_date"
                     type="date"
@@ -774,7 +791,9 @@
                   />
                 </div>
                 <div class="mb-3 col-md-6">
-                  <label for="go_end_date" class="form-label">出發結束日<span class="required">*</span></label>
+                  <label for="go_end_date" class="form-label"
+                    >出發結束日<span class="required">*</span></label
+                  >
                   <input
                     id="go_start_date"
                     type="date"
@@ -910,9 +929,9 @@ export default {
       currentPage: 1,
       limitPage: 10,
       parsedLinks: '',
-      isCollapseFirstOpen: false,
+      isCollapseFirstOpen: true,
       isCollapseSecondOpen: false,
-      isCollapseThirdOpen:false
+      isCollapseThirdOpen: false
     }
   },
   watch: {
@@ -924,13 +943,21 @@ export default {
   },
   methods: {
     toggleOpenProduct() {
-      this.isCollapseFirstOpen = !this.isCollapseFirstOpen
+      this.toggleCollapse(this.collapseFirstDay, 'isCollapseFirstOpen')
     },
     toggleOpenSecond() {
-      this.isCollapseSecondOpen = !this.isCollapseSecondOpen
+      this.toggleCollapse(this.accordionSecondDay, 'isCollapseSecondOpen')
     },
     toggleOpenThird() {
-      this.isCollapseThirdOpen = !this.isCollapseThirdOpen
+      this.toggleCollapse(this.accordionThirdDay, 'isCollapseThirdOpen')
+    },
+    toggleCollapse(collapseInstance, stateProperty) {
+      if (collapseInstance._element.classList.contains('show')) {
+        collapseInstance.hide()
+      } else {
+        collapseInstance.show()
+      }
+      this[stateProperty] = !this[stateProperty]
     },
     getProducts(currentPage = 1) {
       this.axios
@@ -1052,7 +1079,7 @@ export default {
       }
     },
     updateProduct() {
-      if(
+      if (
         !this.tempProduct.title ||
         !this.tempProduct.day_num ||
         !this.tempProduct.creationDate ||
@@ -1068,9 +1095,9 @@ export default {
         !this.tempProduct.endDate ||
         !this.tempProduct.goStartDate ||
         !this.tempProduct.goEndDate
-      ){
+      ) {
         sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
-        return; // 如果有空值，直接返回，不執行更新操作
+        return // 如果有空值，直接返回，不執行更新操作
       }
       const filteredProduct = this.filterProduct(this.tempProduct)
       this.tempProduct = filteredProduct
@@ -1162,7 +1189,7 @@ export default {
         網址產生中，請稍後...
         關閉提示視窗後，等待顯示圖片網址，再點確認按鈕
       `
-      sweetAlert.threeLayerCheckType('warning', `${confirmationMessage}`)
+          sweetAlert.threeLayerCheckType('warning', `${confirmationMessage}`)
           // 執行後續的代碼
           const blobUrl = URL.createObjectURL(fileInput.files[0])
           this.tempProduct.imagesUrl.push(blobUrl)
@@ -1178,9 +1205,9 @@ export default {
     this.getProducts()
     this.modalProduct = new bootstrap.Modal(this.$refs.productModal)
     this.modalDel = new bootstrap.Modal(this.$refs.delProductModal)
-    this.collapseFirstDay = new Collapse(this.$refs.collapseFirstDay, { toggle: false })
+    this.collapseFirstDay = new Collapse(this.$refs.collapseFirstDay, { toggle: true })
     this.accordionSecondDay = new Collapse(this.$refs.accordionSecondDay, { toggle: false })
-    this.accordionThirdDay = new Collapse(this.$refs.accordionSecondDay, { toggle: false })
+    this.accordionThirdDay = new Collapse(this.$refs.accordionThirdDay, { toggle: false })
   }
 }
 </script>
@@ -1201,13 +1228,13 @@ export default {
   color: #fff !important;
 }
 .required {
-    color: red;
-    margin-left: 5px; /* 根据需要调整距离 */
+  color: red;
+  margin-left: 5px; /* 根据需要调整距离 */
 }
-.btn:hover{
-  color:white !important;
+.btn:hover {
+  color: white !important;
 }
-.btn-sm-radius{
+.btn-sm-radius {
   border-radius: 20px !important;
 }
 </style>
