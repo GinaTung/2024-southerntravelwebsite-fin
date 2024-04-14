@@ -3,7 +3,7 @@
     <div class="row justify-content-center align-items-cneter">
       <div class="col-md-6">
         <h1 class="h3 mb-4 text-center">會員登入</h1>
-        <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit="login">
+        <VeeForm id="form" ref="form" v-slot="{ errors }" @submit="login">
           <div class="form-floating mb-4">
             <VeeField
               type="email"
@@ -34,7 +34,9 @@
             <label for="userpassword">請輸入Password</label>
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
-          <button class="btn-turquoise w-100 mt-4 btn-rounded" type="submit" id="login">登入</button>
+          <button class="btn-turquoise w-100 mt-4 btn-rounded" type="submit" id="login">
+            登入
+          </button>
         </VeeForm>
       </div>
     </div>
@@ -51,40 +53,63 @@ export default {
       user: {
         email: '',
         password: ''
-      }
+      },
+      userCarts: [],
+      cartsLength: 0
     }
   },
   methods: {
-    login() {
-      event.preventDefault();
-      this.axios
-        .post(`${api_url2}/login`, this.user)
+    async login() {
+      event.preventDefault()
+      try {
+        const res = await this.axios.post(`${api_url2}/login`, this.user)
+        const { accessToken, expired } = res.data
+        const userId = res.data.user.id
+        document.cookie = `hexTokenU=${accessToken}; expires=${new Date(expired).toUTCString()}`
+        document.cookie = `userId=${userId}`
+        this.userIsLoggedIn2 = true
+
+        sweetAlert.threeLayerCheckType('success', '會員登入成功')
+        this.$emitter.emit('loginCheck2', true)
+        this.$router.push('/')
+        if (userId) {
+          await this.getCarts(userId) // Wait for carts to be fetched
+          this.$emitter.emit('adminUpdateCart', this.cartsLength)
+        }
+      } catch (err) {
+        console.error(err)
+        sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`)
+      }
+    },
+    getCarts(userId) {
+      return this.axios
+        .get(`${api_url2}/carts`)
         .then((res) => {
-          // 解構資料中的 accessToken, expired 和 userId
-          const { accessToken, expired } = res.data
-          const userId = res.data.user.id;
-          document.cookie = `hexTokenU=${accessToken}; expires=${new Date(expired).toUTCString()}`
-          document.cookie = `userId=${userId}`
-          this.userIsLoggedIn2 = true
-          this.userId = userId
-          sweetAlert.threeLayerCheckType('success', '會員登入成功')
-            this.$emitter.emit('loginCheck2', true)
-            this.$emitter.emit('adminUpdateCart', true) // 發送特定事件
-            this.$router.push('/')
+          this.userCarts = res.data.filter((item) => item.userId === userId)
+
+          const uniqueUserCarts = []
+          const productIdSet = new Set()
+          this.userCarts.forEach((item) => {
+            if (!productIdSet.has(item.productId)) {
+              productIdSet.add(item.productId)
+              uniqueUserCarts.push(item)
+            }
+          })
+          this.userCarts = uniqueUserCarts
+          this.cartsLength = this.userCarts.length
         })
         .catch((err) => {
-          console.log(err);
-          sweetAlert.threeLayerCheckType('error', `會員登入失敗，請再次填寫會員登入資料`);
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     }
   },
-  mounted(){
-    window.scrollTo(0, 0);
+  mounted() {
+    window.scrollTo(0, 0)
   }
 }
 </script>
 <style lang="scss" scoped>
-.btn-rounded{
+.btn-rounded {
   border-radius: 20px !important;
 }
 </style>

@@ -124,7 +124,9 @@ export default {
   },
   methods: {
     updateCart() {
-      this.$emitter.on('adminUpdateCart', this.getCarts)
+      this.$emitter.on('adminUpdateCart', (msg) => {
+        this.cartsLength = msg
+      })
       this.$emitter.on('updateCart', (msg) => {
         this.cartsLength = msg
       })

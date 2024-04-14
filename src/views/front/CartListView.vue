@@ -73,7 +73,7 @@
                     <button
                       class="btn btn-outline-dark rounded-0 btn-sm"
                       type="button"
-                      :disabled="item.qty ===1"
+                      :disabled="item.qty === 1"
                       @click="decrementQuantity(item.id, item.qty, item.price)"
                     >
                       <span
@@ -252,9 +252,9 @@ export default {
               '預約購買旅遊方案'
             )
             setTimeout(() => {
-                // 將使用者導向到旅遊景點方案頁面
-                this.$router.push({ path: '/TouristPackage' });
-            }, 11000); 
+              // 將使用者導向到旅遊景點方案頁面
+              this.$router.push({ path: '/TouristPackage', query: { category: '全部' }})
+            }, 11000)
           }
           this.getProducts()
         })
@@ -268,7 +268,9 @@ export default {
         .then((res) => {
           this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
           this.cartsLength = this.userCarts.length
-          if (this.cartsLength === 0) {
+          if (this.userCarts.length === 0) {
+            // 如果购物车没有任何内容，则将购物车数量设置为0
+            this.$emitter.emit('updateCartNum', 0)
             // 顯示提示訊息
             sweetAlert.fourLayerCheckType(
               'warning',
@@ -278,13 +280,9 @@ export default {
               '預約購買旅遊方案'
             )
             setTimeout(() => {
-                // 將使用者導向到旅遊景點方案頁面
-                this.$router.push({ path: '/TouristPackage' });
-            }, 11000); 
-          }
-          if (this.userCarts.length === 0) {
-            // 如果购物车没有任何内容，则将购物车数量设置为0
-            this.$emitter.emit('updateCartNum', 0)
+              // 將使用者導向到旅遊景點方案頁面
+              this.$router.push({ path: '/TouristPackage' })
+            }, 11000)
           } else {
             // 如果购物车有内容，则将购物车数量设置为购物车数据的长度
             this.$emitter.emit('updateCartNum', this.userCarts.length)
@@ -431,7 +429,7 @@ export default {
             this.status.loadingItem4 = ''
             alert('更新購物車資料失敗')
           })
-      }else {
+      } else {
         this.status.loadingItem2 = ''
       }
     },
@@ -609,7 +607,7 @@ export default {
 .btn-danger-rounded {
   border-radius: 8px !important;
 }
-.swal2-loader{
+.swal2-loader {
   display: none;
 }
 </style>
