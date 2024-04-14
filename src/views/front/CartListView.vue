@@ -267,6 +267,7 @@ export default {
         .get(`${api_url2}/carts`)
         .then((res) => {
           this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
+          window.scrollTo(0, 0)
           this.cartsLength = this.userCarts.length
           if (this.userCarts.length === 0) {
             // 如果购物车没有任何内容，则将购物车数量设置为0

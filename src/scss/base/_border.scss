@@ -10,3 +10,10 @@
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
 }
+
+.rounded-6 {
+  border-radius:16px;
+}
+.rounded-top-end {
+  border-radius:16px 16px 0 0;
+}

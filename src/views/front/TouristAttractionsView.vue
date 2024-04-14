@@ -25,20 +25,21 @@
     </nav>
     <div class="tourist-list">
       <div class="row">
-        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
-          <div class="border-1 border w-100 rounded-1 h-100">
-            <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
-            <ul class="nav flex-column">
-              <li class="nav-item" v-for="(item, index) in filterCategory" :key="index">
+        <div class="col-12 col-lg-3 mb-5 mb-md-6 mb-lg-0">
+          <div class="border-1 border w-100 h-100 rounded-6">
+            <p class="fs-5 fs-lg-4 p-5 bg-primary-500 text-white rounded-top-end">地區篩選</p>
+            <ul class="nav flex-row flex-lg-column">
+              <li class="nav-item w-25 w-lg-100" v-for="(item, index) in filterCategory" :key="index">
                 <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-center justify-content-lg-between"
                   href="#"
                   aria-current="page"
                   :class="{ 'active-category': selectedCategory === item }"
                   @click.prevent="filterProducts(item)"
                 >
                   {{ item }}
-                  <span>{{ filterCateNum[item] }}</span>
+                  <span class="d-none d-lg-block">{{ filterCateNum[item] }}</span>
+                  <span class="d-none d-sm-block d-lg-none ms-1">({{ filterCateNum[item] }})</span>
                 </a>
               </li>
             </ul>
@@ -97,11 +98,21 @@
                   <div class="card card-att h-100">
                     <span class="tag text-white">{{ attractionItem.category }}</span>
                     <div class="card-att-img">
-                      <img
-                        :src="attractionItem.imageUrl"
-                        class="img-fluid"
-                        alt="attractionItem.title"
-                      />
+                      <router-link
+                          :to="{
+                            name: 'TouristSingleAttraction',
+                            params: {
+                              category: attractionItem.category,
+                              title: attractionItem.title
+                            }
+                          }"
+                        >
+                        <img
+                          :src="attractionItem.imageUrl"
+                          class="img-fluid stretched-link"
+                          alt="attractionItem.title"
+                        />
+                      </router-link>
                     </div>
                     <button
                       class="heart border-0"
@@ -126,7 +137,7 @@
                         style="font-size: 24px"
                       ></i>
                     </button>
-                    <div style="transform: rotate(0)">
+                    <div>
                       <div class="card-body">
                         <router-link
                           :to="{
@@ -136,13 +147,14 @@
                               title: attractionItem.title
                             }
                           }"
-                          >
-                          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title stretched-link">
-                          {{ attractionItem.title }}
-                        </h4>
-                          </router-link
                         >
-                        <p class="card-text card-font-truncate  card-body-att">
+                          <h4
+                            class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title"
+                          >
+                            {{ attractionItem.title }}
+                          </h4>
+                        </router-link>
+                        <p class="card-text card-font-truncate card-body-att">
                           {{ truncateContent(attractionItem.description, 65) }}
                         </p>
                       </div>
@@ -155,7 +167,7 @@
                               title: attractionItem.title
                             }
                           }"
-                          class="fs-5 text-primary-500"
+                          class="fs-5 card-footer-title"
                           >more</router-link
                         >
                       </div>
@@ -436,17 +448,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.card-title:hover, .card-footer-title:hover{
+  color: #0ea0a6 !important;
+}
 .active-category {
   color: #0ea0a6 !important;
   background-color: #d5f3f4;
 }
-.card-att .card-att-img img {
-  border-radius: calc(1.25rem - 1px) calc(1.25rem - 1px) 0 0;
-}
 .page-link-radius {
   border-radius: 0 4px 4px 0 !important;
 }
-
 .page-link-radius-2 {
   border-radius: 4px 0 0 4px !important;
 }

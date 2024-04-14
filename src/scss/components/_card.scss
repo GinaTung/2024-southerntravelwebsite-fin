@@ -5,8 +5,8 @@
     width: 100%;
     height: 0%;
     padding-top: 90%;
-    z-index: 1;
     overflow: hidden;
+    border-radius: 16px 16px 0 0 !important; 
     @include pad-md {
       padding-top: 85%;
     }
@@ -21,6 +21,7 @@
     }
     &:hover img {
       transform: scale(1.5);
+      border-radius: 16px 16px 0 0 !important; 
       @include pad-md {
         transform: scale(1.2);
       }
@@ -28,11 +29,11 @@
   }
 }
 .card-img-top {
-  border-radius: calc(1.25rem - 1px) 0 0 calc(1.25rem - 1px);
-  border-top-right-radius: 0 !important;
+  // border-radius: calc(1.25rem - 1px) 0 0 calc(1.25rem - 1px);
+  // border-top-right-radius: 0 !important;
   @include pad-md {
-    border-radius: 0;
-    border-top-right-radius: calc(1.25rem - 1px) !important;
+    // border-radius: 0;
+    // border-top-right-radius: calc(1.25rem - 1px) !important;
   }
 }
 .card-title-att {

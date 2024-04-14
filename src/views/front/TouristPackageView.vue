@@ -25,20 +25,21 @@
     </nav>
     <div class="tourist-list">
       <div class="row">
-        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
-          <div class="border-1 border w-100 rounded-1 h-100">
-            <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
-            <ul class="nav flex-column">
-              <li class="nav-item" v-for="(item, index) in filterCategory" :key="index">
+        <div class="col-12 col-lg-3 mb-5 mb-md-6 mb-lg-0">
+          <div class="border-1 border w-100 h-100 rounded-6">
+            <p class="fs-5 fs-lg-4 p-5 bg-primary-500 text-white rounded-top-end">地區篩選</p>
+            <ul class="nav flex-row flex-lg-column">
+              <li class="nav-item  w-25 w-lg-100" v-for="(item, index) in filterCategory" :key="index">
                 <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-center justify-content-lg-between"
                   href="#"
                   aria-current="page"
                   :class="{ 'active-category': selectedCategory === item }"
                   @click.prevent="filterProducts(item)"
                 >
                   {{ item }}
-                  <span>{{ filterCateNum[item] }}</span>
+                  <span class="d-none d-lg-block">{{ filterCateNum[item] }}</span>
+                  <span class="d-none d-sm-block d-lg-none ms-1">({{ filterCateNum[item] }})</span>
                 </a>
               </li>
             </ul>
@@ -120,9 +121,8 @@
                     <div class="card-att-img h-100">
                       <img
                         :src="productsItem.imageUrl"
-                        class="card-img-top img-fluid"
+                        class="img-fluid"
                         :alt="productsItem.title"
-                        style="border-radius: calc(1.25rem - 1px)"
                       />
                     </div>
                   </div>
@@ -684,6 +684,7 @@ p {
   font-weight: 600;
   background-color: #d5f3f4;
 }
+
 .page-item {
   .page-link-0 {
     border-top-right-radius: 0 !important;
@@ -706,5 +707,13 @@ p {
 }
 .btn-danger-rounded {
   border-radius: 8px;
+}
+.card-att {
+  .card-att-img {
+    border-radius: 20px 0 0 20px !important; 
+    &:hover img {
+      border-radius: 20px 0 0 20px !important; 
+    }
+  }
 }
 </style>

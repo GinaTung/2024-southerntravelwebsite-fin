@@ -629,13 +629,18 @@
           class="btn-square fs-5 w-100"
           type="button"
           :class="{ 'disabled-btn': currentDate > endDate || newCarts.length === 0 }"
-          @click="saveCardId"
+          @click="saveCardId(productsItem.id, quantity, productsItem.price)"
         >
           直接結帳
         </button>
       </div>
     </div>
-    <LikeBlock adCategoryTitle="packages" :token="token" :user-id="userId" :current-date="currentDate"/>
+    <LikeBlock
+      adCategoryTitle="packages"
+      :token="token"
+      :user-id="userId"
+      :current-date="currentDate"
+    />
   </div>
 </template>
 <script>
@@ -910,11 +915,14 @@ export default {
     handlePlus(item) {
       this.quantity = item++
     },
-    saveCardId() {
+    saveCardId(productId, qty = 1, price, percent = 1) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能預約套裝行程')
       } else {
-        this.$router.push('/cart')
+        this.addToCart(productId, qty, price, percent)
+        setTimeout(() => {
+          this.$router.push('/cart')
+        }, 3000)
       }
     },
     getCart() {
