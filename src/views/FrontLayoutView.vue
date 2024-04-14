@@ -68,9 +68,11 @@
             </a>
           </li>
           <li class="nav-item py-0">
-            <a class="btn-outline-turquoise ms-3 px-6" href="#/profile">
-              <i class="bi bi-person-fill"></i>
-            </a>
+            <router-link
+              to="/profile"
+              class="btn-outline-turquoise ms-3 px-6"
+              ><i class="bi bi-person-fill"></i>
+            </router-link>
           </li>
           <li class="nav-item">
             <a href="#" @click="logout()" class="ms-3 btn-outline-turquoise px-5">登出</a>

@@ -27,6 +27,13 @@
               >我的收藏
             </router-link>
           </li>
+          <li class="list-group-item list-group-item-action rounded-0" aria-current="true">
+            <router-link
+              to="/cart"
+              class="d-flex justify-content-between align-items-center fs-5"
+              >我的購物車
+            </router-link>
+          </li>
         </ul>
       </div>
       <div class="col-12 col-md-9">
