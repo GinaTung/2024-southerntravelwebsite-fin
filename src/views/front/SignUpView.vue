@@ -35,7 +35,7 @@
           </div>
           <div class="form-floating mb-4">
             <VeeField
-              type="password"
+              :type="isActive ? 'password' : 'text'"
               class="form-control"
               name="password"
               id="userpassword"
@@ -46,21 +46,11 @@
               v-model="user.password"
             />
             <label for="userpassword">請輸入Password</label>
+            <button class="fs-3 fs-lg-2 bg-transparent border-0 form-eye" type="button" @click="toggleEye">
+              <i :class="[isActive ? 'bi-eye-slash-fill' : 'bi-eye-fill', 'bi']"></i>
+            </button>
+
             <ErrorMessage name="password" class="invalid-feedback" />
-          </div>
-          <div class="form-floating mb-4">
-            <VeeField
-              type="password"
-              class="form-control"
-              name="password_confirmation"
-              id="userpassword_confirmation"
-              :class="{ 'is-invalid': errors['password_confirmation'] }"
-              placeholder="請再次輸入Password"
-              rules="confirmed:@password"
-              autocomplete="current-password"
-            />
-            <label for="userpassword_confirmation">再次確認輸入Password</label>
-            <ErrorMessage name="password_confirmation" class="invalid-feedback" />
           </div>
           <div class="form-floating mb-4">
             <VeeField
@@ -111,12 +101,17 @@ export default {
         address: '',
         role: 'user',
         birthday: ''
-      }
+      },
+      isActive: true
     }
   },
   methods: {
+    toggleEye() {
+      // 切換密碼顯示狀態
+      this.isActive = !this.isActive
+    },
     isOver18(birthday) {
-      if(birthday.length === 0){
+      if (birthday.length === 0) {
         return '生日 為必填'
       }
       // 将生日字符串转换为日期对象
@@ -175,3 +170,17 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+@import '@/scss/all.scss';
+.form-floating {
+  .form-eye {
+    position: absolute;
+    top: 0%;
+    right: -11%;
+    @include pc-lg {
+      top: 12%;
+      right: 8%;
+    }
+  }
+}
+</style>
