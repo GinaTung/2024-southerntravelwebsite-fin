@@ -58,7 +58,7 @@
                 </button>
               </td>
               <td data-th="圖片" class="">
-                <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid" />
+                <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid rounded-2 mt-1" />
               </td>
               <td data-th="行程名稱" class="fs-6 pb-0 pb-md-2">
                 <span class="td-p-left">
@@ -83,21 +83,6 @@
                       ></span>
                       <i class="bi bi-dash-lg"></i>
                     </button>
-                    <!-- <button
-                      type="button"
-                      class="btn btn-outline-danger rounded-0 btn-sm"
-                      v-else
-                      @click="
-                        openDelCartModal(item.productId, item.product.title, item.id, item.qty)
-                      "
-                    >
-                      <span
-                        class="spinner-border spinner-grow-sm"
-                        role="status"
-                        v-if="status.loadingItem3 === item.id"
-                      ></span>
-                      <i class="bi bi-trash"></i>
-                    </button> -->
                     <input
                       min="1"
                       max="10"
