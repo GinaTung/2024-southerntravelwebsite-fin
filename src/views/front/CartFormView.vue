@@ -26,7 +26,7 @@
         <div class="card card-body rounded-0">
           <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
             <div class="col-12 col-md-5 col-lg-4">
-              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid h-100" />
+              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid h-100 rounded-2" />
             </div>
             <div class="col-12 col-md-7 col-lg-8 d-flex flex-column justify-content-between">
               <div>

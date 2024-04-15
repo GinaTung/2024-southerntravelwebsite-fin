@@ -9,7 +9,7 @@
           slidesPerView: 2,
           spaceBetween: 20
         },
-        '992': {
+        '1200': {
           slidesPerView: 3,
           spaceBetween: 30
         }
@@ -25,17 +25,21 @@
       class="mySwiper4"
     >
       <swiper-slide v-for="(attractionItem, key) in enabledAttractions" :key="key + 123">
-        <div class="card h-100 flex-grow-1">
+        <div class="card h-100">
           <span class="tag text-white">{{ attractionItem.category }}</span>
-          <a :href="goRouter(attractionItem)" target="_blank" class="stretched-link">
-            <img :src="attractionItem.imageUrl" class="img-fluid" alt="attractionItem.title" />
-          </a>
-          <div class="card-body">
-            <h5 class="fs-5 fs-lg-4 fw-bold text-primary-700 text-center flex-grow-1 h-35">
-              {{ attractionItem.title }}
-            </h5>
-            <p>
-              {{ truncateContent(attractionItem.description, 48) }}
+          <div class="card-header p-0 border-0 h-100">
+            <a :href="goRouter(attractionItem)" target="_blank">
+              <img :src="attractionItem.imageUrl" class="img-fluid h-100" alt="attractionItem.title" />
+            </a>
+          </div>
+          <div class="card-body" style="transform: rotate(0)">
+            <a :href="goRouterProduct(attractionItem)" target="_blank">
+              <h5 class="card-title fs-5 fw-bold text-primary-700 text-center flex-grow-1 h-35 stretched-link">
+                {{ attractionItem.title }}
+              </h5>
+            </a>
+            <p class="fs-6 pb-7">
+              {{ truncateContent(attractionItem.description, 52) }}
             </p>
           </div>
         </div>
@@ -50,7 +54,7 @@
       :slidesPerView="1"
       :spaceBetween="10"
       :breakpoints="{
-        '992': {
+        '768': {
           slidesPerView: 2,
           spaceBetween: 20
         },
@@ -72,30 +76,36 @@
       <swiper-slide v-for="(productsItem, key) in enabledProducts" :key="key + 123">
         <div class="card h-100 flex-grow-1">
           <span class="tag text-white">{{ productsItem.category }}</span>
-          <a :href="goRouterProduct(productsItem)" target="_blank" class="stretched-link">
-            <img :src="productsItem.imageUrl" class="img-fluid" alt="productsItem.title" />
-          </a>
-          <div class="card-body">
-            <h5 class="fs-5 fw-bold text-primary-700 text-center flex-grow-1 h-45">
-              {{ productsItem.title }}
-            </h5>
+          <div class="card-header p-0 border-0">
+            <a :href="goRouterProduct(productsItem)" target="_blank">
+              <img :src="productsItem.imageUrl" class="img-fluid" alt="productsItem.title" />
+            </a>
+          </div>
+          <div class="card-body" style="transform: rotate(0)">
+            <a :href="goRouterProduct(productsItem)" target="_blank">
+              <h5
+                class="card-title fs-5 fw-bold text-primary-700 text-center flex-grow-1 h-45 stretched-link"
+              >
+                {{ productsItem.title }}
+              </h5>
+            </a>
             <p class="fs-6">
               {{ truncateContent(productsItem.description, 48) }}
             </p>
           </div>
-          <div class="card-footer border-0">
-            <div class="d-flex align-items-center pb-2">
-              <h6 v-if="currentDate <= productsItem.endDate">
-                預約期間：
-                {{ productsItem.startDate }} 至 {{ productsItem.endDate }}
-                <div class="d-flex align-items-center mt-1">
-                  <h5 class="text-danger fw-bold me-2">促銷價</h5>
-                  <h5 class="text-danger">NT{{ thousand(productsItem.price) }}</h5>
-                </div>
-              </h6>
-              <h5 class="text-danger py-3" v-else>
-                預約時間已截止
-              </h5>
+          <div class="card-footer border-0" style="transform: rotate(0)">
+            <div class="d-flex align-items-center pb-4">
+              <a :href="goRouterProduct(productsItem)" target="_blank" class="stretched-link">
+                <h6 v-if="currentDate <= productsItem.endDate">
+                  預約期間：
+                  {{ productsItem.startDate }} 至 {{ productsItem.endDate }}
+                  <div class="d-flex align-items-center mt-1">
+                    <h5 class="text-danger fw-bold me-2">促銷價</h5>
+                    <h5 class="text-danger">NT{{ thousand(productsItem.price) }}</h5>
+                  </div>
+                </h6>
+                <h5 class="text-danger py-3" v-else>預約時間已截止</h5>
+              </a>
             </div>
           </div>
         </div>
@@ -214,8 +224,10 @@ export default {
 p {
   text-align: justify; /* 將文字左右對齊 */
 }
-// @import '../../scss/utils/custom-color';
-// .text-heart {
-//   color: $primary-500;
-// }
+.card-title {
+  margin-bottom: 0;
+  &:hover {
+    color: #0ea0a6 !important;
+  }
+}
 </style>

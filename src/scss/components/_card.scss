@@ -28,21 +28,12 @@
     }
   }
 }
-.card-img-top {
-  // border-radius: calc(1.25rem - 1px) 0 0 calc(1.25rem - 1px);
-  // border-top-right-radius: 0 !important;
-  @include pad-md {
-    // border-radius: 0;
-    // border-top-right-radius: calc(1.25rem - 1px) !important;
-  }
-}
 .card-title-att {
   min-height: 24px;
   overflow: hidden;
   // text-overflow: ellipsis; // 如果需要省略號，可以保留這行，不需要可以刪除
 }
 .card-body-att {
-  //文字內容的左右邊緣與文字標題保持一致對齊
   text-align: justify;
 }
 .card-font-truncate {
