@@ -27,14 +27,25 @@
       <div class="row">
         <div class="col-12 col-lg-3 mb-5 mb-md-6 mb-lg-0">
           <div class="border-1 border w-100 h-100 rounded-6">
-            <p class="fs-5 fs-lg-4 p-3 p-lg-5 bg-primary-500 text-white rounded-top-end">地區篩選</p>
+            <p class="fs-5 fs-lg-4 p-3 p-lg-5 bg-primary-500 text-white rounded-top-end">
+              地區篩選
+            </p>
             <ul class="nav flex-row flex-lg-column">
-              <li class="nav-item w-25 w-lg-100 tourist-broder-radius" v-for="(item, index) in filterCategory" :key="index">
+              <li
+                class="nav-item w-25 w-lg-100 tourist-broder-radius"
+                v-for="(item, index) in filterCategory"
+                :key="index"
+                :class="{
+                    'first-active-category': isFirstItem(index),
+                    'last-active-category': isLastItem(index),
+                    'active-category': selectedCategory === item
+                  }"
+              >
                 <a
                   class="nav-link p-5 fs-5 link-color d-flex justify-content-center justify-content-lg-between"
                   href="#"
                   aria-current="page"
-                  :class="{ 'active-category': selectedCategory === item }"
+                  :class="{ 'active-color': selectedCategory === item }"
                   @click.prevent="filterProducts(item)"
                 >
                   {{ item }}
@@ -99,14 +110,14 @@
                     <span class="tag text-white">{{ attractionItem.category }}</span>
                     <div class="card-att-img">
                       <router-link
-                          :to="{
-                            name: 'TouristSingleAttraction',
-                            params: {
-                              category: attractionItem.category,
-                              title: attractionItem.title
-                            }
-                          }"
-                        >
+                        :to="{
+                          name: 'TouristSingleAttraction',
+                          params: {
+                            category: attractionItem.category,
+                            title: attractionItem.title
+                          }
+                        }"
+                      >
                         <img
                           :src="attractionItem.imageUrl"
                           class="img-fluid stretched-link"
@@ -148,9 +159,7 @@
                             }
                           }"
                         >
-                          <h4
-                            class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title"
-                          >
+                          <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title">
                             {{ attractionItem.title }}
                           </h4>
                         </router-link>
@@ -290,6 +299,12 @@ export default {
     this.getAttractions()
   },
   methods: {
+    isFirstItem(index) {
+      return index === 0
+    },
+    isLastItem(index) {
+      return index === this.filterCategory.length - 1
+    },
     getHeartData() {
       this.axios
         .get(`${api_url2}/hearts`)
@@ -449,8 +464,12 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/scss/all.scss';
-.card-title:hover, .card-footer-title:hover{
+.card-title:hover,
+.card-footer-title:hover {
   color: #0ea0a6 !important;
+}
+.link-color:active {
+  background-color: transparent;
 }
 .nav-item:nth-child(1) .link-color:hover {
   @include pc-lg {
@@ -462,9 +481,24 @@ export default {
     border-radius: 0 0 16px 0 !important;
   }
 }
+.active-color{
+   color: #0ea0a6 !important;
+}
 .active-category {
   color: #0ea0a6 !important;
   background-color: #d5f3f4;
+}
+/* 新增 */
+.active-category:first-child {
+  @include pc-lg {
+    border-radius: 0 0 0 16px !important;
+  }
+}
+
+.active-category:last-child {
+  @include pc-lg {
+    border-radius: 0 0 16px 0 !important;
+  }
 }
 .page-link-radius {
   border-radius: 0 8px 8px 0 !important;

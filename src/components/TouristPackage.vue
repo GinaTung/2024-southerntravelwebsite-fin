@@ -38,11 +38,18 @@
             <div class="card card-att h-100">
               <span class="tag text-white">{{ item.category }}</span>
               <div class="card-att-img">
-                <img
-                  :src="item.imageUrl"
-                  class="card-radius img-fluid h-100"
-                  :alt="item.title"
-                />
+                <router-link
+                    :to="{
+                      name: 'TouristSinglePackage',
+                      params: { category: item.category, title: item.title }
+                    }"
+                  >
+                  <img
+                    :src="item.imageUrl"
+                    class="card-radius img-fluid h-100"
+                    :alt="item.title"
+                  />
+                </router-link>
               </div>
               <!-- 愛心點選 -->
               <button
