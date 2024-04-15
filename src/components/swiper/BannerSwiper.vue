@@ -14,7 +14,6 @@
           <p
             class="fs-md-1 fs-6 mb-5 mb-md-8 d-flex align-items-center justify-content-center text-center"
           >
-            <!-- <img src="../assets/images/icon-map.png" alt="icon-map" class="me-2 icon-map"> -->
             <i class="bi bi-geo-alt-fill me-2 icon-map"></i>
             高雄景點推薦
             <i class="bi bi-geo-alt-fill ms-2 icon-map"></i>
