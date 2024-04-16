@@ -24,8 +24,9 @@
               class="btn-cerulean-blue position-absolute search-btn-cerulean-blue-position h-70 border-0"
               type="button"
               @click="search"
-              >搜尋</button
             >
+              搜尋
+            </button>
           </div>
         </div>
         <ul class="list-unstyled bg-white rounded-5">
@@ -86,12 +87,19 @@ export default {
       const regex = new RegExp(this.searchText, 'i')
       // 先筛选出搜索结果
       const filteredResults = this.searchData.filter((product) => {
-        return regex.test(product.title) 
+        return regex.test(product.title)
       })
       // 对搜索结果进行切片操作，只显示前三条记录
       this.searchResults = filteredResults.slice(0, 3)
       this.showResults = true
     }
+  },
+  mounted() {
+    // 在網頁加載時預先載入Swiper的第一張圖片
+    const image = new Image()
+    import('@/assets/img/pic-5-2.jpg').then((src) => {
+      image.src = src.default
+    })
   }
 }
 </script>
@@ -116,7 +124,7 @@ export default {
       height: inherit; /* 繼承父元素高度 */
       display: flex;
       align-items: center;
-      padding: 0 10px; 
+      padding: 0 10px;
     }
   }
 }

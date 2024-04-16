@@ -143,14 +143,14 @@
                     </div>
                   </div>
                   <i
-                    class="bi bi-chevron-double-right text-primary-500 fw-bold d-none d-lg-block"
+                    class="bi bi-chevron-right text-primary-500 fs-4 fw-bold d-none d-lg-block"
                     :class="{
                       'bi-chevron-direction': true,
                       'bi-chevron-active': currentTab === index
                     }"
                   ></i>
                   <i
-                    class="bi bi-chevron-double-right text-primary-500 fw-bold d-lg-none"
+                    class="bi bi-chevron-right text-primary-500 fs-4 fw-bold d-lg-none"
                     :class="{
                       'bi-chevron-direction': true,
                       'bi-chevron-active2': currentTab === index
