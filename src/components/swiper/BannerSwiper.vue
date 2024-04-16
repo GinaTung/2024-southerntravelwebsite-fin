@@ -9,7 +9,7 @@
     class="mySwiper"
   >
     <swiper-slide>
-      <div class="banner-bg banner-img3">
+      <picture class="banner-bg banner-img3">
         <div class="banner-box px-6 py-10 p-lg-10 mx-auto text-center">
           <p
             class="fs-md-1 fs-6 mb-5 mb-md-8 d-flex align-items-center justify-content-center text-center"
@@ -34,10 +34,10 @@
             輕軌串連駁二藝術中心、高雄流行音樂中心等建設<br />共築高雄水岸的新天際線。
           </p>
         </div>
-      </div>
+      </picture>
     </swiper-slide>
     <swiper-slide>
-      <div class="banner-bg banner-img2">
+      <picture class="banner-bg banner-img2">
         <div class="banner-box px-6 py-10 p-lg-10 mx-auto text-center">
           <p class="fs-md-1 fs-6 mb-5 mb-md-8 d-flex align-items-center justify-content-center">
             <!-- <img src="../assets/images/icon-map.png" alt="icon-map" class="me-2 icon-map"> -->
@@ -57,7 +57,7 @@
           <p class="fs-7 mb-2 text-center">由兩位藝術家耗時6年完成<br />外純白、內金黃的海貝造型</p>
           <p class="fs-7 text-center">能讓遊客聆聽海聲<br />更是亞洲最大的貝殼裝置藝術</p>
         </div>
-      </div>
+      </picture>
     </swiper-slide>
     <swiper-slide>
       <div class="banner-bg banner-img1">
@@ -101,7 +101,7 @@ import 'swiper/css/navigation'
 import '../../scss/utils/_mixins.scss'
 import '../../scss/components/_banner-swiper.scss'
 // import required modules
-import { Autoplay,Navigation } from 'swiper/modules'
+import { Autoplay, Navigation } from 'swiper/modules'
 
 export default {
   components: {
@@ -110,7 +110,7 @@ export default {
   },
   setup() {
     return {
-      modules: [Navigation,Autoplay]
+      modules: [Navigation, Autoplay]
     }
   }
 }
