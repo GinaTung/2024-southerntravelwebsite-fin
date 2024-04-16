@@ -1,132 +1,44 @@
 <template>
-  <div class="container">
-    <h1 class="my-4 fs-4 fs-md-1">後台首頁</h1>
-    <div class="row flex-column flex-md-row">
-      <div class="col-12 col-md-3">
-        <AdminSidebar></AdminSidebar>
+  <h2 class="my-5">總覽</h2>
+  <div class="row g-3">
+    <div class="col-12 col-lg-5">
+      <DashboardStatueColumn />
+    </div>
+    <div class="col-12 col-lg-7">
+    </div>
+  </div>
+  <div class="mt-6">
+    <div class="row g-3">
+      <div class="col-12 col-lg-5">
+        已上架
       </div>
-      <div class="col-12 col-md-9">
-        <div class="accordion mt-4" id="accordionExample">
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseOne"
-                aria-expanded="true"
-                aria-controls="collapseOne"
-              >
-               最新景點建立資訊
-              </button>
-            </h2>
-            <div
-              id="collapseOne"
-              class="accordion-collapse collapse show"
-              data-bs-parent="#accordionExample"
-            >
-              <div class="accordion-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <img :src="attraction.imageUrl" alt="" class="img-fluid">
-                  </div>
-                  <div class="col-12 col-md-7">
-                    <strong class="fs-5">景點名稱：{{ attraction.title }}</strong> <br>
-                    <strong class="fs-6">分類：{{ attraction.category }}</strong> <br>
-                    <div class="d-flex">
-                      <strong class="fs-6">上架：</strong>
-                      <strong class="fs-6" :class="{ 'text-success': attraction.is_enabled === 1, 'text-danger': attraction.is_enabled === 0 }">{{ attraction.is_enabled ? "啟用" : "未啟用"}}</strong>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseTwo"
-                aria-expanded="false"
-                aria-controls="collapseTwo"
-              >
-                最新產品建立資訊
-              </button>
-            </h2>
-            <div
-              id="collapseTwo"
-              class="accordion-collapse collapse"
-              data-bs-parent="#accordionExample"
-            >
-              <div class="accordion-body">
-                <div class="row">
-                  <div class="col-12 col-md-5">
-                    <img :src="product.imageUrl" alt="" class="img-fluid">
-                  </div>
-                  <div class="col-12 col-md-7">
-                    <strong class="fs-5">景點名稱：{{ product.title }}</strong> <br>
-                    <strong class="fs-6">分類：{{ product.category }}</strong> <br>
-                    <div class="d-flex">
-                      <strong class="fs-6">上架：</strong>
-                      <strong class="fs-6" :class="{ 'text-success': product.is_enabled === 1, 'text-danger': product.is_enabled === 0 }">{{ product.is_enabled ? "啟用" : "未啟用"}}</strong>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="accordion-item">
-            <h2 class="accordion-header">
-              <button
-                class="accordion-button collapsed"
-                type="button"
-                data-bs-toggle="collapse"
-                data-bs-target="#collapseThree"
-                aria-expanded="false"
-                aria-controls="collapseThree"
-              >
-                最新訂單資訊
-              </button>
-            </h2>
-            <div
-              id="collapseThree"
-              class="accordion-collapse collapse"
-              data-bs-parent="#accordionExample"
-            >
-              <div class="accordion-body">
-                目前無資料
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="col-12 col-lg-7">
       </div>
     </div>
   </div>
 </template>
 <script>
 import AdminSidebar from '@/components/AdminSidebar.vue'
+import DashboardStatueColumn from '@/components/DashboardStatueColumn.vue'
 const api_url = import.meta.env.VITE_API_URL
 const api_url2 = import.meta.env.VITE_API_URL2
 import sweetAlert from '@/js/sweetAlert'
 
 export default {
   components: {
-    AdminSidebar
+    AdminSidebar,
+    DashboardStatueColumn
   },
   data() {
     return {
       token: '',
       attractions: [],
-      attraction:[],
-      attractionsLength:0,
-      products:[],
-      productsLength:0,
-      product:[],
-      orders:[]
+      attraction: [],
+      attractionsLength: 0,
+      products: [],
+      productsLength: 0,
+      product: [],
+      orders: []
     }
   },
   methods: {
@@ -153,8 +65,8 @@ export default {
       this.axios
         .get(`${api_url2}/attractions`)
         .then((res) => {
-          this.attractions = res.data;
-          this.attractionsLength =this.attractions.length;
+          this.attractions = res.data
+          this.attractionsLength = this.attractions.length
           this.getAttraction()
         })
         .catch((err) => {
@@ -162,22 +74,22 @@ export default {
         })
     },
     getAttraction() {
-      this.attraction = this.attractions[this.attractionsLength-1]
+      this.attraction = this.attractions[this.attractionsLength - 1]
     },
     getProducts() {
       this.axios
         .get(`${api_url2}/products`)
         .then((res) => {
           this.products = res.data
-          this.productsLength =this.products.length;
+          this.productsLength = this.products.length
           this.getProduct()
         })
         .catch((err) => {
           sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
-    getProduct(){
-      this.product = this.products[this.productsLength-1]
+    getProduct() {
+      this.product = this.products[this.productsLength - 1]
     },
     getOrders() {
       this.axios
@@ -188,7 +100,7 @@ export default {
         .catch((err) => {
           sweetAlert.threeLayerCheckType('error', `取得訂單資料失敗`)
         })
-    },
+    }
   },
   mounted() {
     setTimeout(() => {

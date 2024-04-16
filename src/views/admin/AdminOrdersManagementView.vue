@@ -1,174 +1,153 @@
 <template>
   <VueLoading :active="isLoading" :z-index="1060" />
-  <div class="container">
-    <div class="row flex-column flex-md-row">
-      <div class="col-12 col-md-3">
-        <h1 class="my-4 fs-4 fs-md-1">訂單管理</h1>
-        <AdminSidebar></AdminSidebar>
-      </div>
-      <div class="col-12 col-md-9">
-        <div class="text-end mt-18"></div>
-        <div class="table-responsive">
-          <table class="table mt-4">
-            <thead>
-              <tr>
-                <th>購買時間</th>
-                <th>聯繫人</th>
-                <th>購買款項</th>
-                <th>應付金額</th>
-                <th>是否付款</th>
-                <th>處理狀態</th>
-                <th>編輯</th>
-              </tr>
-            </thead>
-            <tbody>
-              <template v-for="item in orders" :key="item.id">
-                <tr>
-                  <td>
-                    <div style="width: 100px">
-                      {{ item.user.create_at }}
-                    </div>
-                  </td>
-                  <td>
-                    <span v-text="item.user.email" v-if="item.user" style="width: 80px"></span>
-                  </td>
-                  <td>
-                    <ul class="list-unstyled">
-                      <template v-for="product in item.product" :key="product.id">
-                        <li
-                          v-for="(item, index) in product.products"
-                          :key="index + 123"
-                          style="width: 200px"
-                        >
-                          {{ item.title }} 預約：{{ item.qty }}位
-                          <br />
-                        </li>
-                      </template>
-                    </ul>
-                  </td>
-                  <td class="text-right" v-for="product in item.product" :key="product.id">
-                    <div style="width: 80px">
-                      {{ thousand(product.final_total) }}
-                    </div>
-                  </td>
-                  <td>
-                    <div class="form-check form-switch" style="width: 100px">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        v-model="item.user.status"
-                        @change="updatePaid(item)"
-                      />
-                      <label class="form-check-label">
-                        <span v-if="item.user.status">已付款</span>
-                        <span v-else class="text-danger">未付款</span>
-                      </label>
-                    </div>
-                  </td>
-                  <td>
-                    <div style="width: 80px">
-                      <p
-                        v-if="
-                          !item.status &&
-                          !item.billStatus &&
-                          !item.checkDataStatus &&
-                          !item.user.status
-                        "
-                        class="text-primary-emphasis"
-                      >
-                        訂單處理中
-                      </p>
-                      <p
-                        v-else-if="
-                          !item.status &&
-                          !item.billStatus &&
-                          !item.checkDataStatus &&
-                          item.user.status
-                        "
-                        class="text-primary"
-                      >
-                        預約安排出遊
-                      </p>
-                      <p
-                        v-else-if="
-                          !item.status &&
-                          !item.billStatus &&
-                          item.checkDataStatus &&
-                          item.user.status
-                        "
-                        class="text-warning"
-                      >
-                        發票開立中
-                      </p>
-                      <p
-                        v-else-if="
-                          !item.status &&
-                          item.billStatus &&
-                          item.checkDataStatus &&
-                          item.user.status
-                        "
-                        class="text-danger"
-                      >
-                        訂單即將完成，準備出遊
-                      </p>
-                      <p v-else class="text-success">已出遊結束</p>
-                    </div>
-                  </td>
-                  <td>
-                    <div class="btn-group">
-                      <button
-                        class="btn btn-outline-primary btn-sm"
-                        type="button"
-                        @click="openModal(item)"
-                      >
-                        檢視
-                      </button>
-                      <button
-                        class="btn btn-outline-danger btn-sm"
-                        type="button"
-                        @click="openDelOrderModal(item)"
-                      >
-                        刪除
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </template>
-            </tbody>
-          </table>
-        </div>
-        <nav aria-label="Page navigation example" class="my-10">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-              <button
-                class="page-link page-link-radius-2"
-                @click.prevent="currentPage > 1 && getOrders(currentPage - 1)"
-              >
-                上一頁
-              </button>
-            </li>
-            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
-              <button
-                class="page-link page-link-0 rounded-0"
-                :class="{ active: i === currentPage }"
-                @click.prevent="getOrders(i)"
-              >
-                {{ i }}
-              </button>
-            </li>
-            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
-              <button
-                class="page-link page-link-radius"
-                @click.prevent="currentPage < pageTotal && getOrders(currentPage + 1)"
-              >
-                下一頁
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+
+  <div class="text-end mt-18"></div>
+  <div class="table-responsive">
+    <table class="table mt-4">
+      <thead>
+        <tr>
+          <th>購買時間</th>
+          <th>聯繫人</th>
+          <th>購買款項</th>
+          <th>應付金額</th>
+          <th>是否付款</th>
+          <th>處理狀態</th>
+          <th>編輯</th>
+        </tr>
+      </thead>
+      <tbody>
+        <template v-for="item in orders" :key="item.id">
+          <tr>
+            <td>
+              <div style="width: 100px">
+                {{ item.user.create_at }}
+              </div>
+            </td>
+            <td>
+              <span v-text="item.user.email" v-if="item.user" style="width: 80px"></span>
+            </td>
+            <td>
+              <ul class="list-unstyled">
+                <template v-for="product in item.product" :key="product.id">
+                  <li
+                    v-for="(item, index) in product.products"
+                    :key="index + 123"
+                    style="width: 200px"
+                  >
+                    {{ item.title }} 預約：{{ item.qty }}位
+                    <br />
+                  </li>
+                </template>
+              </ul>
+            </td>
+            <td class="text-right" v-for="product in item.product" :key="product.id">
+              <div style="width: 80px">
+                {{ thousand(product.final_total) }}
+              </div>
+            </td>
+            <td>
+              <div class="form-check form-switch" style="width: 100px">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  v-model="item.user.status"
+                  @change="updatePaid(item)"
+                />
+                <label class="form-check-label">
+                  <span v-if="item.user.status">已付款</span>
+                  <span v-else class="text-danger">未付款</span>
+                </label>
+              </div>
+            </td>
+            <td>
+              <div style="width: 80px">
+                <p
+                  v-if="
+                    !item.status && !item.billStatus && !item.checkDataStatus && !item.user.status
+                  "
+                  class="text-primary-emphasis"
+                >
+                  訂單處理中
+                </p>
+                <p
+                  v-else-if="
+                    !item.status && !item.billStatus && !item.checkDataStatus && item.user.status
+                  "
+                  class="text-primary"
+                >
+                  預約安排出遊
+                </p>
+                <p
+                  v-else-if="
+                    !item.status && !item.billStatus && item.checkDataStatus && item.user.status
+                  "
+                  class="text-warning"
+                >
+                  發票開立中
+                </p>
+                <p
+                  v-else-if="
+                    !item.status && item.billStatus && item.checkDataStatus && item.user.status
+                  "
+                  class="text-danger"
+                >
+                  訂單即將完成，準備出遊
+                </p>
+                <p v-else class="text-success">已出遊結束</p>
+              </div>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button
+                  class="btn btn-outline-primary btn-sm"
+                  type="button"
+                  @click="openModal(item)"
+                >
+                  檢視
+                </button>
+                <button
+                  class="btn btn-outline-danger btn-sm"
+                  type="button"
+                  @click="openDelOrderModal(item)"
+                >
+                  刪除
+                </button>
+              </div>
+            </td>
+          </tr>
+        </template>
+      </tbody>
+    </table>
   </div>
+  <nav aria-label="Page navigation example" class="my-10">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+        <button
+          class="page-link page-link-radius-2"
+          @click.prevent="currentPage > 1 && getOrders(currentPage - 1)"
+        >
+          上一頁
+        </button>
+      </li>
+      <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+        <button
+          class="page-link page-link-0 rounded-0"
+          :class="{ active: i === currentPage }"
+          @click.prevent="getOrders(i)"
+        >
+          {{ i }}
+        </button>
+      </li>
+      <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+        <button
+          class="page-link page-link-radius"
+          @click.prevent="currentPage < pageTotal && getOrders(currentPage + 1)"
+        >
+          下一頁
+        </button>
+      </li>
+    </ul>
+  </nav>
 
   <!-- orderModal -->
   <order-modal
@@ -184,13 +163,11 @@
 <script>
 import OrderModal from '@/components/OrderModal.vue'
 import DelOrderModal from '@/components/DelOrderModal.vue'
-import AdminSidebar from '@/components/AdminSidebar.vue'
 import sweetAlert from '@/js/sweetAlert.js'
 const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
   components: {
-    AdminSidebar,
     OrderModal,
     DelOrderModal
   },
@@ -251,7 +228,7 @@ export default {
                 userId: item.userId,
                 cartDataId: item.id,
                 total: item.total,
-                products: [] 
+                products: []
               }
             }
 
@@ -296,7 +273,7 @@ export default {
       const updatedStatus = status.user.status
       const updatedUser = {
         ...status.user, // 保留原来的用户数据
-        status: updatedStatus 
+        status: updatedStatus
       }
       this.axios
         .patch(`${api_url2}/orders/${status.id}`, {
@@ -350,7 +327,7 @@ export default {
   border-color: #0ea0a6;
   color: #fff !important;
 }
-.btn:hover{
-  color:white !important;
+.btn:hover {
+  color: white !important;
 }
 </style>

@@ -1,97 +1,83 @@
 <template>
-  <div class="container">
-    <div class="row flex-column flex-md-row">
-      <div class="col-12 col-md-3">
-        <h1 class="my-4 fs-4 fs-md-1">景點管理</h1>
-        <AdminSidebar></AdminSidebar>
-      </div>
-      <div class="col-12 col-md-9">
-        <div class="text-end mt-4">
-          <button
-            type="button"
-            class="btn-turquoise"
-            id="addModalBtn"
-            @click="openModal('new', product)"
-          >
-            建立新的景點
-          </button>
-        </div>
-        <table class="table mt-4">
-          <thead>
-            <tr>
-              <th width="80">上架</th>
-              <th width="80">分類</th>
-              <th width="200">景點名稱</th>
-              <th width="120">標籤1</th>
-              <th width="120">標籤2</th>
-              <th width="120"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="attractionItem in attractions" :key="attractionItem.id">
-              <td>
-                <span class="text-success" v-if="attractionItem.is_enabled">啟用</span>
-                <span v-else>未啟用</span>
-                <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
-              </td>
-              <td>{{ attractionItem.category }}</td>
-              <td>{{ attractionItem.title }}</td>
-              <td>{{ attractionItem.tag_1 }}</td>
-              <td class="text-end">{{ attractionItem.tag_2 }}</td>
-
-              <td>
-                <div class="btn-group">
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary btn-sm"
-                    @click="openModal('edit', attractionItem)"
-                  >
-                    編輯
-                  </button>
-                  <button
-                    type="button"
-                    class="btn btn-outline-danger btn-sm"
-                    @click="openModal('delete', attractionItem)"
-                  >
-                    刪除
-                  </button>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <nav aria-label="Page navigation example" class="my-10">
-          <ul class="pagination justify-content-center">
-            <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-              <button
-                class="page-link page-link-radius-2"
-                @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
-              >
-                上一頁
-              </button>
-            </li>
-            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
-              <button
-                class="page-link page-link-0 rounded-0"
-                :class="{ active: i === currentPage }"
-                @click.prevent="getAttractions(i)"
-              >
-                {{ i }}
-              </button>
-            </li>
-            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
-              <button
-                class="page-link page-link-radius"
-                @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
-              >
-                下一頁
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </div>
+  <div class="text-end mt-4">
+    <button type="button" class="btn-turquoise" id="addModalBtn" @click="openModal('new', product)">
+      建立新的景點
+    </button>
   </div>
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th width="80">上架</th>
+        <th width="80">分類</th>
+        <th width="200">景點名稱</th>
+        <th width="120">標籤1</th>
+        <th width="120">標籤2</th>
+        <th width="120"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="attractionItem in attractions" :key="attractionItem.id">
+        <td>
+          <span class="text-success" v-if="attractionItem.is_enabled">啟用</span>
+          <span v-else>未啟用</span>
+          <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
+        </td>
+        <td>{{ attractionItem.category }}</td>
+        <td>{{ attractionItem.title }}</td>
+        <td>{{ attractionItem.tag_1 }}</td>
+        <td class="">{{ attractionItem.tag_2 }}</td>
+
+        <td>
+          <div class="btn-group">
+            <button
+              type="button"
+              class="btn btn-outline-primary btn-sm"
+              @click="openModal('edit', attractionItem)"
+            >
+              編輯
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-danger btn-sm"
+              @click="openModal('delete', attractionItem)"
+            >
+              刪除
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <nav aria-label="Page navigation example" class="my-10">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+        <button
+          class="page-link page-link-radius-2"
+          @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
+        >
+          上一頁
+        </button>
+      </li>
+      <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+        <button
+          class="page-link page-link-0 rounded-0"
+          :class="{ active: i === currentPage }"
+          @click.prevent="getAttractions(i)"
+        >
+          {{ i }}
+        </button>
+      </li>
+      <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+        <button
+          class="page-link page-link-radius"
+          @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
+        >
+          下一頁
+        </button>
+      </li>
+    </ul>
+  </nav>
+
   <!-- Modal -->
   <div
     id="productModal"
@@ -134,7 +120,11 @@
               <div v-if="Array.isArray(tempProduct.imagesUrl)">
                 <div v-for="(item, key) in tempProduct.imagesUrl" :key="key + 1213">
                   <img :src="item" alt="" class="img-fluid my-2" />
-                  <input type="text" class="form-control my-2" v-model="tempProduct.imagesUrl[key]" />
+                  <input
+                    type="text"
+                    class="form-control my-2"
+                    v-model="tempProduct.imagesUrl[key]"
+                  />
                 </div>
                 <!-- v-if 判斷沒有圖片時顯示或有點選新增圖片未填寫完成網址時 -->
                 <button
@@ -181,7 +171,9 @@
 
               <div class="row">
                 <div class="mb-3 col-md-6">
-                  <label for="category" class="form-label">分類<span class="required">*</span></label>
+                  <label for="category" class="form-label"
+                    >分類<span class="required">*</span></label
+                  >
                   <input
                     id="category"
                     type="text"
@@ -252,7 +244,9 @@
                 </div>
               </div>
               <div class="mb-3 col">
-                <label for="timeOpen" class="form-label">開放時間<span class="required">*</span></label>
+                <label for="timeOpen" class="form-label"
+                  >開放時間<span class="required">*</span></label
+                >
                 <textarea
                   id="timeOpen"
                   type="text"
@@ -262,7 +256,9 @@
                 ></textarea>
               </div>
               <div class="mb-3">
-                <label for="description" class="form-label">產品描述<span class="required">*</span></label>
+                <label for="description" class="form-label"
+                  >產品描述<span class="required">*</span></label
+                >
                 <textarea
                   id="description"
                   type="text"
@@ -273,7 +269,9 @@
                 </textarea>
               </div>
               <div class="mb-3">
-                <label for="content" class="form-label">交通資訊<span class="required">*</span></label>
+                <label for="content" class="form-label"
+                  >交通資訊<span class="required">*</span></label
+                >
                 <textarea
                   id="description"
                   type="text"
@@ -347,14 +345,10 @@
 
 <script>
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
-import AdminSidebar from '@/components/AdminSidebar.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
 import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
-  components: {
-    AdminSidebar
-  },
   data() {
     return {
       attractions: [],
@@ -405,7 +399,7 @@ export default {
     },
     //新增
     updateAttractions() {
-      if(
+      if (
         !this.tempProduct.title ||
         !this.tempProduct.category ||
         !this.tempProduct.unit ||
@@ -414,9 +408,9 @@ export default {
         !this.tempProduct.timeOpen ||
         !this.tempProduct.description ||
         !this.tempProduct.content
-      ){
+      ) {
         sweetAlert.threeLayerCheckType('warning', `請填寫所有必填欄位`)
-        return;
+        return
       }
       if (this.isNew) {
         this.axios
@@ -472,7 +466,7 @@ export default {
         網址產生中，請稍後...
         關閉提示視窗後，等待顯示圖片網址，再點確認按鈕
       `
-      sweetAlert.threeLayerCheckType('warning', `${confirmationMessage}`)
+          sweetAlert.threeLayerCheckType('warning', `${confirmationMessage}`)
           // 執行後續的代碼
           const blobUrl = URL.createObjectURL(fileInput.files[0])
           this.tempProduct.imagesUrl.push(blobUrl)
@@ -508,13 +502,13 @@ export default {
   color: #fff !important;
 }
 .required {
-    color: red;
-    margin-left: 5px; 
+  color: red;
+  margin-left: 5px;
 }
-.btn:hover{
-  color:white !important;
+.btn:hover {
+  color: white !important;
 }
-.btn-sm-radius{
+.btn-sm-radius {
   border-radius: 20px !important;
 }
 </style>

@@ -1,7 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <router-link to="/admin/adminHome" class="navbar-brand">後台管理</router-link>
+      <router-link to="/admin/adminHome" class="navbar-brand">
+        <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
+      </router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -27,14 +29,27 @@
       </div>
     </div>
   </nav>
-  <RouterView/>
+  <div class="container">
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-3">
+        <AdminSidebar />
+      </div>
+      <div class="col-12 col-md-9">
+        <RouterView />
+      </div>
+    </div>
+  </div>
 </template>
 <script>
 const api_url = import.meta.env.VITE_API_URL
 import { Collapse } from 'bootstrap'
+import AdminSidebar from '@/components/AdminSidebar.vue'
 import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
+  components: {
+    AdminSidebar
+  },
   data() {
     return {
       user: {
@@ -42,12 +57,12 @@ export default {
         password: ''
       },
       userIsLoggedIn: false,
-      token:'' ,
+      token: '',
       navCollapse: null
     }
   },
   methods: {
-    toggleNavbar () {
+    toggleNavbar() {
       if (this.$refs.navbar.classList.contains('show')) {
         this.navCollapse.hide()
       } else {
@@ -55,33 +70,33 @@ export default {
       }
     },
     checkAdmin() {
-    // 訂閱登入事件
-    this.$emitter.on('loginCheck', (msg) => {
-      this.userIsLoggedIn = msg;
-    });
-    if(this.token){
-      // 檢查登入狀態
-      this.axios
-        .post(`${api_url}/api/user/check`)
-        .then((res) => {
-          // 登入成功
-          this.userIsLoggedIn = true;
-        })
-        .catch(() => {
-          // 登入失敗或驗證失敗
-          this.userIsLoggedIn = false;
-          sweetAlert.threeLayerCheckType('error', `管理者身分驗證失敗，自動跳轉至登入頁面`)
-          this.$router.push({ path: '/admin/AdminHome' })
-        });
-    }
-  },
+      // 訂閱登入事件
+      this.$emitter.on('loginCheck', (msg) => {
+        this.userIsLoggedIn = msg
+      })
+      if (this.token) {
+        // 檢查登入狀態
+        this.axios
+          .post(`${api_url}/api/user/check`)
+          .then((res) => {
+            // 登入成功
+            this.userIsLoggedIn = true
+          })
+          .catch(() => {
+            // 登入失敗或驗證失敗
+            this.userIsLoggedIn = false
+            sweetAlert.threeLayerCheckType('error', `管理者身分驗證失敗，自動跳轉至登入頁面`)
+            this.$router.push({ path: '/admin/AdminHome' })
+          })
+      }
+    },
     logout() {
       this.axios
         .post(`${api_url}/logout`)
         .then(() => {
           document.cookie = 'hexToken=; expires='
           this.$router.push({ path: '/' })
-          this.userIsLoggedIn = false 
+          this.userIsLoggedIn = false
         })
         .catch(() => {
           sweetAlert.threeLayerCheckType('error', `管理者身分登出失敗，請稍後再點選登出按鈕`)
@@ -89,15 +104,15 @@ export default {
     }
   },
   mounted() {
-       this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
-      this.axios.defaults.headers.common['Authorization'] = this.token
-      this.checkAdmin();
-      this.navCollapse = new Collapse(this.$refs.navbar, { toggle: false })
+    this.token = document.cookie.replace(/(?:(?:^|.*;\s*)hexToken\s*\=\s*([^;]*).*$)|^.*$/, '$1')
+    this.axios.defaults.headers.common['Authorization'] = this.token
+    this.checkAdmin()
+    this.navCollapse = new Collapse(this.$refs.navbar, { toggle: false })
   }
 }
 </script>
 <style lang="scss" scoped>
 a.nav-link {
-    cursor: pointer;
+  cursor: pointer;
 }
 </style>
