@@ -1,6 +1,6 @@
 <template>
-  <VueLoading :active="isLoading" class="text-center" :z-index="1060" />
   <BannerBlock />
+
   <div class="container py-10 py-lg-30">
     <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
@@ -33,148 +33,8 @@
       :key="productsItem.id"
     >
       <div class="col-12 col-md-7 col-lg-8 mb-8 mb-md-10 mb-lg-12">
-        <div class="d-flex">
-          <div class="w-5 d-none d-xl-flex">
-            <i class="bi bi-geo-alt-fill position-relative fs-5">
-              <div class="line"></div>
-              <i class="bi bi-arrow-down-circle-fill arrow"></i>
-            </i>
-          </div>
-          <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
-            <h4 class="d-flex">
-              <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第一天
-            </h4>
-            <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link active"
-                  id="pills-home-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-home"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-home"
-                  aria-selected="true"
-                >
-                  早上
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-profile-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-profile"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-profile"
-                  aria-selected="false"
-                >
-                  下午1
-                </button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button
-                  class="nav-link"
-                  id="pills-contact-tab"
-                  data-bs-toggle="pill"
-                  data-bs-target="#pills-contact"
-                  type="button"
-                  role="tab"
-                  aria-controls="pills-contact"
-                  aria-selected="false"
-                >
-                  下午2
-                </button>
-              </li>
-            </ul>
-            <div class="tab-content card-att" id="pills-tabContent">
-              <div
-                class="tab-pane fade show active"
-                id="pills-home"
-                role="tabpanel"
-                aria-labelledby="pills-home-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div class="w-100 w-lg-60 mb-4">
-                    <div class="card-att-img card-att-img-2">
-                      <img
-                        :src="productsItem.imagesUrl[0]"
-                        class="img-fluid pb-4 pb-lg-0"
-                        :alt="productsItem.itinerary_data[0].itinerary_first_day_am_title"
-                      />
-                    </div>
-                  </div>
-                  <div class="w-100 w-lg-40">
-                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                      {{ productsItem.itinerary_data[0].itinerary_first_day_am_title }}
-                    </h4>
-                    <p class="text-dark mb-4">
-                      {{ productsItem.itinerary_data[0].itinerary_first_day_am_content }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="pills-profile"
-                role="tabpanel"
-                aria-labelledby="pills-profile-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div class="w-100 w-lg-60 mb-4">
-                    <div class="card-att-img card-att-img-2">
-                      <img
-                        :src="productsItem.imagesUrl[1]"
-                        class="img-fluid pb-4 pb-lg-0"
-                        :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title"
-                      />
-                    </div>
-                  </div>
-                  <div class="w-100 w-lg-40">
-                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                      {{ productsItem.itinerary_data[0].itinerary_first_day_pm_title }}
-                    </h4>
-                    <p class="text-dark">
-                      {{ productsItem.itinerary_data[0].itinerary_first_day_pm_content }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div
-                class="tab-pane fade"
-                id="pills-contact"
-                role="tabpanel"
-                aria-labelledby="pills-contact-tab"
-                tabindex="0"
-              >
-                <div class="row">
-                  <div class="w-100 w-lg-60 mb-4">
-                    <div class="card-att-img card-att-img-2">
-                      <img
-                        :src="productsItem.imagesUrl[2]"
-                        class="img-fluid pb-4 pb-lg-0"
-                        :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title2"
-                      />
-                    </div>
-                  </div>
-                  <div class="w-100 w-lg-40">
-                    <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                      {{ productsItem.itinerary_data[0].itinerary_first_day_pm_title2 }}
-                    </h4>
-                    <p class="text-dark">
-                      {{ productsItem.itinerary_data[0].itinerary_first_day_pm_content2 }}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="productsItem.itinerary_data.length > 1">
-          <div class="d-flex mt-12">
+        <template v-if="isLoading">
+          <div class="d-flex">
             <div class="w-5 d-none d-xl-flex">
               <i class="bi bi-geo-alt-fill position-relative fs-5">
                 <div class="line"></div>
@@ -183,7 +43,7 @@
             </div>
             <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
               <h4 class="d-flex">
-                <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第二天
+                <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第一天
               </h4>
               <ul
                 class="nav nav-underline nav-fill mb-4 w-100 w-lg-60"
@@ -193,12 +53,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link active"
-                    id="pills-home-tab-two"
+                    id="pills-home-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-home-two"
+                    data-bs-target="#pills-home"
                     type="button"
                     role="tab"
-                    aria-controls="pills-home-two"
+                    aria-controls="pills-home"
                     aria-selected="true"
                   >
                     早上
@@ -207,12 +67,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab-two"
+                    id="pills-profile-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile-two"
+                    data-bs-target="#pills-profile"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile-two"
+                    aria-controls="pills-profile"
                     aria-selected="false"
                   >
                     下午1
@@ -221,12 +81,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-contact-tab-two"
+                    id="pills-contact-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-contact-two"
+                    data-bs-target="#pills-contact"
                     type="button"
                     role="tab"
-                    aria-controls="pills-contact-two"
+                    aria-controls="pills-contact"
                     aria-selected="false"
                   >
                     下午2
@@ -236,91 +96,94 @@
               <div class="tab-content card-att" id="pills-tabContent">
                 <div
                   class="tab-pane fade show active"
-                  id="pills-home-two"
+                  id="pills-home"
                   role="tabpanel"
-                  aria-labelledby="pills-home-tab-two"
+                  aria-labelledby="pills-home-tab"
                   tabindex="0"
                 >
                   <div class="row">
                     <div class="w-100 w-lg-60 mb-4">
                       <div class="card-att-img card-att-img-2">
                         <img
-                          :src="productsItem.imagesUrl[3]"
-                          class="img-fluid pb-4 pb-lg-0"
-                          :alt="productsItem.itinerary_data[1].itinerary_second_day_am_title"
+                          src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                          class="img-fluid pb-4 pb-lg-0 opacity-25"
+                          alt="Placeholder Image"
                         />
                       </div>
                     </div>
-                    <div class="w-100 w-lg-40">
-                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                        {{ productsItem.itinerary_data[1].itinerary_second_day_am_title }}
-                      </h4>
-                      <p class="text-dark mb-4">
-                        {{ productsItem.itinerary_data[1].itinerary_second_day_am_content }}
-                      </p>
+                    <div class="w-100 w-lg-40 placeholder-glow">
+                      <span class="placeholder w-50 fs-4"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
                     </div>
                   </div>
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-profile-two"
+                  id="pills-profile"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab-two"
+                  aria-labelledby="pills-profile-tab"
                   tabindex="0"
                 >
                   <div class="row">
                     <div class="w-100 w-lg-60 mb-4">
                       <div class="card-att-img card-att-img-2">
                         <img
-                          :src="productsItem.imagesUrl[4]"
-                          class="img-fluid pb-4 pb-lg-0"
-                          :alt="productsItem.itinerary_data[1].itinerary_second_day_pm_title"
+                          src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                          class="img-fluid pb-4 pb-lg-0 opacity-25"
+                          alt="Placeholder Image"
                         />
                       </div>
                     </div>
-                    <div class="w-lg-40">
-                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                        {{ productsItem.itinerary_data[1].itinerary_second_day_pm_title }}
-                      </h4>
-                      <p class="text-dark">
-                        {{ productsItem.itinerary_data[1].itinerary_second_day_pm_content }}
-                      </p>
+                    <div class="w-100 w-lg-40 placeholder-glow">
+                      <span class="placeholder w-50 fs-4"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
                     </div>
                   </div>
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-contact-two"
+                  id="pills-contact"
                   role="tabpanel"
-                  aria-labelledby="pills-contact-tab-two"
+                  aria-labelledby="pills-contact-tab"
                   tabindex="0"
                 >
                   <div class="row">
                     <div class="w-100 w-lg-60 mb-4">
                       <div class="card-att-img card-att-img-2">
                         <img
-                          :src="productsItem.imagesUrl[5]"
-                          class="img-fluid pb-4 pb-lg-0"
-                          :alt="productsItem.itinerary_data[1].itinerary_second_day_pm_title2"
+                          src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                          class="img-fluid pb-4 pb-lg-0 opacity-25"
+                          alt="Placeholder Image"
                         />
                       </div>
                     </div>
-                    <div class="w-lg-40">
-                      <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                        {{ productsItem.itinerary_data[1].itinerary_second_day_pm_title2 }}
-                      </h4>
-                      <p class="text-dark">
-                        {{ productsItem.itinerary_data[1].itinerary_second_day_pm_content2 }}
-                      </p>
+                    <div class="w-100 w-lg-40 placeholder-glow">
+                      <span class="placeholder w-50 fs-4"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
+                      <span class="placeholder w-100"></span>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-if="productsItem.itinerary_data.length > 2">
-          <div class="d-flex my-12">
+        </template>
+        <template v-else>
+          <div class="d-flex">
             <div class="w-5 d-none d-xl-flex">
               <i class="bi bi-geo-alt-fill position-relative fs-5">
                 <div class="line"></div>
@@ -329,22 +192,22 @@
             </div>
             <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
               <h4 class="d-flex">
-                <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第三天
+                <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第一天
               </h4>
               <ul
-                class="nav nav-underline nav-fill mb-4 w-100 w-lg-75"
+                class="nav nav-underline nav-fill mb-4 w-100 w-lg-60"
                 id="pills-tab"
                 role="tablist"
               >
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link active"
-                    id="pills-home-tab-third"
+                    id="pills-home-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-home-third"
+                    data-bs-target="#pills-home"
                     type="button"
                     role="tab"
-                    aria-controls="pills-home-third"
+                    aria-controls="pills-home"
                     aria-selected="true"
                   >
                     早上
@@ -353,12 +216,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-profile-tab-third"
+                    id="pills-profile-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-profile-third"
+                    data-bs-target="#pills-profile"
                     type="button"
                     role="tab"
-                    aria-controls="pills-profile-third"
+                    aria-controls="pills-profile"
                     aria-selected="false"
                   >
                     下午1
@@ -367,12 +230,12 @@
                 <li class="nav-item" role="presentation">
                   <button
                     class="nav-link"
-                    id="pills-contact-tab-third"
+                    id="pills-contact-tab"
                     data-bs-toggle="pill"
-                    data-bs-target="#pills-contact-third"
+                    data-bs-target="#pills-contact"
                     type="button"
                     role="tab"
-                    aria-controls="pills-contact-third"
+                    aria-controls="pills-contact"
                     aria-selected="false"
                   >
                     下午2
@@ -381,82 +244,85 @@
               </ul>
               <div class="tab-content card-att" id="pills-tabContent">
                 <div
-                  class="tab-pane fade"
-                  id="pills-home-third"
+                  class="tab-pane fade show active"
+                  id="pills-home"
                   role="tabpanel"
-                  aria-labelledby="pills-home-tab-third"
+                  aria-labelledby="pills-home-tab"
                   tabindex="0"
                 >
                   <div class="row">
                     <div class="w-100 w-lg-60 mb-4">
                       <div class="card-att-img card-att-img-2">
                         <img
-                          :src="productsItem.imagesUrl[6]"
+                          :src="productsItem.imagesUrl[0]"
                           class="img-fluid pb-4 pb-lg-0"
-                          :alt="productsItem.itinerary_data[2].itinerary_third_day_am_title"
+                          style="cursor: pointer"
+                          :alt="productsItem.itinerary_data[0].itinerary_first_day_am_title"
                         />
                       </div>
                     </div>
                     <div class="w-100 w-lg-40">
                       <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                        {{ productsItem.itinerary_data[2].itinerary_third_day_am_title }}
+                        {{ productsItem.itinerary_data[0].itinerary_first_day_am_title }}
                       </h4>
                       <p class="text-dark mb-4">
-                        {{ productsItem.itinerary_data[2].itinerary_third_day_am_content }}
+                        {{ productsItem.itinerary_data[0].itinerary_first_day_am_content }}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-profile-third"
+                  id="pills-profile"
                   role="tabpanel"
-                  aria-labelledby="pills-profile-tab-third"
+                  aria-labelledby="pills-profile-tab"
                   tabindex="0"
                 >
                   <div class="row">
                     <div class="w-100 w-lg-60 mb-4">
                       <div class="card-att-img card-att-img-2">
                         <img
-                          :src="productsItem.imagesUrl[7]"
+                          :src="productsItem.imagesUrl[1]"
                           class="img-fluid pb-4 pb-lg-0"
-                          :alt="productsItem.itinerary_data[2].itinerary_third_day_pm_title"
+                          style="cursor: pointer"
+                          :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title"
                         />
                       </div>
                     </div>
-                    <div class="w-lg-40">
+                    <div class="w-100 w-lg-40">
                       <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                        {{ productsItem.itinerary_data[2].itinerary_third_day_pm_title }}
+                        {{ productsItem.itinerary_data[0].itinerary_first_day_pm_title }}
                       </h4>
                       <p class="text-dark">
-                        {{ productsItem.itinerary_data[2].itinerary_third_day_pm_content }}
+                        {{ productsItem.itinerary_data[0].itinerary_first_day_pm_content }}
                       </p>
                     </div>
                   </div>
                 </div>
                 <div
                   class="tab-pane fade"
-                  id="pills-contact-third"
+                  id="pills-contact"
                   role="tabpanel"
-                  aria-labelledby="pills-contact-tab-third"
+                  aria-labelledby="pills-contact-tab"
                   tabindex="0"
                 >
                   <div class="row">
                     <div class="w-100 w-lg-60 mb-4">
                       <div class="card-att-img card-att-img-2">
                         <img
-                          :src="productsItem.imagesUrl[8]"
+                          :src="productsItem.imagesUrl[2]"
                           class="img-fluid pb-4 pb-lg-0"
-                          :alt="productsItem.itinerary_data[2].itinerary_third_day_pm_title2"
+                          style="cursor: pointer"
+                          :alt="productsItem.itinerary_data[0].itinerary_first_day_pm_title2"
                         />
                       </div>
                     </div>
-                    <div class="w-lg-40">
+                    <div class="w-100 w-lg-40">
                       <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
-                        {{ productsItem.itinerary_data[2].itinerary_third_day_pm_title2 }}
+                        {{ productsItem.itinerary_data[0].itinerary_first_day_pm_title2 }}
                       </h4>
                       <p class="text-dark">
-                        {{ productsItem.itinerary_data[2].itinerary_third_day_pm_content2 }}
+                        {{ productsItem.itinerary_data[0].itinerary_first_day_pm_content2 }}
                       </p>
                     </div>
                   </div>
@@ -464,182 +330,590 @@
               </div>
             </div>
           </div>
-        </div>
+          <div v-if="productsItem.itinerary_data.length > 1">
+            <div class="d-flex mt-12">
+              <div class="w-5 d-none d-xl-flex">
+                <i class="bi bi-geo-alt-fill position-relative fs-5">
+                  <div class="line"></div>
+                  <i class="bi bi-arrow-down-circle-fill arrow"></i>
+                </i>
+              </div>
+              <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
+                <h4 class="d-flex">
+                  <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第二天
+                </h4>
+                <ul
+                  class="nav nav-underline nav-fill mb-4 w-100 w-lg-60"
+                  id="pills-tab"
+                  role="tablist"
+                >
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link active"
+                      id="pills-home-tab-two"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-home-two"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-home-two"
+                      aria-selected="true"
+                    >
+                      早上
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="pills-profile-tab-two"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-profile-two"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-profile-two"
+                      aria-selected="false"
+                    >
+                      下午1
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="pills-contact-tab-two"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-contact-two"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-contact-two"
+                      aria-selected="false"
+                    >
+                      下午2
+                    </button>
+                  </li>
+                </ul>
+                <div class="tab-content card-att" id="pills-tabContent">
+                  <div
+                    class="tab-pane fade show active"
+                    id="pills-home-two"
+                    role="tabpanel"
+                    aria-labelledby="pills-home-tab-two"
+                    tabindex="0"
+                  >
+                    <div class="row">
+                      <div class="w-100 w-lg-60 mb-4">
+                        <div class="card-att-img card-att-img-2">
+                          <img
+                            :src="productsItem.imagesUrl[3]"
+                            class="img-fluid pb-4 pb-lg-0"
+                            style="cursor: pointer"
+                            :alt="productsItem.itinerary_data[1].itinerary_second_day_am_title"
+                          />
+                        </div>
+                      </div>
+                      <div class="w-100 w-lg-40">
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                          {{ productsItem.itinerary_data[1].itinerary_second_day_am_title }}
+                        </h4>
+                        <p class="text-dark mb-4">
+                          {{ productsItem.itinerary_data[1].itinerary_second_day_am_content }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="pills-profile-two"
+                    role="tabpanel"
+                    aria-labelledby="pills-profile-tab-two"
+                    tabindex="0"
+                  >
+                    <div class="row">
+                      <div class="w-100 w-lg-60 mb-4">
+                        <div class="card-att-img card-att-img-2">
+                          <img
+                            :src="productsItem.imagesUrl[4]"
+                            class="img-fluid pb-4 pb-lg-0"
+                            style="cursor: pointer"
+                            :alt="productsItem.itinerary_data[1].itinerary_second_day_pm_title"
+                          />
+                        </div>
+                      </div>
+                      <div class="w-lg-40">
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                          {{ productsItem.itinerary_data[1].itinerary_second_day_pm_title }}
+                        </h4>
+                        <p class="text-dark">
+                          {{ productsItem.itinerary_data[1].itinerary_second_day_pm_content }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="pills-contact-two"
+                    role="tabpanel"
+                    aria-labelledby="pills-contact-tab-two"
+                    tabindex="0"
+                  >
+                    <div class="row">
+                      <div class="w-100 w-lg-60 mb-4">
+                        <div class="card-att-img card-att-img-2">
+                          <img
+                            :src="productsItem.imagesUrl[5]"
+                            class="img-fluid pb-4 pb-lg-0"
+                            style="cursor: pointer"
+                            :alt="productsItem.itinerary_data[1].itinerary_second_day_pm_title2"
+                          />
+                        </div>
+                      </div>
+                      <div class="w-lg-40">
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                          {{ productsItem.itinerary_data[1].itinerary_second_day_pm_title2 }}
+                        </h4>
+                        <p class="text-dark">
+                          {{ productsItem.itinerary_data[1].itinerary_second_day_pm_content2 }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="productsItem.itinerary_data.length > 2">
+            <div class="d-flex my-12">
+              <div class="w-5 d-none d-xl-flex">
+                <i class="bi bi-geo-alt-fill position-relative fs-5">
+                  <div class="line"></div>
+                  <i class="bi bi-arrow-down-circle-fill arrow"></i>
+                </i>
+              </div>
+              <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
+                <h4 class="d-flex">
+                  <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第三天
+                </h4>
+                <ul
+                  class="nav nav-underline nav-fill mb-4 w-100 w-lg-75"
+                  id="pills-tab"
+                  role="tablist"
+                >
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link active"
+                      id="pills-home-tab-third"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-home-third"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-home-third"
+                      aria-selected="true"
+                    >
+                      早上
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="pills-profile-tab-third"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-profile-third"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-profile-third"
+                      aria-selected="false"
+                    >
+                      下午1
+                    </button>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <button
+                      class="nav-link"
+                      id="pills-contact-tab-third"
+                      data-bs-toggle="pill"
+                      data-bs-target="#pills-contact-third"
+                      type="button"
+                      role="tab"
+                      aria-controls="pills-contact-third"
+                      aria-selected="false"
+                    >
+                      下午2
+                    </button>
+                  </li>
+                </ul>
+                <div class="tab-content card-att" id="pills-tabContent">
+                  <div
+                    class="tab-pane fade"
+                    id="pills-home-third"
+                    role="tabpanel"
+                    aria-labelledby="pills-home-tab-third"
+                    tabindex="0"
+                  >
+                    <div class="row">
+                      <div class="w-100 w-lg-60 mb-4">
+                        <div class="card-att-img card-att-img-2">
+                          <img
+                            :src="productsItem.imagesUrl[6]"
+                            class="img-fluid pb-4 pb-lg-0"
+                            style="cursor: pointer"
+                            :alt="productsItem.itinerary_data[2].itinerary_third_day_am_title"
+                          />
+                        </div>
+                      </div>
+                      <div class="w-100 w-lg-40">
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                          {{ productsItem.itinerary_data[2].itinerary_third_day_am_title }}
+                        </h4>
+                        <p class="text-dark mb-4">
+                          {{ productsItem.itinerary_data[2].itinerary_third_day_am_content }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="pills-profile-third"
+                    role="tabpanel"
+                    aria-labelledby="pills-profile-tab-third"
+                    tabindex="0"
+                  >
+                    <div class="row">
+                      <div class="w-100 w-lg-60 mb-4">
+                        <div class="card-att-img card-att-img-2">
+                          <img
+                            :src="productsItem.imagesUrl[7]"
+                            class="img-fluid pb-4 pb-lg-0"
+                            style="cursor: pointer"
+                            :alt="productsItem.itinerary_data[2].itinerary_third_day_pm_title"
+                          />
+                        </div>
+                      </div>
+                      <div class="w-lg-40">
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                          {{ productsItem.itinerary_data[2].itinerary_third_day_pm_title }}
+                        </h4>
+                        <p class="text-dark">
+                          {{ productsItem.itinerary_data[2].itinerary_third_day_pm_content }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="tab-pane fade"
+                    id="pills-contact-third"
+                    role="tabpanel"
+                    aria-labelledby="pills-contact-tab-third"
+                    tabindex="0"
+                  >
+                    <div class="row">
+                      <div class="w-100 w-lg-60 mb-4">
+                        <div class="card-att-img card-att-img-2">
+                          <img
+                            :src="productsItem.imagesUrl[8]"
+                            class="img-fluid pb-4 pb-lg-0"
+                            style="cursor: pointer"
+                            :alt="productsItem.itinerary_data[2].itinerary_third_day_pm_title2"
+                          />
+                        </div>
+                      </div>
+                      <div class="w-lg-40">
+                        <h4 class="fs-5 fs-xl-4 fw-bold text-primary-700 card-title-att mb-4">
+                          {{ productsItem.itinerary_data[2].itinerary_third_day_pm_title2 }}
+                        </h4>
+                        <p class="text-dark">
+                          {{ productsItem.itinerary_data[2].itinerary_third_day_pm_content2 }}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </template>
       </div>
 
-      <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
-        <div class="d-flex mb-4">
+      <template v-if="isLoading">
+        <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
+          <div class="d-flex mb-4">
+            <span class="placeholder w-25 fs-6"></span>
+          </div>
+          <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6"><span class="placeholder w-50 fs-4"></span></h2>
           <span
-            class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
-            >{{ category }}</span
+            class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
           >
-        </div>
-        <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6 text-primary-700 fw-bold">{{ packageTitle }}</h2>
-        <span
-          class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-        >
-          <i class="bi bi-person-walking me-2"></i>景點行程
-        </span>
-        <div class="mt-2 mb-6">
-          <div v-for="(item, index) in newProductsContent" :key="index + 123">
-            <p
-              v-for="(description, i) in item.content"
-              :key="i"
-              :class="{ 'mb-3': i === 2, 'ps-10': i !== 0 && i !== 3 }"
-            >
-              {{ description }}
-            </p>
+            <i class="bi bi-person-walking me-2"></i>景點行程
+          </span>
+          <div class="mt-2 mb-6">
+            <span class="placeholder w-75 fs-5"></span>
+            <span class="placeholder w-75 fs-5"></span>
+            <span class="placeholder w-75 fs-5"></span>
           </div>
-        </div>
-        <div class="d-flex mb-4 flex-column mb-6">
-          <h5 class="mb-2">
-            <span
-              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-            >
-              <i class="bi bi-calendar-plus me-2"></i>預約期間
-            </span>
-          </h5>
-          <h6 class="mt-2" v-if="currentDate <= productsItem.endDate">
-            {{ productsItem.startDate }} 至 {{ productsItem.endDate }}
-          </h6>
-          <h5 class="mt-2 text-danger" v-else>預約時間已截止</h5>
-        </div>
-        <div class="d-flex mb-6 flex-column">
-          <h5 class="mb-2">
-            <span
-              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-            >
-              <i class="bi bi-car-front-fill me-2"></i>出發時間
-            </span>
-          </h5>
-          <h6 class="mt-2">{{ productsItem.goStartDate }} 至 {{ productsItem.goEndDate }}</h6>
-        </div>
-        <div class="d-flex mb-4 flex-column">
-          <h5 class="mb-2">
-            <span
-              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-            >
-              <i class="bi bi-card-list me-2"></i>旅遊方案概覽
-            </span>
-          </h5>
-          <h6 class="mt-2">適合年齡：6-80歲</h6>
-          <h6 class="mt-2">集合地點與時間：{{ productsItem.category }}火車站，早上8點</h6>
-          <h6 class="mt-4">所需時間：約10-12小時</h6>
-          <h6 class="mt-2">交通：當地公車/客運，或渡輪/麵包車(依情況調整)</h6>
-          <h6 class="mt-4">
-            特色：深度體驗當地文化與生活，享受悠閒旅行節奏，包含足夠自由時間用於探索、拍照和休息
-          </h6>
-        </div>
-        <div class="d-flex justify-content-between mb-4 align-items-end">
-          <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">
-            NT{{ thousand(productsItem.origin_price) }}
-          </p>
-          <div class="d-flex flex-sm-column align-items-end justify-content-end">
-            <p class="fs-6 text-danger fw-bold d-none d-sm-block">促銷價</p>
-            <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
-              NT{{ thousand(productsItem.price) }}
-            </p>
+          <div class="d-flex mb-4 flex-column mb-6">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-calendar-plus me-2"></i>預約期間
+              </span>
+            </h5>
+            <span class="placeholder w-75 fs-5 mt-2"></span>
           </div>
+          <div class="d-flex mb-6 flex-column">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-car-front-fill me-2"></i>出發時間
+              </span>
+            </h5>
+            <h6 class="mt-2"><span class="placeholder w-75 fs-5 mt-2"></span></h6>
+          </div>
+          <div class="d-flex justify-content-between mb-4 align-items-end">
+            <span class="placeholder w-25"></span>
+            <div class="d-flex flex-sm-column align-items-end justify-content-end">
+              <span class="placeholder w-25"></span>
+            </div>
+          </div>
+          <div class="d-flex mb-2">
+            <button class="btn btn-outline-dark rounded-0" type="button">
+              <i class="bi bi-dash-lg"></i>
+            </button>
+            <input
+              min="1"
+              max="10"
+              type="number"
+              class="form-control text-center rounded-0 border border-dark"
+              readonly
+            />
+            <button class="btn btn-outline-dark rounded-0" type="button">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+            <!-- 愛心點選 -->
+            <button class="heart border-0" type="button">
+              <i class="bi bi-heart" style="font-size: 24px"></i>
+            </button>
+          </div>
+
+          <h6 class="mb-2">
+            <span class="placeholder w-75"></span>
+          </h6>
+          <h6 class="mb-5">
+            <span class="placeholder w-75"></span>
+          </h6>
+          <button class="btn-square w-100 fs-5 mb-4" type="button">預約旅遊方案</button>
+          <button class="btn-square fs-5 w-100" type="button">直接結帳</button>
         </div>
-        <div class="d-flex mb-2">
+      </template>
+      <template v-else>
+        <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
+          <div class="d-flex mb-4">
+            <span
+              class="badge rounded-pill bg-primary-200 text-primary-600 fw-bold me-1 py-1 px-4 fs-6"
+              >{{ category }}</span
+            >
+          </div>
+          <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6 text-primary-700 fw-bold">{{ packageTitle }}</h2>
+          <span
+            class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+          >
+            <i class="bi bi-person-walking me-2"></i>景點行程
+          </span>
+          <div class="mt-2 mb-6">
+            <div v-for="(item, index) in newProductsContent" :key="index + 123">
+              <p
+                v-for="(description, i) in item.content"
+                :key="i"
+                :class="{ 'mb-3': i === 2, 'ps-10': i !== 0 && i !== 3 }"
+              >
+                {{ description }}
+              </p>
+            </div>
+          </div>
+          <div class="d-flex mb-4 flex-column mb-6">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-calendar-plus me-2"></i>預約期間
+              </span>
+            </h5>
+            <h6 class="mt-2" v-if="currentDate <= productsItem.endDate">
+              {{ productsItem.startDate }} 至 {{ productsItem.endDate }}
+            </h6>
+            <h5 class="mt-2 text-danger" v-else>預約時間已截止</h5>
+          </div>
+          <div class="d-flex mb-6 flex-column">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-car-front-fill me-2"></i>出發時間
+              </span>
+            </h5>
+            <h6 class="mt-2">{{ productsItem.goStartDate }} 至 {{ productsItem.goEndDate }}</h6>
+          </div>
+          <div class="d-flex mb-4 flex-column">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-card-list me-2"></i>旅遊方案概覽
+              </span>
+            </h5>
+            <h6 class="mt-2">適合年齡：6-80歲</h6>
+            <h6 class="mt-2">集合地點與時間：{{ productsItem.category }}火車站，早上8點</h6>
+            <h6 class="mt-4">所需時間：約10-12小時</h6>
+            <h6 class="mt-2">交通：當地公車/客運，或渡輪/麵包車(依情況調整)</h6>
+            <h6 class="mt-4">
+              特色：深度體驗當地文化與生活，享受悠閒旅行節奏，包含足夠自由時間用於探索、拍照和休息
+            </h6>
+          </div>
+          <div class="d-flex justify-content-between mb-4 align-items-end">
+            <p class="fs-4 fs-lg-5 text-decoration-line-through text-end">
+              NT{{ thousand(productsItem.origin_price) }}
+            </p>
+            <div class="d-flex flex-sm-column align-items-end justify-content-end">
+              <p class="fs-6 text-danger fw-bold d-none d-sm-block">促銷價</p>
+              <p class="fs-2 fs-sm-3 fs-lg-4 fs-xl-2 text-danger">
+                NT{{ thousand(productsItem.price) }}
+              </p>
+            </div>
+          </div>
+          <div class="d-flex mb-2">
+            <button
+              class="btn btn-outline-dark rounded-0"
+              type="button"
+              :disabled="quantity === 1"
+              @click="decrementQuantity(productsItem.id)"
+            >
+              <span
+                class="spinner-border spinner-grow-sm"
+                role="status"
+                v-if="status.loadingItem4 === productsItem.id"
+              ></span>
+              <i class="bi bi-dash-lg"></i>
+            </button>
+            <input
+              min="1"
+              max="10"
+              type="number"
+              :disabled="quantity > productsItem.max_travelers"
+              class="form-control text-center rounded-0 border border-dark"
+              v-model="quantity"
+              readonly
+            />
+            <button
+              class="btn btn-outline-dark rounded-0"
+              type="button"
+              @click="incrementQuantity(productsItem.id, productsItem.max_travelers)"
+            >
+              <span
+                class="spinner-border spinner-grow-sm"
+                role="status"
+                v-if="status.loadingItem2 === productsItem.id"
+              ></span>
+              <i class="bi bi-plus-lg"></i>
+            </button>
+            <button
+              type="button"
+              class="btn-outline-cerulean rounded-0 ms-2 p-2"
+              @click="
+                toggleFavorite(productsItem.id, category, packageTitle, productsItem.imageUrl)
+              "
+            >
+              <i
+                :class="[
+                  'bi',
+                  {
+                    'bi-heart-fill': isFavorite[productsItem.id],
+                    'bi-heart': !isFavorite[productsItem.id]
+                  }
+                ]"
+              ></i>
+            </button>
+          </div>
+
+          <h6 class="mb-2">
+            注意：
+            <span class="text-danger">
+              至少3位成團，最多{{ productsItem.max_travelers }}位出遊
+            </span>
+          </h6>
+          <h6 class="mb-5" v-if="currentDate <= productsItem.endDate">
+            目前已有
+            <span class="text-danger">0</span>
+            位預約，剩
+            <span class="text-danger">{{ productsItem.max_travelers }}</span>
+            位可預約
+          </h6>
           <button
-            class="btn btn-outline-dark rounded-0"
+            class="btn-square w-100 fs-5 mb-4"
             type="button"
-            :disabled="quantity === 1"
-            @click="decrementQuantity(productsItem.id)"
+            v-if="currentDate <= endDate"
+            :class="{ 'disabled-btn': currentDate > endDate }"
+            @click="addToCart(productsItem.id, quantity, productsItem.price)"
           >
             <span
               class="spinner-border spinner-grow-sm"
               role="status"
-              v-if="status.loadingItem4 === productsItem.id"
+              v-if="status.loadingItem3 === productsItem.id"
             ></span>
-            <i class="bi bi-dash-lg"></i>
-          </button>
-          <input
-            min="1"
-            max="10"
-            type="number"
-            :disabled="quantity > productsItem.max_travelers"
-            class="form-control text-center rounded-0 border border-dark"
-            v-model="quantity"
-            readonly
-          />
-          <button
-            class="btn btn-outline-dark rounded-0"
-            type="button"
-            @click="incrementQuantity(productsItem.id, productsItem.max_travelers)"
-          >
-            <span
-              class="spinner-border spinner-grow-sm"
-              role="status"
-              v-if="status.loadingItem2 === productsItem.id"
-            ></span>
-            <i class="bi bi-plus-lg"></i>
+            預約旅遊方案
           </button>
           <button
+            class="btn btn-danger w-100 fs-5 mb-4 disabled btn-danger-rounded"
+            v-else
             type="button"
-            class="btn-outline-cerulean rounded-0 ms-2 p-2"
-            @click="toggleFavorite(productsItem.id, category, packageTitle, productsItem.imageUrl)"
           >
-            <i
-              :class="[
-                'bi',
-                {
-                  'bi-heart-fill': isFavorite[productsItem.id],
-                  'bi-heart': !isFavorite[productsItem.id]
-                }
-              ]"
-            ></i>
+            預約時間截止
+          </button>
+          <button
+            class="btn-square fs-5 w-100"
+            type="button"
+            :class="{ 'disabled-btn': currentDate > endDate || newCarts.length === 0 }"
+            @click="saveCardId(productsItem.id, quantity, productsItem.price)"
+          >
+            直接結帳
           </button>
         </div>
-
-        <h6 class="mb-2">
-          注意：
-          <span class="text-danger"> 至少3位成團，最多{{ productsItem.max_travelers }}位出遊 </span>
-        </h6>
-        <h6 class="mb-5" v-if="currentDate <= productsItem.endDate">
-          目前已有
-          <span class="text-danger">0</span>
-          位預約，剩
-          <span class="text-danger">{{ productsItem.max_travelers }}</span>
-          位可預約
-        </h6>
-        <button
-          class="btn-square w-100 fs-5 mb-4"
-          type="button"
-          v-if="currentDate <= endDate"
-          :class="{ 'disabled-btn': currentDate > endDate }"
-          @click="addToCart(productsItem.id, quantity, productsItem.price)"
-        >
-          <span
-            class="spinner-border spinner-grow-sm"
-            role="status"
-            v-if="status.loadingItem3 === productsItem.id"
-          ></span>
-          預約旅遊方案
-        </button>
-        <button
-          class="btn btn-danger w-100 fs-5 mb-4 disabled btn-danger-rounded"
-          v-else
-          type="button"
-        >
-          預約時間截止
-        </button>
-        <button
-          class="btn-square fs-5 w-100"
-          type="button"
-          :class="{ 'disabled-btn': currentDate > endDate || newCarts.length === 0 }"
-          @click="saveCardId(productsItem.id, quantity, productsItem.price)"
-        >
-          直接結帳
-        </button>
-      </div>
+      </template>
     </div>
+
+    <template v-if="isLoading">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div v-for="index in 3" :key="index" class="col">
+          <div class="card card-att h-100">
+            <span class="tag text-white placeholder-glow"></span>
+            <div class="heart">
+              <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
+            </div>
+            <img
+              src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+              class="img-fluid opacity-25 first-img z-index-1"
+              alt="Placeholder Image"
+            />
+            <div class="card-body">
+              <span class="placeholder w-25"></span>
+              <div class="col-12 placeholder-glow">
+                <span class="placeholder w-50"></span>
+                <span class="placeholder w-60"></span>
+              </div>
+            </div>
+            <div class="card-footer text-end border-0 pt-0 pb-3 placeholder-glow">
+              <div class="d-flex justify-content-between">
+                <span class="placeholder w-25"></span>
+                <span class="placeholder w-25"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
     <LikeBlock
       adCategoryTitle="packages"
       :token="token"
       :user-id="userId"
       :current-date="currentDate"
+      v-else
     />
   </div>
 </template>
@@ -1010,7 +1284,17 @@ p {
 .btn-danger-rounded {
   border-radius: 8px !important;
 }
+.navbar-brand:hover {
+  color: #43b8bd;
+}
 a.navbar-brand {
   cursor: pointer;
+}
+.card-title-att:hover {
+  color: #0ea0a6 !important;
+  cursor: pointer;
+}
+.card-att .card-att-img {
+  border-radius: 16px 16px 16px 16px !important;
 }
 </style>

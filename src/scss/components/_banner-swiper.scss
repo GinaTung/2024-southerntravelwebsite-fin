@@ -37,52 +37,52 @@
     }
   }
   .banner-img3 {
-    background-image: url("@/assets/img/pic-5-2.webp");
+    background-image: url("@/assets/img/pic-5-2.jpg");
     position: relative;
     object-fit: cover;
     width: 1920px;
     height: auto;
     @include pc-lg {
-      background-image: url("@/assets/img/pic-5-2-lg.webp");
+      background-image: url("@/assets/img/pic-5-2-lg.jpg");
       width: 992px;
       height: auto;
     }
     @include mobile {
-      background-image: url("@/assets/img/pic-5-2-sm.webp");
+      background-image: url("@/assets/img/pic-5-2-sm.jpg");
       width: 375px;
       height: auto;
     }
   }
   .banner-img2 {
-    background-image: url("@/assets/img/pic-cijin shells.webp");
+    background-image: url("@/assets/img/pic-cijin shells.jpg");
     position: relative;
     object-fit: cover;
     width: 1920px;
     height: auto;
     @include pc-lg {
-      background-image: url("@/assets/img/pic-cijin shells-lg.webp");
+      background-image: url("@/assets/img/pic-cijin shells-lg.jpg");
       width: 992px;
       height: auto;
     }
     @include mobile {
-      background-image: url("@/assets/img/pic-cijin shells-sm.webp");
+      background-image: url("@/assets/img/pic-cijin shells-sm.jpg");
       width: 375px;
       height: auto;
     }
   }
   .banner-img1 {
-    background-image: url("@/assets/img/banner-bg.webp");
+    background-image: url("@/assets/img/banner-bg.png");
     position: relative;
     object-fit: cover;
     width: 1920px;
     height: auto;
     @include pc-lg {
-      background-image: url("@/assets/img/banner-bg-lg.webp");
+      background-image: url("@/assets/img/banner-bg-lg.png");
       width: 992px;
       height: auto;
     }
     @include mobile {
-      background-image: url("@/assets/img/banner-bg-sm.webp");
+      background-image: url("@/assets/img/banner-bg-sm.png");
       width: 375px;
       height: auto;
     }

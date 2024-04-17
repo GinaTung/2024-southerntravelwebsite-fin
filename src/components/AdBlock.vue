@@ -1,4 +1,5 @@
 <template>
+  <div class="d-flex justify-content-center">
     <div class="ad">
     <div class="container py-10 py-lg-30 d-flex flex-lg-row flex-column justify-content-lg-between text-center text-lg-start">
       <div class="ad-l-side mb-5 mb-lg-0">
@@ -14,14 +15,26 @@
     </div>
     
   </div>
+  </div>
 </template>
 <style lang="scss" scoped>
+@import '@/scss/all.scss';
 .ad {
-    background-image: url("../assets/img/banner-lg.png");
+    background-image: url("../assets/img/banner.png");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    object-fit: cover;
+    max-width: 100%;
+    width: 1920px;
+    height: auto;
     color: #fff;
+    @include pc-lg {
+      background-image: url("@/assets/img/banner-lg.png");
+    }
+    @include mobile {
+      background-image: url("@/assets/img/banner-sm.png");
+    }
   }
   
 </style>
