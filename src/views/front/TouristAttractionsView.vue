@@ -63,7 +63,7 @@
               <div v-for="index in 3" :key="index" class="col-12 col-md-6 col-lg-4">
                 <div class="card card-att h-100">
                   <span class="tag text-white placeholder-glow"></span>
-                  <button class="heart border-0">
+                  <button class="heart border-0" aria-label="heart">
                     <i class="bi bi-heart"></i>
                   </button>
                   <img
@@ -122,6 +122,7 @@
                           :src="attractionItem.imageUrl"
                           class="img-fluid stretched-link"
                           alt="attractionItem.title"
+                          style="aspect-ratio: 1 / 1;"
                         />
                       </router-link>
                     </div>
@@ -136,6 +137,7 @@
                         )
                       "
                       type="button"
+                      aria-label="heart"
                     >
                       <i
                         :class="[

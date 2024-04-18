@@ -1,9 +1,14 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-white py-0 sticky-top bg-opacity-90">
     <div class="container">
-      <router-link to="/" class="navbar-brand py-6">
-        <img src="../assets/img/logo.png" alt="南部輕旅遊網站" 
-        style="aspect-ratio: 1 / 1;"/>
+      <router-link to="/" class="navbar-brand py-5">
+        <img
+          src="../assets/img/logo.png"
+          alt="南部輕旅遊網站"
+          style="aspect-ratio: 1 / 1"
+          srcset="../assets/img/logo-sm.png 480w, ../assets/img/logo.png 800w"
+          sizes="(max-width: 480px) 200vw, 800px"
+        />
       </router-link>
       <button
         class="navbar-toggler border-0"
@@ -22,7 +27,7 @@
             <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
               @click="redirectTo('TouristAttractions', '全部')"
-              :class="{ 'active': isActive('/TouristAttractions') }"
+              :class="{ active: isActive('/TouristAttractions') }"
             >
               南部旅遊景點
             </button>
@@ -31,7 +36,7 @@
             <button
               class="nav-link px-5 px-xl-10 fs-5 text-dark"
               @click="redirectTo('TouristPackage', '全部')"
-              :class="{ 'active': isActive('/TouristPackage') }"
+              :class="{ active: isActive('/TouristPackage') }"
             >
               南部旅遊方案
             </button>
@@ -45,12 +50,7 @@
             <router-link to="/login" class="btn-outline-turquoise">登入</router-link>
           </li>
           <li class="nav-item">
-            <router-link
-              to="/signup"
-              class="btn-turquoise ms-3"
-            >
-              註冊
-            </router-link>
+            <router-link to="/signup" class="btn-turquoise ms-3"> 註冊 </router-link>
           </li>
         </ul>
         <ul
@@ -69,9 +69,7 @@
             </a>
           </li>
           <li class="nav-item py-0">
-            <router-link
-              to="/profile"
-              class="btn-outline-turquoise ms-3 px-6"
+            <router-link to="/profile" class="btn-outline-turquoise ms-3 px-6"
               ><i class="bi bi-person-fill"></i>
             </router-link>
           </li>
@@ -258,7 +256,7 @@ export default {
 .active {
   color: #0ea0a6;
 }
-.btn-turquoise.active{
+.btn-turquoise.active {
   color: white;
 }
 </style>

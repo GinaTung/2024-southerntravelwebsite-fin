@@ -17,9 +17,33 @@
           </router-link>
         </li>
         <li class="breadcrumb-item">
-          <a v-show="category === '台南'" @click="redirectToA('台南')" class="navbar-brand">台南</a>
-          <a v-show="category === '嘉義'" @click="redirectToA('嘉義')" class="navbar-brand">嘉義</a>
-          <a v-show="category === '高雄'" @click="redirectToA('高雄')" class="navbar-brand">高雄</a>
+          <button
+            v-show="category === '台南'"
+            @click="redirectToA('台南')"
+            class="bg-transparent border-0 btn-hover text-dark"
+            type="button"
+            aria-label="台南"
+          >
+            台南
+          </button>
+          <button
+            v-show="category === '嘉義'"
+            @click="redirectToA('嘉義')"
+            class="bg-transparent border-0 btn-hover text-dark"
+            type="button"
+            aria-label="嘉義"
+          >
+            嘉義
+          </button>
+          <button
+            v-show="category === '高雄'"
+            @click="redirectToA('高雄')"
+            class="bg-transparent border-0 btn-hover text-dark"
+            type="button"
+            aria-label="高雄"
+          >
+            高雄
+          </button>
         </li>
         <li class="breadcrumb-item">
           {{ packageTitle }}
@@ -45,138 +69,31 @@
               <h4 class="d-flex">
                 <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第一天
               </h4>
-              <ul
-                class="nav nav-underline nav-fill mb-4 w-100 w-lg-60"
-                id="pills-tab"
-                role="tablist"
-              >
+              <ul class="nav nav-underline nav-fill mb-4 w-100 w-lg-60">
                 <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link active"
-                    id="pills-home-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-home"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-home"
-                    aria-selected="true"
-                  >
+                  <button class="nav-link active" aria-controls="pills-home" aria-selected="true">
                     早上
                   </button>
                 </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="pills-profile-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-profile"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-profile"
-                    aria-selected="false"
-                  >
-                    下午1
-                  </button>
-                </li>
-                <li class="nav-item" role="presentation">
-                  <button
-                    class="nav-link"
-                    id="pills-contact-tab"
-                    data-bs-toggle="pill"
-                    data-bs-target="#pills-contact"
-                    type="button"
-                    role="tab"
-                    aria-controls="pills-contact"
-                    aria-selected="false"
-                  >
-                    下午2
-                  </button>
-                </li>
               </ul>
-              <div class="tab-content card-att" id="pills-tabContent">
-                <div
-                  class="tab-pane fade show active"
-                  id="pills-home"
-                  role="tabpanel"
-                  aria-labelledby="pills-home-tab"
-                  tabindex="0"
-                >
-                  <div class="row">
-                    <div class="w-100 w-lg-60 mb-4">
-                      <div class="card-att-img card-att-img-2">
-                        <img
-                          src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
-                          class="img-fluid pb-4 pb-lg-0 opacity-25"
-                          alt="Placeholder Image"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-100 w-lg-40 placeholder-glow">
-                      <span class="placeholder w-50 fs-4"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                    </div>
+              <div class="row">
+                <div class="w-100 w-lg-60 mb-4">
+                  <div class="card-att-img card-att-img-2">
+                    <img
+                      src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                      class="img-fluid pb-4 pb-lg-0 opacity-25"
+                      alt="Placeholder Image"
+                    />
                   </div>
                 </div>
-                <div
-                  class="tab-pane fade"
-                  id="pills-profile"
-                  role="tabpanel"
-                  aria-labelledby="pills-profile-tab"
-                  tabindex="0"
-                >
-                  <div class="row">
-                    <div class="w-100 w-lg-60 mb-4">
-                      <div class="card-att-img card-att-img-2">
-                        <img
-                          src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
-                          class="img-fluid pb-4 pb-lg-0 opacity-25"
-                          alt="Placeholder Image"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-100 w-lg-40 placeholder-glow">
-                      <span class="placeholder w-50 fs-4"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="tab-pane fade"
-                  id="pills-contact"
-                  role="tabpanel"
-                  aria-labelledby="pills-contact-tab"
-                  tabindex="0"
-                >
-                  <div class="row">
-                    <div class="w-100 w-lg-60 mb-4">
-                      <div class="card-att-img card-att-img-2">
-                        <img
-                          src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
-                          class="img-fluid pb-4 pb-lg-0 opacity-25"
-                          alt="Placeholder Image"
-                        />
-                      </div>
-                    </div>
-                    <div class="w-100 w-lg-40 placeholder-glow">
-                      <span class="placeholder w-50 fs-4"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                      <span class="placeholder w-100"></span>
-                    </div>
-                  </div>
+                <div class="w-100 w-lg-40 placeholder-glow">
+                  <span class="placeholder w-50 fs-4"></span>
+                  <span class="placeholder w-100"></span>
+                  <span class="placeholder w-100"></span>
+                  <span class="placeholder w-100"></span>
+                  <span class="placeholder w-100"></span>
+                  <span class="placeholder w-100"></span>
+                  <span class="placeholder w-100"></span>
                 </div>
               </div>
             </div>
@@ -633,10 +550,7 @@
 
       <template v-if="isLoading">
         <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
-          <div class="d-flex mb-4">
-            <span class="placeholder w-25 fs-6"></span>
-          </div>
-          <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6"><span class="placeholder w-50 fs-4"></span></h2>
+          <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6"><span class="placeholder w-75 fs-4"></span></h2>
           <span
             class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
           >
@@ -667,38 +581,7 @@
             </h5>
             <h6 class="mt-2"><span class="placeholder w-75 fs-5 mt-2"></span></h6>
           </div>
-          <div class="d-flex justify-content-between mb-4 align-items-end">
-            <span class="placeholder w-25"></span>
-            <div class="d-flex flex-sm-column align-items-end justify-content-end">
-              <span class="placeholder w-25"></span>
-            </div>
-          </div>
-          <div class="d-flex mb-2">
-            <button class="btn btn-outline-dark rounded-0" type="button">
-              <i class="bi bi-dash-lg"></i>
-            </button>
-            <input
-              min="1"
-              max="10"
-              type="number"
-              class="form-control text-center rounded-0 border border-dark"
-              readonly
-            />
-            <button class="btn btn-outline-dark rounded-0" type="button">
-              <i class="bi bi-plus-lg"></i>
-            </button>
-            <!-- 愛心點選 -->
-            <button class="heart border-0" type="button">
-              <i class="bi bi-heart" style="font-size: 24px"></i>
-            </button>
-          </div>
 
-          <h6 class="mb-2">
-            <span class="placeholder w-75"></span>
-          </h6>
-          <h6 class="mb-5">
-            <span class="placeholder w-75"></span>
-          </h6>
           <button class="btn-square w-100 fs-5 mb-4" type="button">預約旅遊方案</button>
           <button class="btn-square fs-5 w-100" type="button">直接結帳</button>
         </div>
@@ -819,6 +702,7 @@
               @click="
                 toggleFavorite(productsItem.id, category, packageTitle, productsItem.imageUrl)
               "
+              aria-label="heart"
             >
               <i
                 :class="[
@@ -883,9 +767,9 @@
         <div v-for="index in 3" :key="index" class="col">
           <div class="card card-att h-100">
             <span class="tag text-white placeholder-glow"></span>
-            <div class="heart">
-              <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
-            </div>
+            <button class="heart border-0" aria-label="heart">
+              <i class="bi bi-heart heart-click"></i>
+            </button>
             <img
               src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
               class="img-fluid opacity-25 first-img z-index-1"
@@ -1296,5 +1180,8 @@ a.navbar-brand {
 }
 .card-att .card-att-img {
   border-radius: 16px 16px 16px 16px !important;
+}
+.btn-hover:hover {
+  color: #43b8bd !important;
 }
 </style>
