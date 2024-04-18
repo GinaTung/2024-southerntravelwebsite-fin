@@ -37,7 +37,7 @@
       </div>
     </swiper-slide>
     <swiper-slide>
-      <div class="banner-bg banner-img2 lazyload">
+      <div class="banner-bg banner-img2">
         <div class="banner-box px-6 py-10 p-lg-10 mx-auto text-center">
           <p class="fs-md-1 fs-6 mb-5 mb-md-8 d-flex align-items-center justify-content-center">
             <!-- <img src="../assets/images/icon-map.png" alt="icon-map" class="me-2 icon-map"> -->
@@ -60,7 +60,7 @@
       </div>
     </swiper-slide>
     <swiper-slide>
-      <div class="banner-bg banner-img1 lazyload">
+      <div class="banner-bg banner-img1">
         <div class="banner-box px-6 py-10 p-lg-10 mx-auto text-center">
           <p
             class="fs-md-1 fs-6 mb-5 mb-md-8 d-flex align-items-center justify-content-center text-center"
