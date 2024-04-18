@@ -50,14 +50,9 @@
         </li>
       </ol>
     </nav>
-
-    <div
-      class="row h-100 flex-wrap-reverse flex-md-nowrap"
-      v-for="productsItem in enabledProducts"
-      :key="productsItem.id"
-    >
-      <div class="col-12 col-md-7 col-lg-8 mb-8 mb-md-10 mb-lg-12">
-        <template v-if="isLoading">
+    <template v-if="isLoading">
+      <div class="row h-100 flex-wrap-reverse flex-md-nowrap">
+        <div class="col-12 col-md-7 col-lg-8 mb-8 mb-md-10 mb-lg-12">
           <div class="d-flex">
             <div class="w-5 d-none d-xl-flex">
               <i class="bi bi-geo-alt-fill position-relative fs-5">
@@ -65,7 +60,7 @@
                 <i class="bi bi-arrow-down-circle-fill arrow"></i>
               </i>
             </div>
-            <div class="w-100 w-xl-95 position-relative pe-0 pe-lg-5">
+            <div class="w-100 w-xl-95 position-relative pe-0">
               <h4 class="d-flex">
                 <i class="bi bi-geo-fill d-flex d-xl-none me-2 align-items-end"></i>第一天
               </h4>
@@ -98,8 +93,54 @@
               </div>
             </div>
           </div>
-        </template>
-        <template v-else>
+        </div>
+        <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
+          <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6">
+            <span class="placeholder w-75 fs-4"></span>
+          </h2>
+          <span
+            class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+          >
+            <i class="bi bi-person-walking me-2"></i>景點行程
+          </span>
+          <div class="mt-2 mb-6">
+            <span class="placeholder w-75 fs-5"></span>
+            <span class="placeholder w-75 fs-5"></span>
+            <span class="placeholder w-75 fs-5"></span>
+          </div>
+          <div class="d-flex mb-4 flex-column mb-6">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-calendar-plus me-2"></i>預約期間
+              </span>
+            </h5>
+            <span class="placeholder w-75 fs-5 mt-2"></span>
+          </div>
+          <div class="d-flex mb-6 flex-column">
+            <h5 class="mb-2">
+              <span
+                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+              >
+                <i class="bi bi-car-front-fill me-2"></i>出發時間
+              </span>
+            </h5>
+            <h6 class="mt-2"><span class="placeholder w-75 fs-5 mt-2"></span></h6>
+          </div>
+
+          <button class="btn-square w-100 fs-5 mb-4" type="button">預約旅遊方案</button>
+          <button class="btn-square fs-5 w-100" type="button">直接結帳</button>
+        </div>
+      </div>
+    </template>
+    <template v-else>
+      <div
+        class="row h-100 flex-wrap-reverse flex-md-nowrap"
+        v-for="productsItem in enabledProducts"
+        :key="productsItem.id"
+      >
+        <div class="col-12 col-md-7 col-lg-8 mb-8 mb-md-10 mb-lg-12">
           <div class="d-flex">
             <div class="w-5 d-none d-xl-flex">
               <i class="bi bi-geo-alt-fill position-relative fs-5">
@@ -545,48 +586,8 @@
               </div>
             </div>
           </div>
-        </template>
-      </div>
-
-      <template v-if="isLoading">
-        <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
-          <h2 class="fs-3 fs-sm-4 fs-xl-3 mb-6"><span class="placeholder w-75 fs-4"></span></h2>
-          <span
-            class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-          >
-            <i class="bi bi-person-walking me-2"></i>景點行程
-          </span>
-          <div class="mt-2 mb-6">
-            <span class="placeholder w-75 fs-5"></span>
-            <span class="placeholder w-75 fs-5"></span>
-            <span class="placeholder w-75 fs-5"></span>
-          </div>
-          <div class="d-flex mb-4 flex-column mb-6">
-            <h5 class="mb-2">
-              <span
-                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-              >
-                <i class="bi bi-calendar-plus me-2"></i>預約期間
-              </span>
-            </h5>
-            <span class="placeholder w-75 fs-5 mt-2"></span>
-          </div>
-          <div class="d-flex mb-6 flex-column">
-            <h5 class="mb-2">
-              <span
-                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-              >
-                <i class="bi bi-car-front-fill me-2"></i>出發時間
-              </span>
-            </h5>
-            <h6 class="mt-2"><span class="placeholder w-75 fs-5 mt-2"></span></h6>
-          </div>
-
-          <button class="btn-square w-100 fs-5 mb-4" type="button">預約旅遊方案</button>
-          <button class="btn-square fs-5 w-100" type="button">直接結帳</button>
         </div>
-      </template>
-      <template v-else>
+
         <div class="col-12 col-md-5 col-lg-4 mb-8 mb-md-10 mb-lg-12">
           <div class="d-flex mb-4">
             <span
@@ -759,8 +760,8 @@
             直接結帳
           </button>
         </div>
-      </template>
-    </div>
+      </div>
+    </template>
 
     <template v-if="isLoading">
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">

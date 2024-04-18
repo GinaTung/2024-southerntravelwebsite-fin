@@ -51,34 +51,26 @@
       </ol>
     </nav>
     <template v-if="isLoading">
-      <div class="d-flex">
-        <div class="w-5 d-none d-xl-flex">
-          <i class="bi bi-geo-alt-fill position-relative fs-5">
-            <div class="line"></div>
-            <i class="bi bi-arrow-down-circle-fill arrow"></i>
-          </i>
+      <div class="w-100 w-xl-95 position-relative pe-0">
+        <div class="d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-5">
+          <span class="placeholder w-50 fs-4 ms-2"></span>
+          <button
+            class="border-0 heart-position-none fs-3 bg-transparent"
+            @click="toggleFavorite(attractionId, category, attractionTitle, attractionImageUrl)"
+            type="button"
+            aria-label="heart"
+          >
+            <i class="bi bi-heart"></i>
+          </button>
         </div>
-        <div class="w-100 w-xl-95 position-relative pe-0">
-          <div class="d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-5">
-            <span class="placeholder w-50 fs-4 ms-2"></span>
-            <button
-              class="border-0 heart-position-none fs-3 bg-transparent"
-              @click="toggleFavorite(attractionId, category, attractionTitle, attractionImageUrl)"
-              type="button"
-              aria-label="heart"
-            >
-              <i class="bi bi-heart"></i>
-            </button>
-          </div>
-          <div class="row">
-            <div class="w-100 mb-4">
-              <div class="card-att-img card-att-img-2">
-                <img
-                  src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
-                  class="img-fluid pb-4 pb-lg-0 opacity-25"
-                  alt="Placeholder Image"
-                />
-              </div>
+        <div class="row">
+          <div class="w-100 mb-4">
+            <div class="card-att-img card-att-img-2">
+              <img
+                src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                class="img-fluid pb-4 pb-lg-0 opacity-25"
+                alt="Placeholder Image"
+              />
             </div>
           </div>
         </div>
