@@ -154,6 +154,7 @@
                             )
                           "
                           type="button"
+                          aria-label="heart"
                         >
                           <i
                             :class="[

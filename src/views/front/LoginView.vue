@@ -21,7 +21,7 @@
           </div>
           <div class="form-floating mb-4">
             <VeeField
-              type="password"
+             :type="isActive ? 'password' : 'text'"
               class="form-control"
               name="password"
               id="userpassword"
@@ -32,6 +32,9 @@
               v-model="user.password"
             />
             <label for="userpassword">請輸入Password</label>
+            <button class="fs-3 fs-lg-2 bg-transparent border-0 form-eye" type="button" @click="toggleEye">
+              <i :class="[isActive ? 'bi-eye-slash-fill' : 'bi-eye-fill', 'bi']"></i>
+            </button>
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
           <button class="btn-turquoise w-100 mt-4 btn-rounded" type="submit" id="login">
@@ -55,7 +58,8 @@ export default {
         password: ''
       },
       userCarts: [],
-      cartsLength: 0
+      cartsLength: 0,
+      isActive: true
     }
   },
   methods: {
@@ -101,7 +105,11 @@ export default {
         .catch((err) => {
           sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
-    }
+    },
+    toggleEye() {
+      // 切換密碼顯示狀態
+      this.isActive = !this.isActive
+    },
   },
   mounted() {
     window.scrollTo(0, 0)
@@ -109,7 +117,22 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@import '@/scss/all.scss';
+.form-floating {
+  .form-eye {
+    position: absolute;
+    top: 0%;
+    right: 5%;
+    @include pc-lg {
+      top: 12%;
+      right: 8%;
+    }
+  }
+}
 .btn-rounded {
   border-radius: 20px !important;
+}
+.form-control:focus {
+    border-color: #43b8bd !important;
 }
 </style>

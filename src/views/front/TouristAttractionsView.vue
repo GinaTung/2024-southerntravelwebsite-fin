@@ -122,7 +122,6 @@
                           :src="attractionItem.imageUrl"
                           class="img-fluid stretched-link"
                           alt="attractionItem.title"
-                          style="aspect-ratio: 1 / 1;"
                         />
                       </router-link>
                     </div>

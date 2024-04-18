@@ -176,11 +176,14 @@ export default {
   .form-eye {
     position: absolute;
     top: 0%;
-    right: -11%;
+    right: 5%;
     @include pc-lg {
       top: 12%;
       right: 8%;
     }
   }
+}
+.form-control:focus {
+    border-color: #43b8bd !important;
 }
 </style>
