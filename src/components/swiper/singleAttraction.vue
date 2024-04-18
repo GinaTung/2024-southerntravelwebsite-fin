@@ -10,10 +10,11 @@
     class="mySwiper2"
   >
     <swiper-slide v-for="(item, key) in imagesUrl" :key="key + 123">
-      <img :src="item" class="img-fluid" />
+      <img :src="item" class="img-fluid" alt="attractionTitle"/>
       <button
         class="position-absolute text-white end-5 bottom-5 fs-4 bg-transparent border-0"
         @click="openModal(item, key)"
+        aria-label="zoom-in"
       >
         <i class="bi bi-zoom-in fs-2"></i>
       </button>
@@ -45,7 +46,7 @@
     <div class="modal-dialog modal-dialog-centered modal-xl">
       <div class="modal-content bg-transparent">
         <div class="modal-body p-0">
-          <img :src="modalImageFilePath" class="modal-content position-relative" />
+          <img :src="modalImageFilePath" class="modal-content position-relative" alt="attractionTitle"/>
           <button type="button" class="border-0 bg-transparent position-absolute top-3 end-3 p-3" data-bs-dismiss="modal" aria-label="Close">
             <i class="bi bi-x-lg text-secondary-400 fs-3"></i>
           </button>

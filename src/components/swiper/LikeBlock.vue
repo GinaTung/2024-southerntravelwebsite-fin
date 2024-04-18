@@ -44,8 +44,8 @@
           </div>
         </div>
       </swiper-slide>
-      <button class="swiper-button-next border-0 bg-transparent"></button>
-      <button class="swiper-button-prev border-0 bg-transparent"></button>
+      <button class="swiper-button-next border-0 bg-transparent" aria-label="arrow-next"></button>
+      <button class="swiper-button-prev border-0 bg-transparent" aria-label="arrow-prev"></button>
     </swiper>
   </div>
   <div class="mt-10" v-if="linkPath === 'TouristSinglePackage'">
@@ -110,8 +110,8 @@
           </div>
         </div>
       </swiper-slide>
-      <button class="swiper-button-next border-0 bg-transparent"></button>
-      <button class="swiper-button-prev border-0 bg-transparent"></button>
+      <button class="swiper-button-next border-0 bg-transparent" aria-label="arrow-next"></button>
+      <button class="swiper-button-prev border-0 bg-transparent" aria-label="arrow-prev"></button>
     </swiper>
   </div>
 </template>

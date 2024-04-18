@@ -182,6 +182,7 @@
                     allowfullscreen=""
                     loading="lazy"
                     referrerpolicy="no-referrer-when-downgrade"
+                    :title="item.title"
                   ></iframe>
                 </div>
               </div>

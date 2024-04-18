@@ -668,6 +668,7 @@
               type="button"
               :disabled="quantity === 1"
               @click="decrementQuantity(productsItem.id)"
+              aria-label="dash"
             >
               <span
                 class="spinner-border spinner-grow-sm"
@@ -689,6 +690,7 @@
               class="btn btn-outline-dark rounded-0"
               type="button"
               @click="incrementQuantity(productsItem.id, productsItem.max_travelers)"
+              aria-label="plus"
             >
               <span
                 class="spinner-border spinner-grow-sm"
