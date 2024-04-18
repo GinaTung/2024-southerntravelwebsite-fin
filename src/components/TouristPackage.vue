@@ -56,6 +56,7 @@
                 class="heart border-0"
                 @click="toggleFavorite(item.id, item.category, item.title,item.imageUrl)"
                 type="button"
+                aria-label="heart"
               >
                 <i
                   :class="[

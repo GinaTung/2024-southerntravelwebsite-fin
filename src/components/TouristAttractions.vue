@@ -41,6 +41,7 @@
                 class="heart border-0"
                 @click="toggleFavorite('-L9tH8jxVb2Ka_DYPwng', '嘉義', '高跟鞋教堂','./img/pic-church2.jpg')"
                 type="button"
+                aria-label="heart"
               >
                 <i
                   :class="[
@@ -57,6 +58,7 @@
                 src="../assets/img/pic-church2.jpg"
                 class="img-fluid card-attractions-img"
                 alt="高跟鞋教堂"
+                style="aspect-ratio: 16 / 9;"
               />
               <a
                 href="#/TouristAttractions/%E5%98%89%E7%BE%A9/%E9%AB%98%E8%B7%9F%E9%9E%8B%E6%95%99%E5%A0%82"
@@ -84,6 +86,7 @@
                     class="heart border-0"
                     @click="toggleFavorite('WJHUaKt', '高雄', '旗津黃金海韻-海珍珠','./attractions/pic-4.jpg')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -117,6 +120,7 @@
                     class="heart border-0"
                     @click="toggleFavorite('UR6kDTk', '台南', '安平古堡','./img/attraction5.png')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -152,6 +156,7 @@
                     class="heart border-0"
                     @click="toggleFavorite('KTpJNvf', '嘉義', '嘉義公園-射日塔','./img/attraction1-1.jpg')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -185,6 +190,7 @@
                     class="heart border-0"
                     @click="toggleFavorite('sj3zTH_', '高雄', '愛河河畔美景','./attractions/loveriver3.jpg')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
