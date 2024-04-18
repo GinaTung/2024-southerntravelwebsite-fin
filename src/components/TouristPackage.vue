@@ -1,7 +1,7 @@
 <template>
   <div class="southern-travel-plan">
     <div class="container py-10 py-lg-30">
-      <p class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊方案</p>
+      <h2 class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊方案</h2>
       <p class="fs-6 fs-lg-5 text-center mb-5 mb-lg-20">Southern tourist attractions</p>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <template v-if="isLoading">

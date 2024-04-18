@@ -64,13 +64,15 @@
           </button>
         </div>
         <div class="row">
-          <div class="w-100 mb-4">
-            <div class="card-att-img card-att-img-2">
-              <img
-                src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
-                class="img-fluid pb-4 pb-lg-0 opacity-25"
-                alt="Placeholder Image"
-              />
+          <div class="col-12">
+            <div class="mb-4">
+              <div class="card-att-img card-att-img-2">
+                <img
+                  src="https://raw.githubusercontent.com/GinaTung/2024-southerntravelwebsite-fin/dev/public/products/duck.jpg"
+                  class="img-fluid pb-4 pb-lg-0 opacity-25 w-100"
+                  alt="Placeholder Image"
+                />
+              </div>
             </div>
           </div>
         </div>
