@@ -1,13 +1,20 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-white py-0 sticky-top bg-opacity-90">
     <div class="container">
-      <router-link to="/" class="navbar-brand py-5">
+      <router-link to="/" class="navbar-brand py-lg-6 py-2">
         <img
           src="../assets/img/logo.png"
           alt="南部輕旅遊網站"
-          style="aspect-ratio: 1 / 1"
-          srcset="../assets/img/logo-sm.png 480w, ../assets/img/logo.png 800w"
-          sizes="(max-width: 480px) 200vw, 800px"
+          style="aspect-ratio: 322 / 96; height: 48px"
+          srcset="
+            ../assets/img/logo.png    1920w,
+            ../assets/img/logo-lg.png  960w,
+            ../assets/img/logo-md.png  480w,
+            ../assets/img/logo-sm.png  375w
+          "
+          sizes="(max-width: 375px) 100vw, 
+         (max-width: 1920px) 50vw, 
+         960px"
         />
       </router-link>
       <button
@@ -58,7 +65,7 @@
           class="navbar-nav d-flex pt-5 pt-lg-0 flex-row justify-content-center align-items-center pb-10 pb-lg-0"
         >
           <li class="nav-item py-0">
-            <a class="btn-outline-turquoise position-relative px-6" href="#/cart">
+            <button class="btn-outline-turquoise position-relative px-6" type="button" @click.prevent="getCartSign(cartsLength)">
               <i class="bi bi-cart-fill"></i>
               <span
                 class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger"
@@ -66,7 +73,7 @@
                 {{ cartsLength }}
                 <span class="visually-hidden">unread messages</span>
               </span>
-            </a>
+            </button>
           </li>
           <li class="nav-item py-0">
             <router-link to="/profile" class="btn-outline-turquoise ms-3 px-6"
@@ -225,6 +232,24 @@ export default {
         var eqPos = cookie.indexOf('=')
         var name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie
         document.cookie = name + '=;expires=Thu, 01 Jan 1970 00:00:00 GMT'
+      }
+    },
+    getCartSign() {
+      if (this.cartsLength === 0) {
+        // 顯示提示訊息
+        sweetAlert.fourLayerCheckType(
+          'warning',
+          '目前無購物車資料',
+          '將在',
+          '秒後自動跳轉至旅遊景點方案頁面',
+          '預約購買旅遊方案'
+        )
+        setTimeout(() => {
+          // 將使用者導向到旅遊景點方案頁面
+          this.$router.push({ path: '/TouristPackage', query: { category: '全部' } })
+        }, 11000)
+      }else {
+        this.$router.push({ path: '/cart'})
       }
     },
     getCookie(cookieName) {

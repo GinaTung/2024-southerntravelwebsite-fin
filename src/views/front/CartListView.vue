@@ -227,20 +227,6 @@ export default {
             }
           })
           this.cartsLength = this.userCarts.length
-          if (this.cartsLength === 0) {
-            // 顯示提示訊息
-            sweetAlert.fourLayerCheckType(
-              'warning',
-              '目前無購物車資料',
-              '將在',
-              '秒後自動跳轉至旅遊景點方案頁面',
-              '預約購買旅遊方案'
-            )
-            setTimeout(() => {
-              // 將使用者導向到旅遊景點方案頁面
-              this.$router.push({ path: '/TouristPackage', query: { category: '全部' }})
-            }, 11000)
-          }
           this.getProducts()
         })
         .catch((err) => {

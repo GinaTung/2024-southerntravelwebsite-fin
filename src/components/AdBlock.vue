@@ -20,7 +20,7 @@
 <style lang="scss" scoped>
 @import '@/scss/all.scss';
 .ad {
-    background-image: url("../assets/img/banner.png");
+    background-image: url("../assets/img/banner.webp");
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;

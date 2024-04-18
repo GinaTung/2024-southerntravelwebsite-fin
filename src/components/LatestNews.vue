@@ -135,7 +135,7 @@
                       }}</span>
                     </div>
                     <div class="nav-section-title">
-                      <h3 class="fs-6 fs-lg-5 mb-2 fw-bold text-primary-700">{{ item.title }}</h3>
+                      <p class="fs-6 fs-lg-5 mb-2 fw-bold text-primary-700">{{ item.title }}</p>
                       <p class="fs-6 fs-lg-5 text-dark2" v-if="currentDate <= item.endDate">
                         預約時間：{{ item.startDate }} ~ {{ item.endDate }}
                       </p>
