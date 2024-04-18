@@ -2,7 +2,8 @@
   <nav class="navbar navbar-expand-lg bg-white py-0 sticky-top bg-opacity-90">
     <div class="container">
       <router-link to="/" class="navbar-brand py-6">
-        <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
+        <img src="../assets/img/logo.png" alt="南部輕旅遊網站" 
+        style="aspect-ratio: 1 / 1;"/>
       </router-link>
       <button
         class="navbar-toggler border-0"

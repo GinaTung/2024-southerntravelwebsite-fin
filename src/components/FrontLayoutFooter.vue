@@ -28,17 +28,17 @@
         </ul>
         <ul class="navbar-nav flex-row">
           <li class="nav-item">
-            <a class="nav-link py-0 ps-1" href="https://www.youtube.com/">
+            <a class="nav-link py-0 ps-1" href="https://www.youtube.com/" aria-label="youtube">
               <i class="bi bi-youtube img-lg"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link py-0 ps-6" href="https://www.instagram.com/">
+            <a class="nav-link py-0 ps-6" href="https://www.instagram.com/" aria-label="instagram">
               <i class="bi bi-instagram img-lg"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link py-0 ps-6" href="https://www.facebook.com/?locale=zh_TW">
+            <a class="nav-link py-0 ps-6" href="https://www.facebook.com/?locale=zh_TW" aria-label="facebook">
               <i class="bi bi-facebook img-lg"></i>
             </a>
           </li>
