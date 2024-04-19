@@ -106,15 +106,16 @@
           <div class="card-footer border-0" style="transform: rotate(0)">
             <div class="d-flex align-items-center pb-4">
               <a :href="goRouterProduct(productsItem)" target="_blank" class="stretched-link">
-                <h6 v-if="currentDate <= productsItem.endDate">
-                  預約期間：
-                  {{ productsItem.startDate }} 至 {{ productsItem.endDate }}
-                  <div class="d-flex align-items-center mt-1">
-                    <h5 class="text-danger fw-bold me-2">促銷價</h5>
-                    <h5 class="text-danger">NT{{ thousand(productsItem.price) }}</h5>
-                  </div>
-                </h6>
-                <h5 class="text-danger py-3" v-else>預約時間已截止</h5>
+                <div>
+                  <template v-if="currentDate <= productsItem.endDate">
+                    <div>預約期間：{{ productsItem.startDate }} 至 {{ productsItem.endDate }}</div>
+                    <div class="d-flex align-items-center mt-1 text-danger">
+                      <span class="fw-bold me-2">促銷價</span>
+                      <span>NT{{ thousand(productsItem.price) }}</span>
+                    </div>
+                  </template>
+                  <div v-else class="text-danger py-3">預約期間已截止ˋ</div>
+                </div>
               </a>
             </div>
           </div>
@@ -177,7 +178,7 @@ export default {
           this.removeAttractionWithTitle(this.attractionTitle)
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err)
           sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
     },

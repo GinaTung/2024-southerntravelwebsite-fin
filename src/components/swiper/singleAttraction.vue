@@ -32,7 +32,7 @@
     class="mySwiper3"
   >
     <swiper-slide v-for="(item, key) in imagesUrl" :key="key + 123">
-      <img :src="item" class="img-fluid" />
+      <img :src="item" class="img-fluid" :alt="attractionTitle"/>
     </swiper-slide>
   </swiper>
   <div
