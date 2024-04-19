@@ -10,7 +10,7 @@
     class="mySwiper2"
   >
     <swiper-slide v-for="(item, key) in imagesUrl" :key="key + 123">
-      <img :src="item" class="img-fluid" alt="attractionTitle"/>
+      <img :src="item" class="img-fluid" :alt="attractionTitle"/>
       <button
         class="position-absolute text-white end-5 bottom-5 fs-4 bg-transparent border-0"
         @click="openModal(item, key)"
@@ -19,8 +19,8 @@
         <i class="bi bi-zoom-in fs-2"></i>
       </button>
     </swiper-slide>
-    <button class="swiper-button-next border-0 bg-transparent"></button>
-    <button class="swiper-button-prev border-0 bg-transparent"></button>
+    <button class="swiper-button-next border-0 bg-transparent" aria-label="arrow-next"></button>
+      <button class="swiper-button-prev border-0 bg-transparent" aria-label="arrow-prev"></button>
   </swiper>
   <swiper
     @swiper="setThumbsSwiper"

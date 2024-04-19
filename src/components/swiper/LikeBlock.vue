@@ -29,15 +29,23 @@
           <span class="tag text-white">{{ attractionItem.category }}</span>
           <div class="card-header p-0 border-0 h-100">
             <a :href="goRouter(attractionItem)" target="_blank">
-              <img :src="attractionItem.imageUrl" class="img-fluid h-100" alt="attractionItem.title" />
+              <img
+                :src="attractionItem.imageUrl"
+                class="img-fluid h-100"
+                alt="attractionItem.title"
+              />
             </a>
           </div>
           <div class="card-body" style="transform: rotate(0)">
-            <a :href="goRouterProduct(attractionItem)" target="_blank">
-              <h5 class="card-title fs-5 fw-bold text-primary-700 text-center flex-grow-1 h-35 stretched-link">
+            <div class="text-center flex-grow-1 h-35">
+              <a
+                :href="goRouter(attractionItem)"
+                target="_blank"
+                class="card-title fs-5 fw-bold text-primary-700 text-center stretched-link"
+              >
                 {{ attractionItem.title }}
-              </h5>
-            </a>
+              </a>
+            </div>
             <p class="fs-6 pb-7">
               {{ truncateContent(attractionItem.description, 52) }}
             </p>
@@ -82,13 +90,15 @@
             </a>
           </div>
           <div class="card-body" style="transform: rotate(0)">
-            <a :href="goRouterProduct(productsItem)" target="_blank">
-              <h5
-                class="card-title fs-5 fw-bold text-primary-700 text-center flex-grow-1 h-45 stretched-link"
+            <div class="text-center flex-grow-1 h-45">
+              <a
+                :href="goRouterProduct(productsItem)"
+                target="_blank"
+                class="card-title fs-5 fw-bold text-primary-700 text-center stretched-link"
               >
                 {{ productsItem.title }}
-              </h5>
-            </a>
+              </a>
+            </div>
             <p class="fs-6">
               {{ truncateContent(productsItem.description, 48) }}
             </p>
@@ -167,6 +177,7 @@ export default {
           this.removeAttractionWithTitle(this.attractionTitle)
         })
         .catch((err) => {
+          console.log(err);
           sweetAlert.threeLayerCheckType('error', `取得景點資料失敗`)
         })
     },

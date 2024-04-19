@@ -109,23 +109,19 @@
             <span class="placeholder w-75 fs-5"></span>
           </div>
           <div class="d-flex mb-4 flex-column mb-6">
-            <h5 class="mb-2">
-              <span
-                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-              >
-                <i class="bi bi-calendar-plus me-2"></i>預約期間
-              </span>
-            </h5>
+            <span
+              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+            >
+              <i class="bi bi-calendar-plus me-2"></i>預約期間
+            </span>
             <span class="placeholder w-75 fs-5 mt-2"></span>
           </div>
-          <div class="d-flex mb-6 flex-column">
-            <h5 class="mb-2">
-              <span
-                class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
-              >
-                <i class="bi bi-car-front-fill me-2"></i>出發時間
-              </span>
-            </h5>
+          <div class="d-flex mb-6 flex-column mb-2">
+            <span
+              class="fs-4 fs-sm-5 fs-xl-4 mb-2 border-bottom border-primary-400 border-3 text-primary-600"
+            >
+              <i class="bi bi-car-front-fill me-2"></i>出發時間
+            </span>
             <h6 class="mt-2"><span class="placeholder w-75 fs-5 mt-2"></span></h6>
           </div>
 
@@ -684,6 +680,7 @@
               :disabled="quantity > productsItem.max_travelers"
               class="form-control text-center rounded-0 border border-dark"
               v-model="quantity"
+              aria-label="number"
               readonly
             />
             <button
