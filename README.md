@@ -1,5 +1,5 @@
 # 南部輕旅遊網站
-![首頁PC及手機板](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/ad4aa3fc-1b63-412f-9cd1-77e3026b14dc)
+![首頁PC及手機板](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/39bea3a4-ceea-4e56-82cf-616900c22fb0)
 
 
 ## 專案說明
