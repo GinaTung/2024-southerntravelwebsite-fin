@@ -1,6 +1,5 @@
 # 南部輕旅遊網站
-![首頁PC及手機板](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/39bea3a4-ceea-4e56-82cf-616900c22fb0)
-
+![首頁PC及手機板](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/6182e47e-d38f-4608-9296-4fb7cb3d41ba)
 
 ## 專案說明
 > Demo Website :https://ginatung.github.io/2024-southerntravelwebsite-fin/#/
@@ -14,14 +13,13 @@
 [嘉義市觀光旅遊網](https://travel.chiayi.gov.tw/)
 
 ## 使用技術
-- 以 Vue 3 與 Vue Cli 架設開發
+- 以 Vue 3 和 Vite架設開發
 - 使用 Bootstrap 5 作為 CSS 框架，以進行切版
 - 加入 ESLint airbnb 統一程式碼結構
 - render伺服器
 
 ## 使用套件
 - Vue 3
-- Vue Cli
 - Vue Router
 - Vue Axios
 - vue-loading-overlay
@@ -40,21 +38,20 @@
 
 
 ### 南部旅遊景點
-![南部旅遊景點](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/0e62b9cc-963b-4d77-bf7e-08383acdc3bb)
+![南部旅遊景點](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/e9ccbd05-2798-4fdf-a379-edc844c9fd00)
+
 
 ### 南部旅遊方案
-![南部旅遊方案](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/64e23652-608e-4bc2-baad-0a8e0b0d181a)
+![南部旅遊方案](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/9e63bca3-cdad-41a6-b2f8-aad0f76ef1a1)
+
 
 ### 會員註冊登入
-![會員註冊登入](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/c1576e0e-5828-4602-9a65-cdba8d2b4a37)
+![會員註冊登入](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/10a5aedc-1473-4655-bebd-a90c25c753be)
+
 
 ### 購物車
-![購物車](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/76c38ea5-0a78-42ed-a6ae-6eb4e1cc3019)
+![購物車](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/bc08d4aa-7d95-46d8-bb11-c8a1f9799d1f)
 
-
-## 後台簡介
-### 訂單管理
-![image](https://github.com/GinaTung/2024-southerntravelwebsite-fin/assets/88545191/1cc93c09-b6da-4665-9983-5ffd4d6fe3f3)
 
 # 2024-southerntravelwebsite-fin
 This template should help get you started developing with Vue 3 in Vite.
