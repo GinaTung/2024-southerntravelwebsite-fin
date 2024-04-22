@@ -2,7 +2,20 @@
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <router-link to="/admin/adminHome" class="navbar-brand">
-        <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
+        <img
+          src="../assets/img/logo.png"
+          alt="南部輕旅遊網站"
+          style="aspect-ratio: 322 / 96; height: 48px"
+          srcset="
+            ../assets/img/logo.png    1920w,
+            ../assets/img/logo-lg.png  960w,
+            ../assets/img/logo-md.png  480w,
+            ../assets/img/logo-sm.png  375w
+          "
+          sizes="(max-width: 375px) 100vw, 
+         (max-width: 1920px) 50vw, 
+         960px"
+        />
       </router-link>
       <button
         class="navbar-toggler"
