@@ -23,10 +23,10 @@
         </button>
       </p>
       <div class="collapse" id="collapseExample" ref="headerCollapse" v-show="isOpen">
-        <div class="card card-body rounded-0">
+        <div class="card card-body rounded-bottom">
           <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
             <div class="col-12 col-md-5 col-lg-4">
-              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid h-100" />
+              <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid h-100 rounded-2" />
             </div>
             <div class="col-12 col-md-7 col-lg-8 d-flex flex-column justify-content-between">
               <div>
@@ -502,9 +502,6 @@ export default {
         // 否则返回 true
         return true
       }
-
-      // 如果当前日期在生日之后或是同一天
-      // 如果年龄小于18岁，返回错误提示
       if (ageDifference < 18) {
         return '主要聯繫人需滿18歲'
       }
@@ -522,7 +519,6 @@ export default {
       this.isOpen = !this.isOpen
     },
     forId(id, title) {
-      // console.log(id,title);
       this.productId = id
       this.productTitle = title
       this.$refs.userProductModal.openModal()
@@ -678,7 +674,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .number {
   border: 1px solid #43b8bd;
   width: 32px;
@@ -722,6 +718,9 @@ export default {
   transform: rotate(-180deg);
 }
 .border-top {
-  border-radius: 12px 12px 0 0;
+  border-radius: 16px 16px 0 0;
+}
+.rounded-bottom{
+  border-radius: 0 0 16px 16px !important;
 }
 </style>

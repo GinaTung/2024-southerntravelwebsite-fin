@@ -1,6 +1,40 @@
 .mySwiper2 {
   height: 100%;
   width: 100%;
+  .swiper-slide {
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  .swiper-button-next {
+    top: 50%;
+    right: 0%;
+    &::after {
+      border-radius: 50% !important;
+      background-color: #fabc73;
+      content: '\F135';
+      font-family: 'Bootstrap-icons';
+      color: white;
+      font-weight: bold;
+      font-size: 50px;
+    }
+  }
+  .swiper-button-prev {
+    top: 50%;
+    left: 0%;
+    &::after {
+      border-radius: 50% !important;
+      background-color: #fabc73;
+      content: '\F12C';
+      font-weight: bold;
+      font-family: 'Bootstrap-icons';
+      color: white;
+      font-size: 50px;
+    }
+  }
 }
 
 .mySwiper3 {
@@ -11,15 +45,14 @@
     width: 25%;
     height: 100%;
     opacity: 0.4;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
   }
   .swiper-slide-thumb-active {
     opacity: 1;
   }
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
 }

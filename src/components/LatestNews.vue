@@ -24,16 +24,19 @@
           </div>
           <div class="col-12 col-lg-5">
             <div class="list-group" id="list-tab" role="tablist">
-              <a v-for="index in 4" :key="index"
+              <a
+                v-for="index in 4"
+                :key="index"
                 class="list-group-item list-group-item-action px-6 py-4 p-lg-6 mb-3 active placeholder"
               >
-              <div class="d-flex align-items-center placeholder-glow">
+                <div class="d-flex align-items-center placeholder-glow">
                   <span class="placeholder w-15 mb-3"></span>
                   <span class="placeholder w-15 mb-3 ms-2"></span>
                 </div>
-                <div class="d-flex justify-content-between align-items-center mb-3 placeholder-glow">
-                  <span class="list-tab-title placeholder w-40">
-                  </span>
+                <div
+                  class="d-flex justify-content-between align-items-center mb-3 placeholder-glow"
+                >
+                  <span class="list-tab-title placeholder w-40"> </span>
                   <span class="placeholder w-5"></span>
                 </div>
                 <div class="d-flex flex-column placeholder-glow">
@@ -112,6 +115,7 @@
                 role="tab"
                 :aria-controls="'list-' + index"
                 style="cursor: pointer"
+                @click="handleTabClick(index)"
               >
                 <div class="d-flex justify-content-between align-items-center">
                   <div class="list-tab-title">
@@ -131,14 +135,27 @@
                       }}</span>
                     </div>
                     <div class="nav-section-title">
-                      <h4 class="fs-6 fs-lg-5 mb-2 fw-bold text-primary-700">{{ item.title }}</h4>
+                      <p class="fs-6 fs-lg-5 mb-2 fw-bold text-primary-700">{{ item.title }}</p>
                       <p class="fs-6 fs-lg-5 text-dark2" v-if="currentDate <= item.endDate">
                         預約時間：{{ item.startDate }} ~ {{ item.endDate }}
                       </p>
                       <p class="fs-6 fs-lg-5 text-danger" v-else>預約時間已截止</p>
                     </div>
                   </div>
-                  <span class="material-symbols-outlined"> chevron_right </span>
+                  <i
+                    class="bi bi-chevron-right text-primary-500 fs-4 fw-bold d-none d-lg-block"
+                    :class="{
+                      'bi-chevron-direction': true,
+                      'bi-chevron-active': currentTab === index
+                    }"
+                  ></i>
+                  <i
+                    class="bi bi-chevron-right text-primary-500 fs-4 fw-bold d-lg-none"
+                    :class="{
+                      'bi-chevron-direction': true,
+                      'bi-chevron-active2': currentTab === index
+                    }"
+                  ></i>
                 </div>
               </a>
             </div>
@@ -161,14 +178,18 @@ export default {
       newsLatestProductData: [],
       attractions: [],
       currentDate: '',
-      isLoading: false
+      isLoading: false,
+      arrowIcon: 'bi-chevron-right',
+      currentTab: 0,
+      arrowRotation: false
     }
   },
   methods: {
+    handleTabClick(index) {
+    this.currentTab = index; 
+  },
     checkDate() {
-      //先創建一個Date實體
       var time = new Date()
-
       var timeDetails = {
         year: time.getFullYear(),
         month: time.getMonth() + 1,
@@ -219,3 +240,22 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+.bi-chevron-direction {
+  transition: transform 0.3s ease;
+  transform: rotate(0deg); 
+}
+
+.bi-chevron-active {
+  transform: rotate(180deg);
+}
+
+.bi-chevron-active2 {
+  transform: rotate(270deg);
+}
+
+
+
+</style>

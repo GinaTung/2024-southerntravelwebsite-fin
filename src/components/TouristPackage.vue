@@ -1,14 +1,14 @@
 <template>
   <div class="southern-travel-plan">
     <div class="container py-10 py-lg-30">
-      <p class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊方案</p>
+      <h2 class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊方案</h2>
       <p class="fs-6 fs-lg-5 text-center mb-5 mb-lg-20">Southern tourist attractions</p>
       <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <template v-if="isLoading">
           <div v-for="index in 3" :key="index" class="col">
             <div class="card card-att h-100">
               <span class="tag text-white  placeholder-glow"></span>
-              <div class="heart3">
+              <div class="heart">
                 <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
               </div>
               <img
@@ -38,17 +38,25 @@
             <div class="card card-att h-100">
               <span class="tag text-white">{{ item.category }}</span>
               <div class="card-att-img">
-                <img
-                  :src="item.imageUrl"
-                  class="card-img-top-2 img-fluid h-100"
-                  :alt="item.title"
-                />
+                <router-link
+                    :to="{
+                      name: 'TouristSinglePackage',
+                      params: { category: item.category, title: item.title }
+                    }"
+                  >
+                  <img
+                    :src="item.imageUrl"
+                    class="card-radius img-fluid h-100"
+                    :alt="item.title"
+                  />
+                </router-link>
               </div>
               <!-- 愛心點選 -->
               <button
                 class="heart border-0"
-                @click="toggleFavorite(item.id, item.category, item.title)"
+                @click="toggleFavorite(item.id, item.category, item.title,item.imageUrl)"
                 type="button"
+                aria-label="heart"
               >
                 <i
                   :class="[
@@ -155,7 +163,7 @@ export default {
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -189,7 +197,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊方案'
+                  tag: '旅遊方案',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態
@@ -253,8 +262,8 @@ export default {
   }
 }
 </script>
-<style>
-.card-img-top-2 {
+<style lang="scss" scoped>
+.card-radius {
   border-top-right-radius: calc(1.25rem - 1px) !important;
   border-top-left-radius: calc(1.25rem - 1px) !important;
 }

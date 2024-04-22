@@ -58,7 +58,7 @@
                 </button>
               </td>
               <td data-th="圖片" class="">
-                <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid" />
+                <img :src="item.product.imageUrl" :alt="item.product.title" class="img-fluid rounded-2 mt-1" />
               </td>
               <td data-th="行程名稱" class="fs-6 pb-0 pb-md-2">
                 <span class="td-p-left">
@@ -73,7 +73,7 @@
                     <button
                       class="btn btn-outline-dark rounded-0 btn-sm"
                       type="button"
-                      v-if="item.qty > 1"
+                      :disabled="item.qty === 1"
                       @click="decrementQuantity(item.id, item.qty, item.price)"
                     >
                       <span
@@ -82,21 +82,6 @@
                         v-if="status.loadingItem4 === item.id"
                       ></span>
                       <i class="bi bi-dash-lg"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-outline-danger rounded-0 btn-sm"
-                      v-else
-                      @click="
-                        openDelCartModal(item.productId, item.product.title, item.id, item.qty)
-                      "
-                    >
-                      <span
-                        class="spinner-border spinner-grow-sm"
-                        role="status"
-                        v-if="status.loadingItem3 === item.id"
-                      ></span>
-                      <i class="bi bi-trash"></i>
                     </button>
                     <input
                       min="1"
@@ -111,7 +96,9 @@
                     <button
                       class="btn btn-outline-dark rounded-0 btn-sm"
                       type="button"
-                      @click="incrementQuantity(item.id, item.qty, item.price,item.product.max_travelers)"
+                      @click="
+                        incrementQuantity(item.id, item.qty, item.price, item.product.max_travelers)
+                      "
                     >
                       <span
                         class="spinner-border spinner-grow-sm"
@@ -154,7 +141,10 @@
       </table>
     </div>
     <div class="d-flex justify-content-between">
-      <router-link class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1" to="/TouristPackage"
+      <router-link
+        class="btn-outline-square w-50 w-md-25 fs-5 mt-4 me-1"
+        to="/TouristPackage"
+        @click="redirectToA('全部')"
         >繼續預約</router-link
       >
       <button
@@ -222,6 +212,10 @@ export default {
     }
   },
   methods: {
+    redirectToA(category) {
+      this.$root.navigatedFromHeader = true
+      this.$router.push({ path: '/TouristPackage', query: { category: category } })
+    },
     getCarts() {
       this.axios
         .get(`${api_url2}/carts`)
@@ -236,7 +230,7 @@ export default {
           this.getProducts()
         })
         .catch((err) => {
-          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     getCart() {
@@ -244,17 +238,30 @@ export default {
         .get(`${api_url2}/carts`)
         .then((res) => {
           this.userCarts = res.data.filter((item) => item.userId === this.userId) // 只保留当前用户的购物车数据
+          window.scrollTo(0, 0)
           this.cartsLength = this.userCarts.length
           if (this.userCarts.length === 0) {
             // 如果购物车没有任何内容，则将购物车数量设置为0
             this.$emitter.emit('updateCartNum', 0)
+            // 顯示提示訊息
+            sweetAlert.fourLayerCheckType(
+              'warning',
+              '目前無購物車資料',
+              '將在',
+              '秒後自動跳轉至旅遊景點方案頁面',
+              '預約購買旅遊方案'
+            )
+            setTimeout(() => {
+              // 將使用者導向到旅遊景點方案頁面
+              this.$router.push({ path: '/TouristPackage' })
+            }, 11000)
           } else {
             // 如果购物车有内容，则将购物车数量设置为购物车数据的长度
             this.$emitter.emit('updateCartNum', this.userCarts.length)
           }
         })
         .catch((err) => {
-          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `取得購物車資料失敗`)
         })
     },
     deleteCart(id, title) {
@@ -279,7 +286,7 @@ export default {
         })
         .catch((err) => {
           this.status.loadingItem3 = ''
-          sweetAlert.threeLayerCheckType('error', `刪除購物車資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `刪除購物車資料失敗`)
           this.status.loadingItem = false
         })
     },
@@ -327,10 +334,10 @@ export default {
         })
         .catch((err) => {
           this.isLoading = false
-          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`);
+          sweetAlert.threeLayerCheckType('error', `取得產品資料失敗`)
         })
     },
-    incrementQuantity(id, qty, price,maxNum) {
+    incrementQuantity(id, qty, price, maxNum) {
       this.status.loadingItem2 = id
       if (qty < maxNum) {
         qty += 1
@@ -357,11 +364,11 @@ export default {
             }
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `增加購物車預約數量失敗`);
+            sweetAlert.threeLayerCheckType('error', `增加購物車預約數量失敗`)
           })
       } else {
         this.status.loadingItem2 = ''
-        sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`);
+        sweetAlert.threeLayerCheckType('warning', `預約人數上限為${maxNum}人`)
       }
     },
     decrementQuantity(id, qty, price) {
@@ -394,6 +401,8 @@ export default {
             this.status.loadingItem4 = ''
             alert('更新購物車資料失敗')
           })
+      } else {
+        this.status.loadingItem2 = ''
       }
     },
     back() {
@@ -442,7 +451,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `更新購物車資料失敗`);
+            sweetAlert.threeLayerCheckType('error', `更新購物車資料失敗`)
           })
       } else {
         // 如果使用者資料不存在，執行 POST 請求
@@ -460,7 +469,7 @@ export default {
             this.getCartSData()
           })
           .catch((err) => {
-            sweetAlert.threeLayerCheckType('error', `儲存購物車資料失敗`);
+            sweetAlert.threeLayerCheckType('error', `儲存購物車資料失敗`)
           })
       }
     }
@@ -475,38 +484,9 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .form-control {
   padding: 0.375rem 0.5rem 0.375rem 1.5rem;
-}
-.number {
-  border: 1px solid #43b8bd;
-  width: 32px;
-  height: 32px;
-  background-color: #d5f3f4;
-  z-index: 1;
-}
-@media (min-width: 768px) {
-  .number {
-    width: 48px;
-    height: 48px;
-    font-size: 20px;
-  }
-}
-.number-active {
-  background-color: #43b8bd;
-  color: #fff;
-}
-.pay-list::before {
-  content: '';
-  width: 83%;
-  height: 1px;
-  background-color: black;
-  transform: translate(-50%, -50%);
-  left: 50%;
-  top: 30%;
-  position: absolute;
-  z-index: 1;
 }
 
 .text-position {
@@ -598,5 +578,8 @@ export default {
 }
 .btn-danger-rounded {
   border-radius: 8px !important;
+}
+.swal2-loader {
+  display: none;
 }
 </style>

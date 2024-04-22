@@ -1,7 +1,7 @@
 <template>
   <BannerBlock />
   <div class="container py-10 py-lg-30">
-    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-5 pb-lg-15">
+    <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb" class="pb-8 pb-lg-15">
       <ol class="breadcrumb mb-0 fs-5">
         <li class="breadcrumb-item">
           <router-link to="/" exact active-class="active-link"> 首頁 </router-link>
@@ -25,20 +25,32 @@
     </nav>
     <div class="tourist-list">
       <div class="row">
-        <div class="col-12 col-md-3 mb-5 mb-md-6 mb-lg-0 d-none d-lg-flex">
-          <div class="border-1 border w-100 rounded-1 h-100">
-            <p class="fs-4 p-5 bg-primary-500 text-white">地區篩選</p>
-            <ul class="nav flex-column">
-              <li class="nav-item" v-for="(item, index) in filterCategory" :key="index">
+        <div class="col-12 col-lg-3 mb-5 mb-md-6 mb-lg-0">
+          <div class="border-1 border w-100 h-100 rounded-6">
+            <p class="fs-5 fs-lg-4 p-3 p-lg-5 bg-primary-500 text-white rounded-top-end">
+              地區篩選
+            </p>
+            <ul class="nav flex-row flex-lg-column">
+              <li
+                class="nav-item w-25 w-lg-100"
+                v-for="(item, index) in filterCategory"
+                :key="index"
+                :class="{
+                  'first-active-category': isFirstItem(index),
+                  'last-active-category': isLastItem(index),
+                  'active-category': selectedCategory === item
+                }"
+              >
                 <a
-                  class="nav-link p-5 fs-5 link-color d-flex justify-content-between"
+                  class="nav-link p-5 fs-5 link-color d-flex justify-content-center justify-content-lg-between"
                   href="#"
                   aria-current="page"
-                  :class="{ 'active-category': selectedCategory === item }"
+                  :class="{ 'active-color': selectedCategory === item }"
                   @click.prevent="filterProducts(item)"
                 >
                   {{ item }}
-                  <span>{{ filterCateNum[item] }}</span>
+                  <span class="d-none d-lg-block">{{ filterCateNum[item] }}</span>
+                  <span class="d-none d-sm-block d-lg-none ms-1">({{ filterCateNum[item] }})</span>
                 </a>
               </li>
             </ul>
@@ -46,7 +58,7 @@
         </div>
         <div class="col-12 col-lg-9">
           <template v-if="isLoading">
-            <div class="card mb-4 card-att"  v-for="index in 3" :key="index">
+            <div class="card mb-4 card-att" v-for="index in 3" :key="index">
               <div class="row g-0">
                 <div class="col-md-4">
                   <span class="tag text-white placeholder-glow"></span>
@@ -72,22 +84,24 @@
                         <span class="placeholder w-25"></span>
                       </div>
                       <div class="row">
-                        <div class="col-12 col-md-8 my-2  placeholder-glow">
+                        <div class="col-12 col-md-8 my-2 placeholder-glow">
                           <span class="placeholder w-100"></span>
                           <span class="placeholder w-100"></span>
                           <span class="placeholder w-100"></span>
                           <span class="placeholder w-75 mt-3"></span>
                           <span class="placeholder w-75 mt-3"></span>
                         </div>
-                        <div class="col-12 col-md-4 my-2 text-end  placeholder-glow">
-                            <span class="placeholder w-100"></span>
-                            <span class="placeholder w-75"></span>
-                            <span class="placeholder w-100"></span>
+                        <div class="col-12 col-md-4 my-2 text-end placeholder-glow">
+                          <span class="placeholder w-100"></span>
+                          <span class="placeholder w-75"></span>
+                          <span class="placeholder w-100"></span>
                         </div>
                       </div>
                     </div>
 
-                    <div class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4  placeholder-glow">
+                    <div
+                      class="card-footer bg-transparent border-0 pt-0 pb-4 px-3 px-md-4 placeholder-glow"
+                    >
                       <div class="d-flex">
                         <span class="placeholder w-50 me-2"></span>
                         <span class="placeholder w-50 ms-2"></span>
@@ -120,9 +134,8 @@
                     <div class="card-att-img h-100">
                       <img
                         :src="productsItem.imageUrl"
-                        class="card-img-top img-fluid"
+                        class="img-fluid"
                         :alt="productsItem.title"
-                        style="border-radius: calc(1.25rem - 1px)"
                       />
                     </div>
                   </div>
@@ -136,10 +149,12 @@
                             toggleFavorite(
                               productsItem.id,
                               productsItem.category,
-                              productsItem.title
+                              productsItem.title,
+                              productsItem.imageUrl
                             )
                           "
                           type="button"
+                          aria-label="heart"
                         >
                           <i
                             :class="[
@@ -379,6 +394,12 @@ export default {
     this.getProducts()
   },
   methods: {
+    isFirstItem(index) {
+      return index === 0
+    },
+    isLastItem(index) {
+      return index === this.filterCategory.length - 1
+    },
     getProducts(currentPage = 1) {
       this.axios
         .get(`${api_url2}/products`)
@@ -474,7 +495,7 @@ export default {
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -508,7 +529,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊方案'
+                  tag: '旅遊方案',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態
@@ -673,13 +695,42 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
+@import '@/scss/all.scss';
 p {
   text-align: justify; /* 將文字左右對齊 */
 }
+.link-color:active {
+  background-color: transparent;
+}
+.nav-item:nth-child(1) .link-color:hover {
+  @include pc-lg {
+    border-radius: 0 0 0 16px !important;
+  }
+}
+.nav-item:nth-child(4) .link-color:hover {
+  @include pc-lg {
+    border-radius: 0 0 16px 0 !important;
+  }
+}
 .active-category {
-  color: #0a58ca !important;
+  color: #0ea0a6 !important;
   background-color: #d5f3f4;
+}
+/* 新增 */
+.active-category:first-child {
+  @include pc-lg {
+    border-radius: 0 0 0 16px !important;
+  }
+}
+
+.active-category:last-child {
+  @include pc-lg {
+    border-radius: 0 0 16px 0 !important;
+  }
+}
+.active-color{
+   color: #0ea0a6 !important;
 }
 .page-item {
   .page-link-0 {
@@ -688,10 +739,10 @@ p {
   }
 }
 .page-link-radius {
-  border-radius: 0 4px 4px 0 !important;
+  border-radius: 0 8px 8px 0 !important;
 }
 .page-link-radius-2 {
-  border-radius: 4px 0 0 4px !important;
+  border-radius: 8px 0 0 8px !important;
 }
 .page-link:focus {
   box-shadow: 0px;
@@ -703,5 +754,19 @@ p {
 }
 .btn-danger-rounded {
   border-radius: 8px;
+}
+.card-att {
+  .card-att-img {
+    border-radius: 20px 0 0 20px !important;
+    @include pad-md {
+      border-radius: 20px 20px 0 0 !important;
+    }
+    &:hover img {
+      border-radius: 20px 0 0 20px !important;
+      @include pad-md {
+        border-radius: 20px 20px 0 0 !important;
+      }
+    }
+  }
 }
 </style>

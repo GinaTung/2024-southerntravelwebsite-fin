@@ -1,7 +1,7 @@
 <template>
   <div class="container py-10 py-lg-30">
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-12 col-md-6">
         <h1 class="h3 mb-4 text-center">管理者登入</h1>
         <VeeForm id="form" ref="form" v-slot="{ errors }"  @submit="login">
           <div class="form-floating mb-4">
@@ -96,8 +96,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .btn-rounded{
   border-radius: 20px !important;
+}
+.form-control:focus {
+    border-color: #43b8bd !important;
 }
 </style>

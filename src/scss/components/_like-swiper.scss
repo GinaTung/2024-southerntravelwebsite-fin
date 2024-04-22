@@ -1,0 +1,93 @@
+.mySwiper4 {
+  // height: 100%;
+  // width: 100%;
+  padding: 50px 50px;
+  @media (max-width: 768px) {
+    padding: 30px 0;
+    margin: auto;
+  }
+  .swiper-slide {
+    min-height: 400px;
+    height: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .card-header {
+      overflow: hidden;
+      border-radius: 20px 20px 0 0 !important;
+      img {
+        height: 250px;
+        width: 100%;
+        display: block;
+        object-fit: cover;
+        transition: 0.5s;
+        &:hover {
+          transform: scale(1.2);
+        }
+      }
+    }
+  }
+  .swiper-button-next {
+    top: 49%;
+    right: 0%;
+    &::after {
+      border-radius: 50% !important;
+      background-color: var(--bs-secondary);
+      content: '\F135';
+      font-family: 'Bootstrap-icons';
+      color: white;
+      font-size: 50px;
+      @media (max-width: 768px) {
+        font-size: 30px;
+      }
+    }
+  }
+  .swiper-button-prev {
+    top: 49%;
+    left: 0%;
+    &::after {
+      border-radius: 50% !important;
+      background-color: var(--bs-secondary);
+      content: '\F12C';
+      font-family: 'Bootstrap-icons';
+      color: white;
+      font-size: 50px;
+      @media (max-width: 768px) {
+        font-size: 30px;
+      }
+    }
+  }
+  @media (max-width: 576px) {
+    .swiper-button-next {
+      display: block;
+    }
+  }
+  @media (max-width: 576px) {
+    .swiper-button-prev {
+      display: block;
+    }
+  }
+  .swiper-pagination-bullet {
+    background: #fabc73;
+    opacity: 1 !important;
+    transition: 0.5s;
+  }
+  .swiper-pagination-bullet-active {
+    padding: 0 8px;
+    border-radius: 6px;
+    transition: 0.5s;
+  }
+}
+// 全域swiper
+.swiper-button-prev.swiper-button-disabled,
+.swiper-button-next.swiper-button-disabled {
+  opacity: 0.4;
+}
+.swiper {
+  .swiper-button-next {
+    width: 65px;
+  }
+  .swiper-button-prev {
+    width: 65px;
+  }
+}

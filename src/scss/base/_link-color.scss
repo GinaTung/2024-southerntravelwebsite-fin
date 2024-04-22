@@ -3,7 +3,6 @@
 }
 .link-color:active {
   background-color: $primary-200;
-  color: $primary-500;
 }
 
 .link-color:hover {
@@ -11,8 +10,8 @@
   color: $primary-500 !important;
 }
 
-.nav-link.active {
-  color: $blue-600 !important;
+.nav-link:active {
+  color: $primary-500 !important;
 }
 
 .link-color2:active {
@@ -25,7 +24,7 @@
   color: $secondary-600 !important;
 }
 
-.nav-link2.active {
+.nav-link2:active {
   background-color: $secondary-200;
   color: $secondary-600;
 }
@@ -33,5 +32,5 @@
   color: $primary-500 !important;
 }
 .nav-link2:focus {
-  color: $secondary-600 !important;
+  color: $secondary-400 !important;
 }

@@ -2,22 +2,35 @@
   <div class="bg-light">
     <div class="container py-10 justify-content-between">
       <nav class="navbar mb-10 flex-column flex-lg-row py-0">
-        <router-link to="/" class="navbar-brand mb-10 mb-lg-0 py-0 mx-0">
-          <img src="../assets/img/logo.png" alt="南部輕旅遊網站" />
+        <router-link to="/" class="navbar-brand mb-3 mb-lg-0 py-0 mx-0">
+          <img
+          src="../assets/img/logo.png"
+          alt="南部輕旅遊網站"
+          style="aspect-ratio: 322 / 96;height: 48px;"
+          srcset="
+            ../assets/img/logo.png 1920w,
+            ../assets/img/logo-lg.png  960w,
+            ../assets/img/logo-md.png  480w,
+            ../assets/img/logo-sm.png  375w
+          "
+          sizes="(max-width: 375px) 100vw, 
+         (max-width: 1920px) 50vw, 
+         960px"
+        />
         </router-link>
         <ul class="navbar-nav flex-column flex-lg-row">
-          <li class="nav-item mb-10 mb-lg-0">
+          <li class="nav-item">
             <router-link
               to="/TouristAttractions"
-              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0"
               @click="redirectToB('全部')"
               >南部旅遊景點</router-link
             >
           </li>
-          <li class="nav-item mb-10 mb-lg-0">
+          <li class="nav-item">
             <router-link
               to="/TouristPackage"
-              class="nav-link px-5 px-xl-10 fs-5 text-dark"
+              class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0"
               @click="redirectToA('全部')"
               >南部旅遊方案</router-link
             >
@@ -26,19 +39,19 @@
             <router-link to="/TouristBudget" class="nav-link px-5 px-xl-10 fs-6 fs-lg-5 text-dark mb-3 mb-lg-0">南部旅遊預算</router-link>
           </li> -->
         </ul>
-        <ul class="navbar-nav flex-row fs-add-2">
+        <ul class="navbar-nav flex-row">
           <li class="nav-item">
-            <a class="nav-link py-0 ps-1" href="#">
+            <a class="nav-link py-0 ps-1" href="https://www.youtube.com/" aria-label="youtube">
               <i class="bi bi-youtube img-lg"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link py-0 ps-6" href="#">
+            <a class="nav-link py-0 ps-6" href="https://www.instagram.com/" aria-label="instagram">
               <i class="bi bi-instagram img-lg"></i>
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link py-0 ps-6" href="#">
+            <a class="nav-link py-0 ps-6" href="https://www.facebook.com/?locale=zh_TW" aria-label="facebook">
               <i class="bi bi-facebook img-lg"></i>
             </a>
           </li>
@@ -74,6 +87,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      path: ''
+    }
+  }, 
   methods:{
     redirectToA(category) {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
@@ -83,8 +101,19 @@ export default {
     redirectToB(category) {
       this.$root.navigatedFromHeader = true // 假设你通过根实例来设置状态
       this.$router.push({ path: '/TouristAttractions', query: { category: category } })
-    },
+    }
+  },
+  mounted(){
+    this.path = this.$route.path
   }
 }
-
 </script>
+<style lang="scss" scoped>
+@import '@/scss/all.scss';
+.img-lg{
+    font-size: 36px;
+    @include pc-lg{
+        font-size: 32px;
+    }
+}
+</style>

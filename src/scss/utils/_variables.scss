@@ -322,7 +322,7 @@ $theme-colors: (
   "light":      $light,
   "light2":      $light2,//*custom
   "dark":       $dark,
-  "dark2":      $dark2//*custom
+  "dark2":      $dark2,//*custom
 ) !default;
 // scss-docs-end theme-colors-map
 
@@ -411,6 +411,7 @@ $spacers: (//*custom
 // scss-docs-start position-map
 $position-values: (
   0: 0,
+  3:3%,//*custom
   5: 5%,
   15:15%,
   25: 25%,
@@ -534,7 +535,7 @@ $box-shadow-inset:            inset 0 1px 2px rgba($black, .075) !default;
 // scss-docs-end box-shadow-variables
 
 $component-active-color:      $white !default;
-$component-active-bg:         $primary !default;
+$component-active-bg:         #d5f3f4 !default;//custom*
 
 // scss-docs-start caret-variables
 $caret-width:                 .3em !default;
@@ -1229,7 +1230,7 @@ $pagination-border-color:           $gray-300 !default;
 
 $pagination-focus-color:            var(--#{$prefix}link-hover-color) !default;
 $pagination-focus-bg:               $gray-200 !default;
-$pagination-focus-box-shadow:       0 !default;
+$pagination-focus-box-shadow:       0 !default;//*custom
 $pagination-focus-outline:          0 !default;
 
 $pagination-hover-color:            var(--#{$prefix}link-hover-color) !default;
@@ -1450,7 +1451,7 @@ $modal-footer-border-width:         $modal-header-border-width !default;
 $modal-sm:                          300px !default;
 $modal-md:                          500px !default;
 $modal-lg:                          800px !default;
-$modal-xl:                          1140px !default;
+$modal-xl:                          1200px !default;
 
 $modal-fade-transform:              translate(0, -50px) !default;
 $modal-show-transform:              none !default;
@@ -1615,11 +1616,11 @@ $spinner-border-width-sm: .2em !default;
 // Close
 
 // scss-docs-start close-variables
-$btn-close-width:            1em !default;
+$btn-close-width:            1.5em !default;//cuatom*
 $btn-close-height:           $btn-close-width !default;
 $btn-close-padding-x:        .25em !default;
 $btn-close-padding-y:        $btn-close-padding-x !default;
-$btn-close-color:            $black !default;
+$btn-close-color:            $secondary !default;//custom
 $btn-close-bg:               url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='#{$btn-close-color}'><path d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/></svg>") !default;
 $btn-close-focus-shadow:     $input-btn-focus-box-shadow !default;
 $btn-close-opacity:          .5 !default;

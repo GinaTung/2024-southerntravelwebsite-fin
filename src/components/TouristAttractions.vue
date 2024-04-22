@@ -1,13 +1,13 @@
 <template>
   <div class="southern-tourist-attractions bg-light">
     <div class="container py-10 py-lg-30">
-      <p class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊景點</p>
+      <h2 class="fs-4 fs-lg-1 text-primary-700 fw-bold mb-2 text-center">南部旅遊景點</h2>
       <p class="fs-6 fs-lg-5 text-center mb-5 mb-lg-20">Southern tourist attractions</p>
       <template v-if="isLoading">
         <div class="col-12 mb-5 mb-lg-0">
           <div class="card-attractions">
             <!-- 愛心點選 -->
-            <div class="heart3">
+            <div class="heart">
               <i class="bi bi-heart heart-click" data-heartStatus="false"></i>
             </div>
             <img
@@ -39,8 +39,9 @@
               <!-- 愛心點選 -->
               <button
                 class="heart border-0"
-                @click="toggleFavorite('-L9tH8jxVb2Ka_DYPwng', '嘉義', '高跟鞋教堂')"
+                @click="toggleFavorite('-L9tH8jxVb2Ka_DYPwng', '嘉義', '高跟鞋教堂','./img/pic-church2.jpg')"
                 type="button"
+                aria-label="heart"
               >
                 <i
                   :class="[
@@ -57,6 +58,7 @@
                 src="../assets/img/pic-church2.jpg"
                 class="img-fluid card-attractions-img"
                 alt="高跟鞋教堂"
+                style="aspect-ratio: 16 / 9;"
               />
               <a
                 href="#/TouristAttractions/%E5%98%89%E7%BE%A9/%E9%AB%98%E8%B7%9F%E9%9E%8B%E6%95%99%E5%A0%82"
@@ -82,8 +84,9 @@
                   <!-- 愛心點選 -->
                   <button
                     class="heart border-0"
-                    @click="toggleFavorite('WJHUaKt', '高雄', '旗津黃金海韻-海珍珠')"
+                    @click="toggleFavorite('WJHUaKt', '高雄', '旗津黃金海韻-海珍珠','./attractions/pic-4.jpg')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -115,8 +118,9 @@
                   <!-- 愛心點選 -->
                   <button
                     class="heart border-0"
-                    @click="toggleFavorite('UR6kDTk', '台南', '安平古堡')"
+                    @click="toggleFavorite('UR6kDTk', '台南', '安平古堡','./img/attraction5.png')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -150,8 +154,9 @@
                   <!-- 愛心點選 -->
                   <button
                     class="heart border-0"
-                    @click="toggleFavorite('KTpJNvf', '嘉義', '嘉義公園-射日塔')"
+                    @click="toggleFavorite('KTpJNvf', '嘉義', '嘉義公園-射日塔','./img/attraction1-1.jpg')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -183,8 +188,9 @@
                   <!-- 愛心點選 -->
                   <button
                     class="heart border-0"
-                    @click="toggleFavorite('sj3zTH_', '高雄', '愛河河畔美景')"
+                    @click="toggleFavorite('sj3zTH_', '高雄', '愛河河畔美景','./attractions/loveriver3.jpg')"
                     type="button"
+                    aria-label="heart"
                   >
                     <i
                       :class="[
@@ -250,11 +256,10 @@ export default {
           })
         })
         .catch((err) => {
-          console.log(err);
           sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
         })
     },
-    toggleFavorite(productId, category, title) {
+    toggleFavorite(productId, category, title, imageUrl) {
       if (!this.token) {
         sweetAlert.threeLayerCheckType('warning', '請登入會員後，才能加入收藏')
       } else {
@@ -288,7 +293,8 @@ export default {
                   category,
                   title,
                   userId: this.userId,
-                  tag: '旅遊景點'
+                  tag: '旅遊景點',
+                  imageUrl
                 })
                 .then((res) => {
                   // 更新收藏狀態
@@ -297,7 +303,6 @@ export default {
                   this.getHeartData()
                 })
                 .catch((err) => {
-                  console.log(err);
                   sweetAlert.threeLayerCheckType('error', `收藏資料失敗`)
                 })
             }

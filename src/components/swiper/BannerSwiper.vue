@@ -2,7 +2,7 @@
   <swiper
     :navigation="true"
     :autoplay="{
-      delay: 2500,
+      delay: 3000,
       disableOnInteraction: false
     }"
     :modules="modules"
@@ -14,7 +14,6 @@
           <p
             class="fs-md-1 fs-6 mb-5 mb-md-8 d-flex align-items-center justify-content-center text-center"
           >
-            <!-- <img src="../assets/images/icon-map.png" alt="icon-map" class="me-2 icon-map"> -->
             <i class="bi bi-geo-alt-fill me-2 icon-map"></i>
             高雄景點推薦
             <i class="bi bi-geo-alt-fill ms-2 icon-map"></i>
@@ -24,7 +23,7 @@
             高雄港是台灣港務與海運核心，近年來亞太地區郵輪旅遊產業日益興盛
           </p>
           <p class="fs-6 fs-lg-5 d-none d-md-block text-center">
-            ，作為台灣第一大港的高雄，在港市合作、水岸開發的方針下
+            作為台灣第一大港的高雄，在港市合作、水岸開發的方針下
           </p>
         </div>
         <div class="d-block d-md-none mt-8 text-center text-white mb-8">
@@ -102,7 +101,7 @@ import 'swiper/css/navigation'
 import '../../scss/utils/_mixins.scss'
 import '../../scss/components/_banner-swiper.scss'
 // import required modules
-import { Autoplay,Navigation } from 'swiper/modules'
+import { Autoplay, Navigation } from 'swiper/modules'
 
 export default {
   components: {
@@ -111,7 +110,7 @@ export default {
   },
   setup() {
     return {
-      modules: [Navigation,Autoplay]
+      modules: [Navigation, Autoplay]
     }
   }
 }

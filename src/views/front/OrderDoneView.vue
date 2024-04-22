@@ -30,13 +30,13 @@
           </button>
         </p>
         <div class="collapse show" id="collapseExample" ref="headerCollapse" v-show="isOpen">
-          <div class="card card-body rounded-0">
-            <div class="row p-4 p-md-10" v-for="item in userCart" :key="item.id">
+          <div class="card card-body rounded-bottom">
+            <div class="row py-4 py-md-5 px-4 px-md-10" v-for="item in userCart" :key="item.id">
               <div class="col-12 col-md-5 col-lg-4">
                 <img
                   :src="item.product.imageUrl"
                   :alt="item.product.title"
-                  class="img-fluid h-100"
+                  class="img-fluid h-100 rounded-2"
                 />
               </div>
               <div class="col-12 col-md-7 col-lg-8 d-flex flex-column justify-content-between">
@@ -77,17 +77,18 @@
           </button>
         </p>
         <div class="collapse show" id="collapseOrder" ref="orderCollapse" v-show="isOrderOpen">
-          <div class="card card-body rounded-0">
-            <div class="row p-4 p-md-10">
+          <div class="card card-body rounded-bottom">
+            <div class="row py-4 py-md-5 px-4 px-md-10">
+              <h4 class="text-center mb-8">主要聯繫人資料</h4>
               <div class="col-12 col-md-6 col-lg-6">
                 <h5 class="mb-4">
-                  主要聯繫人名字：{{ userOrder.name }}
+                  姓名：{{ userOrder.name }}
                   {{ userOrder.appellation === 'female' ? '女士' : '男士' }}
                 </h5>
-                <h5 class="mb-4">主要聯繫人電話：{{ userOrder.tel }}</h5>
-                <h5 class="mb-4">主要聯繫人身分證字號：{{ userOrder.memberId }}</h5>
-                <h5 class="mb-4">主要聯繫人護照號碼：{{ userOrder.passport }}</h5>
-                <h5 class="mb-4">主要聯繫人地址：{{ userOrder.address }}</h5>
+                <h5 class="mb-4">電話：{{ userOrder.tel }}</h5>
+                <h5 class="mb-4">身分證字號：{{ userOrder.memberId }}</h5>
+                <h5 class="mb-4">護照號碼：{{ userOrder.passport }}</h5>
+                <h5 class="mb-4">地址：{{ userOrder.address }}</h5>
               </div>
               <div class="col-12 col-md-6 col-lg-6">
                 <h5 class="mb-4">收取方式：{{ userOrder.shippingMethod }}</h5>
@@ -275,7 +276,7 @@ export default {
   }
 }
 </script>
-<style>
+<style lang="scss" scoped>
 .number {
   border: 1px solid #43b8bd;
   width: 32px;
@@ -319,7 +320,10 @@ export default {
   transform: rotate(-180deg);
 }
 .border-top {
-  border-radius: 12px 12px 0 0;
+  border-radius: 16px 16px 0 0;
+}
+.rounded-bottom{
+  border-radius: 0 0 16px 16px !important;
 }
 .order-h-size {
   height: 300px;
