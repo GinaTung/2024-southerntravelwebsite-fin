@@ -23,7 +23,6 @@
 - Vue Router
 - Vue Axios
 - vue-loading-overlay
-- vue-skeletor
 - Vee Validation
 - Bootstrap 5
 - bootstrap5 icon
