@@ -33,7 +33,7 @@
             />
             <label for="userpassword">請輸入Password</label>
             <button class="fs-3 fs-lg-2 bg-transparent border-0 form-eye" type="button" @click="toggleEye" aria-label="eyesClick">
-              <i :class="[isActive ? 'bi-eye-slash-fill' : 'bi-eye-fill', 'bi']"></i>
+              <i :class="[isActive ? 'bi-eye-fill' : 'bi-eye-slash-fill', 'bi']"></i>
             </button>
             <ErrorMessage name="password" class="invalid-feedback" />
           </div>
