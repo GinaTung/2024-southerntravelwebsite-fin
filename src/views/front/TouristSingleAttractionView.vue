@@ -81,7 +81,7 @@
     <template v-else>
       <div class="d-flex align-items-center mb-4 fs-3 border-start border-primary-500 border-5">
         <span class="fs-3 me-2 fw-bold ps-3">{{ category }}</span>
-        <p class="fs-3 me-4 fw-bold">{{ attractionTitle }}</p>
+        <h3 class="fs-3 me-4 fw-bold">{{ attractionTitle }}</h3>
         <button
           class="border-0 heart-position-none fs-3 bg-transparent"
           @click="toggleFavorite(attractionId, category, attractionTitle, attractionImageUrl)"
