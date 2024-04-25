@@ -2,7 +2,7 @@
   <div class="container py-10 py-lg-30">
     <div class="row justify-content-center align-items-cneter">
       <div class="col-md-6">
-        <h1 class="h3 mb-4 text-center">會員註冊</h1>
+        <h3 class="mb-4 text-center">會員註冊</h3>
         <VeeForm ref="form" v-slot="{ errors }" @submit="signup">
           <div class="form-floating mb-4">
             <VeeField
@@ -46,7 +46,7 @@
               v-model="user.password"
             />
             <label for="userpassword">請輸入Password</label>
-            <button class="fs-3 fs-lg-2 bg-transparent border-0 form-eye" type="button" @click="toggleEye">
+            <button class="fs-3 fs-lg-2 bg-transparent border-0 form-eye" type="button" @click="toggleEye" aria-label="eyesClick">
               <i :class="[isActive ? 'bi-eye-slash-fill' : 'bi-eye-fill', 'bi']"></i>
             </button>
 
