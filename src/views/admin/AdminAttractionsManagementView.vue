@@ -1,82 +1,97 @@
 <template>
-  <div class="text-end mt-4">
-    <button type="button" class="btn-turquoise" id="addModalBtn" @click="openModal('new', product)">
-      建立新的景點
-    </button>
-  </div>
-  <table class="table mt-4">
-    <thead>
-      <tr>
-        <th width="80">上架</th>
-        <th width="80">分類</th>
-        <th width="200">景點名稱</th>
-        <th width="120">標籤1</th>
-        <th width="120">標籤2</th>
-        <th width="120"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="attractionItem in attractions" :key="attractionItem.id">
-        <td>
-          <span class="text-success" v-if="attractionItem.is_enabled">啟用</span>
-          <span v-else>未啟用</span>
-          <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
-        </td>
-        <td>{{ attractionItem.category }}</td>
-        <td>{{ attractionItem.title }}</td>
-        <td>{{ attractionItem.tag_1 }}</td>
-        <td class="">{{ attractionItem.tag_2 }}</td>
+  <div class="container">
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-3">
+        <AdminSidebar />
+      </div>
+      <div class="col-12 col-md-9">
+        <div class="d-flex justify-content-between mt-4">
+          <h2>景點列表</h2>
+          <button
+            type="button"
+            class="btn-turquoise"
+            id="addModalBtn"
+            @click="openModal('new', product)"
+          >
+            建立新的景點
+          </button>
+        </div>
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th width="80">上架</th>
+              <th width="80">分類</th>
+              <th width="200">景點名稱</th>
+              <th width="120">標籤1</th>
+              <th width="120">標籤2</th>
+              <th width="120"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="attractionItem in attractions" :key="attractionItem.id">
+              <td>
+                <span class="text-success" v-if="attractionItem.is_enabled">啟用</span>
+                <span v-else>未啟用</span>
+                <!-- {{ productItem.is_enabled ? '啟用' :  '未啟用'}} -->
+              </td>
+              <td>{{ attractionItem.category }}</td>
+              <td>{{ attractionItem.title }}</td>
+              <td>{{ attractionItem.tag_1 }}</td>
+              <td class="">{{ attractionItem.tag_2 }}</td>
 
-        <td>
-          <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm"
-              @click="openModal('edit', attractionItem)"
-            >
-              編輯
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-sm"
-              @click="openModal('delete', attractionItem)"
-            >
-              刪除
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <nav aria-label="Page navigation example" class="my-10">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-        <button
-          class="page-link page-link-radius-2"
-          @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
-        >
-          上一頁
-        </button>
-      </li>
-      <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
-        <button
-          class="page-link page-link-0 rounded-0"
-          :class="{ active: i === currentPage }"
-          @click.prevent="getAttractions(i)"
-        >
-          {{ i }}
-        </button>
-      </li>
-      <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
-        <button
-          class="page-link page-link-radius"
-          @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
-        >
-          下一頁
-        </button>
-      </li>
-    </ul>
-  </nav>
+              <td>
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    @click="openModal('edit', attractionItem)"
+                  >
+                    編輯
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    @click="openModal('delete', attractionItem)"
+                  >
+                    刪除
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example" class="my-10">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+              <button
+                class="page-link page-link-radius-2"
+                @click.prevent="currentPage > 1 && getAttractions(currentPage - 1)"
+              >
+                上一頁
+              </button>
+            </li>
+            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+              <button
+                class="page-link page-link-0 rounded-0"
+                :class="{ active: i === currentPage }"
+                @click.prevent="getAttractions(i)"
+              >
+                {{ i }}
+              </button>
+            </li>
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+              <button
+                class="page-link page-link-radius"
+                @click.prevent="currentPage < pageTotal && getAttractions(currentPage + 1)"
+              >
+                下一頁
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal -->
   <div
@@ -345,10 +360,14 @@
 
 <script>
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
+import AdminSidebar from '@/components/AdminSidebar.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
 import sweetAlert from '@/js/sweetAlert.js'
 
 export default {
+  components: {
+    AdminSidebar
+  },
   data() {
     return {
       attractions: [],

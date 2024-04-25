@@ -1,83 +1,98 @@
 <template>
-  <div class="text-end mt-4">
-    <button type="button" class="btn-turquoise" id="addModalBtn" @click="openModal('new', product)">
-      建立新的產品
-    </button>
-  </div>
-  <table class="table mt-4">
-    <thead>
-      <tr>
-        <th width="80">上架</th>
-        <th width="80">分類</th>
-        <th width="200">產品名稱</th>
-        <th width="120">標籤</th>
-        <th width="80" class="text-end">原價</th>
-        <th width="80" class="text-end">售價</th>
-        <th width="120"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="productItem in products" :key="productItem.id">
-        <td>
-          <span class="text-success" v-if="productItem.is_enabled">啟用</span>
-          <span v-else>未啟用</span>
-        </td>
-        <td>{{ productItem.category }}</td>
-        <td>{{ productItem.title }}</td>
-        <td>{{ productItem.tag_1 }}</td>
-        <td class="text-end">{{ productItem.origin_price }}</td>
-        <td class="text-end">{{ productItem.price }}</td>
+  <div class="container">
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-3">
+        <AdminSidebar />
+      </div>
+      <div class="col-12 col-md-9">
+        <div class="d-flex justify-content-between mt-4">
+          <h2>產品列表</h2>
+          <button
+            type="button"
+            class="btn-turquoise"
+            id="addModalBtn"
+            @click="openModal('new', product)"
+          >
+            建立新的產品
+          </button>
+        </div>
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th width="80">上架</th>
+              <th width="80">分類</th>
+              <th width="200">產品名稱</th>
+              <th width="120">標籤</th>
+              <th width="80" class="text-end">原價</th>
+              <th width="80" class="text-end">售價</th>
+              <th width="120"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="productItem in products" :key="productItem.id">
+              <td>
+                <span class="text-success" v-if="productItem.is_enabled">啟用</span>
+                <span v-else>未啟用</span>
+              </td>
+              <td>{{ productItem.category }}</td>
+              <td>{{ productItem.title }}</td>
+              <td>{{ productItem.tag_1 }}</td>
+              <td class="text-end">{{ productItem.origin_price }}</td>
+              <td class="text-end">{{ productItem.price }}</td>
 
-        <td>
-          <div class="btn-group">
-            <button
-              type="button"
-              class="btn btn-outline-primary btn-sm"
-              @click="openModal('edit', productItem)"
-            >
-              編輯
-            </button>
-            <button
-              type="button"
-              class="btn btn-outline-danger btn-sm"
-              @click="openModal('delete', productItem)"
-            >
-              刪除
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <nav aria-label="Page navigation example" class="my-10">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
-        <button
-          class="page-link page-link-radius-2"
-          @click.prevent="currentPage > 1 && getProducts(currentPage - 1)"
-        >
-          上一頁
-        </button>
-      </li>
-      <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
-        <button
-          class="page-link page-link-0 rounded-0"
-          :class="{ active: i === currentPage }"
-          @click.prevent="getProducts(i)"
-        >
-          {{ i }}
-        </button>
-      </li>
-      <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
-        <button
-          class="page-link page-link-radius"
-          @click.prevent="currentPage < pageTotal && getProducts(currentPage + 1)"
-        >
-          下一頁
-        </button>
-      </li>
-    </ul>
-  </nav>
+              <td>
+                <div class="btn-group">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm"
+                    @click="openModal('edit', productItem)"
+                  >
+                    編輯
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    @click="openModal('delete', productItem)"
+                  >
+                    刪除
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <nav aria-label="Page navigation example" class="my-10">
+          <ul class="pagination justify-content-center">
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === 1 }">
+              <button
+                class="page-link page-link-radius-2"
+                @click.prevent="currentPage > 1 && getProducts(currentPage - 1)"
+              >
+                上一頁
+              </button>
+            </li>
+            <li class="page-item" v-for="i in pageTotal" :key="`page-${i}`">
+              <button
+                class="page-link page-link-0 rounded-0"
+                :class="{ active: i === currentPage }"
+                @click.prevent="getProducts(i)"
+              >
+                {{ i }}
+              </button>
+            </li>
+            <li class="page-item" :class="{ disabled: !currentPage || currentPage === pageTotal }">
+              <button
+                class="page-link page-link-radius"
+                @click.prevent="currentPage < pageTotal && getProducts(currentPage + 1)"
+              >
+                下一頁
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal -->
   <div
@@ -858,9 +873,13 @@
 import bootstrap from 'bootstrap/dist/js/bootstrap.min.js'
 import sweetAlert from '@/js/sweetAlert.js'
 import Collapse from 'bootstrap/js/dist/collapse'
+import AdminSidebar from '@/components/AdminSidebar.vue'
 const api_url2 = import.meta.env.VITE_API_URL2
 
 export default {
+  components: {
+    AdminSidebar
+  },
   data() {
     return {
       products: [],
