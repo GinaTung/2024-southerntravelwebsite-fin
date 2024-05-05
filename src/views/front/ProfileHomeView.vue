@@ -7,7 +7,7 @@
           <router-link to="/" exact active-class="active-link">首頁</router-link>
         </li>
         <li class="breadcrumb-item">
-          <router-link to="/profile" exact active-class="active-link">會員中心</router-link>
+          <router-link to="/profile/favorites" exact active-class="active-link">會員中心</router-link>
             
         </li>
         <li class="breadcrumb-item">

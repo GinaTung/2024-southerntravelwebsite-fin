@@ -11,6 +11,16 @@
       </tr>
     </thead>
     <tbody>
+      <template v-if="ordersLength === 0">
+        <tr class="table-style" :class="{ 'bg-active': selectedOrder === index }">
+          <td colspan="6" class="table-hover-style p-10">
+            <p class="text-center mb-5 fs-5">目前沒有可用的訂單資料。<br>欲查看旅遊方案或進行購買，請點擊下方的連結。</p>
+            <div class="d-flex justify-content-center">
+              <router-link to="/TouristPackage" class="btn-turquoise w-25 text-center">南部旅遊方案</router-link>
+            </div>
+          </td>
+        </tr>
+      </template>
       <template v-for="(item, index) in orders" :key="index + 123">
         <tr class="table-style" :class="{ 'bg-active': selectedOrder === index }">
           <th scope="row" class="align-middle text-center fs-8 fs-md-6">{{ index + 1 }}</th>
