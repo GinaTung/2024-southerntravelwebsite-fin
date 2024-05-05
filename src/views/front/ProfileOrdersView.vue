@@ -12,48 +12,82 @@
     </thead>
     <tbody>
       <template v-if="ordersLength === 0">
-        <tr class="table-style" :class="{ 'bg-active': selectedOrder === index }">
+        <tr class="text-center"  v-if="status.loadingItem">
+          <td colspan="6">
+            <div
+              class="spinner-border m-10"
+              role="status"
+              style="width: 3rem; height: 3rem; color: #43b8bd"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </td>
+        </tr>
+        <tr v-else class="table-style">
           <td colspan="6" class="table-hover-style p-10">
-            <p class="text-center mb-5 fs-5">目前沒有可用的訂單資料。<br>欲查看旅遊方案或進行購買，請點擊下方的連結。</p>
+            <p class="text-center mb-5 fs-5">
+              目前沒有可用的訂單資料。<br />欲查看旅遊方案或進行購買，請點擊下方的連結。
+            </p>
             <div class="d-flex justify-content-center">
-              <router-link to="/TouristPackage" class="btn-turquoise w-25 text-center">南部旅遊方案</router-link>
+              <router-link to="/TouristPackage" class="btn-turquoise w-100 w-md-25 text-center"
+                >南部旅遊方案</router-link
+              >
             </div>
           </td>
         </tr>
       </template>
-      <template v-for="(item, index) in orders" :key="index + 123">
+      <template v-for="(item, index) in orders" :key="index + 123" v-else>
         <tr class="table-style" :class="{ 'bg-active': selectedOrder === index }">
           <th scope="row" class="align-middle text-center fs-8 fs-md-6">{{ index + 1 }}</th>
           <td class="align-middle fs-8 fs-md-6">{{ getNewOrderNum(item) }}</td>
           <td class="align-middle fs-8 fs-md-6">{{ getOrderDate(item) }}</td>
           <td class="align-middle fs-8 fs-md-6">{{ thousand(item.cartsData[0].final_total) }}</td>
           <td class="align-middle fs-8 fs-md-6">
-            <span v-if="!item.status && !item.billStatus && !item.checkDataStatus && !item.user.status"
-              class="text-primary-emphasis">
+            <span
+              v-if="!item.status && !item.billStatus && !item.checkDataStatus && !item.user.status"
+              class="text-primary-emphasis"
+            >
               訂單處理中
             </span>
-            <span v-else-if="
-              !item.status && !item.billStatus && !item.checkDataStatus && item.user.status
-            " class="text-primary">
+            <span
+              v-else-if="
+                !item.status && !item.billStatus && !item.checkDataStatus && item.user.status
+              "
+              class="text-primary"
+            >
               預約安排出遊
             </span>
-            <span v-else-if="
-              !item.status && !item.billStatus && item.checkDataStatus && item.user.status
-            " class="text-warning">
+            <span
+              v-else-if="
+                !item.status && !item.billStatus && item.checkDataStatus && item.user.status
+              "
+              class="text-warning"
+            >
               發票開立中
             </span>
-            <span v-else-if="
-              !item.status && item.billStatus && item.checkDataStatus && item.user.status
-            " class="text-danger">
+            <span
+              v-else-if="
+                !item.status && item.billStatus && item.checkDataStatus && item.user.status
+              "
+              class="text-danger"
+            >
               訂單即將完成，準備出遊
             </span>
             <span v-else class="text-success">已出遊結束</span>
           </td>
           <td class="align-middle">
-            <button class="btn-outline-turquoise w-100 d-none d-md-block" type="button" @click="showDetails(index)">
+            <button
+              class="btn-outline-turquoise w-100 d-none d-md-block"
+              type="button"
+              @click="showDetails(index)"
+            >
               查看詳情
             </button>
-            <button class="btn-outline-turquoise w-100 d-md-none" type="button" @click="showDetails(index)">
+            <button
+              class="btn-outline-turquoise w-100 d-md-none"
+              type="button"
+              @click="showDetails(index)"
+            >
               詳情
             </button>
           </td>
@@ -81,8 +115,11 @@
             <td class="fs-8 fs-md-6">{{ thousand(product.final_total) }}</td>
           </tr>
           <tr>
-            <td colspan="6" class="border-0 border-left-trans table-hover-style"
-            :class="{'border-bottom-trans': index === ordersLength-1}"></td>
+            <td
+              colspan="6"
+              class="border-0 border-left-trans table-hover-style"
+              :class="{ 'border-bottom-trans': index === ordersLength - 1 }"
+            ></td>
           </tr>
         </template>
       </template>
@@ -106,7 +143,10 @@ export default {
       isOpen: false,
       selectedOrder: null,
       cartsData: '',
-      ordersLength:''
+      ordersLength: '',
+      status: {
+        loadingItem: false
+      }
     }
   },
   methods: {
@@ -124,31 +164,28 @@ export default {
       return formattedDate + this.formatId(item.id)
     },
     getOrderNum(item) {
-      // 這裡返回單個訂單的訂單編號
       return this.formatId(item.id)
     },
     getOrderDate(item) {
-      // 這裡返回單個訂單的日期
       var date = new Date(item.user.create_at)
       var utcDateTimeString = date.toISOString()
       var datePart = utcDateTimeString.slice(0, 10)
       return datePart
     },
     formatId(id) {
-      // 將id轉化為字符串，檢查長度並根據長度前面填充零
       return id.toString().padStart(3, '0')
     },
     getOrders() {
+      this.status.loadingItem = true
       this.axios
         .get(`${api_url2}/orders?_embed=cartsData`)
         .then((res) => {
           this.orders = res.data.filter((item) => item.user.userId === this.userId)
-          this.ordersLength = this.orders.length;
-          console.log(this.ordersLength);
+          this.status.loadingItem = false
+          this.ordersLength = this.orders.length
         })
         .catch((err) => {
-          // sweetAlert.threeLayerCheckType('error', `取得愛心收藏資料失敗`)
-          console.log(err)
+          sweetAlert.threeLayerCheckType('error', `取得會員訂單資料失敗`)
         })
     },
     thousand(data) {
@@ -191,7 +228,7 @@ export default {
   background: rgba(67, 184, 189, 0.75);
 }
 .table-hover-style {
-  border-top:1px solid transparent ;
+  border-top: 1px solid transparent;
   // --bs-table-border-color: rgba(1, 1, 1, 0);
   --bs-table-hover-bg: rgba(67, 185, 189, 0);
 }
@@ -213,11 +250,11 @@ export default {
 .btn-outline-turquoise {
   padding: 8px;
 }
-@media(max-width: 768px) {
-  .mw-1{
+@media (max-width: 768px) {
+  .mw-1 {
     width: 80px;
   }
-  .mw-2{
+  .mw-2 {
     width: 100px;
   }
 }
