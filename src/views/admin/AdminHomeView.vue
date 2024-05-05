@@ -1,18 +1,23 @@
 <template>
-  <h2 class="my-5">總覽</h2>
-  <div class="row g-3">
-    <div class="col-12 col-lg-5">
-      <DashboardStatueColumn />
-    </div>
-    <div class="col-12 col-lg-7">
-    </div>
-  </div>
-  <div class="mt-6">
-    <div class="row g-3">
-      <div class="col-12 col-lg-5">
-        已上架
+  <div class="container">
+    <div class="row flex-column flex-md-row">
+      <div class="col-12 col-md-3">
+        <AdminSidebar />
       </div>
-      <div class="col-12 col-lg-7">
+      <div class="col-12 col-md-9">
+        <h2 class="my-5">總覽</h2>
+        <div class="row g-3">
+          <div class="col-12 col-lg-5">
+            <DashboardStatueColumn />
+          </div>
+          <div class="col-12 col-lg-7"></div>
+        </div>
+        <div class="mt-6">
+          <div class="row g-3">
+            <div class="col-12 col-lg-5">已上架</div>
+            <div class="col-12 col-lg-7"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
