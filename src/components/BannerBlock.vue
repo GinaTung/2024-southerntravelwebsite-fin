@@ -24,9 +24,9 @@
     >
       {{ linkCategory }}<br />{{ linkTitle }}
     </p>
-    <p class="fs-3 fs-md-2 text-center fw-bold" v-if="linkName === 'favorites' || 'orders' || 'profile'">會員中心</p>
-    <!-- <p class="fs-3 fs-md-2 text-center fw-bold" v-if="linkName === 'orders'">歷史訂單資料</p> -->
-    <!-- <p class="fs-3 fs-md-2 text-center fw-bold" v-if="linkName === 'profile'">會員中心</p> -->
+    <p class="fs-3 fs-md-2 text-center fw-bold" v-if="linkName === 'favorites'">會員中心</p>
+    <p class="fs-3 fs-md-2 text-center fw-bold" v-if="linkName === 'orders'">會員中心</p>
+    <p class="fs-3 fs-md-2 text-center fw-bold" v-if="linkName === 'profile'">會員中心</p>
   </div>
 </template>
 <script>
