@@ -42,16 +42,7 @@
       </div>
     </div>
   </nav>
-  <div class="container">
-    <div class="row flex-column flex-md-row">
-      <div class="col-12 col-md-3">
-        <AdminSidebar />
-      </div>
-      <div class="col-12 col-md-9">
-        <RouterView />
-      </div>
-    </div>
-  </div>
+  <RouterView />
 </template>
 <script>
 const api_url = import.meta.env.VITE_API_URL
