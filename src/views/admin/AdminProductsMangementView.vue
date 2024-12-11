@@ -921,7 +921,7 @@ export default {
       },
       newAllItineraryData: [],
       minDate: '2024-01-01', // 最小日期
-      maxDate: '2024-12-31', // 最大日期
+      maxDate: '2050-12-31', // 最大日期
       formData: {
         productName: '',
         productDescription: ''
