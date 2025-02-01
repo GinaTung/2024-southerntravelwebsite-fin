@@ -28,7 +28,11 @@ import {
     generateMessage: localize({ zh_TW: zhTW }), // 載入繁體中文語系
     validateOnInput: true, // 當輸入任何內容直接進行驗證
   });
-  
+  import GoogleSignInPlugin from "vue3-google-signin"
+
+app.use(GoogleSignInPlugin, {
+  clientId: '611829077533-nq1lrtj26cfk0okc0upnaasepueedgsq.apps.googleusercontent.com',
+});
   // 設定預設語系
   setLocale('zh_TW');
 
